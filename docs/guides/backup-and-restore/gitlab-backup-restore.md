@@ -30,7 +30,7 @@ addons:
 To perform a manual complete backup of Gitlab, exec into your Gitlab Toolbox pod and run the following:
   1. find your Gitlab Toolbox pod 
      ```shell
-     kubectl get pods -lrelease=gitlab,app=toolbox -n gitlab
+     kubectl get pods -l release=gitlab,app=toolbox -n gitlab
      kubectl exec -it gitlab-toolbox-XXXXXXXXX-XXXXX -n gitlab -- /bin/sh
      ```
   1. Execute the backup-utility command which will pull down data from the database, gitaly, and other portions of the ecosystem, tar them up and push to your configured cloud storage.
@@ -76,7 +76,7 @@ You can read more on the upstream documentation: https://docs.gitlab.com/charts/
 2. Exec into the toolbox pod and run the backup-utility command:
    1. find your Gitlab Toolbox pod 
      ```shell
-     kubectl get pods -lrelease=gitlab,app=toolbox -n gitlab
+     kubectl get pods -l release=gitlab,app=toolbox -n gitlab
      kubectl exec -it gitlab-toolbox-XXXXXXXXX-XXXXX -n gitlab -- /bin/sh
      ```
    * Find your most recent backup from cloud storage by finding the last line of your most recent backup job pod:
