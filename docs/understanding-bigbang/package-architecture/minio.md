@@ -34,7 +34,7 @@ By default logs are also shipped to Elastic via Fluentbit for advanced searching
 
 Monitoring is provided via a Prometheus capable endpoint. MinIO also provides a Grafana dashboard for use in viewing metrics. Monitoring in the Big Bang config can be enabled using the following format.
 
-```
+```yaml
 monitoring:
   enabled: false
   namespace: monitoring
@@ -49,7 +49,7 @@ MinIO server exposes three un-authenticated, healthcheck endpoints [liveness pro
 
 The default is to run in high availability. The default number of servers is 4, but can be changed by changing the values in the base Big Bang cofiguration.
 
-```
+```yaml
 addons:
   minio:
     values:
@@ -83,7 +83,7 @@ No current SSO is avaiable via Keycloak.
 
 Initial access to the MinIO server is via the accessKey and secretKey values in the top level values file.
 
-```
+```yaml
 addons:
   minio:
     accesskey: "myaccesskey"
