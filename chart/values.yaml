@@ -296,8 +296,7 @@ kiali:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/kiali.git
     path: "./chart"
-    # tag: "1.56.1-bb.1"
-    branch: "kiali-cypress-fix"
+    tag: "1.56.1-bb.1"
 
   # -- Flux reconciliation overrides specifically for the Kiali Package
   flux: {}
