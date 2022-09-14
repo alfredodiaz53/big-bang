@@ -47,6 +47,7 @@ policies:
   {{- if $nodePortIngressGateways }}
   # Istio services (istio ingress) can create type: NodePort services
   disallow-nodeport-services:
+    validationFailureAction: enforce
     exclude:
       any:
       - resources:
