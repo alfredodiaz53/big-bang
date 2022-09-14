@@ -41,7 +41,7 @@ After [graduating your package](https://repo1.dso.mil/platform-one/bbtoc/-/tree/
      mypackage:
        enabled: false     # default to false
        git:
-         repo: https://repo1.dsop.io/platform-one/big-bang/apps/developer-tools/mypackage.git
+         repo: https://repo1.dso.mil/platform-one/big-bang/apps/developer-tools/mypackage.git
          path: "./chart"
          tag: "1.2.3-bb.0"
        sso:
@@ -69,7 +69,7 @@ After [graduating your package](https://repo1.dso.mil/platform-one/bbtoc/-/tree/
 1. You will also need to create an MR into the pipeline templates to update [02_wait_for_helmreleases.sh](https://repo1.dso.mil/platform-one/big-bang/pipeline-templates/pipeline-templates/-/blob/master/scripts/deploy/02_wait_for_helmreleases.sh) and add your package's HR name to the core or addon lists.
 
     To test your pipeline changes you can make a draft MR pointing to your pipeline branch in `.gitlab-ci.yml`:
-    ```
+    ```yaml
     include:
       - project: 'platform-one/big-bang/pipeline-templates/pipeline-templates'
         ref: your-branch
