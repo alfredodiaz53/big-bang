@@ -1,4 +1,4 @@
-{{- if or .Values.addons.nexus.enabled Values.istio.enabled }}
+{{- if or .Values.addons.nexus.enabled }}
 apiVersion: v1
 kind: Namespace
 metadata:
