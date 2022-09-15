@@ -978,7 +978,7 @@ addons:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/developer-tools/nexus.git
       path: "./chart"
       tag: null
-      branch: "nexus-added-support-for-istio-values"
+      branch: "23-passthrough-istio"
 
     # -- Base64 encoded license file.
     license_key: ""
