@@ -30,6 +30,12 @@ metrics:
   serviceMonitor:
     enabled: true
     additionalLabels: {}
+    scheme: https
+    tlsConfig:
+      caFile: /etc/prom-certs/root-cert.pem
+      certFile: /etc/prom-certs/cert-chain.pem
+      keyFile: /etc/prom-certs/key.pem
+      insecureSkipVerify: true  # Prometheus does not support Istio security naming, thus skip verifying target 
 {{- end }}
 
 networkPolicies:
