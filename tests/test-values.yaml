@@ -1275,33 +1275,33 @@ addons:
           requests:
             cpu: 100m
             memory: 1500Mi
-      docker:
-        enabled: true
-        registries:
-          - host: containers.bigbang.dev
-            port: 5000
-      repository:
-        enabled: true
-        repo:
-          - name: "containers"
-            format: "docker"
-            type: "hosted"
-            repo_data:
-              name: "containers"
-              online: true
-              storage:
-                blobStoreName: "default"
-                strictContentTypeValidation: true
-                writePolicy: "allow_once"
-              cleanup:
-                policyNames:
-                  - "string"
-              component:
-                proprietaryComponents: true
-              docker:
-                v1Enabled: false
-                forceBasicAuth: true
-                httpPort: 5000
+        docker:
+          enabled: true
+          registries:
+            - host: containers.bigbang.dev
+              port: 5000
+        repository:
+          enabled: true
+          repo:
+            - name: "containers"
+              format: "docker"
+              type: "hosted"
+              repo_data:
+                name: "containers"
+                online: true
+                storage:
+                  blobStoreName: "default"
+                  strictContentTypeValidation: true
+                  writePolicy: "allow_once"
+                cleanup:
+                  policyNames:
+                    - "string"
+                component:
+                  proprietaryComponents: true
+                docker:
+                  v1Enabled: false
+                  forceBasicAuth: true
+                  httpPort: 5000
       bbtests:
         enabled: true
         cypress:
