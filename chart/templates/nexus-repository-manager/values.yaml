@@ -8,6 +8,7 @@ domain: {{ $domainName }}
 hostname: nexus
 istio:
   enabled: {{ .Values.istio.enabled }}
+  injection: "enabled"
   nexus:
     gateways:
     - istio-system/{{ default "public" .Values.addons.nexus.ingress.gateway }}
