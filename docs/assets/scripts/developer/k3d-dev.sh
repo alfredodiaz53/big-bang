@@ -250,12 +250,24 @@ echo "fs.inotify.max_user_instances=1024" > /etc/sysctl.d/fs-inotify-max_user_in
 sysctl -w fs.inotify.max_user_instances=1024
 echo "fs.inotify.max_user_watches=1048576" > /etc/sysctl.d/fs-inotify-max_user_watches.conf
 sysctl -w fs.inotify.max_user_watches=1048576
+echo "fs.may_detach_mounts=1" >> /etc/sysctl.d/fs-may_detach_mounts.conf
+sysctl -w fs.may_detach_mounts=1
 sysctl -p
-ulimit -n 131072
-ulimit -u 8192
+# ulimits/modprobes for Istio
+echo "* soft nofile 13181250" >> /etc/security/limits.d/ulimits.conf
+echo "* hard nofile 13181250" >> /etc/security/limits.d/ulimits.conf
+echo "* soft nproc  13181250" >> /etc/security/limits.d/ulimits.conf
+echo "* hard nproc  13181250" >> /etc/security/limits.d/ulimits.conf
+modprobe br_netfilter 
+modprobe nf_nat_redirect
 modprobe xt_REDIRECT
 modprobe xt_owner
 modprobe xt_statistic
+echo "br_netfilter" >> /etc/modules-load.d/istio-iptables.conf
+echo "nf_nat_redirect" >> /etc/modules-load.d/istio-iptables.conf
+echo "xt_REDIRECT" >> /etc/modules-load.d/istio-iptables.conf
+echo "xt_owner" >> /etc/modules-load.d/istio-iptables.conf
+echo "xt_statistic" >> /etc/modules-load.d/istio-iptables.conf
 EOF
 
 
