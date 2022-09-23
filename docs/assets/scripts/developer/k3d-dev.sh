@@ -253,6 +253,8 @@ sysctl -w fs.inotify.max_user_watches=1048576
 echo "fs.may_detach_mounts=1" >> /etc/sysctl.d/fs-may_detach_mounts.conf
 sysctl -w fs.may_detach_mounts=1
 sysctl -p
+ulimit -n 131072
+ulimit -u 8192
 # ulimits/modprobes for Istio
 echo "* soft nofile 13181250" >> /etc/security/limits.d/ulimits.conf
 echo "* hard nofile 13181250" >> /etc/security/limits.d/ulimits.conf
