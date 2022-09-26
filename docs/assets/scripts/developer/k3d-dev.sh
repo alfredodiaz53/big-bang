@@ -250,15 +250,12 @@ sudo -- sh -c 'sysctl -w vm.max_map_count=524288; \
   sysctl -w fs.inotify.max_user_instances=1024; \
   echo "fs.inotify.max_user_watches=1048576" > /etc/sysctl.d/fs-inotify-max_user_watches.conf; \
   sysctl -w fs.inotify.max_user_watches=1048576; \
-  echo "fs.may_detach_mounts=1" >> /etc/sysctl.d/fs-may_detach_mounts.conf; \
-  sysctl -w fs.may_detach_mounts=1; \
   sysctl -p; \
   echo "* soft nofile 13181250" >> /etc/security/limits.d/ulimits.conf; \
   echo "* hard nofile 13181250" >> /etc/security/limits.d/ulimits.conf; \
   echo "* soft nproc  13181250" >> /etc/security/limits.d/ulimits.conf; \
   echo "* hard nproc  13181250" >> /etc/security/limits.d/ulimits.conf; \
   modprobe br_netfilter; \
-  modprobe nf_nat_redirect; \
   modprobe xt_REDIRECT; \ 
   modprobe xt_owner; \ 
   modprobe xt_statistic; \
