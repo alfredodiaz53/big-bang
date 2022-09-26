@@ -253,7 +253,6 @@ sudo -- sh -c 'sysctl -w vm.max_map_count=524288; \
   echo "fs.may_detach_mounts=1" >> /etc/sysctl.d/fs-may_detach_mounts.conf; \
   sysctl -w fs.may_detach_mounts=1; \
   sysctl -p; \
-  # ulimits/modprobes for Istio
   echo "* soft nofile 13181250" >> /etc/security/limits.d/ulimits.conf; \
   echo "* hard nofile 13181250" >> /etc/security/limits.d/ulimits.conf; \
   echo "* soft nproc  13181250" >> /etc/security/limits.d/ulimits.conf; \
