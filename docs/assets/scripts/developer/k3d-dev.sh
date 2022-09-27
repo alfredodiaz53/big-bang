@@ -245,7 +245,7 @@ sudo -- bash -c 'sysctl -w vm.max_map_count=524288; \
 EOF
 
 # Create the launch spec
-echo -n Creating launch_spec.json ...
+echo Creating launch_spec.json ...
 mkdir -p ~/aws
 ##notworking line.  "InstanceInitiatedShutdownBehavior":"Terminate",
 cat << EOF > ~/aws/launch_spec.json
