@@ -208,13 +208,6 @@ ImageId="${AMI_ID}"
 
 # Create userdata.txt
 cat << EOF > ~/aws/userdata.txt
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="==MYBOUNDARY=="
-
---==MYBOUNDARY==
-Content-Type: text/x-shellscript; charset="us-ascii"
-
-#!/bin/bash
 sudo -- bash -c 'sysctl -w vm.max_map_count=524288; \
   echo "vm.max_map_count=524288" > /etc/sysctl.d/vm-max_map_count.conf; \
   sysctl -w fs.nr_open=13181252; \
@@ -243,6 +236,7 @@ sudo -- bash -c 'sysctl -w vm.max_map_count=524288; \
   echo "xt_owner" >> /etc/modules-load.d/istio-iptables.conf; \
   echo "xt_statistic" >> /etc/modules-load.d/istio-iptables.conf'
 EOF
+base64 $HOME/aws/userdata.txt > $HOME/aws/userdata-b64.txt
 
 # Create the launch spec
 echo -n Creating launch_spec.json ...
@@ -264,7 +258,7 @@ cat << EOF > ~/aws/launch_spec.json
       }
     }
   ],
-  "UserData": "$(base64 $HOME/aws/userdata.txt)"
+  "UserData": "$(cat $HOME/aws/userdata-b64.txt)"
 }
 EOF
 
