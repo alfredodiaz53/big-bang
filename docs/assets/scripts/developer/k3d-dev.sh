@@ -528,6 +528,17 @@ then
     echo "  # METALLB ISTIO INGRESS IPs"
     echo "  172.20.1.240 keycloak.bigbang.dev vault.bigbang.dev"
     echo "  172.20.1.241 sonarqube.bigbang.dev prometheus.bigbang.dev nexus.bigbang.dev gitlab.bigbang.dev"
+    echo 
+    echo "You will also need to run the following after the cluster is up in order to add keycloak's hostname/ip to coredns's configmap:"
+    echo "cut+paste to the terminal:"
+    echo
+    echo 'kubectl get configmap -n kube-system coredns -o yaml | \'
+    echo 'gsed "/^    172.20.0.4 k3d-k3s-default-agent-2$/a\ \ \ \ 172.20.1.240 keycloak.bigbang.dev" | \'
+    echo 'kubectl apply -f -'
+    echo 
+    echo "Then delete the coredns pod. It will come back and read the NodeHosts entry you just added."
+    echo 
+    echo "kubectl delete pod -n kube-system -l k8s-app=kube-dns"
   fi
 elif [[ "$PRIVATE_IP" == true ]]  # not using MetalLB
 then	# Not using MetalLB and using private IP
