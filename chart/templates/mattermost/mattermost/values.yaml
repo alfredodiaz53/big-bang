@@ -22,23 +22,15 @@ istio:
 monitoring:
   enabled: {{ .Values.monitoring.enabled }}
 
+{{- with .Values.addons.mattermost.sso }}
 sso:
-  enabled: {{ .Values.addons.mattermost.sso.enabled }}
-  {{ if .Values.addons.mattermost.sso.client_id }}
-  client_id: {{ .Values.addons.mattermost.sso.client_id }}
-  {{- end }}
-  {{ if .Values.addons.mattermost.sso.client_secret }}
-  client_secret: {{ .Values.addons.mattermost.sso.client_secret | default "no-secret" }}
-  {{- end }}
-  {{ if .Values.addons.mattermost.sso.auth_endpoint }}
-  auth_endpoint: {{ .Values.addons.mattermost.sso.auth_endpoint }}
-  {{- end }}
-  {{ if .Values.addons.mattermost.sso.token_endpoint }}
-  token_endpoint: {{ .Values.addons.mattermost.sso.token_endpoint }}
-  {{- end }}
-  {{ if .Values.addons.mattermost.sso.user_api_endpoint }}
-  user_api_endpoint: {{ .Values.addons.mattermost.sso.user_api_endpoint }}
-  {{- end }}
+  enabled: {{ .enabled }}
+  client_id: {{ .client_id }}
+  client_secret: {{ .client_secret | default "no-secret" }}
+  auth_endpoint: {{ .auth_endpoint | default (printf "https://%s/auth/realms/%s/protocol/openid-connect/auth" $.Values.sso.oidc.host $.Values.sso.oidc.realm) }}
+  token_endpoint: {{ .token_endpoint | default (printf "https://%s/auth/realms/%s/protocol/openid-connect/token" $.Values.sso.oidc.host $.Values.sso.oidc.realm) }}
+  user_api_endpoint: {{ .user_api_endpoint | default (printf "https://%s/auth/realms/%s/protocol/openid-connect/userinfo" $.Values.sso.oidc.host $.Values.sso.oidc.realm) }}
+{{- end }}
 
 networkPolicies:
   enabled: {{ .Values.networkPolicies.enabled }}
