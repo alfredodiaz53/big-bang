@@ -1,7 +1,7 @@
 include:
   - project: 'platform-one/big-bang/pipeline-templates/pipeline-templates'
-    ref: 1152-rke2-tags
+    ref: bb1152-rke2-tags
     file: '/pipelines/bigbang.yaml'
 variables:
-  PIPELINE_REPO_BRANCH: 1152-rke2-tags
+  PIPELINE_REPO_BRANCH: bb1152-rke2-tags
   DEBUG_ENABLED: "true"
