@@ -1331,7 +1331,7 @@ addons:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/cluster-utilities/velero.git
       path: "./chart"
       tag: null
-      branch: "documentation-helm-capabilites-surrounding-external-snapshotter-crd-requirements-if-csi-is"
+      branch: "36-documentation-helm-capabilites-surrounding-external-snapshotter-crd-requirements-if-csi-is"
 
     # -- Flux reconciliation overrides specifically for the Velero Package
     flux: {}
