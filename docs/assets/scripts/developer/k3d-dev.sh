@@ -473,6 +473,9 @@ if [[ "$METAL_LB" == true ]]; then
   sudo bash -c "echo 172.20.1.241 anchore-api.bigbang.dev anchore.bigbang.dev argocd.bigbang.dev gitlab.bigbang.dev registry.bigbang.dev tracing.bigbang.dev kiali.bigbang.dev kibana.bigbang.dev chat.bigbang.dev minio.bigbang.dev minio-api.bigbang.dev alertmanager.bigbang.dev grafana.bigbang.dev prometheus.bigbang.dev nexus.bigbang.dev sonarqube.bigbang.dev tempo.bigbang.dev twistlock.bigbang.dev >> /etc/hosts"
   sudo bash -c "echo '## end bigbang.dev section' >> /etc/hosts"
 	ENDSSH
+  echo "Running kubectl locally to add keycloak's hostname/IP to the configmap for coredns, restart coredns"
+  /usr/local/bin/kubectl get configmap -n kube-system coredns -o yaml | gsed '/^    172.20.0.1 host.k3d.internal$/a\ \ \ \ 172.20.1.240 keycloak.bigbang.dev' | kubectl apply -f -
+  /usr/local/bin/kubectl delete pod -n kube-system -l k8s-app=kube-dns
 fi
 
 echo
@@ -528,17 +531,6 @@ then
     echo "  # METALLB ISTIO INGRESS IPs"
     echo "  172.20.1.240 keycloak.bigbang.dev vault.bigbang.dev"
     echo "  172.20.1.241 sonarqube.bigbang.dev prometheus.bigbang.dev nexus.bigbang.dev gitlab.bigbang.dev"
-    echo 
-    echo "You will also need to run the following after the cluster is up in order to add keycloak's hostname/ip to coredns's configmap:"
-    echo "cut+paste to the terminal:"
-    echo
-    echo 'kubectl get configmap -n kube-system coredns -o yaml | \'
-    echo 'gsed "/^    172.20.0.4 k3d-k3s-default-agent-2$/a\ \ \ \ 172.20.1.240 keycloak.bigbang.dev" | \'
-    echo 'kubectl apply -f -'
-    echo 
-    echo "Then delete the coredns pod. It will come back and read the NodeHosts entry you just added."
-    echo 
-    echo "kubectl delete pod -n kube-system -l k8s-app=kube-dns"
   fi
 elif [[ "$PRIVATE_IP" == true ]]  # not using MetalLB
 then	# Not using MetalLB and using private IP
