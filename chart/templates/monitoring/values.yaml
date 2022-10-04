@@ -411,12 +411,12 @@ prometheusOperator:
     # Only continue if an overlay matches a default constriant and hidden "skipOverlayMerge" is not set
     {{- if and $overlay (not $overlay.skipOverlayMerge) }}
 
-      # Add any default excludedNamespaces to overlay
+      # Add any default additionalScrapeConfigs to overlay
       {{- if and (dig "additionalScrapeConfigs"  list $default) (dig "additionalScrapeConfigs"  list $overlay) }}
-
          {{ $_ := set $overlay "additionalScrapeConfigs" (concat $default.additionalScrapeConfigs $overlay.additionalScrapeConfigs) }}
-
       {{- end }}
+     
+
     {{- end }}
   {{- end }}
 {{ toYaml $overlays }}
