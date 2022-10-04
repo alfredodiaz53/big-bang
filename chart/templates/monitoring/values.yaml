@@ -1,5 +1,5 @@
 {{- if .Values.monitoring.enabled }}
-{{- include "values-secret" (dict "root" $ "package" dict "values" (fromYaml (include "bigbang.overlays.monitoring" .)) .Values.monitoring "name" "monitoring" "defaults" (include "bigbang.defaults.monitoring" .)) }}
+{{- include "values-secret" (dict "root" $ "package" (dict "values" (fromYaml (include "bigbang.overlays.monitoring" .))) "name" "monitoring" "defaults" (include "bigbang.defaults.monitoring" .)) }}
 {{- end }}
 
 {{- define "bigbang.defaults.monitoring" -}}
@@ -131,8 +131,14 @@ prometheus:
       scheme: https
       authorization:
         credentials_file: /vault/secrets/token
+      {{- $vaultHosts := (dig "istio" "vault" "hosts" dict .Values.addons.vault.values) }}
+      {{- if $vaultHosts }}
       static_configs:
-      - targets: [vault.{{.Values.domain}}]
+      - targets: [{{ tpl ($vaultHosts | first) $ }}]
+      {{- else }}
+      static_configs:
+      - targets: [vault.{{ .Values.domain }}]
+      {{- end }}
     {{- end }}
     {{- if $istioInjection }}
     # Add volume/mount for Istio certs for mTLS scraping
@@ -393,29 +399,26 @@ prometheusOperator:
 {{- end }}
 
 
-
 {{- /* This function merges defaults in lists from above into overlays */ -}}
-{{- /* The end user will not have to replicate additional scrape configs from above when providing an overlay */ -}}
+{{- /* The end user will not have to replicate exclusions/repos from above when providing an overlay */ -}}
 {{- /* There is a hidden flag `skipOverlayMerge` that can be added to any additionalScrapeConfigs to ignore the defaults */ -}}
 {{- define "bigbang.overlays.monitoring" }}
 
   {{- $defaults := fromYaml (include "bigbang.defaults.monitoring" .) }}
 
-  {{- $overlays := dig "values" dict .Values.addons.additionalScrapeConfigs }}
-  {{- range $additionalScrapeConfigs, $default := $defaults.global }}
-    {{- $overlay := (dig "global" $additionalScrapeConfigs dict $overlays) }}
+  {{- $overlays := dig "values" dict .Values.monitoring }}
+  {{- range $prometheusConfig, $default := $defaults.prometheus }}
+    {{- $overlay := (dig "prometheus" $prometheusConfig dict $overlays) }}
     # Only continue if an overlay matches a default constriant and hidden "skipOverlayMerge" is not set
     {{- if and $overlay (not $overlay.skipOverlayMerge) }}
 
       # Add any default excludedNamespaces to overlay
       {{- if and (dig "additionalScrapeConfigs"  list $default) (dig "additionalScrapeConfigs"  list $overlay) }}
 
-         {{ $_ := set $overlay "additionalScrapeConfigs" (concat $default.additionalScrapeConfigss $overlay.additionalScrapeConfigs) }}
+         {{ $_ := set $overlay "additionalScrapeConfigs" (concat $default.additionalScrapeConfigs $overlay.additionalScrapeConfigs) }}
 
       {{- end }}
     {{- end }}
   {{- end }}
 {{ toYaml $overlays }}
 {{- end }}
-
-
