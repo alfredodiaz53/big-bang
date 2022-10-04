@@ -1,7 +1,7 @@
 include:
   - project: 'platform-one/big-bang/pipeline-templates/pipeline-templates'
-    ref: k3d-multi-node-p2
+    ref: k3d-multi-node
     file: '/pipelines/bigbang.yaml'
 variables:
-  PIPELINE_REPO_BRANCH: k3d-multi-node-p2
+  PIPELINE_REPO_BRANCH: k3d-multi-node
   MULTI_NODE: "true"
