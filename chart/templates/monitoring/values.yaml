@@ -1,5 +1,5 @@
 {{- if .Values.monitoring.enabled }}
-{{- include "values-secret" (dict "root" $ "package" .Values.monitoring "name" "monitoring" "defaults" (include "bigbang.defaults.monitoring" .)) }}
+{{- include "values-secret" (dict "root" $ "package" dict "values" (fromYaml (include "bigbang.overlays.monitoring" .)) .Values.monitoring "name" "monitoring" "defaults" (include "bigbang.defaults.monitoring" .)) }}
 {{- end }}
 
 {{- define "bigbang.defaults.monitoring" -}}
@@ -391,3 +391,31 @@ prometheusOperator:
     {{ include "istioAnnotation" . }}
   {{- end }}
 {{- end }}
+
+
+
+{{- /* This function merges defaults in lists from above into overlays */ -}}
+{{- /* The end user will not have to replicate additional scrape configs from above when providing an overlay */ -}}
+{{- /* There is a hidden flag `skipOverlayMerge` that can be added to any additionalScrapeConfigs to ignore the defaults */ -}}
+{{- define "bigbang.overlays.monitoring" }}
+
+  {{- $defaults := fromYaml (include "bigbang.defaults.monitoring" .) }}
+
+  {{- $overlays := dig "values" dict .Values.addons.additionalScrapeConfigs }}
+  {{- range $additionalScrapeConfigs, $default := $defaults.global }}
+    {{- $overlay := (dig "global" $additionalScrapeConfigs dict $overlays) }}
+    # Only continue if an overlay matches a default constriant and hidden "skipOverlayMerge" is not set
+    {{- if and $overlay (not $overlay.skipOverlayMerge) }}
+
+      # Add any default excludedNamespaces to overlay
+      {{- if and (dig "additionalScrapeConfigs"  list $default) (dig "additionalScrapeConfigs"  list $overlay) }}
+
+         {{ $_ := set $overlay "additionalScrapeConfigs" (concat $default.additionalScrapeConfigss $overlay.additionalScrapeConfigs) }}
+
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{ toYaml $overlays }}
+{{- end }}
+
+
