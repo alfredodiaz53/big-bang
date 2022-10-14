@@ -82,8 +82,6 @@ addons:
         webservice:
           minReplicas: 3
           maxReplicas: 3
-          helmTests:
-            enabled: false
         gitlab-shell:
           minReplicas: 3
           maxReplicas: 3
