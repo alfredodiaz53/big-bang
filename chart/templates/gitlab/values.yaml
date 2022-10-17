@@ -68,7 +68,7 @@ postgresql:
   {{- end }}
 {{- end }}
 
-{{- if or .Values.addons.gitlab.objectStorage.endpoint .Values.istio.enabled $istioInjection }}
+{{- if or .Values.addons.gitlab.objectStorage.endpoint $istioInjection }}
 registry:
   {{- if .Values.addons.gitlab.objectStorage.endpoint }}
   storage:
@@ -84,7 +84,7 @@ registry:
     {{ include "istioAnnotation" . }}
     {{- end }}
   {{- end }}
-  {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.addons.gitlab.values) "STRICT") $istioInjection }}
+  {{- if and (eq (dig "istio" "mtls" "mode" "STRICT" .Values.addons.gitlab.values) "STRICT") $istioInjection }}
   metrics:
     serviceMonitor:
       endpointConfig:
@@ -124,7 +124,7 @@ gitlab:
       annotations:
         {{ include "istioAnnotation" . }}
     {{- end }}
-    {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.addons.gitlab.values) "STRICT") $istioInjection }}
+    {{- if and (eq (dig "istio" "mtls" "mode" "STRICT" .Values.addons.gitlab.values) "STRICT") $istioInjection }}
     metrics:
       serviceMonitor:
         endpointConfig:
@@ -136,9 +136,9 @@ gitlab:
             insecureSkipVerify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod certificate
     {{- end }}
 
-  {{- if or .Values.istio.enabled $iamProfile $istioInjection }}
+  {{- if or $iamProfile $istioInjection }}
   webservice:
-  {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.addons.gitlab.values) "STRICT") $istioInjection }}
+  {{- if and (eq (dig "istio" "mtls" "mode" "STRICT" .Values.addons.gitlab.values) "STRICT") $istioInjection }}
     metrics:
       serviceMonitor:
         endpointConfig:
@@ -177,14 +177,14 @@ gitlab:
       {{- end }}
   {{- end }}
   {{- end }}
-{{- if and $istioInjection .Values.istio.enabled }}
+{{- if $istioInjection }}
   migrations:
     annotations:
       {{ include "istioAnnotation" . }}
   gitaly:
     annotations:
       {{ include "istioAnnotation" . }}
-    {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.addons.gitlab.values) "STRICT") $istioInjection }}
+    {{- if and (eq (dig "istio" "mtls" "mode" "STRICT" .Values.addons.gitlab.values) "STRICT") $istioInjection }}
     metrics:
       serviceMonitor:
         endpointConfig:
@@ -198,7 +198,7 @@ gitlab:
   gitlab-shell:
     annotations:
       {{ include "istioAnnotation" . }}
-    {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.addons.gitlab.values) "STRICT") $istioInjection }}
+    {{- if and (eq (dig "istio" "mtls" "mode" "STRICT" .Values.addons.gitlab.values) "STRICT") $istioInjection }}
     metrics:
       serviceMonitor:
         endpointConfig:
