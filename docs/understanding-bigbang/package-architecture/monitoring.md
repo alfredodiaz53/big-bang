@@ -198,7 +198,7 @@ Note: Other packages are responsible for deploying Service Monitors for their co
 
 ### HA
 
-High Availability can be accomplished by increasing the number of replicas for the deployments of Alertmanager, Grafana, and Prometheus :
+High Availability can be accomplished by increasing the number of replicas for the deployments of Alertmanager, Prometheus, and Grafana:
  
 ```yaml
 monitoring:
@@ -222,17 +222,17 @@ Notes for HA :: tickets [monitoring#96](https://repo1.dso.mil/platform-one/big-b
   - network policies should be disabled
   - authorization policies must be deleted
 
-- Grafana
-  - a persistent database must be used or auth tokens are lost as users pass between pods
-    - https://grafana.com/docs/grafana/latest/setup-grafana/set-up-for-high-availability/
-    - https://grafana.com/docs/grafana/v9.0/setup-grafana/configure-grafana/#database
-  - no other issues observed
-
 - Prometheus
   - initial testing indicates no issues for HA when `thanos` is enabled
   - sub-chart for `thanos` needs to be added to monitoring
   - `thanos` can be pulled in currently as documented [here](https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/thanos/-/tree/test/chart)
   - taken from [VMware](https://docs.vmware.com/en/VMware-Application-Catalog/services/apps/GUID-apps-thanos-administration-enable-metrics.html)
+
+- Grafana
+  - a persistent database must be used or auth tokens are lost as users pass between pods
+    - https://grafana.com/docs/grafana/latest/setup-grafana/set-up-for-high-availability/
+    - https://grafana.com/docs/grafana/v9.0/setup-grafana/configure-grafana/#database
+  - no other issues observed
 
 ### Dependency Packages
 
