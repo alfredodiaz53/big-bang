@@ -216,16 +216,12 @@ monitoring:
     grafana:
       replicas: 3
 ```
-Notes for HA :
+Notes for HA :: tickets [monitoring#96](https://repo1.dso.mil/platform-one/big-bang/apps/core/monitoring/-/issues/96) [monitoring#97](https://repo1.dso.mil/platform-one/big-bang/apps/core/monitoring/-/issues/96) [monitoring#98](https://repo1.dso.mil/platform-one/big-bang/apps/core/monitoring/-/issues/96) will resolve the below issues
 
 - Alert Manager with webbooks to MatterMost
   - network policies should be disabled
   - authorization policies must be deleted
-  - a coreDNS entry was added to allow the webhook to connect
-      ```
-      NodeHosts:
-        172.18.0.2 chat.bigbang.dev
-      ```  
+
 - Grafana
   - a persistent database must be used or auth tokens are lost as users pass between pods
     - https://grafana.com/docs/grafana/latest/setup-grafana/set-up-for-high-availability/
