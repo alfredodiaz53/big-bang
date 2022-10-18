@@ -659,6 +659,9 @@ tempo:
 
 monitoring:
   enabled: true
+  git:
+    tag: ""
+    branch: "monitoring_sso_test"
   sso:
     enabled: false
     prometheus:
@@ -726,6 +729,10 @@ monitoring:
           cypress_grafana_url: 'https://grafana.bigbang.dev'
           cypress_alertmanager_url: 'https://alertmanager.bigbang.dev'
           cypress_check_istio_dashboards: 'true'
+          # uncomment these next 3 lines if enabling the keycloak SSO integration test
+          cypress_keycloak_test_enable: "true"
+          cypress_keycloak_username: "cypress"
+          cypress_keycloak_password: "tnr_w!G33ZyAt@C8"
 
 twistlock:
   enabled: true
