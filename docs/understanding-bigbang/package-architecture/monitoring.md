@@ -313,7 +313,8 @@ Notes for HA :
         --namespace monitoring \
         bitnami/thanos
     ```
-
+  - taken from: https://docs.vmware.com/en/VMware-Application-Catalog/services/apps/GUID-apps-thanos-administration-enable-metrics.html
+  - see also: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/thanos/-/tree/test/chart
 
 
 ### Dependency Packages
