@@ -207,32 +207,11 @@ monitoring:
       alertmanagerSpec:
         replicas: 3
     prometheus:
-      thanosService:
-        enabled: true
-      thanosServiceMonitor:
-        enabled: true
       prometheusSpec:
         replicas: 3
     grafana:
       replicas: 3
 ```
-Notes for HA :: tickets [monitoring#96](https://repo1.dso.mil/platform-one/big-bang/apps/core/monitoring/-/issues/96) [monitoring#97](https://repo1.dso.mil/platform-one/big-bang/apps/core/monitoring/-/issues/96) [monitoring#98](https://repo1.dso.mil/platform-one/big-bang/apps/core/monitoring/-/issues/96) will resolve the below issues
-
-- Alert Manager with webbooks to MatterMost
-  - network policies should be disabled
-  - authorization policies must be deleted
-
-- Prometheus
-  - initial testing indicates no issues for HA when `thanos` is enabled
-  - sub-chart for `thanos` needs to be added to monitoring
-  - `thanos` can be pulled in currently as documented [here](https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/thanos/-/tree/test/chart)
-  - taken from [VMware](https://docs.vmware.com/en/VMware-Application-Catalog/services/apps/GUID-apps-thanos-administration-enable-metrics.html)
-
-- Grafana
-  - a persistent database must be used or auth tokens are lost as users pass between pods
-    - https://grafana.com/docs/grafana/latest/setup-grafana/set-up-for-high-availability/
-    - https://grafana.com/docs/grafana/v9.0/setup-grafana/configure-grafana/#database
-  - no other issues observed
 
 ### Dependency Packages
 
