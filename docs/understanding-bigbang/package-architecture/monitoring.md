@@ -198,20 +198,123 @@ Note: Other packages are responsible for deploying Service Monitors for their co
 
 ### HA
 
-High Availability can be accomplished by increasing the number of replicas for the deployments of Alertmanager, Prometheus and Grafana:
-
+High Availability can be accomplished by increasing the number of replicas for the deployments of Alertmanager, Grafana, and Prometheus :
+ 
 ```yaml
 monitoring:
   values:
     alertmanager:
       alertmanagerSpec:
-        replicas:
+        replicas: 3
+      config:
+        global:
+          resolve_timeout: 5m
+        route:
+          # Keeping the default of 'job' but 'alertname' is also used often
+          group_by: ['job']
+          group_wait: 30s
+          group_interval: 5m
+          # repeat_interval upped from default of 12h
+          repeat_interval: 24h
+          # receiver updated from 'null' to 'mattermost' so it becomes the default
+          receiver: 'mattermost'
+          routes:
+          - match:
+              alertname: Watchdog
+            receiver: 'null'
+        receivers:
+        - name: 'null'
+        # Adding a new receiver below the default 'null' receiver
+        - name: 'mattermost'
+          slack_configs:
+          - api_url: https://chat.bigbang.dev/hooks/arebgww5wfy7fdmb1ujbi9991c
+        templates:
+        - '/etc/alertmanager/config/*.tmpl'
     prometheus:
+      thanosService:
+        enabled: true
+      thanosServiceMonitor:
+        enabled: true
       prometheusSpec:
-        replicas:
+        replicas: 3
     grafana:
-      replicas:
+      replicas: 3
 ```
+Notes for HA :
+
+- Alert Manager with webbooks to MatterMost
+  - network policies should be disabled
+  - authorization policies must be deleted
+  - a coreDNS entry was added to allow the webhook to connect
+      ```
+      NodeHosts:
+        172.18.0.2 chat.bigbang.dev
+      ```  
+- Grafana
+  - a persistent database must be used or auth tokens are lost as users pass between pods
+    - https://grafana.com/docs/grafana/latest/setup-grafana/set-up-for-high-availability/
+    - https://grafana.com/docs/grafana/v9.0/setup-grafana/configure-grafana/#database
+  - no other issues observed
+
+- Prometheus
+  - initial testing indicates no issues for HA when `thanos` is enabled
+  - sub-chart for `thanos` needs to be added to monitoring
+  - `thanos` can be pulled in currently with this yaml and helm command :
+    ```
+    objstoreConfig: |-
+      type: s3
+      config:
+        bucket: thanos
+        endpoint: {{ include "thanos.minio.fullname" . }}.monitoring.svc.cluster.local:9000
+        access_key: minio
+        secret_key: minio123
+        insecure: true
+    query:
+      dnsDiscovery:
+        sidecarsService: kube-prometheus-prometheus-thanos
+        sidecarsNamespace: monitoring
+    bucketweb:
+      enabled: true
+    compactor:
+      enabled: true
+    storegateway:
+      enabled: true
+    ruler:
+      enabled: true
+      alertmanagers:
+        - http://kube-prometheus-alertmanager.monitoring.svc.cluster.local:9093
+      config: |-
+        groups:
+          - name: "metamonitoring"
+            rules:
+              - alert: "PrometheusDown"
+                expr: absent(up{prometheus="monitoring/kube-prometheus"})
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+    minio:
+      enabled: true
+      accessKey:
+        password: "minio"
+      secretKey:
+        password: "minio123"
+      defaultBuckets: "thanos"
+        ```
+        ```
+        helm install thanos \
+        --values thanos-values.yaml \
+        --namespace monitoring \
+        bitnami/thanos
+    ```
+    ```
+      helm install thanos \
+        --values thanos-values.yaml \
+        --namespace monitoring \
+        bitnami/thanos
+    ```
+
+
 
 ### Dependency Packages
 
