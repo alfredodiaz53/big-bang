@@ -206,30 +206,6 @@ monitoring:
     alertmanager:
       alertmanagerSpec:
         replicas: 3
-      config:
-        global:
-          resolve_timeout: 5m
-        route:
-          # Keeping the default of 'job' but 'alertname' is also used often
-          group_by: ['job']
-          group_wait: 30s
-          group_interval: 5m
-          # repeat_interval upped from default of 12h
-          repeat_interval: 24h
-          # receiver updated from 'null' to 'mattermost' so it becomes the default
-          receiver: 'mattermost'
-          routes:
-          - match:
-              alertname: Watchdog
-            receiver: 'null'
-        receivers:
-        - name: 'null'
-        # Adding a new receiver below the default 'null' receiver
-        - name: 'mattermost'
-          slack_configs:
-          - api_url: https://chat.bigbang.dev/hooks/arebgww5wfy7fdmb1ujbi9991c
-        templates:
-        - '/etc/alertmanager/config/*.tmpl'
     prometheus:
       thanosService:
         enabled: true
