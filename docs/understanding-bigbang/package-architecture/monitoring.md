@@ -206,11 +206,6 @@ monitoring:
     alertmanager:
       alertmanagerSpec:
         replicas: 3
-    prometheus:
-      prometheusSpec:
-        replicas: 3
-    grafana:
-      replicas: 3
 ```
 
 ### Dependency Packages
