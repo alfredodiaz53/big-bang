@@ -326,3 +326,7 @@ addons:
 
               service_registration "kubernetes" {}
 ```
+
+## High Availibility
+
+This section provides suggested settings for High Availibility...
