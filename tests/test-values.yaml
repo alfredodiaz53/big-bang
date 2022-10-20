@@ -801,6 +801,12 @@ addons:
       configs:
         secret:
           argocdServerAdminPassword: '$2a$10$rUDZDckdDZ2TEwk9PDs3QuqjkL58qR1IHE1Kj4MwDx.7/m5dytZJm'
+      preUpgradeJob:
+        enabled: true
+        image:
+          repository: registry1.dso.mil/ironbank/big-bang/base
+          tag: 2.0.0
+          imagePullPolicy: IfNotPresent
       bbtests:
         enabled: true
         cypress:
