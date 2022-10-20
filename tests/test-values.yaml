@@ -813,7 +813,7 @@ addons:
           tag: 2.0.0
           imagePullPolicy: IfNotPresent
       crds:
-        install: false
+        install: true
 
   authservice:
     enabled: false
