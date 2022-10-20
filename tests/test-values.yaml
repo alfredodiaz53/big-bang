@@ -806,14 +806,6 @@ addons:
         cypress:
           envs:
             cypress_url: "https://argocd.bigbang.dev"
-      preUpgradeJob:
-        enabled: true
-        image:
-          repository: registry1.dso.mil/ironbank/big-bang/base
-          tag: 2.0.0
-          imagePullPolicy: IfNotPresent
-      crds:
-        install: true
 
   authservice:
     enabled: false
