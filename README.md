@@ -43,6 +43,6 @@ Big Bang Documentation is located in the following locations:
 
 - [Developer Contribution Documentation](./docs/developer/README.md)
 - [Key Big Bang Concept Overviews](./docs/understanding-bigbang/README.md)
-- [User Guides for Big Bang](./docs/guides/)
+- [User Guides for Big Bang](./docs/guides/README.md)
 - [Big Bang Prerequisites](./docs/prerequisites/)
 - [Big Bang Example Configurations](./docs/assets/configs/example/)
