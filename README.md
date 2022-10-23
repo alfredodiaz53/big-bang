@@ -14,7 +14,7 @@ Big Bang's scope is to provide publicly available installation manifests for:
 
 Big Bang also builds tooling around the testing and validation of Big Bang packages. These tools are provided as-is, without support.
 
-Big Bang is intended to be used for deploying and maintaining a DoD hardened and approved set of packages into a Kubernetes cluster.  Deployment and configuration of ingress/egress, load balancing, policy auditing, logging, monitoring, etc. are handled via Big Bang.  Additional packages (e.g. ArgoCD, GitLab) can also be enabled and customized to extend Big Bang's baseline.  Once deployed, the customer can use the Kubernetes cluster to add mission specific applications.
+Big Bang is intended to be used for deploying and maintaining a DoD hardened and approved set of packages into a Kubernetes cluster.  Deployment and configuration of ingress/egress, load balancing, policy auditing, logging, monitoring, etc. are handled via Big Bang.  Additional packages (e.g. ArgoCD, GitLab) can also be enabled and customized to extend Big Bang's baseline.  Once deployed, the Kubernetes cluster can be used to add mission specific applications.
 
 Additional information can be found at [Big Bang Docs](https://docs-bigbang.dso.mil) and [here](./docs/README.md).
 
@@ -32,6 +32,8 @@ There are 3 main ways to contribute to Big Bang:
   - Please review the [package integration guide](./docs/developer/package-integration/README.md) if you are interested in submitting a new package
   - A shepherd will be assigned to the project to create a repo in the [BB sandbox](https://repo1.dso.mil/platform-one/big-bang/apps/sandbox)
 
+Additional information can be found in the [contributing guide](./CONTRIBUTING.md).
+
 ## Release Schedule
 
 - Big Bang releases every 2 weeks with a minor release number. In order to stay current with all features and security updates ensure you are no more than `n-2` releases behind.
@@ -45,4 +47,4 @@ Big Bang Documentation is located in the following locations:
 - [Key Big Bang Concept Overviews](./docs/understanding-bigbang/README.md)
 - [User Guides for Big Bang](./docs/guides/README.md)
 - [Big Bang Prerequisites](./docs/prerequisites/README.md)
-- [Big Bang Example Configurations](./docs/assets/configs/example/)
+- [Big Bang Example Configurations](https://repo1.dso.mil/groups/platform-one/big-bang/bigbang/docs/assets/configs/example/)
