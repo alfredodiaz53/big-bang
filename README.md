@@ -2,7 +2,7 @@
 
 Big Bang is a declarative, continuous delivery tool for deploying DoD hardened and approved packages into a Kubernetes cluster.
 
-> _If viewing this from Github, note that this is a mirror of a government repo hosted on [Repo1](https://repo1.dso.mil/) by [DoD Platform One](http://p1.dso.mil/).  Please direct all code changes, issues and comments to [https://repo1.dso.mil/platform-one/big-bang/bigbang_](https://repo1.dso.mil/platform-one/big-bang/bigbang_)
+> _If viewing this from Github, note that this is a mirror of a government repo hosted on [Repo1](https://repo1.dso.mil/) by [DoD Platform One](http://p1.dso.mil/).  Please direct all code changes, issues and comments to [https://repo1.dso.mil/platform-one/big-bang/bigbang](https://repo1.dso.mil/platform-one/big-bang/bigbang)
 
 ## Usage & Scope
 
