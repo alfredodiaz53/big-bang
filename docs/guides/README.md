@@ -27,4 +27,4 @@ The guides included here are not all inclusive of every situation. Please open a
 ## Backup and Restore
 
 [GitLab Backup and Restore](./backup-and-restore/gitlab-backup-restore.md)
-[Nexus Migration with Velaro](./backup-and-restore/nexus-migration-with-velero.md)
+[Nexus Migration with Velero](./backup-and-restore/nexus-migration-with-velero.md)
