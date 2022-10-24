@@ -68,7 +68,7 @@ fluentbit:
             storage.type filesystem
 ```
 
-## [High Availability
+## High Availability
 
 TO DO
 
