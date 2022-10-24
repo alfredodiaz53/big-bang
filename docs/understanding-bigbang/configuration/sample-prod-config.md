@@ -329,4 +329,30 @@ addons:
 
 ## High Availability (HA)
 
-This section provides suggested settings for High Availability...
+This section provides links to High Availability documentation for each package in Big Bang.  
+  
+| Packages | HA |
+| --- | --- |
+| Anchore Enterprise | [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/anchore.md#high-availability)
+| Argocd | [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/argocd.md#high-availability)
+| Authservice | [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/authservice.md#high-availability)
+| Cluster Auditor | [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/cluster-auditor.md#high-availability)
+| Elasticsearch Kibana | [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/elasticsearch-kibana.md#high-availability)
+| Fluentbit | [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/fluentbit.md#high-availability)
+| Gitlab | [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/gitlab.md#high-availability)
+| Istio | [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/istio.md#high-availability)
+| Jaeger| [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/jaeger.md#high-availability)
+| Keycloak| [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/keycloak.md#high-availability)
+| Kiali | [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/kiali.md#high-availability)
+| Kyverno | [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/kyverno.md#high-availability)
+| Loki| [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/loki.md#high-availability)
+| Mattermost | [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/mattermost.md#high-availability)
+| MinIO | [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/minio.md#high-availability)
+| Monitoring| [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/monitoring.md#ha)
+| Nexus| [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/nexus.md#resiliency)
+| OPA Gatekeeper | [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/opa-gatekeeper.md#high-availability)
+| Promtail | [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/promtail.md#high-availability)
+| Sonarqube | [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/sonarqube.md#high-availability)
+| Twistlock | [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/twistlock.md#high-availability)
+| Vault | [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/vault.md#high-availability)
+| Velero | [High Availability](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/understanding-bigbang/package-architecture/velero.md#high-availability)
