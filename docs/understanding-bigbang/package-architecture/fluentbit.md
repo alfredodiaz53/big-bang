@@ -68,6 +68,10 @@ fluentbit:
             storage.type filesystem
 ```
 
+## [High Availability
+
+TO DO
+
 ## Health Checks
 
 Fluentbit is able to be configured with a service port for the container, which is able to expose [all kinds of metrics](https://docs.fluentbit.io/manual/administration/monitoring) including metrics for Prometheus.
