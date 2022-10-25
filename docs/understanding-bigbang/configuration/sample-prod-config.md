@@ -329,7 +329,7 @@ addons:
 
 ## High Availability (HA)
 
-Each package in Big Bang includes documentation of its own High Availability configuration independantly in [Package Architecture](../package-architecture). Below are direct links for each package:  
+Each package in Big Bang includes documentation of its own High Availability configuration independantly in [Package Architecture](../package-architecture). Below are direct links to this section for each package:  
   
 - [Anchore Enterprise](../package-architecture/anchore.md#high-availability)  
 - [Argocd](../package-architecture/argocd.md#high-availability)  
