@@ -659,7 +659,7 @@ monitoring:
     tag: ""
     branch: "monitoring_sso_test"
   sso:
-    enabled: false
+    enabled: true
     prometheus:
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_prometheus
     alertmanager:
@@ -1360,7 +1360,7 @@ addons:
             MINIO_HOST: https://minio-api.bigbang.dev
 
   keycloak:
-    enabled: false
+    enabled: true
     ingress:
       gateway: "passthrough"
       key: "" # Gets added via chart/ingress-certs.yaml
