@@ -1152,12 +1152,13 @@ addons:
           volumesPerServer: 4
           size: 256Mi
           resources:
-            requests:
-              cpu: 250m
-              memory: 2Gi
-            limits:
-              cpu: 250m
-              memory: 2Gi
+            resources:
+              requests:
+                memory: 2Gi
+                cpu: 1000m
+              limits:
+                memory: 2Gi
+                cpu: 1000m
           securityContext:
             runAsUser: 1001
             runAsGroup: 1001
