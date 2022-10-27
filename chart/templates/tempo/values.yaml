@@ -88,4 +88,5 @@ sso:
 podLabels:
   {{ $tempoAuthserviceKey }}: {{ $tempoAuthserviceValue }}
 {{- end }}
+
 {{- end -}}
