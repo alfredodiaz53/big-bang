@@ -90,7 +90,7 @@ podLabels:
 
 {{- $tempoHosts := (dig "istio" "tempoQuery" "hosts" dict .Values.tempo.values) }}
 {{- if $tempoHosts }}
-{{- if (hasPrefix "tempo" (tpl ($tempoHosts | first) $)) }}
+{{- if (eq "tempo" (trimSuffix (printf ".%s" $domainName) (tpl ($tempoHosts | first) $))) }}
 fullnameOverride: "tracing-tempo" # If SSO is enabled and VS is prefixed with `tempo` change the service/pods names
 {{- end }}
 {{- else if .Values.jaeger.enabled }}
