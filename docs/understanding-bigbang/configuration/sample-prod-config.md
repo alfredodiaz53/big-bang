@@ -329,28 +329,4 @@ addons:
 
 ## High Availability (HA)
 
-Each package in Big Bang includes documentation of its own High Availability configuration independently in [Package Architecture](../package-architecture). Below are direct links to this section for each package:  
-  
-- [Anchore Enterprise](../package-architecture/anchore.md#high-availability)  
-- [Argocd](../package-architecture/argocd.md#high-availability)  
-- [Authservice](../package-architecture/authservice.md#high-availability)  
-- [Cluster Auditor](../package-architecture/cluster-auditor.md#high-availability)  
-- [Elasticsearch Kibana](../package-architecture/elasticsearch-kibana.md#high-availability)  
-- [Fluentbit](../package-architecture/fluentbit.md#high-availability)  
-- [Gitlab](../package-architecture/gitlab.md#high-availability)  
-- [Istio](../package-architecture/istio.md#high-availability)  
-- [Jaeger](../package-architecture/jaeger.md#high-availability)  
-- [Keycloak](../package-architecture/keycloak.md#high-availability)  
-- [Kiali](../package-architecture/kiali.md#high-availability)  
-- [Kyverno](../package-architecture/kyverno.md#high-availability)  
-- [Loki](../package-architecture/loki.md#high-availability)  
-- [Mattermost](../package-architecture/mattermost.md#high-availability)  
-- [MinIO](../package-architecture/minio.md#high-availability)  
-- [Monitoring](../package-architecture/monitoring.md#ha)  
-- [Nexus](../package-architecture/nexus.md#resiliency)  
-- [OPA Gatekeeper](../package-architecture/opa-gatekeeper.md#high-availability)  
-- [Promtail](../package-architecture/promtail.md#high-availability)  
-- [Sonarqube](../package-architecture/sonarqube.md#high-availability)  
-- [Twistlock](../package-architecture/twistlock.md#high-availability)  
-- [Vault](../package-architecture/vault.md#high-availability)  
-- [Velero](../package-architecture/velero.md#high-availability)  
+Each package in Big Bang includes documentation of its own High Availability configuration independently in [Package Architecture](../package-architecture).  
