@@ -87,14 +87,5 @@ sso:
 {{- $tempoAuthserviceValue := (dig "selector" "value" "keycloak" .Values.addons.authservice.values) }}
 podLabels:
   {{ $tempoAuthserviceKey }}: {{ $tempoAuthserviceValue }}
-
-{{- $tempoHosts := (dig "istio" "tempoQuery" "hosts" dict .Values.tempo.values) }}
-{{- if $tempoHosts }}
-{{- if (eq "tempo" (trimSuffix (printf ".%s" $domainName) (tpl ($tempoHosts | first) $))) }}
-fullnameOverride: "tracing-tempo" # If SSO is enabled and VS is prefixed with `tempo` change the service/pods names
-{{- end }}
-{{- else if .Values.jaeger.enabled }}
-fullnameOverride: "tracing-tempo" # If SSO is enabled and Jaeger is also enabled change the service/pods names
-{{- end }}
 {{- end }}
 {{- end -}}

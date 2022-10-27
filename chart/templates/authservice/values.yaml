@@ -101,10 +101,10 @@ chains:
       header: ":authority"
     {{- $tempoHosts := (dig "istio" "tempoQuery" "hosts" dict .Values.tempo.values) }}
     {{- if $tempoHosts }}
-      prefix: {{ trimSuffix (printf ".%s" $domainName) (tpl ($tempoHosts | first) $) }}
+      prefix: {{ trimSuffix (printf "%s" $domainName) (tpl ($tempoHosts | first) $) }}
     callback_uri: https://{{ tpl ($tempoHosts | first) $ }}/login
     {{- else if .Values.jaeger.enabled }}
-      prefix: "tempo"
+      prefix: "tempo."
     callback_uri: https://tempo.{{ $domainName }}/login
     {{- else }}
       prefix: "tracing"
