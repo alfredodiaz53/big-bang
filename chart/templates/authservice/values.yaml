@@ -40,6 +40,19 @@ redis-bb:
       selector: 
         app.kubernetes.io/name: redis-bb
         app.kubernetes.io/instance: authservice-authservice
+     # conditional passes only if all conditionals are true:
+     # - istio: enabled
+     # - mTLS: SCRICT
+     # - istio injection: enabled (for logging ns)
+     {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.authservice.values) "STRICT") (eq (dig "istio" "injection" "enabled" .Values.logging.values) "enabled") }}
+      scheme: https
+      tlsConfig:
+        caFile: /etc/prom-certs/root-cert.pem
+        certFile: /etc/prom-certs/cert-chain.pem
+        keyFile: /etc/prom-certs/key.pem
+      insecureSkipVerify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod certificate
+     {{- end }}
+
     prometheusRule:
       enabled: true 
       namespace: monitoring
