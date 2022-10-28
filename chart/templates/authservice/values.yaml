@@ -44,7 +44,7 @@ redis-bb:
      # - istio: enabled
      # - mTLS: SCRICT
      # - istio injection: enabled (for logging ns)
-     {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.authservice.values) "STRICT") (eq (dig "istio" "injection" "enabled" .Values.logging.values) "enabled") }}
+     {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.authservice.values) "STRICT") (eq (dig "istio" "injection" "enabled" .Values.addons.authservice) "enabled") }}
       scheme: https
       tlsConfig:
         caFile: /etc/prom-certs/root-cert.pem
