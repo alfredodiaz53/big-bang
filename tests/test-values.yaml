@@ -99,6 +99,8 @@ kiali:
     cr:
       spec:
         auth:
+          # if enabling the keycloak SSO integration test, set strategy to "openid"
+          #strategy: "openid"
           strategy: "anonymous"
     bbtests:
       enabled: true
@@ -106,6 +108,10 @@ kiali:
         envs:
           cypress_url: 'https://kiali.bigbang.dev'
           cypress_check_data: 'true'
+          # uncomment these next 3 lines if enabling the keycloak SSO integration test
+          #cypress_keycloak_test_enable: "true"
+          #cypress_keycloak_username: "cypress"
+          #cypress_keycloak_password: "tnr_w!G33ZyAt@C8"
 
 clusterAuditor:
   enabled: true
@@ -121,7 +127,6 @@ clusterAuditor:
         envs:
           cypress_grafana_url: 'https://grafana.bigbang.dev'
           cypress_prometheus_url: 'https://prometheus.bigbang.dev'
-          cypress_allownodatas: '0'
           cypress_url: 'https://grafana.bigbang.dev/d/YBgRZG6Mz/opa-violations?orgId=1'
 
 gatekeeper:
@@ -161,8 +166,13 @@ gatekeeper:
           - jaeger/jaeger-operator-cypress-test
           - monitoring/kube-prometheus-stack-cypress-test
           - vault/vault-cypress-test
-          - logging/loki-cypress-test
+          - logging/loki-simple-scalable-cypress-test
           - twistlock/twistlock-cypress-test
+          - sonarqube/sonarqube-cypress-test
+          - logging/logging-cypress-test
+          - tempo/tempo-cypress-test
+          - argocd/argo-cd-cypress-test
+          - minio/minio-instance-cypress-test
           # Allow kyverno test vectors for Helm test
           - default/restrict-host-path-mount-.?
           - default/restrict-host-path-write-.?
@@ -244,6 +254,7 @@ gatekeeper:
           - default/i.?
           - default/disallow-selinux-options-.?
           - default/restrict-selinux-type-.?
+          - default/not-me
       volumeTypes:
         parameters:
           excludedResources:
@@ -257,8 +268,13 @@ gatekeeper:
           - jaeger/jaeger-operator-cypress-test
           - monitoring/kube-prometheus-stack-cypress-test
           - vault/vault-cypress-test
-          - logging/loki-cypress-test
+          - logging/loki-simple-scalable-cypress-test
           - twistlock/twistlock-cypress-test
+          - sonarqube/sonarqube-cypress-test
+          - logging/logging-cypress-test
+          - tempo/tempo-cypress-test
+          - argocd/argo-cd-cypress-test
+          - minio/minio-instance-cypress-test
           # Allow kyverno test vectors for Helm test
           - default/restrict-host-path-mount-.?
           - default/restrict-host-path-write-.?
@@ -273,11 +289,23 @@ kyverno:
     bbtests:
       enabled: true
 
+kyvernoreporter:
+  enabled: false
+  values:
+    bbtests:
+      cypress:
+        envs:
+          cypress_grafana_url: https://grafana.bigbang.dev
+          cypress_prometheus_url: https://prometheus.bigbang.dev
+
 kyvernopolicies:
   enabled: false
   values:
     bbtests:
       enabled: true
+    excludeContainers:
+    - not-me
+    - or-me
     exclude:
       any:
       # Allows k3d load balancer to bypass policies.
@@ -368,6 +396,11 @@ kyvernopolicies:
               - vault
               - logging
               - twistlock
+              - sonarqube
+              - logging
+              - tempo
+              - argocd
+              - minio
               names:
               - "*-cypress-test*"
         parameters:
@@ -394,6 +427,11 @@ kyvernopolicies:
               - vault
               - logging
               - twistlock
+              - sonarqube
+              - logging
+              - tempo
+              - argocd
+              - minio
               names:
               - "*-cypress-test*"
         parameters:
@@ -430,6 +468,11 @@ kyvernopolicies:
               - vault
               - logging
               - twistlock
+              - sonarqube
+              - logging
+              - tempo
+              - argocd
+              - minio
               names:
               - "*-cypress-test*"
       update-image-pull-policy:
@@ -441,6 +484,36 @@ kyvernopolicies:
           update:
           - from: replace.image.registry
             to: registry1.dso.mil
+      require-drop-all-capabilities:
+        exclude:
+          any:
+          # Gitlab Minio sub-chart does not have configurable securityContext values from upstream. Minio installation 
+          # is only recommended for Dev/CI environments.
+          - resources:
+              namespaces:
+              - gitlab
+              names:
+              - gitlab-minio-*
+      require-non-root-group:
+        exclude:
+          any:
+          # Gitlab Minio sub-chart does not have configurable securityContext values from upstream. Minio installation 
+          # is only recommended for Dev/CI environments.
+          - resources:
+              namespaces:
+              - gitlab
+              names:
+              - gitlab-minio-*
+      require-non-root-user:
+        exclude:
+          any:
+          # Gitlab Minio sub-chart does not have configurable securityContext values from upstream. Minio installation 
+          # is only recommended for Dev/CI environments.
+          - resources:
+              namespaces:
+              - gitlab
+              names:
+              - gitlab-minio-*
 
 logging:
   enabled: true
@@ -505,41 +578,37 @@ loki:
   enabled: false
   strategy: scalable
   values:
-    global:
-      createGlobalConfig: true
-      existingSecretForConfig: "loki-config"
-    loki-simple-scalable:
-      write:
-        replicas: 1
-        persistence:
-          size: 2Gi
-        resources:
-          limits:
-            cpu: 200m
-            memory: 400Mi
-          requests:
-            cpu: 200m
-            memory: 400Mi
-      read:
-        replicas: 1
-        persistence:
-          size: 2Gi
-        resources:
-          limits:
-            cpu: 200m
-            memory: 400Mi
-          requests:
-            cpu: 200m
-            memory: 400Mi
+    minio:
+      enabled: true
+    write:
+      replicas: 1
+      persistence:
+        size: 2Gi
+      resources:
+        limits:
+          cpu: 200m
+          memory: 400Mi
+        requests:
+          cpu: 200m
+          memory: 400Mi
+    read:
+      replicas: 1
+      persistence:
+        size: 2Gi
+      resources:
+        limits:
+          cpu: 200m
+          memory: 400Mi
+        requests:
+          cpu: 200m
+          memory: 400Mi
     bbtests:
       enabled: true
       cypress:
-        artifacts: true
         envs:
           cypress_check_datasource: 'true'
           cypress_grafana_url: 'https://grafana.bigbang.dev'
       scripts:
-        image: registry1.dso.mil/ironbank/big-bang/base:1.17.0
         envs:
           LOKI_URL: 'http://logging-loki-write.logging.svc:3100'
 
@@ -647,6 +716,7 @@ monitoring:
     bbtests:
       enabled: true
       cypress:
+        image: registry.dso.mil/platform-one/big-bang/pipeline-templates/pipeline-templates/cypress/kubectl:8.3.1
         envs:
           cypress_prometheus_url: 'https://prometheus.bigbang.dev'
           cypress_grafana_url: 'https://grafana.bigbang.dev'
@@ -662,6 +732,7 @@ twistlock:
     console:
       persistence:
         size: 256Mi
+      localVolumeUpgrade: true
     bbtests:
       enabled: true
       cypress:
@@ -683,6 +754,9 @@ addons:
       groups: |
         g, Impact Level 2 Authorized, role:admin
     values:
+      sso:
+        rbac:
+          policy.default: role:admin
       controller:
         resources:
           requests:
@@ -1060,7 +1134,7 @@ addons:
       account:
         adminPassword: new_admin_password
         currentAdminPassword: admin
-      curlContainerImage: registry1.dso.mil/ironbank/big-bang/base:1.16.0
+      curlContainerImage: registry1.dso.mil/ironbank/big-bang/base:2.0.0
 
   minioOperator:
     enabled: false
@@ -1068,9 +1142,9 @@ addons:
   minio:
     enabled: false
     values:
-      tenants:
+      tenant:
         pools:
-        - servers: 2
+        - servers: 3
           volumesPerServer: 4
           size: 256Mi
           resources:
@@ -1139,6 +1213,7 @@ addons:
       bbtests:
         enabled: true
         cypress:
+          image: registry.dso.mil/platform-one/big-bang/pipeline-templates/pipeline-templates/cypress/kubectl:8.3.1
           envs:
             cypress_url: https://chat.bigbang.dev
 
@@ -1199,27 +1274,50 @@ addons:
       nexus:
       # https://help.sonatype.com/repomanager3/installation/system-requirements#SystemRequirements-JVMDirectMemory
         env:
-          - name: install4jAddVmParams
-            value: "-Xms500M -Xmx500M -XX:MaxDirectMemorySize=500M -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
+          - name: INSTALL4J_ADD_VM_PARAMS
+            value: "-Dcom.redhat.fips=false -Xms1024M -Xmx1024M -XX:MaxDirectMemorySize=1024M -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Djava.util.prefs.userRoot=/nexus-data/javaprefs"
+          - name: NEXUS_SECURITY_RANDOMPASSWORD
+            value: "true"
         resources:
           requests:
             cpu: 100m
             memory: 1500Mi
+        docker:
+          enabled: true
+          registries:
+            - host: containers.bigbang.dev
+              port: 5000
+        repository:
+          enabled: true
+          repo:
+            - name: "containers"
+              format: "docker"
+              type: "hosted"
+              repo_data:
+                name: "containers"
+                online: true
+                storage:
+                  blobStoreName: "default"
+                  strictContentTypeValidation: true
+                  writePolicy: "allow_once"
+                cleanup:
+                  policyNames:
+                    - "string"
+                component:
+                  proprietaryComponents: true
+                docker:
+                  v1Enabled: false
+                  forceBasicAuth: true
+                  httpPort: 5000
       bbtests:
         enabled: true
         cypress:
           artifacts: true
           envs:
             cypress_nexus_url: "https://nexus.bigbang.dev"
-            cypress_nexus_user: "admin"
-            cypress_nexus_pass_new: "new_admin_password"
-          secretEnvs:
-            - name: cypress_nexus_pass
-              valueFrom:
-                secretKeyRef:
-                  name: nexus-repository-manager-secret
-                  key: admin.password
-
+        scripts:
+          envs:
+            docker_host: "containers.bigbang.dev"
   velero:
     enabled: false
     plugins:
@@ -1385,7 +1483,7 @@ addons:
 
               seal "awskms" {
                 region     = "us-gov-west-1"
-                kms_key_id = "17c01cdf-2bf9-4f58-9a54-c1c4e4b145be"
+                kms_key_id = "mrk-ff723da024254ea2b7f490c68fbc9b9b"
                 endpoint   = "https://kms.us-gov-west-1.amazonaws.com"
               }
 

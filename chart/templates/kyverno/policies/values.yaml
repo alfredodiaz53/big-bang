@@ -1,6 +1,6 @@
 {{- $pkg := "kyvernopolicies" }}
 
-{{- if .Values.kyvernopolicies.enabled }}
+{{- if (get .Values $pkg).enabled }}
 {{- include "values-secret" (dict "root" $ "package" (dict "values" (fromYaml (include "bigbang.overlays.kyvernopolicies" .))) "name" "kyvernopolicies" "defaults" (include "bigbang.defaults.kyvernopolicies" .)) }}
 {{- end }}
 
@@ -44,9 +44,10 @@ policies:
   {{- end }}
   {{- end }}
 
-  {{- if $nodePortIngressGateways }}
   # Istio services (istio ingress) can create type: NodePort services
   disallow-nodeport-services:
+    validationFailureAction: enforce
+    {{- if $nodePortIngressGateways }}
     exclude:
       any:
       - resources:
@@ -58,7 +59,7 @@ policies:
           {{- end }}
           namespaces:
           - "istio-system"
-  {{- end }}
+    {{- end }}
 
   disallow-image-tags:
     validationFailureAction: enforce
@@ -94,16 +95,24 @@ policies:
       {{- end }}
   {{- end }}
 
-  {{- if .Values.addons.gitlab.enabled }}
+{{- if or (.Values.addons.gitlab.enabled) (and (dig "console" "localVolumeUpgrade" false .Values.twistlock.values) (.Release.IsUpgrade)) }}
   disallow-shared-subpath-volume-writes:
     # Subpath volumes can be used in combination with symlinks to break out into the host filesystem
     exclude:
       any:
-      {{- if .Values.addons.gitlab.enabled }}
       - resources:
           namespaces:
+          {{- if .Values.addons.gitlab.enabled }}
           - gitlab
+          {{- end }}
+          {{- if (dig "console" "localVolumeUpgrade" false .Values.twistlock.values) }}
+          - twistlock
+          {{- end }}
           names:
+          {{- if (dig "console" "localVolumeUpgrade" false .Values.twistlock.values) }}
+          - volume-upgrade-job*
+          {{- end }}
+          {{- if .Values.addons.gitlab.enabled }}
           # Volume `toolbox-secrets` is an emptyDir mounted read/write in initContainer `configure`
           # It is also mounted in the container `toolbox` using a subPath, making it open to the
           # vulnerability.  The initContainer uses a shell script, stored in a configmap, to copies
@@ -154,7 +163,7 @@ policies:
           # values from a readOnly projected volume holding secrets/configmap items, into the shared
           # volume. The shared volume is mounted with subpaths pointing to specific files in the container.
           - gitlab-gitaly*
-      {{- end }}
+          {{- end }}
   {{- end }}
 
   {{- if or .Values.fluentbit.enabled .Values.monitoring.enabled .Values.twistlock.enabled }}
@@ -189,6 +198,17 @@ policies:
 
   require-drop-all-capabilities:
     validationFailureAction: audit
+    {{- if .Values.addons.gitlab.enabled }}
+    exclude:
+      any:
+      # Gitlab Redis sub-chart does not have configurable securityContext values from upstream. An issue has been opened 
+      # upstream to add these capabilities: https://gitlab.com/gitlab-org/charts/gitlab/-/issues/3375
+      - resources:
+          namespaces:
+          - gitlab
+          names:
+          - gitlab-redis-*
+    {{- end }}
 
   require-istio-on-namespaces:
     enabled: {{ .Values.istio.enabled }}
@@ -211,7 +231,7 @@ policies:
 
   require-non-root-group:
     validationFailureAction: audit
-    {{- if or $deployRestic .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled }}
+    {{- if or $deployRestic .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled .Values.addons.gitlab.enabled }}
     exclude:
       any:
       {{- if $deployRestic }}
@@ -255,11 +275,20 @@ policies:
           names:
           - logging-promtail*
       {{- end }}
+      {{- if .Values.addons.gitlab.enabled }}
+      # Gitlab Redis sub-chart does not have configurable securityContext values from upstream. An issue has been opened 
+      # upstream to add these capabilities: https://gitlab.com/gitlab-org/charts/gitlab/-/issues/3375
+      - resources:
+          namespaces:
+          - gitlab
+          names:
+          - gitlab-redis-*
+      {{- end }}
     {{- end }}
 
   require-non-root-user:
     validationFailureAction: audit
-    {{- if or $deployRestic .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled }}
+    {{- if or $deployRestic .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled .Values.addons.gitlab.enabled }}
     exclude:
       any:
       {{- if $deployRestic }}
@@ -302,6 +331,15 @@ policies:
           - logging
           names:
           - logging-promtail*
+      {{- end }}
+      {{- if .Values.addons.gitlab.enabled }}
+      # Gitlab Redis sub-chart does not have configurable securityContext values from upstream. An issue has been opened 
+      # upstream to add these capabilities: https://gitlab.com/gitlab-org/charts/gitlab/-/issues/3375
+      - resources:
+          namespaces:
+          - gitlab
+          names:
+          - gitlab-redis-*
       {{- end }}
     {{- end }}
 
@@ -425,7 +463,7 @@ policies:
 
   # NOTE: This restricts the ability to have PVCs when using a local path provisioner storage class (i.e. k3d default).
   # To override either disable this policy (not ideal) or add an allowed wildcard matching where local paths are provisioned.
-  # See `/docs/example_configs/policy-overrides-k3d.yaml` for an example of how to do this for k3d.
+  # See `docs/assets/configs/example/policy-overrides-k3d.yaml` for an example of how to do this for k3d.
   restrict-host-path-mount-pv:
     validationFailureAction: enforce
 

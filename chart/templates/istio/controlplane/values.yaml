@@ -9,6 +9,13 @@ domain: {{ $domainName }}
 
 enterprise: {{ .Values.istio.enterprise }}
 
+{{- if not (semverCompare "<1.19" .Capabilities.KubeVersion.GitVersion) }}
+istiod:
+  env: 
+    - name: ENABLE_LEGACY_FSGROUP_INJECTION
+      value: "false"
+{{- end }}
+
 {{- if or .Values.jaeger.enabled .Values.tempo.enabled }}
 tracing:
 {{- if .Values.jaeger.enabled }}
@@ -33,7 +40,7 @@ imagePullSecrets:
 openshift: {{ .Values.openshift }}
 
 authservice:
-  enabled: {{ or .Values.addons.authservice.enabled .Values.monitoring.sso.enabled .Values.jaeger.sso.enabled }}
+  enabled: {{ or .Values.addons.authservice.enabled (and .Values.monitoring.enabled .Values.monitoring.sso.enabled) (and .Values.jaeger.enabled .Values.jaeger.sso.enabled) (and .Values.tempo.enabled .Values.tempo.sso.enabled) }}
 
 monitoring:
   enabled: {{ .Values.monitoring.enabled }}

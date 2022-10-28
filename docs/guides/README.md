@@ -1,17 +1,30 @@
-# Guides
+# User Guides
 
-## backups-and-migrations
+[[_TOC_]]
 
-Guides on handling backups/migrations using Velero for specific Big Bang packages.
+## Preface
 
-## deployment_scenarios
+The guides included here are not all inclusive of every situation. Please open an issue or provide an MR for any guide improvements or additions.
 
-Beginner friendly how to guides are intended to be added to these subfolders over time.
+## Using Big Bang
 
-## prerequisites
+[Chart Values Guide](./using-bigbang/values-guide.md)
+[Default Credentials](./using-bigbang/default-credentials.md)
+[Image Pull Policy](./using-bigbang/image-pull-policy.md)
+[Pod Usage in Graphana](./using-bigbang/pod-usage-in-grafana.md)
+[Migrating Logging from ELK to PLG](./using-bigbang/efk-plg-logging-migration.md)
 
-Beginner friendly comprehensive explanations of prerequisites that are generically applicable to multiple scenarios
+## Deployment Scenarios
 
-## using_bigbang
+[Quickstart](./deployment-scenarios/quickstart.md)
+[Multiple Ingress](./deployment-scenarios/multiple-ingress.md)
+[SSO Quickstart](./deployment-scenarios/sso-quickstart.md)
 
-Beginner friendly information on how to use Big Bang, intended to encompass how to navigate and work with BB packages
+### Airgap Deployments
+
+[Airgap Deployments](./airgap/README.md)
+
+## Backup and Restore
+
+[GitLab Backup and Restore](./backup-and-restore/gitlab-backup-restore.md)
+[Nexus Migration with Velero](./backup-and-restore/nexus-migration-with-velero.md)
