@@ -13,12 +13,21 @@ spec:
   targetNamespace: cluster-auditor
   chart:
     spec:
+      {{- if .Values.oci.enabled }}
+      chart: {{ .Values.clusterAuditor.oci.name }}
+      version: {{ .Values.clusterAuditor.oci.tag }}
+      sourceRef:
+        kind: HelmRepository
+        name: bigbang-repository
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.clusterAuditor.git.path }}
-      interval: 5m
       sourceRef:
         kind: GitRepository
         name: cluster-auditor
         namespace: {{ .Release.Namespace }}
+      {{- end }}
+      interval: 5m
 
   {{- toYaml $fluxSettingsClusterAuditor | nindent 2 }}
 

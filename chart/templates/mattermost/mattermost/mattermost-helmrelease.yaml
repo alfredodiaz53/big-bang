@@ -14,12 +14,21 @@ spec:
   targetNamespace: mattermost
   chart:
     spec:
+      {{- if .Values.oci.enabled }}
+      chart: {{ .Values.addons.mattermost.oci.name }}
+      version: {{ .Values.addons.mattermost.oci.tag }}
+      sourceRef:
+        kind: HelmRepository
+        name: bigbang-repository
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.addons.mattermost.git.path }}
-      interval: 5m
       sourceRef:
         kind: GitRepository
         name: mattermost
         namespace: {{ .Release.Namespace }}
+      {{- end }}
+      interval: 5m
 
   {{- toYaml $fluxSettingsMattermost | nindent 2 }}
 

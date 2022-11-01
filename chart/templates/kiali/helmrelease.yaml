@@ -13,12 +13,21 @@ spec:
   targetNamespace: kiali
   chart:
     spec:
+      {{- if .Values.oci.enabled }}
+      chart: {{ .Values.kiali.oci.name }}
+      version: {{ .Values.kiali.oci.tag }}
+      sourceRef:
+        kind: HelmRepository
+        name: bigbang-repository
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.kiali.git.path }}
-      interval: 5m
       sourceRef:
         kind: GitRepository
         name: kiali
         namespace: {{ .Release.Namespace }}
+      {{- end }}
+      interval: 5m
 
   {{- toYaml $fluxSettingsKiali | nindent 2 }}
   

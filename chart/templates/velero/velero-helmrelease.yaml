@@ -13,12 +13,21 @@ spec:
   targetNamespace: velero
   chart:
     spec:
+      {{- if .Values.oci.enabled }}
+      chart: {{ .Values.addons.velero.oci.name }}
+      version: {{ .Values.addons.velero.oci.tag }}
+      sourceRef:
+        kind: HelmRepository
+        name: bigbang-repository
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.addons.velero.git.path }}
-      interval: 5m
       sourceRef:
         kind: GitRepository
         name: velero
         namespace: {{ .Release.Namespace }}
+      {{- end }}
+      interval: 5m
 
   {{- toYaml $fluxSettingsVelero | nindent 2 }}
   

@@ -13,12 +13,21 @@ spec:
   targetNamespace: logging
   chart:
     spec:
+      {{- if .Values.oci.enabled }}
+      chart: {{ .Values.logging.oci.name }}
+      version: {{ .Values.logging.oci.tag }}
+      sourceRef:
+        kind: HelmRepository
+        name: bigbang-repository
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.logging.git.path }}
-      interval: 5m
       sourceRef:
         kind: GitRepository
         name: elasticsearch-kibana
         namespace: {{ .Release.Namespace }}
+      {{- end }}
+      interval: 5m
 
   {{- toYaml $fluxSettingsEk | nindent 2 }}
 

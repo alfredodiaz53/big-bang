@@ -13,12 +13,21 @@ spec:
   targetNamespace: jaeger
   chart:
     spec:
+      {{- if .Values.oci.enabled }}
+      chart: {{ .Values.jaeger.oci.name }}
+      version: {{ .Values.jaeger.oci.tag }}
+      sourceRef:
+        kind: HelmRepository
+        name: bigbang-repository
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.jaeger.git.path }}
-      interval: 5m
       sourceRef:
         kind: GitRepository
         name: jaeger
         namespace: {{ .Release.Namespace }}
+      {{- end }}
+      interval: 5m
 
   {{- toYaml $fluxSettingsJaeger | nindent 2 }}
 

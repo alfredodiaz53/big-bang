@@ -13,12 +13,21 @@ spec:
   targetNamespace: logging
   chart:
     spec:
+      {{- if .Values.oci.enabled }}
+      chart: {{ .Values.promtail.oci.name }}
+      version: {{ .Values.promtail.oci.tag }}
+      sourceRef:
+        kind: HelmRepository
+        name: bigbang-repository
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.promtail.git.path }}
-      interval: 5m
       sourceRef:
         kind: GitRepository
         name: promtail
         namespace: {{ .Release.Namespace }}
+      {{- end }}
+      interval: 5m
 
   {{- toYaml $fluxSettingsPromtail | nindent 2 }}
 

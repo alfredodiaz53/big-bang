@@ -9,12 +9,21 @@ spec:
   targetNamespace: minio
   chart:
     spec:
+      {{- if .Values.oci.enabled }}
+      chart: {{ .Values.addons.minio.oci.name }}
+      version: {{ .Values.addons.minio.oci.tag }}
+      sourceRef:
+        kind: HelmRepository
+        name: bigbang-repository
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.addons.minio.git.path }}
-      interval: 5m
       sourceRef:
         kind: GitRepository
         name: minio
         namespace: {{ .Release.Namespace }}
+      {{- end }}
+      interval: 5m
 
   {{- toYaml $fluxSettingsMinio | nindent 2 }}
   

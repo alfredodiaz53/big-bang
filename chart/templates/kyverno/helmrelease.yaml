@@ -13,12 +13,21 @@ spec:
   targetNamespace: kyverno
   chart:
     spec:
+      {{- if .Values.oci.enabled }}
+      chart: {{ .Values.kyverno.oci.name }}
+      version: {{ .Values.kyverno.oci.tag }}
+      sourceRef:
+        kind: HelmRepository
+        name: bigbang-repository
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.kyverno.git.path }}
-      interval: 5m
       sourceRef:
         kind: GitRepository
         name: kyverno
         namespace: {{ .Release.Namespace }}
+      {{- end }}
+      interval: 5m
 
   {{- toYaml $fluxSettingskyverno | nindent 2 }}
 

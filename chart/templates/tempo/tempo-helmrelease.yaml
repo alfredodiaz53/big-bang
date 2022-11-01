@@ -13,12 +13,21 @@ spec:
   targetNamespace: tempo
   chart:
     spec:
+      {{- if .Values.oci.enabled }}
+      chart: {{ .Values.tempo.oci.name }}
+      version: {{ .Values.tempo.oci.tag }}
+      sourceRef:
+        kind: HelmRepository
+        name: bigbang-repository
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.tempo.git.path }}
-      interval: 5m
       sourceRef:
         kind: GitRepository
         name: tempo
         namespace: {{ .Release.Namespace }}
+      {{- end }}
+      interval: 5m
 
   {{- toYaml $fluxSettingsTempo | nindent 2 }}
 

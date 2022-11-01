@@ -13,12 +13,21 @@ spec:
   targetNamespace: mattermost-operator
   chart:
     spec:
+      {{- if .Values.oci.enabled }}
+      chart: {{ .Values.addons.mattermostoperator.oci.name }}
+      version: {{ .Values.addons.mattermostoperator.oci.tag }}
+      sourceRef:
+        kind: HelmRepository
+        name: bigbang-repository
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.addons.mattermostoperator.git.path }}
-      interval: 5m
       sourceRef:
         kind: GitRepository
         name: mattermost-operator
         namespace: {{ .Release.Namespace }}
+      {{- end }}
+      interval: 5m
 
   {{- toYaml $fluxSettingsMattermostOperator | nindent 2 }}
   

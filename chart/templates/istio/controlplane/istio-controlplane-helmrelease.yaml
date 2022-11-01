@@ -13,12 +13,21 @@ spec:
   targetNamespace: istio-system
   chart:
     spec:
+      {{- if .Values.oci.enabled }}
+      chart: {{ .Values.istio.oci.name }}
+      version: {{ .Values.istio.oci.tag }}
+      sourceRef:
+        kind: HelmRepository
+        name: bigbang-repository
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.istio.git.path }}
-      interval: 5m
       sourceRef:
         kind: GitRepository
         name: istio-controlplane
         namespace: {{ .Release.Namespace }}
+      {{- end }}
+      interval: 5m
 
   {{- toYaml $fluxSettingsIstioCp | nindent 2 }}
 

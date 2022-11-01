@@ -1,0 +1,13 @@
+{{- if .Values.oci.enabled  }}
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: bigbang-repository
+  namespace: {{ .Release.Namespace }}
+spec:
+  interval: {{ .Values.flux.interval }}
+  type: "oci"
+  url: {{ .Values.oci.repository }}
+  secretRef:
+    name: bigbang-oci-credentials
+{{- end }}
