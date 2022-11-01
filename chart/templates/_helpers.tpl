@@ -54,6 +54,31 @@ branch: {{ .branch | quote }}
 {{- end -}}
 
 {{/*
+Check for git ref, given package values map
+*/}}
+{{- define "checkGitRef" -}}
+{{- $git := (dig "git" dict .) -}}
+{{- if not $git.repo -}}
+false
+{{- else -}}
+{{- if $git.commit -}}
+{{- if not $git.branch -}}
+false
+{{- end -}}
+true
+{{- else if $git.semver -}}
+true
+{{- else if $git.tag -}}
+true
+{{- else if $git.branch -}}
+true
+{{- else -}}
+false
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Build the appropriate git credentials secret for private git repositories
 */}}
 {{- define "gitCreds" -}}
