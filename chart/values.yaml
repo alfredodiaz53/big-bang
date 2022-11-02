@@ -378,7 +378,7 @@ kyverno:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/kyverno.git
     path: "./chart"
-    tag: "2.5.4-bb.0"
+    tag: "2.6.0-bb.0"
 
   # -- Flux reconciliation overrides specifically for the Kyverno Package
   flux: {}
@@ -413,7 +413,7 @@ kyvernoreporter:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/kyverno-reporter
     path: ./chart
-    tag: "2.13.0-bb.0"
+    tag: "2.13.1-bb.0"
 
   # -- Flux reconciliation overrides specifically for the Kyverno Reporter Package
   flux: {}
@@ -526,7 +526,7 @@ loki:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/loki.git
     path: "./chart"
-    tag: "1.8.10-bb.2"
+    tag: "3.2.1-bb.1"
 
   # -- Flux reconciliation overrides specifically for the Loki Package
   flux: {}
@@ -745,7 +745,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/argocd.git
       path: "./chart"
-      tag: "5.5.7-bb.1"
+      tag: "5.5.7-bb.2"
 
     # -- Flux reconciliation overrides specifically for the ArgoCD Package
     flux: {}
@@ -820,7 +820,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/application-utilities/minio-operator.git
       path: "./chart"
-      tag: "4.5.1-bb.0"
+      tag: "4.5.3-bb.0"
 
     # -- Flux reconciliation overrides specifically for the Minio Operator Package
     flux: {}
@@ -837,7 +837,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/application-utilities/minio.git
       path: "./chart"
-      tag: "4.5.3-bb.0"
+      tag: "4.5.3-bb.1"
 
     # -- Flux reconciliation overrides specifically for the Minio Package
     flux: {}
