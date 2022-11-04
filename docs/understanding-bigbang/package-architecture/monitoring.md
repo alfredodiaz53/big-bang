@@ -198,9 +198,9 @@ Note: Other packages are responsible for deploying Service Monitors for their co
 
 ### HA
 
-#### Alertmanager
-
 Support for Prometheus and other apps within the package are being researched and section will be updated:
+
+#### Alertmanager
 
 High Availability can be accomplished by increasing the number of replicas for the deployment of Alertmanager;
 ```yaml
