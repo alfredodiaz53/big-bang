@@ -1,20 +1,18 @@
-{{- $pkg := "neuvector" }}
-{{- $component := "sandbox" }}
-{{- if (get .Values $pkg).enabled }}
-apiVersion: source.toolkit.fluxcd.io/v1beta1
+{{- if and (not .Values.offline) .Values.neuvector.enabled }}
+apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: GitRepository
 metadata:
-  name: {{ $pkg }}
+  name: neuvector
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: {{ $pkg }}
-    app.kubernetes.io/component: {{ $component | quote }}
+    app.kubernetes.io/name: neuvector
+    app.kubernetes.io/component: "core"
     {{- include "commonLabels" . | nindent 4}}
 spec:
   interval: {{ .Values.flux.interval }}
-  url: {{ (get .Values $pkg).git.repo }}
+  url: {{ .Values.neuvector.git.repo }}
   ref:
-    {{- include "validRef" (get .Values $pkg).git | nindent 4 }}
+    {{- include "validRef" .Values.neuvector.git | nindent 4 }}
   {{ include "gitIgnore" . }}
   {{- include "gitCreds" . | nindent 2 }}
 {{- end }}

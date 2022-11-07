@@ -1,13 +1,11 @@
-{{- $pkg := "neuvector" }}
-{{- $component := "sandbox" }}
-{{- if (get .Values $pkg).enabled }}
+{{- if .Values.neuvector.enabled }}
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: {{ $pkg }}
+  name: neuvector
   labels:
-    app.kubernetes.io/name: {{ $pkg }}
-    app.kubernetes.io/component: {{ $component | quote }}
+    app.kubernetes.io/name: neuvector
+    app.kubernetes.io/component: "sandbox"
     {{- include "commonLabels" . | nindent 4}}
     {{- if .Values.istio.enabled }}
     istio-injection: "enabled"

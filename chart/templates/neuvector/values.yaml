@@ -1,5 +1,3 @@
-{{- $pkg := "neuvector" }}
-{{- $component := "sandbox" }}
 {{- define "bigbang.defaults.neuvector" -}}
 # hostname is deprecated and replaced with domain. But if hostname exists then use it.
 domain: {{ default .Values.domain .Values.hostname }}
@@ -16,6 +14,6 @@ serviceMonitor:
 {{- end }}
 
 {{- /* Create secret */ -}}
-{{- if (get .Values $pkg).enabled }}
+{{- if (get .Values.neuvector.enabled }}
 {{- include "values-secret" (dict "root" $ "package" (get .Values $pkg) "name" $pkg "defaults" (include (printf "bigbang.defaults.%s" $pkg) .)) }}
 {{- end }}
