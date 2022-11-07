@@ -14,6 +14,6 @@ serviceMonitor:
 {{- end }}
 
 {{- /* Create secret */ -}}
-{{- if (get .Values.neuvector.enabled }}
+{{- if .Values.neuvector.enabled }}
 {{- include "values-secret" (dict "root" $ "package" (get .Values $pkg) "name" $pkg "defaults" (include (printf "bigbang.defaults.%s" $pkg) .)) }}
 {{- end }}
