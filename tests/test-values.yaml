@@ -1502,7 +1502,7 @@ addons:
             cypress_vault_url: "https://vault.bigbang.dev"
 
   metricsServer:
-    enabled: true
+    enabled: false
     values:
       replicas: 1
       bbtests:
