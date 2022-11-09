@@ -74,7 +74,8 @@ monitoring:
 
 metrics:
   enabled: {{ .Values.monitoring.enabled }}
-  {{- if .Values.monitoring.enabled }}
+  {{- $istioInjection := (and (eq (dig "istio" "injection" "enabled" .Values.logging) "enabled") .Values.istio.enabled) }}
+  {{- if and (eq (dig "istio" "mtls" "mode" "STRICT" .Values.logging.values) "STRICT") $istioInjection }}
   serviceMonitor:
     scheme: https
     tlsConfig:
