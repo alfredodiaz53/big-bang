@@ -746,7 +746,7 @@ addons:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/argocd.git
       path: "./chart"
       tag: null
-      branch: fix-upgrade-job
+      branch: fix-upgrade-job # need a change to commit
 
     # -- Flux reconciliation overrides specifically for the ArgoCD Package
     flux: {}
