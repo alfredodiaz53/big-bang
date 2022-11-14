@@ -1217,6 +1217,16 @@ addons:
           envs:
             cypress_url: https://chat.bigbang.dev
 
+  neuvector:
+    enabled: false
+    values:
+      bbtest:
+        enabled: true
+        cypress:
+          artifacts: true
+          envs:
+            cypress_url: https://neuvector.bigbang.dev
+
   nexus:
     enabled: false
     # Nexus requires manual configuration in Keycloak client and cannot be tested with login.dso.mil
