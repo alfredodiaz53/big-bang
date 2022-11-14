@@ -723,6 +723,16 @@ monitoring:
           cypress_alertmanager_url: 'https://alertmanager.bigbang.dev'
           cypress_check_istio_dashboards: 'true'
 
+neuvector:
+  enabled: false
+  values:
+    bbtest:
+      enabled: true
+      cypress:
+        artifacts: true
+        envs:
+          cypress_url: https://neuvector.bigbang.dev
+
 twistlock:
   enabled: true
   sso:
@@ -1216,16 +1226,6 @@ addons:
           image: registry.dso.mil/platform-one/big-bang/pipeline-templates/pipeline-templates/cypress/kubectl:8.3.1
           envs:
             cypress_url: https://chat.bigbang.dev
-
-  neuvector:
-    enabled: false
-    values:
-      bbtest:
-        enabled: true
-        cypress:
-          artifacts: true
-          envs:
-            cypress_url: https://neuvector.bigbang.dev
 
   nexus:
     enabled: false
