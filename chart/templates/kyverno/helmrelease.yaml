@@ -13,18 +13,18 @@ spec:
   targetNamespace: kyverno
   chart:
     spec:
-      {{- if .Values.oci.enabled }}
+      {{- if eq (include "checkGitRef" .Values.kyverno) "true" }}
+      chart: {{ .Values.kyverno.git.path }}
+      sourceRef:
+        kind: GitRepository
+        name: kyverno
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.kyverno.oci.name }}
       version: {{ .Values.kyverno.oci.tag }}
       sourceRef:
         kind: HelmRepository
         name: bigbang-repository
-        namespace: {{ .Release.Namespace }}
-      {{- else }}
-      chart: {{ .Values.kyverno.git.path }}
-      sourceRef:
-        kind: GitRepository
-        name: kyverno
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

@@ -13,18 +13,18 @@ spec:
   targetNamespace: cluster-auditor
   chart:
     spec:
-      {{- if .Values.oci.enabled }}
+      {{- if eq (include "checkGitRef" .Values.clusterAuditor) "true" }}
+      chart: {{ .Values.clusterAuditor.git.path }}
+      sourceRef:
+        kind: GitRepository
+        name: cluster-auditor
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.clusterAuditor.oci.name }}
       version: {{ .Values.clusterAuditor.oci.tag }}
       sourceRef:
         kind: HelmRepository
         name: bigbang-repository
-        namespace: {{ .Release.Namespace }}
-      {{- else }}
-      chart: {{ .Values.clusterAuditor.git.path }}
-      sourceRef:
-        kind: GitRepository
-        name: cluster-auditor
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

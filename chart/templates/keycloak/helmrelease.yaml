@@ -16,18 +16,18 @@ spec:
   targetNamespace: {{ $name }}
   chart:
     spec:
-      {{- if .Values.oci.enabled }}
+      {{- if eq (include "checkGitRef" .Values.addons.keycloak) "true" }}
+      chart: {{ .Values.addons.keycloak.git.path }}
+      sourceRef:
+        kind: GitRepository
+        name: {{ $name }}
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.addons.keycloak.oci.name }}
       version: {{ .Values.addons.keycloak.oci.tag }}
       sourceRef:
         kind: HelmRepository
         name: bigbang-repository
-        namespace: {{ .Release.Namespace }}
-      {{- else }}
-      chart: {{ .Values.addons.keycloak.git.path }}
-      sourceRef:
-        kind: GitRepository
-        name: {{ $name }}
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

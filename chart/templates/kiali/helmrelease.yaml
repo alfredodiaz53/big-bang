@@ -13,18 +13,18 @@ spec:
   targetNamespace: kiali
   chart:
     spec:
-      {{- if .Values.oci.enabled }}
+      {{- if eq (include "checkGitRef" .Values.kiali) "true" }}
+      chart: {{ .Values.kiali.git.path }}
+      sourceRef:
+        kind: GitRepository
+        name: kiali
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.kiali.oci.name }}
       version: {{ .Values.kiali.oci.tag }}
       sourceRef:
         kind: HelmRepository
         name: bigbang-repository
-        namespace: {{ .Release.Namespace }}
-      {{- else }}
-      chart: {{ .Values.kiali.git.path }}
-      sourceRef:
-        kind: GitRepository
-        name: kiali
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

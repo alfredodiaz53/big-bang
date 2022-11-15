@@ -13,18 +13,18 @@ spec:
   targetNamespace: gatekeeper-system
   chart:
     spec:
-      {{- if .Values.oci.enabled }}
+      {{- if eq (include "checkGitRef" .Values.gatekeeper) "true" }}
+      chart: {{ .Values.gatekeeper.git.path }}
+      sourceRef:
+        kind: GitRepository
+        name: gatekeeper
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.gatekeeper.oci.name }}
       version: {{ .Values.gatekeeper.oci.tag }}
       sourceRef:
         kind: HelmRepository
         name: bigbang-repository
-        namespace: {{ .Release.Namespace }}
-      {{- else }}
-      chart: {{ .Values.gatekeeper.git.path }}
-      sourceRef:
-        kind: GitRepository
-        name: gatekeeper
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

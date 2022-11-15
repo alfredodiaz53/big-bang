@@ -13,18 +13,18 @@ spec:
   targetNamespace: istio-operator
   chart:
     spec:
-      {{- if .Values.oci.enabled }}
+      {{- if eq (include "checkGitRef" .Values.istiooperator) "true" }}
+      chart: {{ .Values.istiooperator.git.path }}
+      sourceRef:
+        kind: GitRepository
+        name: istio-operator
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.istiooperator.oci.name }}
       version: {{ .Values.istiooperator.oci.tag }}
       sourceRef:
         kind: HelmRepository
         name: bigbang-repository
-        namespace: {{ .Release.Namespace }}
-      {{- else }}
-      chart: {{ .Values.istiooperator.git.path }}
-      sourceRef:
-        kind: GitRepository
-        name: istio-operator
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

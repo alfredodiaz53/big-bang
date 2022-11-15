@@ -14,18 +14,18 @@ spec:
   targetNamespace: gitlab
   chart:
     spec:
-      {{- if .Values.oci.enabled }}
+      {{- if eq (include "checkGitRef" .Values.addons.gitlab) "true" }}
+      chart: {{ .Values.addons.gitlab.git.path }}
+      sourceRef:
+        kind: GitRepository
+        name: gitlab
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.addons.gitlab.oci.name }}
       version: {{ .Values.addons.gitlab.oci.tag }}
       sourceRef:
         kind: HelmRepository
         name: bigbang-repository
-        namespace: {{ .Release.Namespace }}
-      {{- else }}
-      chart: {{ .Values.addons.gitlab.git.path }}
-      sourceRef:
-        kind: GitRepository
-        name: gitlab
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

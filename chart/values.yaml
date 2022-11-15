@@ -130,10 +130,6 @@ istio:
   # -- Toggle deployment of Istio.
   enabled: true
 
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/istio-controlplane.git
-    path: "./chart"
-    tag: "1.15.3-bb.0"
   oci:
     name: "istio"
     tag: "1.15.3-bb.0"
@@ -249,10 +245,6 @@ istio:
 istiooperator:
   # -- Toggle deployment of Istio Operator.
   enabled: true
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/istio-operator.git
-    path: "./chart"
-    tag: "1.15.3-bb.0"
   oci:
     name: "istio-operator"
     tag: "1.15.3-bb.0"
@@ -269,10 +261,6 @@ istiooperator:
 jaeger:
   # -- Toggle deployment of Jaeger.
   enabled: true
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/jaeger.git
-    path: "./chart"
-    tag: "2.37.0-bb.0"
   oci:
     name: "jaeger-operator"
     tag: "2.37.0-bb.0"
@@ -307,10 +295,6 @@ jaeger:
 kiali:
   # -- Toggle deployment of Kiali.
   enabled: true
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/kiali.git
-    path: "./chart"
-    tag: "1.58.0-bb.0"
   oci:
     name: "kiali-operator"
     tag: "1.58.0-bb.0"
@@ -346,10 +330,6 @@ kiali:
 clusterAuditor:
   # -- Toggle deployment of Cluster Auditor.
   enabled: true
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/cluster-auditor.git
-    path: "./chart"
-    tag: "1.5.0-bb.1"
   oci:
     name: "cluster-auditor"
     tag: "1.5.0-bb.1"
@@ -370,10 +350,6 @@ clusterAuditor:
 gatekeeper:
   # -- Toggle deployment of OPA Gatekeeper.
   enabled: true
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/policy.git
-    path: "./chart"
-    tag: "3.9.0-bb.3"
   oci:
     name: "gatekeeper"
     tag: "3.9.0-bb.3"
@@ -398,10 +374,6 @@ gatekeeper:
 kyverno:
   # -- Toggle deployment of Kyverno.
   enabled: false
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/kyverno.git
-    path: "./chart"
-    tag: "2.6.0-bb.1"
   oci:
     name: "kyverno"
     tag: "2.6.0-bb.1"
@@ -419,10 +391,6 @@ kyverno:
 kyvernopolicies:
   # -- Toggle deployment of Kyverno policies
   enabled: false
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/kyverno-policies.git
-    path: ./chart
-    tag: "1.0.1-bb.7"
   oci:
     name: "kyverno-policies"
     tag: "1.0.1-bb.7"
@@ -439,10 +407,6 @@ kyvernopolicies:
 kyvernoreporter:
   # -- Toggle deployment of Kyverno Reporter
   enabled: false
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/kyverno-reporter
-    path: ./chart
-    tag: "2.13.1-bb.0"
   oci:
     name: "policy-reporter"
     tag: "2.13.1-bb.0"
@@ -798,10 +762,6 @@ addons:
   argocd:
     # -- Toggle deployment of ArgoCD.
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/argocd.git
-      path: "./chart"
-      tag: "5.5.7-bb.5"
     oci:
       name: "argo-cd"
       tag: "5.5.7-bb.5"
@@ -853,10 +813,6 @@ addons:
     #     minimal:
     #       callback_uri: "https://somecallback"
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/authservice.git
-      path: "./chart"
-      tag: "0.5.2-bb.1"
     oci:
       name: "authservice"
       tag: "0.5.2-bb.1"
@@ -935,10 +891,6 @@ addons:
       gitlab: gitlab
       registry: registry
 
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/developer-tools/gitlab.git
-      path: "./chart"
-      tag: "6.5.2-bb.0"
     oci:
       name: "gitlab"
       tag: "6.5.2-bb.0"
@@ -1045,10 +997,6 @@ addons:
   gitlabRunner:
     # -- Toggle deployment of Gitlab Runner
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/developer-tools/gitlab-runner.git
-      path: "./chart"
-      tag: "0.45.0-bb.2"
     oci:
       name: "gitlab-runner"
       tag: "0.45.0-bb.2"
@@ -1222,10 +1170,6 @@ addons:
   anchore:
     # -- Toggle deployment of Anchore.
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/anchore-enterprise.git
-      path: "./chart"
-      tag: "1.19.7-bb.3"
     oci:
       name: "anchore-engine"
       tag: "1.19.7-bb.3"
@@ -1464,10 +1408,6 @@ addons:
     # if you enable Keycloak you should uncomment the istio passthrough configurations above
     # istio.ingressGateways.passthrough-ingressgateway and istio.gateways.passthrough
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/keycloak.git
-      path: "./chart"
-      tag: "18.2.1-bb.5"
     oci:
       name: "keycloak"
       tag: "18.2.1-bb.5"
