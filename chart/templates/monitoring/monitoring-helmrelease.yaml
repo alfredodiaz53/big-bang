@@ -13,18 +13,18 @@ spec:
   targetNamespace: monitoring
   chart:
     spec:
-      {{- if .Values.oci.enabled }}
+      {{- if eq (include "checkGitRef" .Values.monitoring) "true" }}
+      chart: {{ .Values.monitoring.git.path }}
+      sourceRef:
+        kind: GitRepository
+        name: monitoring
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.monitoring.oci.name }}
       version: {{ .Values.monitoring.oci.tag }}
       sourceRef:
         kind: HelmRepository
         name: bigbang-repository
-        namespace: {{ .Release.Namespace }}
-      {{- else }}
-      chart: {{ .Values.monitoring.git.path }}
-      sourceRef:
-        kind: GitRepository
-        name: monitoring
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

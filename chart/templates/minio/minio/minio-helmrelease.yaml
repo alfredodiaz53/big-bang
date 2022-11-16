@@ -9,18 +9,18 @@ spec:
   targetNamespace: minio
   chart:
     spec:
-      {{- if .Values.oci.enabled }}
+      {{- if eq (include "checkGitRef" .Values.addons.minio) "true" }}
+      chart: {{ .Values.addons.minio.git.path }}
+      sourceRef:
+        kind: GitRepository
+        name: minio
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.addons.minio.oci.name }}
       version: {{ .Values.addons.minio.oci.tag }}
       sourceRef:
         kind: HelmRepository
         name: bigbang-repository
-        namespace: {{ .Release.Namespace }}
-      {{- else }}
-      chart: {{ .Values.addons.minio.git.path }}
-      sourceRef:
-        kind: GitRepository
-        name: minio
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

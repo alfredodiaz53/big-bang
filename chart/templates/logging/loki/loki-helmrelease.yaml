@@ -14,7 +14,7 @@ spec:
   targetNamespace: logging
   chart:
     spec:
-      {{- if eq (include "checkGitRef" .Values.addons.anchore) "true" }}
+      {{- if eq (include "checkGitRef" .Values.loki) "true" }}
       chart: {{ .Values.loki.git.path }}
       sourceRef:
         kind: GitRepository

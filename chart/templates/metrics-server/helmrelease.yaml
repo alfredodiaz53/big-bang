@@ -17,18 +17,18 @@ spec:
   targetNamespace: metrics-server
   chart:
     spec:
-      {{- if .Values.oci.enabled }}
+      {{- if eq (include "checkGitRef" .Values.addons.metricsServer) "true" }}
+      chart: {{ .Values.addons.metricsServer.git.path }}
+      sourceRef:
+        kind: GitRepository
+        name: metrics-server
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.addons.metricsServer.oci.name }}
       version: {{ .Values.addons.metricsServer.oci.tag }}
       sourceRef:
         kind: HelmRepository
         name: bigbang-repository
-        namespace: {{ .Release.Namespace }}
-      {{- else }}
-      chart: {{ .Values.addons.metricsServer.git.path }}
-      sourceRef:
-        kind: GitRepository
-        name: metrics-server
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m
