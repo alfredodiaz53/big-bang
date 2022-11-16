@@ -13,18 +13,18 @@ spec:
   targetNamespace: tempo
   chart:
     spec:
-      {{- if .Values.oci.enabled }}
+      {{- if eq (include "checkGitRef" .Values.tempo) "true" }}
+      chart: {{ .Values.tempo.git.path }}
+      sourceRef:
+        kind: GitRepository
+        name: tempo
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.tempo.oci.name }}
       version: {{ .Values.tempo.oci.tag }}
       sourceRef:
         kind: HelmRepository
         name: bigbang-repository
-        namespace: {{ .Release.Namespace }}
-      {{- else }}
-      chart: {{ .Values.tempo.git.path }}
-      sourceRef:
-        kind: GitRepository
-        name: tempo
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

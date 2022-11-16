@@ -13,18 +13,18 @@ spec:
   targetNamespace: velero
   chart:
     spec:
-      {{- if .Values.oci.enabled }}
+      {{- if eq (include "checkGitRef" .Values.addons.velero) "true" }}
+      chart: {{ .Values.addons.velero.git.path }}
+      sourceRef:
+        kind: GitRepository
+        name: velero
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.addons.velero.oci.name }}
       version: {{ .Values.addons.velero.oci.tag }}
       sourceRef:
         kind: HelmRepository
         name: bigbang-repository
-        namespace: {{ .Release.Namespace }}
-      {{- else }}
-      chart: {{ .Values.addons.velero.git.path }}
-      sourceRef:
-        kind: GitRepository
-        name: velero
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

@@ -14,18 +14,18 @@ spec:
   releaseName: nexus-repository-manager
   chart:
     spec:
-      {{- if .Values.oci.enabled }}
+      {{- if eq (include "checkGitRef" .Values.addons.nexus) "true" }}
+      chart: {{ .Values.addons.nexus.git.path }}
+      sourceRef:
+        kind: GitRepository
+        name: nexus-repository-manager
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.addons.nexus.oci.name }}
       version: {{ .Values.addons.nexus.oci.tag }}
       sourceRef:
         kind: HelmRepository
         name: bigbang-repository
-        namespace: {{ .Release.Namespace }}
-      {{- else }}
-      chart: {{ .Values.addons.nexus.git.path }}
-      sourceRef:
-        kind: GitRepository
-        name: nexus-repository-manager
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

@@ -559,10 +559,6 @@ loki:
 tempo:
   # -- Toggle deployment of Tempo.
   enabled: false
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/tempo.git
-    path: "./chart"
-    tag: "0.16.1-bb.2"
   oci:
     name: "tempo"
     tag: "0.16.1-bb.2"
@@ -682,10 +678,6 @@ monitoring:
 twistlock:
   # -- Toggle deployment of Twistlock.
   enabled: true
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/twistlock.git
-    path: "./chart"
-    tag: "0.11.3-bb.2"
   oci:
     name: "twistlock"
     tag: "0.11.3-bb.2"
@@ -981,10 +973,6 @@ addons:
   nexus:
     # -- Toggle deployment of Nexus.
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/developer-tools/nexus.git
-      path: "./chart"
-      tag: "42.0.0-bb.0"
     oci:
       name: "nexus-repository-manager"
       tag: "42.0.0-bb.0"
@@ -1049,10 +1037,6 @@ addons:
   sonarqube:
     # -- Toggle deployment of SonarQube.
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/developer-tools/sonarqube.git
-      path: "./chart"
-      tag: "1.0.31-bb.1"
     oci:
       name: "sonarqube"
       tag: "1.0.31-bb.1"
@@ -1337,10 +1321,6 @@ addons:
     # -- Toggle deployment of Velero.
     enabled: false
 
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/cluster-utilities/velero.git
-      path: "./chart"
-      tag: "2.31.8-bb.2"
     oci:
       name: "velero"
       tag: "2.31.8-bb.2"
@@ -1416,10 +1396,6 @@ addons:
   vault:
     # -- Toggle deployment of Vault.
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/vault.git
-      path: "./chart"
-      tag: "0.22.0-bb.3"
     oci:
       name: "vault"
       tag: "0.22.0-bb.3"

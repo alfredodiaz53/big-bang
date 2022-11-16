@@ -9,7 +9,7 @@ spec:
   targetNamespace: minio-operator
   chart:
     spec:
-      {{- if eq (include "checkGitRef" .Values.addons.anchore) "true" }}
+      {{- if eq (include "checkGitRef" .Values.addons.minioOperator) "true" }}
       chart: {{ .Values.addons.minioOperator.git.path }}
       sourceRef:
         kind: GitRepository
