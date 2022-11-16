@@ -24,7 +24,7 @@ registryCredentials:
 #    password: ""
 #    email: ""
 
-# -- OCI feature values - when enabled deploys helm charts from the given OCI repo
+# -- OCI feature values - used to deploy helm charts from the given OCI repo
 oci:
   repository: oci://registry1.dso.mil/bigbang
 
