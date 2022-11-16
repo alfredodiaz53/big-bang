@@ -375,7 +375,7 @@ kyverno:
   enabled: false
   oci:
     name: "kyverno"
-    tag: "2.6.0-bb.1"
+    tag: "2.6.0-bb.2"
 
   # -- Flux reconciliation overrides specifically for the Kyverno Package
   flux: {}
@@ -481,7 +481,7 @@ fluentbit:
   enabled: true
   oci:
     name: "fluent-bit"
-    tag: "0.20.9-bb.0"
+    tag: "0.20.10-bb.0"
 
   # -- Flux reconciliation overrides specifically for the Fluent-Bit Package
   flux: {}
@@ -820,7 +820,7 @@ addons:
     enabled: false
     oci:
       name: "minio-instance"
-      tag: "4.5.3-bb.1"
+      tag: "4.5.4-bb.0"
 
     # -- Flux reconciliation overrides specifically for the Minio Package
     flux: {}
@@ -1322,7 +1322,7 @@ addons:
 
     oci:
       name: "velero"
-      tag: "2.31.8-bb.2"
+      tag: "2.31.8-bb.3"
 
     # -- Flux reconciliation overrides specifically for the Velero Package
     flux: {}
@@ -1397,7 +1397,7 @@ addons:
     enabled: false
     oci:
       name: "vault"
-      tag: "0.22.0-bb.3"
+      tag: "0.22.0-bb.4"
 
     # -- Flux reconciliation overrides specifically for the Vault Package
     flux: {}
