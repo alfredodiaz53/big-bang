@@ -4,5 +4,3 @@ include:
     file: '/pipelines/bigbang.yaml'
 variables:
   PIPELINE_REPO_BRANCH: 'neuvector-additions'
-  DEBUG_ENABLED: "true"
-
