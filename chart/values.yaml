@@ -26,7 +26,6 @@ registryCredentials:
 
 # -- OCI feature values - when enabled deploys helm charts from the given OCI repo
 oci:
-  enabled: false
   repository: oci://registry1.dso.mil/bigbang
 
 # -- Openshift Container Platform Feature Toggle
