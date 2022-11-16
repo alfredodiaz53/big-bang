@@ -428,10 +428,6 @@ kyvernoreporter:
 logging:
   # -- Toggle deployment of Logging (EFK).
   enabled: true
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/elasticsearch-kibana.git
-    path: "./chart"
-    tag: "0.12.1-bb.1"
   oci:
     name: "logging"
     tag: "0.12.1-bb.1"
@@ -471,10 +467,6 @@ logging:
 eckoperator:
   # -- Toggle deployment of ECK Operator.
   enabled: true
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/eck-operator.git
-    path: "./chart"
-    tag: "2.4.0-bb.0"
   oci:
     name: "eck-operator"
     tag: "2.4.0-bb.0"
@@ -488,10 +480,6 @@ eckoperator:
 fluentbit:
   # -- Toggle deployment of Fluent-Bit.
   enabled: true
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/fluentbit.git
-    path: "./chart"
-    tag: "0.20.9-bb.0"
   oci:
     name: "fluent-bit"
     tag: "0.20.9-bb.0"
@@ -511,10 +499,6 @@ fluentbit:
 promtail:
   # -- Toggle deployment of Promtail.
   enabled: false
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/promtail.git
-    path: "./chart"
-    tag: "6.2.2-bb.2"
   oci:
     name: "promtail"
     tag: "6.2.2-bb.2"
@@ -531,10 +515,6 @@ promtail:
 loki:
   # -- Toggle deployment of Loki.
   enabled: false
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/loki.git
-    path: "./chart"
-    tag: "3.2.1-bb.3"
   oci:
     name: "loki"
     tag: "3.2.1-bb.3"
