@@ -13,18 +13,18 @@ spec:
   targetNamespace: eck-operator
   chart:
     spec:
-      {{- if .Values.oci.enabled }}
+      {{- if eq (include "checkGitRef" .Values.eckoperator) "true" }}
+      chart: {{ .Values.eckoperator.git.path }}
+      sourceRef:
+        kind: GitRepository
+        name: eck-operator
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.eckoperator.oci.name }}
       version: {{ .Values.eckoperator.oci.tag }}
       sourceRef:
         kind: HelmRepository
         name: bigbang-repository
-        namespace: {{ .Release.Namespace }}
-      {{- else }}
-      chart: {{ .Values.eckoperator.git.path }}
-      sourceRef:
-        kind: GitRepository
-        name: eck-operator
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

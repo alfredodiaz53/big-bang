@@ -14,18 +14,18 @@ spec:
   targetNamespace: logging
   chart:
     spec:
-      {{- if .Values.oci.enabled }}
+      {{- if eq (include "checkGitRef" .Values.addons.anchore) "true" }}
+      chart: {{ .Values.loki.git.path }}
+      sourceRef:
+        kind: GitRepository
+        name: loki
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.loki.oci.name }}
       version: {{ .Values.loki.oci.tag }}
       sourceRef:
         kind: HelmRepository
         name: bigbang-repository
-        namespace: {{ .Release.Namespace }}
-      {{- else }}
-      chart: {{ .Values.loki.git.path }}
-      sourceRef:
-        kind: GitRepository
-        name: loki
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

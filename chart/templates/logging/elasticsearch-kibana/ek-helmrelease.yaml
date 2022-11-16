@@ -13,18 +13,18 @@ spec:
   targetNamespace: logging
   chart:
     spec:
-      {{- if .Values.oci.enabled }}
+      {{- if eq (include "checkGitRef" .Values.addons.anchore) "true" }}
+      chart: {{ .Values.logging.git.path }}
+      sourceRef:
+        kind: GitRepository
+        name: elasticsearch-kibana
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.logging.oci.name }}
       version: {{ .Values.logging.oci.tag }}
       sourceRef:
         kind: HelmRepository
         name: bigbang-repository
-        namespace: {{ .Release.Namespace }}
-      {{- else }}
-      chart: {{ .Values.logging.git.path }}
-      sourceRef:
-        kind: GitRepository
-        name: elasticsearch-kibana
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

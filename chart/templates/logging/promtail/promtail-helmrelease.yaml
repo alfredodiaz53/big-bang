@@ -13,18 +13,18 @@ spec:
   targetNamespace: logging
   chart:
     spec:
-      {{- if .Values.oci.enabled }}
+      {{- if eq (include "checkGitRef" .Values.promtail) "true" }}
+      chart: {{ .Values.promtail.git.path }}
+      sourceRef:
+        kind: GitRepository
+        name: promtail
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.promtail.oci.name }}
       version: {{ .Values.promtail.oci.tag }}
       sourceRef:
         kind: HelmRepository
         name: bigbang-repository
-        namespace: {{ .Release.Namespace }}
-      {{- else }}
-      chart: {{ .Values.promtail.git.path }}
-      sourceRef:
-        kind: GitRepository
-        name: promtail
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

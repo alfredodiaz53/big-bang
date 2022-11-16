@@ -13,18 +13,18 @@ spec:
   targetNamespace: logging
   chart:
     spec:
-      {{- if .Values.oci.enabled }}
+      {{- if eq (include "checkGitRef" .Values.addons.anchore) "true" }}
+      chart: {{ .Values.fluentbit.git.path }}
+      sourceRef:
+        kind: GitRepository
+        name: fluentbit
+        namespace: {{ .Release.Namespace }}
+      {{- else }}
       chart: {{ .Values.fluentbit.oci.name }}
       version: {{ .Values.fluentbit.oci.tag }}
       sourceRef:
         kind: HelmRepository
         name: bigbang-repository
-        namespace: {{ .Release.Namespace }}
-      {{- else }}
-      chart: {{ .Values.fluentbit.git.path }}
-      sourceRef:
-        kind: GitRepository
-        name: fluentbit
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m
