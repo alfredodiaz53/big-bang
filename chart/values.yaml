@@ -26,13 +26,14 @@ registryCredentials:
 
 # -- List of OCI repositories/credentials to pull helm charts from
 # Must specify username/password or existingSecret (of type kubernetes.io/dockerconfigjson) if repository requires auth
+# Default existingSecret will reuse credentials from registryCredentials above
 ociRepositories:
   - name: "registry1"
     repository: "oci://registry1.dso.mil/bigbang"
+    existingSecret: "private-registry"
     username: ""
     password: ""
     email: ""
-    existingSecret: ""
 
 # -- Openshift Container Platform Feature Toggle
 openshift: false
