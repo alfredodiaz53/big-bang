@@ -342,7 +342,7 @@ gatekeeper:
   enabled: true
   oci:
     name: "gatekeeper"
-    tag: "3.9.0-bb.3"
+    tag: "3.10.0-bb.0"
     repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the OPA Gatekeeper Package
@@ -464,7 +464,7 @@ eckoperator:
   enabled: true
   oci:
     name: "eck-operator"
-    tag: "2.4.0-bb.0"
+    tag: "2.5.0-bb.0"
     repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the ECK Operator Package
@@ -983,7 +983,7 @@ addons:
     enabled: false
     oci:
       name: "nexus-repository-manager"
-      tag: "42.0.0-bb.0"
+      tag: "42.0.0-bb.1"
       repo: "registry1"
 
     # -- Base64 encoded license file.
