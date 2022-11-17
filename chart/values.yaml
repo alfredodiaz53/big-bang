@@ -1426,7 +1426,7 @@ addons:
     enabled: auto
     oci:
       name: "metrics-server"
-      tag: "3.8.0-bb.5"
+      tag: "3.8.0-bb.6"
 
     # -- Flux reconciliation overrides specifically for the metrics server Package
     flux: {}
