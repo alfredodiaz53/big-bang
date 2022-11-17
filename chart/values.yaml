@@ -118,6 +118,7 @@ istio:
   oci:
     name: "istio"
     tag: "1.15.3-bb.0"
+    repo: "registry1"
 
   # -- Tetrate Istio Distribution - Tetrate provides FIPs verified Istio and Envoy software and support,
   # validated through the FIPs Boring Crypto module. Find out more from Tetrate - https://www.tetrate.io/tetrate-istio-subscription
@@ -233,6 +234,7 @@ istiooperator:
   oci:
     name: "istio-operator"
     tag: "1.15.3-bb.0"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Istio Operator Package
   flux: {}
@@ -249,6 +251,7 @@ jaeger:
   oci:
     name: "jaeger-operator"
     tag: "2.37.0-bb.0"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Jaeger Package
   flux:
@@ -283,6 +286,7 @@ kiali:
   oci:
     name: "kiali-operator"
     tag: "1.58.0-bb.0"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Kiali Package
   flux: {}
@@ -318,6 +322,7 @@ clusterAuditor:
   oci:
     name: "cluster-auditor"
     tag: "1.5.0-bb.1"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Cluster Auditor Package
   flux: {}
@@ -338,6 +343,7 @@ gatekeeper:
   oci:
     name: "gatekeeper"
     tag: "3.9.0-bb.3"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the OPA Gatekeeper Package
   flux:
@@ -362,6 +368,7 @@ kyverno:
   oci:
     name: "kyverno"
     tag: "2.6.0-bb.2"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Kyverno Package
   flux: {}
@@ -379,6 +386,7 @@ kyvernopolicies:
   oci:
     name: "kyverno-policies"
     tag: "1.0.1-bb.7"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Kyverno Package
   flux: {}
@@ -395,6 +403,7 @@ kyvernoreporter:
   oci:
     name: "policy-reporter"
     tag: "2.13.1-bb.0"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Kyverno Reporter Package
   flux: {}
@@ -416,6 +425,7 @@ logging:
   oci:
     name: "logging"
     tag: "0.12.1-bb.1"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Logging (EFK) Package
   flux:
@@ -455,6 +465,7 @@ eckoperator:
   oci:
     name: "eck-operator"
     tag: "2.4.0-bb.0"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the ECK Operator Package
   flux: {}
@@ -468,6 +479,7 @@ fluentbit:
   oci:
     name: "fluent-bit"
     tag: "0.20.10-bb.0"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Fluent-Bit Package
   flux: {}
@@ -487,6 +499,7 @@ promtail:
   oci:
     name: "promtail"
     tag: "6.2.2-bb.2"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Promtail Package
   flux: {}
@@ -503,6 +516,7 @@ loki:
   oci:
     name: "loki"
     tag: "3.2.1-bb.3"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Loki Package
   flux: {}
@@ -547,6 +561,7 @@ tempo:
   oci:
     name: "tempo"
     tag: "0.16.1-bb.2"
+    repo: "registry1"
 
   # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
   ingress:
@@ -606,6 +621,7 @@ monitoring:
   oci:
     name: "kube-prometheus-stack"
     tag: "41.7.3-bb.0"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Monitoring Package
   flux:
@@ -666,6 +682,7 @@ twistlock:
   oci:
     name: "twistlock"
     tag: "0.11.3-bb.2"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Twistlock Package
   flux: {}
@@ -718,6 +735,7 @@ addons:
     oci:
       name: "argo-cd"
       tag: "5.5.7-bb.5"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the ArgoCD Package
     flux: {}
@@ -769,6 +787,7 @@ addons:
     oci:
       name: "authservice"
       tag: "0.5.2-bb.1"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Authservice Package
     flux: {}
@@ -791,6 +810,7 @@ addons:
     oci:
       name: "minio-operator"
       tag: "4.5.3-bb.0"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Minio Operator Package
     flux: {}
@@ -807,6 +827,7 @@ addons:
     oci:
       name: "minio-instance"
       tag: "4.5.4-bb.0"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Minio Package
     flux: {}
@@ -839,6 +860,7 @@ addons:
     oci:
       name: "gitlab"
       tag: "6.5.2-bb.0"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Gitlab Package
     flux: {}
@@ -945,6 +967,7 @@ addons:
     oci:
       name: "gitlab-runner"
       tag: "0.45.0-bb.2"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Gitlab Runner Package
     flux: {}
@@ -961,6 +984,7 @@ addons:
     oci:
       name: "nexus-repository-manager"
       tag: "42.0.0-bb.0"
+      repo: "registry1"
 
     # -- Base64 encoded license file.
     license_key: ""
@@ -1025,6 +1049,7 @@ addons:
     oci:
       name: "sonarqube"
       tag: "1.0.31-bb.1"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Sonarqube Package
     flux: {}
@@ -1110,6 +1135,7 @@ addons:
     oci:
       name: "anchore-engine"
       tag: "1.19.7-bb.3"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Anchore Package
     flux:
@@ -1195,6 +1221,7 @@ addons:
     oci:
       name: "mattermost-operator"
       tag: "1.18.1-bb.1"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Mattermost Operator Package
     flux: {}
@@ -1211,6 +1238,7 @@ addons:
     oci:
       name: "mattermost"
       tag: "7.4.0-bb.0"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Mattermost Package
     flux: {}
@@ -1309,6 +1337,7 @@ addons:
     oci:
       name: "velero"
       tag: "2.31.8-bb.3"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Velero Package
     flux: {}
@@ -1336,6 +1365,7 @@ addons:
     oci:
       name: "keycloak"
       tag: "18.2.1-bb.5"
+      repo: "registry1"
 
     database:
       # -- Hostname of a pre-existing database to use for Keycloak.
@@ -1384,6 +1414,7 @@ addons:
     oci:
       name: "vault"
       tag: "0.22.0-bb.4"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Vault Package
     flux: {}
@@ -1413,6 +1444,7 @@ addons:
     oci:
       name: "metrics-server"
       tag: "3.8.0-bb.6"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the metrics server Package
     flux: {}

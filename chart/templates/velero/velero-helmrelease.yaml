@@ -24,7 +24,7 @@ spec:
       version: {{ .Values.addons.velero.oci.tag }}
       sourceRef:
         kind: HelmRepository
-        name: bigbang-repository
+        name: {{ .Values.addons.velero.oci.repo }}
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

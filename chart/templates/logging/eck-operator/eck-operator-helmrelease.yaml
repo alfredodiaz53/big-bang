@@ -24,7 +24,7 @@ spec:
       version: {{ .Values.eckoperator.oci.tag }}
       sourceRef:
         kind: HelmRepository
-        name: bigbang-repository
+        name: {{ .Values.eckoperator.oci.repo }}
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

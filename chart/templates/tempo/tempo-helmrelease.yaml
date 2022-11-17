@@ -24,7 +24,7 @@ spec:
       version: {{ .Values.tempo.oci.tag }}
       sourceRef:
         kind: HelmRepository
-        name: bigbang-repository
+        name: {{ .Values.tempo.oci.repo }}
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

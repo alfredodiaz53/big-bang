@@ -24,7 +24,7 @@ spec:
       version: {{ .Values.kiali.oci.tag }}
       sourceRef:
         kind: HelmRepository
-        name: bigbang-repository
+        name: {{ .Values.kiali.oci.repo }}
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

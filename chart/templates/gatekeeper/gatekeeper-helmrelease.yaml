@@ -24,7 +24,7 @@ spec:
       version: {{ .Values.gatekeeper.oci.tag }}
       sourceRef:
         kind: HelmRepository
-        name: bigbang-repository
+        name: {{ .Values.gatekeeper.oci.repo }}
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

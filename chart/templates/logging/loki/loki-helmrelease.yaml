@@ -25,7 +25,7 @@ spec:
       version: {{ .Values.loki.oci.tag }}
       sourceRef:
         kind: HelmRepository
-        name: bigbang-repository
+        name: {{ .Values.loki.oci.repo }}
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

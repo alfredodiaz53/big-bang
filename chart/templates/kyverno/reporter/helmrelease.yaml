@@ -24,7 +24,7 @@ spec:
       version: {{ (get .Values $pkg).oci.tag }}
       sourceRef:
         kind: HelmRepository
-        name: bigbang-repository
+        name: {{ (get .Values $pkg).oci.repo }}
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

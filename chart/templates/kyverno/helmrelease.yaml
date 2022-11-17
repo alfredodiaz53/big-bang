@@ -24,7 +24,7 @@ spec:
       version: {{ .Values.kyverno.oci.tag }}
       sourceRef:
         kind: HelmRepository
-        name: bigbang-repository
+        name: {{ .Values.kyverno.oci.repo }}
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

@@ -25,7 +25,7 @@ spec:
       version: {{ .Values.addons.vault.oci.tag }}
       sourceRef:
         kind: HelmRepository
-        name: bigbang-repository
+        name: {{ .Values.addons.vault.oci.repo }}
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m
