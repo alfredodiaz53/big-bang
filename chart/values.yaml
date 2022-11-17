@@ -24,33 +24,18 @@ registryCredentials:
 #    password: ""
 #    email: ""
 
-# -- OCI feature values - used to deploy helm charts from the given OCI repo
-oci:
-  repository: oci://registry1.dso.mil/bigbang
+# -- List of OCI repositories/credentials to pull helm charts from
+# Must specify username/password or existingSecret (of type kubernetes.io/dockerconfigjson) if repository requires auth
+ociRepositories:
+  - name: "registry1"
+    repository: "oci://registry1.dso.mil/bigbang"
+    username: ""
+    password: ""
+    email: ""
+    existingSecret: ""
 
 # -- Openshift Container Platform Feature Toggle
 openshift: false
-
-# -- Git credential settings for accessing private repositories
-# Order of precedence is:
-#   1. existingSecret
-#   2. http credentials (username/password/caFile)
-#   3. ssh credentials (privateKey/publicKey/knownHosts)
-git:
-  # -- Existing secret to use for git credentials, must be in the appropriate format: https://toolkit.fluxcd.io/components/source/gitrepositories/#https-authentication
-  existingSecret: ""
-
-  # -- Chart created secrets with user defined values
-  credentials:
-    # -- HTTP git credentials, both username and password must be provided
-    username: ""
-    password: ""
-    # -- HTTPS certificate authority file.  Required for any repo with a self signed certificate
-    caFile: ""
-    # -- SSH git credentials, privateKey, publicKey, and knownHosts must be provided
-    privateKey: ""
-    publicKey: ""
-    knownHosts: ""
 
 # -- Global SSO values used for BigBang deployments when sso is enabled, can be overridden by individual packages.
 sso:
