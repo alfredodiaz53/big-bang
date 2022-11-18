@@ -859,7 +859,7 @@ addons:
 
     oci:
       name: "gitlab"
-      tag: "6.5.2-bb.0"
+      tag: "6.5.2-bb.1"
       repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Gitlab Package
