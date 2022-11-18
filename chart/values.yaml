@@ -353,7 +353,8 @@ gatekeeper:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/policy.git
     path: "./chart"
-    tag: "3.9.0-bb.3"
+    tag: null
+    branch: "neuvector-temp-fix"
 
   # -- Flux reconciliation overrides specifically for the OPA Gatekeeper Package
   flux:
@@ -396,7 +397,8 @@ kyvernopolicies:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/kyverno-policies.git
     path: ./chart
-    tag: "1.0.1-bb.6"
+    tag: null
+    branch: "neuvector-temp-fix"
 
   # -- Flux reconciliation overrides specifically for the Kyverno Package
   flux: {}
