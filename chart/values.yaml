@@ -285,7 +285,7 @@ kiali:
   enabled: true
   oci:
     name: "kiali-operator"
-    tag: "1.58.0-bb.0"
+    tag: "1.59.1-bb.0"
     repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Kiali Package
