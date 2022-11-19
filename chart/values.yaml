@@ -526,7 +526,8 @@ loki:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/loki.git
     path: "./chart"
-    tag: "3.2.1-bb.3"
+    tag: null
+    branch: "renovate/ironbank"
 
   # -- Flux reconciliation overrides specifically for the Loki Package
   flux: {}
