@@ -62,6 +62,9 @@ sso:
   # -- Keycloak realm's json web key output, obtained at https://<keycloak-server>/auth/realms/<realm>/protocol/openid-connect/certs
   jwks: ''
 
+  # -- Optional use of JWKS fetcher config for ease of use and automation. Fill in JWKS URI value of OIDC endpoint, can be found under the well known OpenID metadata configuration page of your provider.
+  jwks_uri: ""
+
   # -- OIDC client ID used for packages authenticated through authservice
   client_id: ""
 
