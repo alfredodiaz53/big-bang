@@ -82,12 +82,12 @@ secrets:
   {{- if .host }}
   env:
     stringData:
-      DB_USER: {{ .username | quote }}
-      DB_PASSWORD: {{ .password | quote }}
-      DB_VENDOR: {{ default "postgres" .type }}
-      DB_ADDR: {{ .host }}
-      DB_PORT: {{ .port | quote }}
-      DB_DATABASE: {{ .database }}
+      KC_DB_USERNAME: {{ .username | quote }}
+      KC_DB_PASSWORD: {{ .password | quote }}
+      KC_DB: {{ default "postgres" .type }}
+      KC_DB_URL_HOST: {{ .host }}
+      KC_DB_URL_PORT: {{ .port | quote }}
+      KC_DB_URL_DATABASE: {{ .database }}
   {{- end }}
   {{- end }}
 {{- end }}
@@ -102,12 +102,21 @@ extraVolumesBigBang:
       secretName: keycloak-tlskey
 
 extraVolumeMountsBigBang:
+  # keep /etc/x509/https/ for legacy backwards compatibility in the bigbang chart
   - name: tlscert
     mountPath: /etc/x509/https/tls.crt
     subPath: tls.crt
     readOnly: true
   - name: tlskey
     mountPath: /etc/x509/https/tls.key
+    subPath: tls.key
+    readOnly: true
+  - name: tlscert
+    mountPath: /opt/keycloak/conf/tls.crt
+    subPath: tls.crt
+    readOnly: true
+  - name: tlskey
+    mountPath: /opt/keycloak/conf/tls.key
     subPath: tls.key
     readOnly: true
 {{- end }}
