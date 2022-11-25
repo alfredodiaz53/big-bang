@@ -82,6 +82,14 @@ secrets:
   {{- if .host }}
   env:
     stringData:
+      # keep legacy ENVs for backwards compatibility
+      DB_USER: {{ .username | quote }}
+      DB_PASSWORD: {{ .password | quote }}
+      DB_VENDOR: {{ default "postgres" .type }}
+      DB_ADDR: {{ .host }}
+      DB_PORT: {{ .port | quote }}
+      DB_DATABASE: {{ .database }}
+      # Quarkus ENVs
       KC_DB_USERNAME: {{ .username | quote }}
       KC_DB_PASSWORD: {{ .password | quote }}
       KC_DB: {{ default "postgres" .type }}
