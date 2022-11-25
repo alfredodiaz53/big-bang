@@ -110,7 +110,7 @@ extraVolumesBigBang:
       secretName: keycloak-tlskey
 
 extraVolumeMountsBigBang:
-  # keep /etc/x509/https/ for legacy backwards compatibility in the bigbang chart
+  # keep /etc/x509/https/ for legacy backwards compatibility
   - name: tlscert
     mountPath: /etc/x509/https/tls.crt
     subPath: tls.crt
@@ -119,6 +119,7 @@ extraVolumeMountsBigBang:
     mountPath: /etc/x509/https/tls.key
     subPath: tls.key
     readOnly: true
+  # Quarkus cert paths
   - name: tlscert
     mountPath: /opt/keycloak/conf/tls.crt
     subPath: tls.crt
