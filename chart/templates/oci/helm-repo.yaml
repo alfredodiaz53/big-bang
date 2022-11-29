@@ -8,6 +8,9 @@ spec:
   interval: {{ $.Values.flux.interval }}
   type: "oci"
   url: {{ .repository }}
+  {{- if or .existingSecret (and .username .password) }}
   secretRef:
     name: {{ .existingSecret | default (printf "%s-secret" .name) }}
+  {{- end }}
+---
 {{- end }}
