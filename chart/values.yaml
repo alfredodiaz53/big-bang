@@ -52,6 +52,9 @@ sso:
   # -- Keycloak realm's json web key output, obtained at https://<keycloak-server>/auth/realms/<realm>/protocol/openid-connect/certs
   jwks: ''
 
+  # -- Optional use of JWKS fetcher config for ease of use and automation. Fill in JWKS URI value of OIDC endpoint, can be found under the well known OpenID metadata configuration page of your provider.
+  jwks_uri: ""
+
   # -- OIDC client ID used for packages authenticated through authservice
   client_id: ""
 
@@ -285,7 +288,7 @@ kiali:
   enabled: true
   oci:
     name: "kiali-operator"
-    tag: "1.59.1-bb.0"
+    tag: "1.59.1-bb.1"
     repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Kiali Package
@@ -367,7 +370,7 @@ kyverno:
   enabled: false
   oci:
     name: "kyverno"
-    tag: "2.6.0-bb.2"
+    tag: "2.6.1-bb.0"
     repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Kyverno Package
@@ -385,7 +388,7 @@ kyvernopolicies:
   enabled: false
   oci:
     name: "kyverno-policies"
-    tag: "1.0.1-bb.7"
+    tag: "1.0.1-bb.8"
     repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Kyverno Package
@@ -424,7 +427,7 @@ logging:
   enabled: true
   oci:
     name: "logging"
-    tag: "0.12.1-bb.1"
+    tag: "0.13.0-bb.0"
     repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Logging (EFK) Package
@@ -478,7 +481,7 @@ fluentbit:
   enabled: true
   oci:
     name: "fluent-bit"
-    tag: "0.20.10-bb.0"
+    tag: "0.21.2-bb.0"
     repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Fluent-Bit Package
@@ -515,7 +518,7 @@ loki:
   enabled: false
   oci:
     name: "loki"
-    tag: "3.2.1-bb.3"
+    tag: "3.3.4-bb.0"
     repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Loki Package
@@ -681,7 +684,7 @@ twistlock:
   enabled: true
   oci:
     name: "twistlock"
-    tag: "0.11.3-bb.2"
+    tag: "0.11.4-bb.0"
     repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Twistlock Package
@@ -786,7 +789,7 @@ addons:
     enabled: false
     oci:
       name: "authservice"
-      tag: "0.5.2-bb.1"
+      tag: "0.5.3-bb.0"
       repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Authservice Package
@@ -809,7 +812,7 @@ addons:
     enabled: false
     oci:
       name: "minio-operator"
-      tag: "4.5.3-bb.0"
+      tag: "4.5.4-bb.0"
       repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Minio Operator Package
@@ -826,7 +829,7 @@ addons:
     enabled: false
     oci:
       name: "minio-instance"
-      tag: "4.5.4-bb.0"
+      tag: "4.5.4-bb.1"
       repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Minio Package
@@ -859,7 +862,7 @@ addons:
 
     oci:
       name: "gitlab"
-      tag: "6.5.2-bb.1"
+      tag: "6.5.2-bb.2"
       repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Gitlab Package
@@ -966,7 +969,7 @@ addons:
     enabled: false
     oci:
       name: "gitlab-runner"
-      tag: "0.45.0-bb.2"
+      tag: "0.45.0-bb.3"
       repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Gitlab Runner Package
@@ -983,7 +986,7 @@ addons:
     enabled: false
     oci:
       name: "nexus-repository-manager"
-      tag: "42.0.0-bb.1"
+      tag: "42.0.0-bb.2"
       repo: "registry1"
 
     # -- Base64 encoded license file.
@@ -1134,7 +1137,7 @@ addons:
     enabled: false
     oci:
       name: "anchore-engine"
-      tag: "1.19.7-bb.3"
+      tag: "1.20.0-bb.1"
       repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Anchore Package
@@ -1336,7 +1339,7 @@ addons:
 
     oci:
       name: "velero"
-      tag: "2.31.8-bb.3"
+      tag: "2.32.2-bb.0"
       repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Velero Package
@@ -1413,7 +1416,7 @@ addons:
     enabled: false
     oci:
       name: "vault"
-      tag: "0.22.0-bb.4"
+      tag: "0.22.1-bb.0"
       repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Vault Package
