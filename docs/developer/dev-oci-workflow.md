@@ -22,47 +22,41 @@ In order to use this OCI artifact you will need to push it to an OCI compatible 
 
 The preferred option for OCI storage is in your own personal registry. When using k3d this is easy for us to handle.
 
-1. Create a registry using k3d commands. You will want to create this on the same host as your k3d cluster (i.e. your ec2 instance if using a dev ec2 instance). Give it a memorable name (`oci.localhost`) and standard port mapping. (TODO: Have this created as part of the dev script, either automatically or with a flag)
+1. Create a registry using k3d commands. You will want to create this on the same host as your k3d cluster (i.e. your ec2 instance if using a dev ec2 instance). Give it a memorable name (`oci`) and standard port mapping. (TODO: Have this created as part of the dev script, either automatically or with a flag)
 
     ```console
-    k3d registry create oci.localhost --port 5000
+    k3d registry create oci --port 5000
     ```
 
-1. Create your k3d cluster, using the `--registry-use` option to reference your registry. Note that k3d adds the `k3d-` prefix to the registry. An example command is below, following the naming and port mapping from this example. (TODO: Have this added as part of the dev script, either automatically or with a flag)
+2. Create your k3d cluster, using the `--registry-use` option to reference your registry. Note that k3d adds the `k3d-` prefix to the registry. An example command is below, following the naming and port mapping from this example. (TODO: Have this added as part of the dev script, either automatically or with a flag)
 
     ```console
-    k3d cluster create --registry-use k3d-oci.localhost:5000
+    k3d cluster create --registry-use k3d-oci:5000
     ```
 
-1. If running the cluster on your localhost (dev machine = cluster machine), skip this step. If your cluster is running on an ec2 instance or other remote machine, you will want to add the hostname to your `/etc/hosts` file so that your machine can resolve it properly. See the below example where the remote instance IP is 1.2.3.4:
+3. If running the cluster on your localhost (dev machine = cluster machine), skip this step. If your cluster is running on an ec2 instance or other remote machine, you will want to add the hostname to your `/etc/hosts` file so that your machine can resolve it properly. See the below example where the remote instance IP is 1.2.3.4:
 
     ```console
     # Add this line to /etc/hosts
-    1.2.3.4 k3d-oci.localhost
+    1.2.3.4 k3d-oci
     ```
 
     To validate this is setup correctly, curl the registry catalog:
 
     ```console
-    ❯ curl k3d-oci.localhost:5000/v2/_catalog
+    ❯ curl k3d-oci:5000/v2/_catalog
     {"repositories":[]}
     ```
 
-1. If running the cluster on your localhost (dev machine = cluster machine), skip this step. WIP: Helm does not support HTTP registries unless pushing to localhost. As a workaround we can route localhost to our remote instance with something like `socat`. An example `socat` command is included below, leave this running while pushing to the registry.
+4. Push OCI artifact to this registry with `helm push <artifact name> oci://k3d-oci:5000`. Following this example that would look like this:
 
     ```console
-    socat TCP-LISTEN:5000,reuseaddr,fork TCP:k3d-oci.localhost:5000
-    ```
-
-1. Push OCI artifact to this registry with `helm push <artifact name> oci://localhost:5000`. Following this example that would look like this:
-
-    ```console
-    ❯ helm push anchore-1.19.7-bb.4.tgz oci://localhost:5000
+    ❯ helm push anchore-1.19.7-bb.4.tgz oci://k3d-oci:5000
     Pushed: localhost:38367/anchore:1.19.7-bb.4
     Digest: sha256:3cb826ee59fab459aa3cd723ded448fc6d7ef2d025b55142b826b33c480f0a4c
     ```
 
-1. Configure your Big Bang values to setup an additional `HelmRepository` and point the package to that repository. See example below:
+5. Configure your Big Bang values to setup an additional `HelmRepository` and point the package to that repository. See example below:
 
     ```yaml
     ociRepositories:
@@ -70,7 +64,7 @@ The preferred option for OCI storage is in your own personal registry. When usin
       repository: "oci://registry1.dso.mil/bigbang"
       existingSecret: "private-registry"
     - name: "k3d"
-      repository: "oci://k3d-oci.localhost:5000"
+      repository: "oci://k3d-oci:5000"
 
     addons:
       anchore:
