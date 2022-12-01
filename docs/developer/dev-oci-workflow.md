@@ -18,7 +18,7 @@ In order to use this OCI artifact you will need to push it to an OCI compatible 
 
 The preferred option for OCI storage is in your own personal registry. When using k3d this is easy for us to handle.
 
-1. Create your k3d cluster, using the `--registry` option to add on a registry. You will want to give this a memorable name like `bigbang-oci`. Example command `k3d cluster create --registry-create bigbang-oci ...` where `...` has the remainder of your normal k3d config. (TODO: Have this created as part of the dev script, either automatically or with a flag)
+1. Create your k3d cluster, using the `--registry-create` option to add on a registry. You will want to give this a memorable name like `bigbang-oci`. Example command `k3d cluster create --registry-create bigbang-oci ...` where `...` has the remainder of your normal k3d config. (TODO: Have this created as part of the dev script, either automatically or with a flag)
 
 1. From your host running the k3d cluster run a `docker ps` command to locate the registry running and find the port mapping. In the example below the port is `38367`. Keep note of this port for later steps (TODO: dump this out as part of the dev script).
 

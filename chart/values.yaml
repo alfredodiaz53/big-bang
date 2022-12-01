@@ -986,7 +986,7 @@ addons:
     enabled: false
     oci:
       name: "nexus-repository-manager"
-      tag: "42.0.0-bb.2"
+      tag: "42.0.0-bb.3"
       repo: "registry1"
 
     # -- Base64 encoded license file.
