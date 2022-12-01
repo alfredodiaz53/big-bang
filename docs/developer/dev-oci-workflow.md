@@ -70,7 +70,7 @@ The preferred option for OCI storage is in your own personal registry. When usin
       repository: "oci://registry1.dso.mil/bigbang"
       existingSecret: "private-registry"
     - name: "k3d"
-      repository: "oci://k3d-oci.localhost"
+      repository: "oci://k3d-oci.localhost:5000"
 
     addons:
       anchore:
