@@ -8,9 +8,11 @@ If you want to test deployment of a package off of your dev branch you have two 
 
 After making your changes to a chart you will need to package it with `helm package chart`. You should see output similar to the below:
 
-```
+```console
 Successfully packaged chart and saved it to: /Users/me/bigbang/anchore/anchore-1.19.7-bb.4.tgz
 ```
+
+Note that Helm strictly enforces the OCI name and tag to match the chart name and version (see [HIP 0006](https://github.com/helm/community/blob/main/hips/hip-0006.md#3-chart-versions--oci-reference-tags)), and artifacts will always match the above syntax.
 
 ## Pushing OCI "somewhere"
 
@@ -20,24 +22,42 @@ In order to use this OCI artifact you will need to push it to an OCI compatible 
 
 The preferred option for OCI storage is in your own personal registry. When using k3d this is easy for us to handle.
 
-1. Create your k3d cluster, using the `--registry-create` option to add on a registry. You will want to give this a memorable name like `bigbang-oci`. Example command `k3d cluster create --registry-create bigbang-oci ...` where `...` has the remainder of your normal k3d config. (TODO: Have this created as part of the dev script, either automatically or with a flag)
-
-1. From your host running the k3d cluster run a `docker ps` command to locate the registry running and find the port mapping. In the example below the port is `38367`. Keep note of this port for later steps (TODO: dump this out as part of the dev script).
+1. Create a registry using k3d commands. You will want to create this on the same host as your k3d cluster (i.e. your ec2 instance if using a dev ec2 instance). Give it a memorable name (`oci.localhost`) and standard port mapping. (TODO: Have this created as part of the dev script, either automatically or with a flag)
 
     ```console
-    ubuntu@ip-172-31-10-94:~$ docker ps
-    CONTAINER ID   IMAGE                            COMMAND                  CREATED         STATUS         PORTS                                                                                              NAMES
-    fc0491f34cb5   registry:2                       "/entrypoint.sh /etc…"   5 minutes ago   Up 4 minutes   0.0.0.0:38367->5000/tcp                                                                            bigbang-oci
+    k3d registry create oci.localhost --port 5000
     ```
 
-1. If using a remote instance (not pushing to your localhost): This is not the right way to do things but it works so why not (for now). Helm does not currently support pushing to HTTP registries, which is what k3d spins up. The correct longterm solution is probably (a) spin up a registry with the bb dev cert or (b) wait for helm support of http registries (several open issues/PRs that might accomplish this). 
-
-    Helm will push with HTTP if pushing to localhost, so we can use this to advantage and setup routing so that `localhost` routes to our remote instance. One option is to modify `/etc/hosts` and re-route all `localhost` traffic to the remote IP. A better option is to only route traffic on a given port. This can be done with a tool like `socat`, running `socat TCP-LISTEN:<registry port>,reuseaddr,fork TCP:<remote IP>:<registry port>`. Requests to `localhost:<registry port>` will be sent to `<remote IP>:<registry port>`.
-
-1. Push OCI artifact to this registry with `helm push <artifact name> oci://localhost:<registry port>`. Following this example that would look like this:
+1. Create your k3d cluster, using the `--registry-use` option to reference your registry. Note that k3d adds the `k3d-` prefix to the registry. An example command is below, following the naming and port mapping from this example. (TODO: Have this added as part of the dev script, either automatically or with a flag)
 
     ```console
-    ❯ helm push anchore-1.19.7-bb.4.tgz oci://localhost:38367
+    k3d cluster create --registry-use k3d-oci.localhost:5000
+    ```
+
+1. If running the cluster on your localhost (dev machine = cluster machine), skip this step. If your cluster is running on an ec2 instance or other remote machine, you will want to add the hostname to your `/etc/hosts` file so that your machine can resolve it properly. See the below example where the remote instance IP is 1.2.3.4:
+
+    ```console
+    # Add this line to /etc/hosts
+    1.2.3.4 k3d-oci.localhost
+    ```
+
+    To validate this is setup correctly, curl the registry catalog:
+
+    ```console
+    ❯ curl k3d-oci.localhost:5000/v2/_catalog
+    {"repositories":[]}
+    ```
+
+1. If running the cluster on your localhost (dev machine = cluster machine), skip this step. WIP: Helm does not support HTTP registries unless pushing to localhost. As a workaround we can route localhost to our remote instance with something like `socat`. An example `socat` command is included below, leave this running while pushing to the registry.
+
+    ```console
+    socat TCP-LISTEN:5000,reuseaddr,fork TCP:k3d-oci.localhost:5000
+    ```
+
+1. Push OCI artifact to this registry with `helm push <artifact name> oci://localhost:5000`. Following this example that would look like this:
+
+    ```console
+    ❯ helm push anchore-1.19.7-bb.4.tgz oci://localhost:5000
     Pushed: localhost:38367/anchore:1.19.7-bb.4
     Digest: sha256:3cb826ee59fab459aa3cd723ded448fc6d7ef2d025b55142b826b33c480f0a4c
     ```
@@ -50,7 +70,7 @@ The preferred option for OCI storage is in your own personal registry. When usin
       repository: "oci://registry1.dso.mil/bigbang"
       existingSecret: "private-registry"
     - name: "k3d"
-      repository: "oci://bigbang-oci"
+      repository: "oci://k3d-oci.localhost"
 
     addons:
       anchore:
@@ -58,8 +78,6 @@ The preferred option for OCI storage is in your own personal registry. When usin
           repo: "k3d"
           tag: "1.19.7-bb.4"
     ```
-
-TBD: this doesn't work right now, maybe some docker.io implicit stuff here? test .localhost
 
 ### Push to Registry1 Staging
 
