@@ -1,5 +1,7 @@
 # Dev Workflow with OCI
 
+⚠️ **NOTE: This doc is a work in progress as OCI is not the expected or default workflow in Big Bang yet. Changes might be made to the structure or process at any time.** ⚠️
+
 If you want to test deployment of a package off of your dev branch you have two options. This doc covers the OCI workflow, the Git workflow requires nothing more than the values specified in [example git values](../assets/configs/example/git-repo-values.yaml) pointed to your development branch.
 
 ## Package Chart for OCI
