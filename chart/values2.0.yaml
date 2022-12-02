@@ -1,3 +1,61 @@
+# -- Global SSO values used for BigBang deployments when sso is enabled
+sso:
+  # -- Name of the identity provider
+  name: keycloak
+  # -- Hostname of the identity provider
+  host: login.dso.mil  ### TBD ###
+  # -- Port of the identify provider service
+  port: 443  ### TBD ###
+  # -- Identity provider realm
+  realm: baby-yoda  ### TBD ###
+  # -- Base URL for the identity provider. For OIDC, this is the issuer.  For SAML this is the entityID. Use {{ tpl .Values.sso.url . }} to generate
+  url: "https://{{ .Values.sso.host }}:{{ .Values.sso.port }}/auth/realms/{{ .Values.sso.realm }}"
+  # -- Certificate authority for the identity provider's certificates
+  certificateAuthority:
+    # -- The certificate authority public certificate in .pem format.  Populating this will create a secret in each namespace that enables SSO.
+    cert:
+    # -- The secret name to use for the certificate authority.  Can be manually populated if cert is blank.
+    secretName: sso-certificate-authority
+  # -- Public X.509 certificate used by the IdP to authenticate messages.  Can be found at `{{ .Values.sso.url }}/{{ .Values.sso.saml.entityDescriptor }}` or `{{ .Values.sso.url }}/{{ .Values.sso.oidc.jwksUri }}`.  Some packages cannot dynammically retrieve the cert.
+  certificate: ### TBD ###
+    # -- The public x.509 certificate.  Populating this will create a secret in each namespace for SSO.
+    cert:  ### TBD ###
+    # -- The secret name to use for the certificate.  Can be manually populated if cert is blank.
+    secretName: sso-certificate ### TBD ###
+  saml:
+    # -- SAML entityDescriptor (metadata) relative path
+    entityDescriptor: protocol/saml/descriptor
+    # -- SAML singleSignOnService relative path
+    singleSignOnService: protocol/saml
+    # -- SAML singleLogoutService relative path
+    singleLogoutService: protocol/saml
+  # -- OIDC endpoints can be retrieved from `{{ .Values.sso.url }}/.well-known/openid-configuration`
+  oidc:
+    # -- OIDC authorization relative path
+    authorization: protocol/openid-connect/auth
+    # -- OIDC logout / end session relative path
+    endSession: protocol/openid-connect/logout
+    # -- OIDC JSON Web Key Set (JWKS) relative path
+    jwksUri: protocol/openid-connect/certs
+    # -- OIDC token relative path
+    token: protocol/openid-connect/token
+    # -- OIDC user information relative path
+    userinfo: protocol/openid-connect/userinfo
+  # -- Identity provider attributes that store metadata about the authenticated user.
+  attributes:
+    # -- IdP's attribute name used for the user's email address.
+    email: email
+    ## -- IdP's attribute name used for the user's first name
+    firstname: given_name
+    ## -- IdP's attribute name used for the user's last name
+    lastname: family_name
+    # -- IdP's attribute name used for the user's full name
+    name: name
+    # -- IdP's attribute name used for the username
+    username: preferred_username
+    # -- IdP's attribute name used for the user's group or role
+    group:
+
 # -- Wrapper chart for integrating Big Bang into a package
 wrapper:
   git:
