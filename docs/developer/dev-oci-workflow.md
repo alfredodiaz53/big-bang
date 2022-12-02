@@ -134,18 +134,21 @@ One option is to push your OCI artifacts to the Big Bang Staging area of Registr
           tag: "1.19.7-bb.4"
     ```
 
-### Push to Dockerhub Repository?
+### Push to a Big Bang registry
 
-This is a good middle ground between self-hosted and the Registry1 Staging (shared) registry. It doesn't require the complexity of a self hosted registry, but also doesn't have the downsides of a shared registry.
+Note that this has a limited use case, since this requires at minimum Istio + Registry to be installed in advance. This may not work well if you are testing Istio or the registry package itself.
 
-TODO: test and fully document
+Currently you could leverage any of the following as your OCI registry:
+- Gitlab Project Registries (in a Big Bang installed Gitlab, not Repo1)
+- Nexus Registry (see CI test values for auto-creation of OCI registry)
+- Harbor (currently in sandbox, but functioning well with the test values)
 
-1. Sign up to dockerhub/login...
+1. Install a minimal Big Bang on your cluster, not including the package you want to test. You should at least install Istio and the registry (Gitlab, Nexus, Harbor)
 
-1. Make a public repository (no limits on public, makes auth easier)
+1. Modify CoreDNS for your cluster to route traffic to `x.bigbang.dev` (ex: `harbor.bigbang.dev`) to the IP of the public ingress gateway
 
-1. Push to it
+1. Modify `/etc/hosts` to route `x.bigbang.dev` to the Public IP of your instance (if using a remote/ec2 based cluster)
 
-1. Values to point to it
+1. Push Helm tgz to your chosen registry.
 
-1. Profit?
+1. Configure your Big Bang values to setup an additional `HelmRepository` and point the package to that repository. 
