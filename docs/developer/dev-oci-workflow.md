@@ -143,11 +143,11 @@ Currently you could leverage any of the following as your OCI registry:
 - Nexus Registry (see CI test values for auto-creation of OCI registry)
 - Harbor (currently in sandbox, but functioning well with the test values)
 
-1. Install a minimal Big Bang on your cluster, not including the package you want to test. You should at least install Istio and the registry (Gitlab, Nexus, Harbor)
+1. Install a minimal Big Bang on your cluster, not including the package you want to test. You should at least install Istio and the registry (Gitlab, Nexus, Harbor).
 
-1. Modify CoreDNS for your cluster to route traffic to `x.bigbang.dev` (ex: `harbor.bigbang.dev`) to the IP of the public ingress gateway
+1. Modify CoreDNS for your cluster to route traffic to `x.bigbang.dev` (ex: `harbor.bigbang.dev`) to the IP of the public ingress gateway. 
 
-1. Modify `/etc/hosts` to route `x.bigbang.dev` to the Public IP of your instance (if using a remote/ec2 based cluster)
+1. Modify `/etc/hosts` to route `x.bigbang.dev` to the Public IP of your instance (if using a remote/ec2 based cluster).
 
 1. Push Helm tgz to your chosen registry.
 
