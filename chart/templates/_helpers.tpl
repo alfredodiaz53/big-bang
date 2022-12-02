@@ -194,7 +194,7 @@ bigbang.dev/istioVersion: {{ .Values.istio.git.branch }}
 
 {{- /* Returns the SSO base URL */ -}}
 {{- define "sso.url" -}}
-{{- default (printf "https://%s/auth/realms/%s" .Values.sso.oidc.host .Values.sso.oidc.realm) (tpl .Values.sso.url .) -}}
+{{- default (printf "https://%s/auth/realms/%s" .Values.sso.oidc.host .Values.sso.oidc.realm) (tpl (default "" .Values.sso.url) .) -}}
 {{- end -}}
 
 {{- /* Returns the SSO auth url */ -}}
@@ -202,7 +202,7 @@ bigbang.dev/istioVersion: {{ .Values.istio.git.branch }}
 {{- if .Values.sso.url -}}
 {{- printf "%s/%s" (include "sso.url" .) (dig "oidc" "authorization" "protocol/openid-connect/auth" .Values.sso) -}}
 {{- else -}}
-{{- default (printf "%s/protocol/openid-connect/auth" (include "sso.url" .)) (tpl .Values.sso.auth_url .) -}}
+{{- default (printf "%s/protocol/openid-connect/auth" (include "sso.url" .)) (tpl (default "" .Values.sso.auth_url) .) -}}
 {{- end -}}
 {{- end -}}
 
@@ -211,7 +211,7 @@ bigbang.dev/istioVersion: {{ .Values.istio.git.branch }}
 {{- if .Values.sso.url -}}
 {{- printf "%s/%s" (include "sso.url" .) (dig "oidc" "token" "protocol/openid-connect/token" .Values.sso) -}}
 {{- else -}}
-{{- default (printf "%s/protocol/openid-connect/token" (include "sso.url" .)) (tpl .Values.sso.token_url .) -}}
+{{- default (printf "%s/protocol/openid-connect/token" (include "sso.url" .)) (tpl (default "" .Values.sso.token_url) .) -}}
 {{- end -}}
 {{- end -}}
 
@@ -225,7 +225,7 @@ bigbang.dev/istioVersion: {{ .Values.istio.git.branch }}
 {{- if .Values.sso.url -}}
 {{- printf "%s/%s" (include "sso.url" .) (dig "oidc" "jwksUri" "protocol/openid-connect/certs" .Values.sso) -}}
 {{- else -}}
-{{- default (printf "%s/protocol/openid-connect/certs" (include "sso.url" .)) (tpl .Values.sso.jwks_uri .) -}}
+{{- default (printf "%s/protocol/openid-connect/certs" (include "sso.url" .)) (tpl (default "" .Values.sso.jwks_uri) .) -}}
 {{- end -}}
 {{- end -}}
 
