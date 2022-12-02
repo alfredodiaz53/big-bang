@@ -37,8 +37,8 @@ sso:
   client_id: {{ .client_id | quote }}
   client_secret: {{ .client_secret | default "no-secret" }}
   oidc:
-    host: {{ coalesce (dig "host" nil .oidc) $.Values.sso.host $.Values.sso.oidc.host | quote }}
-    realm: {{ coalesce (dig "realm" nil .oidc) $.Values.sso.realm $.Values.sso.oidc.realm | quote }}
+    host: {{ coalesce (dig "oidc" "host" nil .) $.Values.sso.host $.Values.sso.oidc.host | quote }}
+    realm: {{ coalesce (dig "oidc" "realm" nil .) $.Values.sso.realm $.Values.sso.oidc.realm | quote }}
   {{- /* Optional fields should be nil checked */ -}}
   {{- list "issuer" (default (include "sso.url" $) .issuer) | include "bigbang.addValueIfSet" | indent 2 }}
   {{- list "auth_url" (default (include "sso.auth" $) .auth_url) | include "bigbang.addValueIfSet" | indent 2 }}
