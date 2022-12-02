@@ -18,53 +18,75 @@ Note that Helm strictly enforces the OCI name and tag to match the chart name an
 
 In order to use this OCI artifact you will need to push it to an OCI compatible registry. You have a couple options here.
 
-### Push to k3d registry
+### Push to self-hosted docker registry
 
-The preferred option for OCI storage is in your own personal registry. When using k3d this is easy for us to handle.
+The preferred option for OCI storage is in your own personal registry. We can do this by running a registry with the standard docker `registry:2` image. Note that we have to host this as a TLS registry due to limitations with Helm.
 
-1. Create a registry using k3d commands. You will want to create this on the same host as your k3d cluster (i.e. your ec2 instance if using a dev ec2 instance). Give it a memorable name (`oci`) and standard port mapping. (TODO: Have this created as part of the dev script, either automatically or with a flag)
+You will want to spin up the registry on the same host as your cluster, i.e. your ec2 instance if following the normal developer workflow.
+
+TODO: Make this all happen with a flag in the dev script, this should not be too challenging to automate.
+
+1. Grab the `*.bigbang.dev` cert to use for the registry. If you follow the commands below, using `curl` and `yq`, this is pretty easy.
 
     ```console
-    k3d registry create oci --port 5000
+    mkdir certs
+    curl -sS https://repo1.dso.mil/platform-one/big-bang/bigbang/-/raw/master/chart/ingress-certs.yaml | yq '.istio.gateways.public.tls.key' > certs/tls.key
+    curl -sS https://repo1.dso.mil/platform-one/big-bang/bigbang/-/raw/master/chart/ingress-certs.yaml | yq '.istio.gateways.public.tls.cert' > certs/tls.crt
     ```
 
-2. Create your k3d cluster, using the `--registry-use` option to reference your registry. Note that k3d adds the `k3d-` prefix to the registry. An example command is below, following the naming and port mapping from this example. (TODO: Have this added as part of the dev script, either automatically or with a flag)
+1. Setup a docker registry, mounting the certs to expose this as a TLS (HTTPS) registry.
 
     ```console
-    k3d cluster create --registry-use k3d-oci:5000
+    docker volume create registry
+    docker run -d -p 5000:5000 --restart=always --name registry \
+      -v registry:/var/lib/registry \
+      -v `pwd`/certs:/certs \
+      -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/tls.crt \
+      -e REGISTRY_HTTP_TLS_KEY=/certs/tls.key \
+      registry:2
     ```
 
-3. If running the cluster on your localhost (dev machine = cluster machine), skip this step. If your cluster is running on an ec2 instance or other remote machine, you will want to add the hostname to your `/etc/hosts` file so that your machine can resolve it properly. See the below example where the remote instance IP is 1.2.3.4:
+1. Spin up your development cluster as you normally would. Do not install Flux or Big Bang on top of the cluster yet.
+
+1. Modify CoreDNS for your cluster to resolve your registry address to the private IP of your cluster host. In the example below we are using `oci.bigbang.dev`. Run the commands below from your cluster host (i.e. ec2 instance if using it):
 
     ```console
-    # Add this line to /etc/hosts
-    1.2.3.4 k3d-oci
+    # Note that these commands assume a Linux host and k3d cluster
+    export PRIVATE_IP=$(hostname -I | cut -d " " -f1)
+    kubectl get configmap -n kube-system coredns -o jsonpath='{.data.NodeHosts}' > newhosts
+    echo "${PRIVATE_IP} oci.bigbang.dev" >> newhosts
+    hosts=$(cat newhosts) yq e -n '.data.NodeHosts = strenv(hosts)' > patch.yaml
+    kubectl patch configmap -n kube-system coredns --patch "$(cat patch.yaml)"
+    kubectl rollout restart deployment -n kube-system coredns
     ```
 
-    To validate this is setup correctly, curl the registry catalog:
+1. If your cluster is not on your local machine, also modify /etc/hosts to resolve your registry address (i.e. `oci.bigbang.dev`) to your cluster/registry host's public IP.
 
     ```console
-    ❯ curl k3d-oci:5000/v2/_catalog
-    {"repositories":[]}
+    # Run on your registry/cluster host to print public IP
+    curl http://checkip.amazonaws.com/ 2> /dev/null
+
+    # From developer machine add this IP to /etc/hosts
+    sudo sh -c "echo '<IP from curl above> oci.bigbang.dev' >> /etc/hosts"
     ```
 
-4. Push OCI artifact to this registry with `helm push <artifact name> oci://k3d-oci:5000`. Following this example that would look like this:
+1. Push OCI artifact to this registry with `helm push <artifact name> oci://oci.bigbang.dev:5000`. Following this example that would look like this:
 
     ```console
-    ❯ helm push anchore-1.19.7-bb.4.tgz oci://k3d-oci:5000
-    Pushed: localhost:38367/anchore:1.19.7-bb.4
+    ❯ helm push anchore-1.19.7-bb.4.tgz oci://oci.bigbang.dev:5000
+    Pushed: oci.bigbang.dev:5000/anchore:1.19.7-bb.4
     Digest: sha256:3cb826ee59fab459aa3cd723ded448fc6d7ef2d025b55142b826b33c480f0a4c
     ```
 
-5. Configure your Big Bang values to setup an additional `HelmRepository` and point the package to that repository. See example below:
+1. Configure your Big Bang values to setup an additional `HelmRepository` and point the package to that repository. Then install Flux and Big Bang as you normally would.
 
     ```yaml
     ociRepositories:
     - name: "registry1"
       repository: "oci://registry1.dso.mil/bigbang"
       existingSecret: "private-registry"
-    - name: "k3d"
-      repository: "oci://k3d-oci:5000"
+     - name: "k3d"
+       repository: "oci://oci.bigbang.dev:5000"
 
     addons:
       anchore:
@@ -111,3 +133,19 @@ One option is to push your OCI artifacts to the Big Bang Staging area of Registr
           repo: "staging"
           tag: "1.19.7-bb.4"
     ```
+
+### Push to Dockerhub Repository?
+
+This is a good middle ground between self-hosted and the Registry1 Staging (shared) registry. It doesn't require the complexity of a self hosted registry, but also doesn't have the downsides of a shared registry.
+
+TODO: test and fully document
+
+1. Sign up to dockerhub/login...
+
+1. Make a public repository (no limits on public, makes auth easier)
+
+1. Push to it
+
+1. Values to point to it
+
+1. Profit?
