@@ -49,8 +49,8 @@ sso:
   spEntityId: {{ .Values.addons.anchore.sso.client_id }}
   {{- $anchoreUrl := first (dig "istio" "ui" "hosts" list .Values.addons.anchore.values) }}
   acsUrl: https://{{ tpl ($anchoreUrl | default (printf "%s.%s" "anchore" $domainName)) . }}/service/sso/auth/keycloak
-  idpMetadataUrl: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/saml/descriptor"
-  roleAttribute: {{ .Values.addons.anchore.sso.role_attribute }}
+  idpMetadataUrl: {{ include "sso.url" . }}/{{ dig "saml" "entityDescriptor" "protocol/saml/descriptor" .Values.sso }}
+  roleAttribute: {{ dig "attributes" "group" .Values.addons.anchore.sso.role_attribute .Values.sso }}
   {{- end }}
 
 anchoreEnterpriseGlobal:

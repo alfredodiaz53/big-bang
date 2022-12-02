@@ -191,3 +191,45 @@ bigbang.dev/istioVersion: {{ .Values.istio.git.branch }}
 {{- define "istioVersion" -}}
 {{ regexReplaceAll "-bb.+$" (coalesce .Values.istio.git.semver .Values.istio.git.tag .Values.istio.git.branch) "" }}
 {{- end -}}
+
+{{- /* Returns the SSO base URL */ -}}
+{{- define "sso.url" -}}
+{{- default (printf "https://%s/auth/realms/%s" .Values.sso.oidc.host .Values.sso.oidc.realm) (tpl .Values.sso.url .) -}}
+{{- end -}}
+
+{{- /* Returns the SSO auth url */ -}}
+{{- define "sso.auth" -}}
+{{- if .Values.sso.url -}}
+{{- printf "%s/%s" (include "sso.url" .) (dig "oidc" "authorization" "protocol/openid-connect/auth" .Values.sso) -}}
+{{- else -}}
+{{- default (printf "%s/protocol/openid-connect/auth" (include "sso.url" .)) (tpl .Values.sso.auth_url .) -}}
+{{- end -}}
+{{- end -}}
+
+{{- /* Returns the SSO token url */ -}}
+{{- define "sso.token" -}}
+{{- if .Values.sso.url -}}
+{{- printf "%s/%s" (include "sso.url" .) (dig "oidc" "token" "protocol/openid-connect/token" .Values.sso) -}}
+{{- else -}}
+{{- default (printf "%s/protocol/openid-connect/token" (include "sso.url" .)) (tpl .Values.sso.token_url .) -}}
+{{- end -}}
+{{- end -}}
+
+{{- /* Returns the SSO userinfo url */ -}}
+{{- define "sso.userinfo" -}}
+{{- printf "%s/%s" (include "sso.url" .) (dig "oidc" "userinfo" "protocol/openid-connect/userinfo" .Values.sso) -}}
+{{- end -}}
+
+{{- /* Returns the SSO jwks url */ -}}
+{{- define "sso.jwksuri" -}}
+{{- if .Values.sso.url -}}
+{{- printf "%s/%s" (include "sso.url" .) (dig "oidc" "jwksUri" "protocol/openid-connect/certs" .Values.sso) -}}
+{{- else -}}
+{{- default (printf "%s/protocol/openid-connect/certs" (include "sso.url" .)) (tpl .Values.sso.jwks_uri .) -}}
+{{- end -}}
+{{- end -}}
+
+{{- /* Returns the SSO end session url */ -}}
+{{- define "sso.endsession" -}}
+{{- printf "%s/%s" (include "sso.url" .) (dig "oidc" "endSession" "protocol/openid-connect/logout" .Values.sso) -}}
+{{- end -}}

@@ -37,26 +37,21 @@ sso:
   client_id: {{ .client_id | quote }}
   client_secret: {{ .client_secret | default "no-secret" }}
   oidc:
-    {{- if $.Values.logging.sso.oidc }}
-    host: {{ .oidc.host | default $.Values.sso.oidc.host | quote }}
-    realm: {{ .oidc.realm | default $.Values.sso.oidc.realm | quote }}
-    {{- else }}
-    host: {{ $.Values.sso.oidc.host | quote }}
-    realm: {{ $.Values.sso.oidc.realm | quote }}
-    {{- end }}
+    host: {{ coalesce (dig "host" nil .oidc) $.Values.sso.host $.Values.sso.oidc.host | quote }}
+    realm: {{ coalesce (dig "realm" nil .oidc) $.Values.sso.realm $.Values.sso.oidc.realm | quote }}
   {{- /* Optional fields should be nil checked */ -}}
-  {{- list "issuer" .issuer | include "bigbang.addValueIfSet" | indent 2 }}
-  {{- list "auth_url" .auth_url | include "bigbang.addValueIfSet" | indent 2 }}
-  {{- list "token_url" .token_url | include "bigbang.addValueIfSet" | indent 2 }}
-  {{- list "userinfo_url" .userinfo_url | include "bigbang.addValueIfSet" | indent 2 }}
-  {{- list "jwkset_url" .jwkset_url | include "bigbang.addValueIfSet" | indent 2 }}
-  {{- list "claims_principal" .claims_principal | include "bigbang.addValueIfSet" | indent 2 }}
+  {{- list "issuer" (default (include "sso.url" $) .issuer) | include "bigbang.addValueIfSet" | indent 2 }}
+  {{- list "auth_url" (default (include "sso.auth" $) .auth_url) | include "bigbang.addValueIfSet" | indent 2 }}
+  {{- list "token_url" (default (include "sso.token" $) .token_url) | include "bigbang.addValueIfSet" | indent 2 }}
+  {{- list "userinfo_url" (default (include "sso.userinfo" $) .userinfo_url) | include "bigbang.addValueIfSet" | indent 2 }}
+  {{- list "jwkset_url" (default (include "sso.jwksuri" $) .jwkset_url) | include "bigbang.addValueIfSet" | indent 2 }}
+  {{- list "claims_principal" (default (dig "attributes" "username" nil $.Values.sso) .claims_principal) | include "bigbang.addValueIfSet" | indent 2 }}
   {{- list "claims_principal_pattern" .claims_principal_pattern | include "bigbang.addValueIfSet" | indent 2 }}
   {{- list "requested_scopes" .requested_scopes | include "bigbang.addValueIfSet" | indent 2 }}
   {{- list "signature_algorithm" .signature_algorithm | include "bigbang.addValueIfSet" | indent 2 }}
-  {{- list "endsession_url" .endsession_url | include "bigbang.addValueIfSet" | indent 2 }}
-  {{- list "claims_group" .claims_group | include "bigbang.addValueIfSet" | indent 2 }}
-  {{- list "claims_mail" .claims_mail | include "bigbang.addValueIfSet" | indent 2 }}
+  {{- list "endsession_url" (default (include "sso.endsession" $) .endsession_url) | include "bigbang.addValueIfSet" | indent 2 }}
+  {{- list "claims_group" (default (dig "attributes" "group" nil $.Values.sso) .claims_group) | include "bigbang.addValueIfSet" | indent 2 }}
+  {{- list "claims_mail" (default (dig "attributes" "email" nil $.Values.sso) .claims_mail) | include "bigbang.addValueIfSet" | indent 2 }}
   {{- list "cert_authorities" .cert_authorities | include "bigbang.addValueIfSet" | indent 2 }}
 {{- end }}
 {{- end }}

@@ -314,9 +314,9 @@ grafana:
       client_id: {{ .Values.monitoring.sso.grafana.client_id }}
       client_secret: {{ .Values.monitoring.sso.grafana.client_secret }}
       scopes: {{ .Values.monitoring.sso.grafana.scopes | default "openid profile email" }}
-      auth_url: {{ .Values.monitoring.sso.grafana.auth_url | default (tpl .Values.sso.auth_url .) }}
-      token_url: {{ .Values.monitoring.sso.grafana.token_url | default (tpl .Values.sso.token_url .) }}
-      api_url: {{ .Values.monitoring.sso.grafana.api_url | default (tpl "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/userinfo" .) }}
+      auth_url: {{ default (include "sso.auth" .) .Values.monitoring.sso.grafana.auth_url }}
+      token_url: {{ default (include "sso.token" .) .Values.monitoring.sso.grafana.token_url }}
+      api_url: {{ include "sso.userinfo" . }}
       allow_sign_up: {{ .Values.monitoring.sso.grafana.allow_sign_up | default "True" }}
       role_attribute_path: {{ .Values.monitoring.sso.grafana.role_attribute_path | default "Viewer" }}
     {{- with .Values.monitoring.sso.grafana }}

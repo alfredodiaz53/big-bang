@@ -225,16 +225,16 @@ minio:
 {{- end }}
 
 global:
-  {{- if and .Values.addons.gitlab.sso.enabled .Values.sso.certificate_authority}}
+  {{- if and .Values.addons.gitlab.sso.enabled (dig "certificateAuthority" "secretName" .Values.sso.secretName .Values.sso) }}
   certificates:
     customCAs:
-      - secret: tls-ca-sso
+      - secret: {{ dig "certificateAuthority" "secretName" .Values.sso.secretName .Values.sso }}
   {{end}}
 
   # added to help with Gitlab sub-chart configuration
   image:
     pullPolicy: {{ .Values.imagePullPolicy }}
-    
+
   istio:
     enabled: {{ .Values.istio.enabled }}
     injection: {{ dig "istio" "injection" "enabled" .Values.addons.gitlab }}

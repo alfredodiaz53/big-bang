@@ -154,8 +154,8 @@ sso:
   keycloakClientSecret: {{ .Values.addons.argocd.sso.client_secret }}
   config:
     oidc.config: |
-      name: {{ .Values.addons.argocd.sso.provider_name }}
-      issuer: https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}
+      name: {{ default .Values.addons.argocd.sso.provider_name .Values.sso.name }}
+      issuer: {{ include "sso.url" . }}
       clientID: {{ .Values.addons.argocd.sso.client_id }}
       clientSecret: $oidc.keycloak.clientSecret
       requestedScopes: ["openid","ArgoCD"]
