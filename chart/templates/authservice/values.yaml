@@ -71,11 +71,11 @@ global:
   {{- end }}
 
   {{- if (dig "sso" "client_id" .Values.sso.client_id .Values.addons.authservice) }}
-  client_id: {{ dig "sso" "client_id" .Values.sso.client_id .Values.addons.authservice) }}
+  client_id: {{ dig "sso" "client_id" .Values.sso.client_id .Values.addons.authservice }}
   {{- end }}
 
   {{- if (dig "sso" "client_secret" .Values.sso.client_secret .Values.addons.authservice) }}
-  client_secret: {{ (dig "sso" "client_secret" .Values.sso.client_secret .Values.addons.authservice) }}
+  client_secret: {{ dig "sso" "client_secret" .Values.sso.client_secret .Values.addons.authservice }}
   {{- end }}
 
   {{- if (dig "certificateAuthority" "cert" .Values.sso.certificate_authority .Values.sso) }}
