@@ -44,7 +44,7 @@ sso:
     # -- IdP's attribute name used for the username
     username: preferred_username
     # -- IdP's attribute name used for the user's group or role
-    group:
+    group: group
 
 # -- Wrapper chart for integrating Big Bang into a package
 wrapper:
