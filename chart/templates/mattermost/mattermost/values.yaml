@@ -13,14 +13,15 @@ openshift: {{ .Values.openshift }}
 image:
   imagePullPolicy: {{ .Values.imagePullPolicy }}
   
+{{ $istioInjection := (and .Values.istio.enabled (eq (dig "istio" "injection" "enabled" .Values.addons.mattermost) "enabled")) }}
+
 istio:
   enabled: {{ .Values.istio.enabled }}
   chat:
     gateways:
     - istio-system/{{ default "public" .Values.addons.mattermost.ingress.gateway }}
-  injection: {{ dig "istio" "injection" "enabled" .Values.addons.mattermost }}
+  injection: {{ ternary "enabled" "disabled" $istioInjection }}
 
-{{ $istioInjection := (and .Values.istio.enabled (eq (dig "istio" "injection" "enabled" .Values.addons.mattermost) "enabled")) }}
 {{- if $istioInjection }}
 podAnnotations:
   {{ include "istioAnnotation" . }}
