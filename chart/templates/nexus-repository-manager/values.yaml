@@ -60,19 +60,19 @@ license_key: "{{ .Values.addons.nexus.license_key }}"
 sso:
   enabled: {{ .Values.addons.nexus.sso.enabled }}
   idp_data:
-    {{- if .Values.addons.nexus.sso.idp_data.entityId }}
+    {{- if (dig "sso" "idp_data" "entityId" false .Values.addons.nexus) }}
     entityId: {{ .Values.addons.nexus.sso.idp_data.entityId }}
     {{- else }}
     entityId: "https://nexus.{{ $domainName }}/service/rest/v1/security/saml/metadata"
     {{- end }}
-    usernameAttribute: "{{ default "username" .Values.addons.nexus.sso.idp_data.username }}"
-    firstNameAttribute: "{{ default "firstName" .Values.addons.nexus.sso.idp_data.firstName }}"
-    lastNameAttribute: "{{ default "lastName" .Values.addons.nexus.sso.idp_data.lastName }}"
-    emailAttribute: "{{ default "email" .Values.addons.nexus.sso.idp_data.email }}"
-    groupsAttribute: "{{ default "groups" .Values.addons.nexus.sso.idp_data.groups }}"
+    usernameAttribute: "{{ dig "sso" "idp_data" "username" (dig "attributes" "username" "username" .Values.sso) .Values.addons.nexus }}"
+    firstNameAttribute: "{{ dig "sso" "idp_data" "firstName" (dig "attributes" "firstname" "firstName" .Values.sso) .Values.addons.nexus }}"
+    lastNameAttribute: "{{ dig "sso" "idp_data" "lastName" (dig "attributes" "lastname" "lastName" .Values.sso) .Values.addons.nexus }}"
+    emailAttribute: "{{ dig "sso" "idp_data" "email" (dig "attributes" "email" "email" .Values.sso) .Values.addons.nexus }}"
+    groupsAttribute: "{{ dig "sso" "idp_data" "groups" (dig "attributes" "group" "groups" .Values.sso) .Values.addons.nexus }}"
     validateResponseSignature: "true"
     validateAssertionSignature: "true"
-    idpMetadata: '{{ .Values.addons.nexus.sso.idp_data.idpMetadata }}'
+    idpMetadata: '{{ dig "sso" "idp_data" "idpMetadata" (dig "saml" "metadata" "" .Values.sso) .Values.addons.nexus }}'
   realm:
     - "NexusAuthenticatingRealm"
     - "NexusAuthorizingRealm"

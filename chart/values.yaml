@@ -715,6 +715,7 @@ twistlock:
     provider_name: ""
 
     # -- SAML Identity Provider. `shibboleth` is recommended by Twistlock support for Keycloak
+    # Possible values: okta, gsuite, ping, shibboleth, azure, adfs
     provider_type: "shibboleth"
 
     # -- Identity Provider url with path to realm

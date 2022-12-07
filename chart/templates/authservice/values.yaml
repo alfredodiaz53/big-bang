@@ -63,14 +63,15 @@ issuer_uri: {{ include "sso.url" . }}
 {{- end }}
 
 global:
+  {{- /* host and realm are not needed if issuer_uri, jwks_uri, authorization_uri, token_uri, logout_redirect_uri are defined (the latter 3 for each chain) */ -}}
   oidc:
-    host: {{ default .Values.sso.oidc.host .Values.sso.host }}
-    realm: {{ default .Values.sso.oidc.realm .Values.sso.realm }}
+    host: {{ .Values.sso.oidc.host }}
+    realm: {{ .Values.sso.oidc.realm }}
 
   {{- if (dig "oidc" "jwksUri" .Values.sso.jwks_uri .Values.sso) }}
-  jwks_uri: {{ include "sso.jwksuri" . }}
-  {{- else if .Values.sso.jwks }}
-  jwks: {{ .Values.sso.jwks | quote }}
+  jwks_uri: {{ include "sso.oidc.jwksuri" . }}
+  {{- else if (dig "oidc" "jwks" .Values.sso.jwks .Values.sso) }}
+  jwks: {{ (dig "oidc" "jwks" .Values.sso.jwks .Values.sso) | quote }}
   {{- end }}
 
   {{- if (dig "sso" "client_id" .Values.sso.client_id .Values.addons.authservice) }}
@@ -86,9 +87,9 @@ global:
   {{- end }}
 
   {{- if not $legacy }}
-  authorization_uri: {{ include "sso.auth" . }}
-  token_uri: {{ include "sso.token" . }}
-  logout_redirect_uri: {{ include "sso.endsession" . }}
+  authorization_uri: {{ include "sso.oidc.auth" . }}
+  token_uri: {{ include "sso.oidc.token" . }}
+  logout_redirect_uri: {{ include "sso.oidc.endsession" . }}
   {{- end }}
 
   {{- $authserviceValues := .Values.addons.authservice.values | default dict }}
@@ -119,9 +120,9 @@ chains:
     client_id: "{{ .Values.jaeger.sso.client_id }}"
     client_secret: "{{ .Values.jaeger.sso.client_secret }}"
     {{- if not $legacy }}
-    authorization_uri: {{ include "sso.auth" . }}
-    token_uri: {{ include "sso.token" . }}
-    logout_redirect_uri: {{ include "sso.endsession" . }}
+    authorization_uri: {{ include "sso.oidc.auth" . }}
+    token_uri: {{ include "sso.oidc.token" . }}
+    logout_redirect_uri: {{ include "sso.oidc.endsession" . }}
     {{- end }}
   {{- end }}
 
@@ -143,9 +144,9 @@ chains:
     client_id: "{{ .Values.tempo.sso.client_id }}"
     client_secret: "{{ .Values.tempo.sso.client_secret }}"
     {{- if not $legacy }}
-    authorization_uri: {{ include "sso.auth" . }}
-    token_uri: {{ include "sso.token" . }}
-    logout_redirect_uri: {{ include "sso.endsession" . }}
+    authorization_uri: {{ include "sso.oidc.auth" . }}
+    token_uri: {{ include "sso.oidc.token" . }}
+    logout_redirect_uri: {{ include "sso.oidc.endsession" . }}
     {{- end }}
   {{- end }}
 
@@ -164,9 +165,9 @@ chains:
     client_id: {{ .Values.monitoring.sso.prometheus.client_id }}
     client_secret: "{{ .Values.monitoring.sso.prometheus.client_secret }}"
     {{- if not $legacy }}
-    authorization_uri: {{ include "sso.auth" . }}
-    token_uri: {{ include "sso.token" . }}
-    logout_redirect_uri: {{ include "sso.endsession" . }}
+    authorization_uri: {{ include "sso.oidc.auth" . }}
+    token_uri: {{ include "sso.oidc.token" . }}
+    logout_redirect_uri: {{ include "sso.oidc.endsession" . }}
     {{- end }}
 
   alertmanager:
@@ -183,9 +184,9 @@ chains:
     client_id: {{ .Values.monitoring.sso.alertmanager.client_id }}
     client_secret: "{{ .Values.monitoring.sso.alertmanager.client_secret }}"
     {{- if not $legacy }}
-    authorization_uri: {{ include "sso.auth" . }}
-    token_uri: {{ include "sso.token" . }}
-    logout_redirect_uri: {{ include "sso.endsession" . }}
+    authorization_uri: {{ include "sso.oidc.auth" . }}
+    token_uri: {{ include "sso.oidc.token" . }}
+    logout_redirect_uri: {{ include "sso.oidc.endsession" . }}
     {{- end }}
   {{- end }}
 {{- end -}}
