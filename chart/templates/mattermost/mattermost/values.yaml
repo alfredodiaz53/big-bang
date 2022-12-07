@@ -20,11 +20,12 @@ istio:
     - istio-system/{{ default "public" .Values.addons.mattermost.ingress.gateway }}
   injection: {{ dig "istio" "injection" "enabled" .Values.addons.mattermost }}
 
-{{ $injectionEnabled := (eq (dig "istio" "injection" "enabled" .Values.addons.mattermost) "enabled") }}
-{{- if and .Values.istio.enabled $injectionEnabled }}
-resourcePatch:
-  deployment:
-    patch: "[{\"op\":\"add\",\"path\":\"/spec/template/metadata/annotations\",\"value\":{{ "{" }}{{ include "istioAnnotationQuote" . }}{{ "}}" }}]"
+{{ $istioInjection := (and .Values.istio.enabled (eq (dig "istio" "injection" "enabled" .Values.addons.mattermost) "enabled")) }}
+{{- if $istioInjection }}
+podAnnotations:
+  {{ include "istioAnnotation" . }}
+updateJob:
+  disabled: true
 {{- end }}
 
 monitoring:
