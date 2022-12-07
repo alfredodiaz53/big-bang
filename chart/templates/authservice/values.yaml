@@ -63,7 +63,6 @@ issuer_uri: {{ include "sso.url" . }}
 {{- end }}
 
 global:
-  {{- /* host and realm are not needed if issuer_uri, jwks_uri, authorization_uri, token_uri, logout_redirect_uri are defined (the latter 3 for each chain) */ -}}
   oidc:
     host: {{ .Values.sso.oidc.host }}
     realm: {{ .Values.sso.oidc.realm }}
