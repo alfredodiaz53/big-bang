@@ -69,7 +69,7 @@ postgresql:
     pullSecrets:
       - private-registry
   install: true
-  {{- if and $.Values.istio.enabled $injectionEnabled }}
+  {{- if $istioInjection }}
   primary:
     podAnnotations:
       {{ include "istioAnnotation" $ }}
@@ -96,7 +96,7 @@ minio:
   tenants:
     metrics:
       enabled: {{ $.Values.monitoring.enabled }}
-  {{- if and $.Values.istio.enabled $injectionEnabled }}
+  {{- if $istioInjection }}
   annotations:
     {{ include "istioAnnotation" $ }}
   {{- end }}
