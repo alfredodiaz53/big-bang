@@ -9,7 +9,7 @@ sso:
     # -- The certificate authority public certificate in .pem format.  Populating this will create a secret in each namespace that enables SSO.
     cert:
     # -- The secret name to use for the certificate authority.  Can be manually populated if cert is blank.
-    secretName: sso-certificate-authority
+    secretName: tls-ca-sso
   saml:
     # -- SAML entityDescriptor (metadata) relative path
     entityDescriptor: protocol/saml/descriptor

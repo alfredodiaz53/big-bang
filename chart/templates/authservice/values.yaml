@@ -67,10 +67,10 @@ global:
     host: {{ .Values.sso.oidc.host }}
     realm: {{ .Values.sso.oidc.realm }}
 
-  {{- if (dig "oidc" "jwksUri" .Values.sso.jwks_uri .Values.sso) }}
+  {{- if or .Values.sso.jwks_uri (dig "oidc" "jwksUri" false .Values.sso) }}
   jwks_uri: {{ include "sso.oidc.jwksuri" . }}
-  {{- else if (dig "oidc" "jwks" .Values.sso.jwks .Values.sso) }}
-  jwks: {{ (dig "oidc" "jwks" .Values.sso.jwks .Values.sso) | quote }}
+  {{- else if or .Values.sso.jwks (dig "oidc" "jwks" false .Values.sso) }}
+  jwks: {{ default (dig "oidc" "jwks" nil .Values.sso) .Values.sso.jwks | quote }}
   {{- end }}
 
   {{- if (dig "sso" "client_id" .Values.sso.client_id .Values.addons.authservice) }}
@@ -81,8 +81,8 @@ global:
   client_secret: {{ dig "sso" "client_secret" .Values.sso.client_secret .Values.addons.authservice }}
   {{- end }}
 
-  {{- if (dig "certificateAuthority" "cert" .Values.sso.certificate_authority .Values.sso) }}
-  certificate_authority: {{ (dig "certificateAuthority" "cert" .Values.sso.certificate_authority .Values.sso) | quote }}
+  {{- if (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso)) }}
+  certificate_authority: {{ (default (dig "certificateAuthority" "cert" nil .Values.sso) .Values.sso.certificate_authority) | quote }}
   {{- end }}
 
   {{- if not $legacy }}

@@ -194,24 +194,28 @@ bigbang.dev/istioVersion: {{ .Values.istio.git.branch }}
 
 {{- /* Returns the SSO base URL */ -}}
 {{- define "sso.url" -}}
-  {{- default (printf "https://%s/auth/realms/%s" .Values.sso.oidc.host .Values.sso.oidc.realm) (tpl (default "" .Values.sso.url) .) -}}
+  {{- if and .Values.sso.oidc.host .Values.sso.oidc.realm -}}
+    {{- printf "https://%s/auth/realms/%s" .Values.sso.oidc.host .Values.sso.oidc.realm -}}
+  {{- else -}}
+    {{- tpl (default "" .Values.sso.url) . -}}
+  {{- end -}}
 {{- end -}}
 
 {{- /* Returns the SSO auth url (OIDC) */ -}}
 {{- define "sso.oidc.auth" -}}
-  {{- if .Values.sso.url -}}
-    {{- printf "%s/%s" (include "sso.url" .) (dig "oidc" "authorization" "protocol/openid-connect/auth" .Values.sso) -}}
+  {{- if .Values.sso.auth_url -}}
+    {{- tpl (default "" .Values.sso.auth_url) . -}}
   {{- else -}}
-    {{- default (printf "%s/protocol/openid-connect/auth" (include "sso.url" .)) (tpl (default "" .Values.sso.auth_url) .) -}}
+    {{- printf "%s/%s" (include "sso.url" .) (dig "oidc" "authorization" "protocol/openid-connect/auth" .Values.sso) -}}
   {{- end -}}
 {{- end -}}
 
 {{- /* Returns the SSO token url (OIDC) */ -}}
 {{- define "sso.oidc.token" -}}
-  {{- if .Values.sso.url -}}
-    {{- printf "%s/%s" (include "sso.url" .) (dig "oidc" "token" "protocol/openid-connect/token" .Values.sso) -}}
+  {{- if .Values.sso.token_url -}}
+    {{- tpl (default "" .Values.sso.token_url) . -}}
   {{- else -}}
-    {{- default (printf "%s/protocol/openid-connect/token" (include "sso.url" .)) (tpl (default "" .Values.sso.token_url) .) -}}
+    {{- printf "%s/%s" (include "sso.url" .) (dig "oidc" "token" "protocol/openid-connect/token" .Values.sso) -}}
   {{- end -}}
 {{- end -}}
 
@@ -222,10 +226,10 @@ bigbang.dev/istioVersion: {{ .Values.istio.git.branch }}
 
 {{- /* Returns the SSO jwks url (OIDC) */ -}}
 {{- define "sso.oidc.jwksuri" -}}
-  {{- if .Values.sso.url -}}
-    {{- printf "%s/%s" (include "sso.url" .) (dig "oidc" "jwksUri" "protocol/openid-connect/certs" .Values.sso) -}}
+  {{- if .Values.sso.jwks_uri -}}
+    {{- tpl (default "" .Values.sso.jwks_uri) . -}}
   {{- else -}}
-    {{- default (printf "%s/protocol/openid-connect/certs" (include "sso.url" .)) (tpl (default "" .Values.sso.jwks_uri) .) -}}
+    {{- printf "%s/%s" (include "sso.url" .) (dig "oidc" "jwksUri" "protocol/openid-connect/certs" .Values.sso) -}}
   {{- end -}}
 {{- end -}}
 
