@@ -1427,7 +1427,9 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/vault.git
       path: "./chart"
-      tag: "0.22.1-bb.0"
+      #tag: "0.22.1-bb.0"
+      tag: "" 
+      branch: "fix-security-context-24"
 
     # -- Flux reconciliation overrides specifically for the Vault Package
     flux: {}
