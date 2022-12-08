@@ -35,9 +35,9 @@ sso:
   attributes:
     # -- IdP's attribute name used for the user's email address.
     email: email
-    ## -- IdP's attribute name used for the user's first name
+    # -- IdP's attribute name used for the user's first name
     firstname: given_name
-    ## -- IdP's attribute name used for the user's last name
+    # -- IdP's attribute name used for the user's last name
     lastname: family_name
     # -- IdP's attribute name used for the user's full name
     name: name
