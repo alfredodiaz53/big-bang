@@ -1,3 +1,5 @@
+# Enables and configures packages for [Appliance Mode](../README.md):
+
 clusterAuditor:
   enabled: true
   values:
@@ -8,6 +10,7 @@ clusterAuditor:
       limits:
         cpu: 100m
         memory: 256Mi
+
 gatekeeper:
   enabled: true
   values:
@@ -20,12 +23,15 @@ gatekeeper:
         requests:
           cpu: 100m
           memory: 256Mi
+
 kiali:
   enabled: false
+
 kyverno:
   enabled: false
   values:
     replicaCount: 1
+
 loki:
   values: 
     singleBinary:
@@ -37,6 +43,7 @@ loki:
         requests:
           cpu: 100m
           memory: 256Mi
+  
 tempo:
   values:
     tempo: 
@@ -47,10 +54,13 @@ tempo:
         requests:
           cpu: 200m
           memory: 256Mi
+
 fluentbit:
   enabled: false
+
 promtail:
   enabled: true
+
 monitoring: 
   values:
     prometheus:
