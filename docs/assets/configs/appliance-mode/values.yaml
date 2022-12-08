@@ -20,6 +20,8 @@ gatekeeper:
         requests:
           cpu: 100m
           memory: 256Mi
+kiali:
+  enabled: false
 kyverno:
   enabled: false
   values:
@@ -36,7 +38,7 @@ loki:
           cpu: 100m
           memory: 256Mi
 tempo:
-  values: 
+  values:
     tempo: 
       resources:
         limits:
@@ -45,6 +47,10 @@ tempo:
         requests:
           cpu: 200m
           memory: 256Mi
+fluentbit:
+  enabled: false
+promtail:
+  enabled: true
 monitoring: 
   values:
     prometheus:
