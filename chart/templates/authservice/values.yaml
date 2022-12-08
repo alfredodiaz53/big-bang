@@ -6,9 +6,9 @@
 # hostname is deprecated and replaced with domain. But if hostname exists then use it.
 {{- $domainName := default .Values.domain .Values.hostname }}
 
-image:
+image: 
   pullPolicy: {{ .Values.imagePullPolicy }}
-
+  
 imagePullSecrets:
   - name: private-registry
 
@@ -30,14 +30,14 @@ networkPolicies:
 {{- if and (dig "redis" "enabled" false .Values.addons.authservice.values) .Values.monitoring.enabled }}
 redis-bb:
   metrics:
-    enabled: true
+    enabled: true 
     image:
       pullSecrets:
         - private-registry
     serviceMonitor:
       enabled: true
       namespace: authservice
-      selector:
+      selector: 
         app.kubernetes.io/name: redis-bb
         app.kubernetes.io/instance: authservice-authservice
       # conditional passes only if all conditionals are true:
@@ -50,14 +50,14 @@ redis-bb:
         caFile: /etc/prom-certs/root-cert.pem
         certFile: /etc/prom-certs/cert-chain.pem
         keyFile: /etc/prom-certs/key.pem
-        insecureSkipVerify: true
+        insecureSkipVerify: true  
       {{- end }}
     prometheusRule:
-      enabled: true
+      enabled: true 
       namespace: monitoring
 {{- end }}
 
-{{- $legacy := empty .Values.sso.url -}}
+{{- $legacy := and .Values.sso.oidc.realm .Values.sso.oidc.host -}}
 {{- if not $legacy }}
 issuer_uri: {{ include "sso.url" . }}
 {{- end }}
@@ -68,17 +68,17 @@ global:
     realm: {{ .Values.sso.oidc.realm }}
 
   {{- if or .Values.sso.jwks_uri (dig "oidc" "jwksUri" false .Values.sso) }}
-  jwks_uri: {{ include "sso.oidc.jwksuri" . }}
+  jwks_uri: {{ include "sso.oidc.jwksuri" . | quote }}
   {{- else if or .Values.sso.jwks (dig "oidc" "jwks" false .Values.sso) }}
   jwks: {{ default (dig "oidc" "jwks" "" .Values.sso) .Values.sso.jwks | quote }}
   {{- end }}
 
-  {{- if (dig "sso" "client_id" .Values.sso.client_id .Values.addons.authservice) }}
-  client_id: {{ dig "sso" "client_id" .Values.sso.client_id .Values.addons.authservice }}
+  {{- if or .Values.sso.client_id (dig "sso" "client_id" false .Values.addons.authservice) }}
+  client_id: {{ default (dig "sso" "client_id" "" .Values.addons.authservice) .Values.sso.client_id }}
   {{- end }}
 
-  {{- if (dig "sso" "client_secret" .Values.sso.client_secret .Values.addons.authservice) }}
-  client_secret: {{ dig "sso" "client_secret" .Values.sso.client_secret .Values.addons.authservice }}
+  {{- if or .Values.sso.client_secret (dig "sso" "client_secret" false .Values.addons.authservice) }}
+  client_secret: {{ default (dig "sso" "client_secret" "" .Values.addons.authservice) .Values.sso.client_secret }}
   {{- end }}
 
   {{- if (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso)) }}
