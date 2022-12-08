@@ -70,7 +70,7 @@ global:
   {{- if or .Values.sso.jwks_uri (dig "oidc" "jwksUri" false .Values.sso) }}
   jwks_uri: {{ include "sso.oidc.jwksuri" . }}
   {{- else if or .Values.sso.jwks (dig "oidc" "jwks" false .Values.sso) }}
-  jwks: {{ default (dig "oidc" "jwks" nil .Values.sso) .Values.sso.jwks | quote }}
+  jwks: {{ default (dig "oidc" "jwks" "" .Values.sso) .Values.sso.jwks | quote }}
   {{- end }}
 
   {{- if (dig "sso" "client_id" .Values.sso.client_id .Values.addons.authservice) }}
@@ -82,7 +82,7 @@ global:
   {{- end }}
 
   {{- if (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso)) }}
-  certificate_authority: {{ (default (dig "certificateAuthority" "cert" nil .Values.sso) .Values.sso.certificate_authority) | quote }}
+  certificate_authority: {{ (default (dig "certificateAuthority" "cert" "" .Values.sso) .Values.sso.certificate_authority) | quote }}
   {{- end }}
 
   {{- if not $legacy }}

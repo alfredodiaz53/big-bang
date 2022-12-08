@@ -48,11 +48,11 @@ sonarProperties:
   sonar.auth.saml.providerId: {{ include "sso.url" . }}
   sonar.auth.saml.loginUrl: {{ include "sso.url" . }}/{{ dig "saml" "service" "protocol/saml" .Values.sso }}
   sonar.auth.saml.certificate.secured: {{ default (include "sso.saml.cert" .) .Values.addons.sonarqube.sso.certificate }}
-  sonar.auth.saml.user.login: {{ coalesce .Values.addons.sonarqube.sso.login (dig "attributes" "user" nil .Values.sso) "login" }}
-  sonar.auth.saml.user.name: {{ coalesce .Values.addons.sonarqube.sso.name (dig "attributes" "name" nil .Values.sso) "name" }}
-  sonar.auth.saml.user.email: {{ coalesce .Values.addons.sonarqube.sso.email (dig "attributes" "email" nil .Values.sso) "email" }}
+  sonar.auth.saml.user.login: {{ coalesce .Values.addons.sonarqube.sso.login (dig "attributes" "user" "" .Values.sso) "login" }}
+  sonar.auth.saml.user.name: {{ coalesce .Values.addons.sonarqube.sso.name (dig "attributes" "name" "" .Values.sso) "name" }}
+  sonar.auth.saml.user.email: {{ coalesce .Values.addons.sonarqube.sso.email (dig "attributes" "email" "" .Values.sso) "email" }}
   {{- if (or .Values.addons.sonarqube.sso.group (dig "attributes" "group" false .Values.sso)) }}
-  sonar.auth.saml.group.name: {{ default (dig "attributes" "group" nil .Values.sso) .Values.addons.sonarqube.sso.group }}
+  sonar.auth.saml.group.name: {{ default (dig "attributes" "group" "" .Values.sso) .Values.addons.sonarqube.sso.group }}
   {{- end }}
 {{- end }}
 
