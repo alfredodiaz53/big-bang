@@ -1,7 +1,7 @@
 # -- Global SSO values used for BigBang deployments when sso is enabled
 sso:
-  # -- Name of the identity provider
-  name: keycloak
+  # -- Name of the identity provider.  This is used by some packages as the SSO login label.
+  name: SSO
   # -- Base URL for the identity provider. For OIDC, this is the issuer.  For SAML this is the entityID.
   url: https://login.dso.mil/auth/realms/baby-yoda
   # -- Certificate authority for the identity provider's certificates
