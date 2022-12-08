@@ -225,7 +225,7 @@ minio:
 {{- end }}
 
 global:
-  {{- if and .Values.addons.gitlab.sso.enabled (default (dig "certificateAuthority" "secretName" "" .Values.sso) .Values.sso.secretName) }}
+  {{- if and .Values.addons.gitlab.sso.enabled (or (dig "certificateAuthority" "secretName" false .Values.sso) .Values.sso.secretName) }}
   certificates:
     customCAs:
       - secret: {{ default (dig "certificateAuthority" "secretName" "" .Values.sso) .Values.sso.secretName }}
