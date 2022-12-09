@@ -100,7 +100,6 @@ addons:
     sso:
       enabled: true
       client_id: platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-anchore
-      role_attribute: ""
 ```
 
 ### Storage
