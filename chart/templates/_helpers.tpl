@@ -206,7 +206,7 @@ bigbang.dev/istioVersion: {{ .Values.istio.git.branch }}
   {{- if .Values.sso.auth_url -}}
     {{- tpl (default "" .Values.sso.auth_url) . -}}
   {{- else -}}
-    {{- printf "%s/%s" (include "sso.url" .) (dig "oidc" "authorization" "protocol/openid-connect/auth" .Values.sso) -}}
+    {{- tpl (dig "oidc" "authorization" (printf "%s/protocol/openid-connect/auth" (include "sso.url" .)) .Values.sso) . -}}
   {{- end -}}
 {{- end -}}
 
@@ -215,13 +215,13 @@ bigbang.dev/istioVersion: {{ .Values.istio.git.branch }}
   {{- if .Values.sso.token_url -}}
     {{- tpl (default "" .Values.sso.token_url) . -}}
   {{- else -}}
-    {{- printf "%s/%s" (include "sso.url" .) (dig "oidc" "token" "protocol/openid-connect/token" .Values.sso) -}}
+    {{- tpl (dig "oidc" "token" (printf "%s/protocol/openid-connect/token" (include "sso.url" .)) .Values.sso) . -}}
   {{- end -}}
 {{- end -}}
 
 {{- /* Returns the SSO userinfo url (OIDC) */ -}}
 {{- define "sso.oidc.userinfo" -}}
-  {{- printf "%s/%s" (include "sso.url" .) (dig "oidc" "userinfo" "protocol/openid-connect/userinfo" .Values.sso) -}}
+  {{- tpl (dig "oidc" "userinfo" (printf "%s/protocol/openid-connect/userinfo" (include "sso.url" .)) .Values.sso) . -}}
 {{- end -}}
 
 {{- /* Returns the SSO jwks url (OIDC) */ -}}
@@ -229,18 +229,23 @@ bigbang.dev/istioVersion: {{ .Values.istio.git.branch }}
   {{- if .Values.sso.jwks_uri -}}
     {{- tpl (default "" .Values.sso.jwks_uri) . -}}
   {{- else -}}
-    {{- printf "%s/%s" (include "sso.url" .) (dig "oidc" "jwksUri" "protocol/openid-connect/certs" .Values.sso) -}}
+    {{- tpl (dig "oidc" "jwksUri" (printf "%s/protocol/openid-connect/certs" (include "sso.url" .)) .Values.sso) . -}}
   {{- end -}}
 {{- end -}}
 
 {{- /* Returns the SSO end session url (OIDC) */ -}}
 {{- define "sso.oidc.endsession" -}}
-  {{- printf "%s/%s" (include "sso.url" .) (dig "oidc" "endSession" "protocol/openid-connect/logout" .Values.sso) -}}
+  {{- tpl (dig "oidc" "endSession" (printf "%s/protocol/openid-connect/logout" (include "sso.url" .)) .Values.sso) . -}}
 {{- end -}}
 
 {{- /* Returns the single sign on service (SAML) */ -}}
 {{- define "sso.saml.service" -}}
-  {{- printf "%s/%s" (include "sso.url" .) (dig "saml" "service" "protocol/saml" .Values.sso) -}}
+  {{- tpl (dig "saml" "service" (printf "%s/protocol/saml" (include "sso.url" .)) .Values.sso) . -}}
+{{- end -}}
+
+{{- /* Returns the single sign on entity descriptor (SAML) */ -}}
+{{- define "sso.saml.descriptor" -}}
+  {{- tpl (dig "saml" "entityDescriptor" (printf "%s/descriptor" (include "sso.saml.service" .)) .Values.sso) . -}}
 {{- end -}}
 
 {{- /* Returns the signing cert (no headers) from the SAML metadata */ -}}

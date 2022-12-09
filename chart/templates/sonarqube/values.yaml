@@ -46,7 +46,7 @@ sonarProperties:
   sonar.auth.saml.applicationId: {{ .Values.addons.sonarqube.sso.client_id }}
   sonar.auth.saml.providerName: {{ coalesce .Values.addons.sonarqube.sso.provider_name .Values.addons.sonarqube.sso.label .Values.sso.name }}
   sonar.auth.saml.providerId: {{ include "sso.url" . }}
-  sonar.auth.saml.loginUrl: {{ include "sso.url" . }}/{{ dig "saml" "service" "protocol/saml" .Values.sso }}
+  sonar.auth.saml.loginUrl: {{ include "sso.saml.service" . }}
   sonar.auth.saml.certificate.secured: {{ default (include "sso.saml.cert" .) .Values.addons.sonarqube.sso.certificate }}
   sonar.auth.saml.user.login: {{ coalesce .Values.addons.sonarqube.sso.login (dig "attributes" "username" "" .Values.sso) "login" }}
   sonar.auth.saml.user.name: {{ coalesce .Values.addons.sonarqube.sso.name (dig "attributes" "name" "" .Values.sso) "name" }}

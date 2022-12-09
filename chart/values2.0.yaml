@@ -11,24 +11,24 @@ sso:
     # -- The secret name to use for the certificate authority.  Can be manually populated if cert is blank.
     secretName: tls-ca-sso
   saml:
-    # -- SAML entityDescriptor (metadata) relative path
-    entityDescriptor: protocol/saml/descriptor
-    # -- SAML SSO Service relative path
-    service: protocol/saml
-    # -- Literal SAML XML metadata retrieved from entityDescriptor.  Required for SSO in Nexus, Twistlock, or Sonarqube.
+    # -- SAML entityDescriptor (metadata) path
+    entityDescriptor: "{{ .Values.sso.url }}/protocol/saml/descriptor"
+    # -- SAML SSO Service path
+    service: "{{ .Values.sso.url }}/protocol/saml"
+    # -- Literal SAML XML metadata retrieved from `{{ .Values.sso.saml.entityDescriptor }}`.  Required for SSO in Nexus, Twistlock, or Sonarqube.
     metadata:
   # -- OIDC endpoints can be retrieved from `{{ .Values.sso.url }}/.well-known/openid-configuration`
   oidc:
-    # -- OIDC authorization relative path
-    authorization: protocol/openid-connect/auth
-    # -- OIDC logout / end session relative path
-    endSession: protocol/openid-connect/logout
-    # -- OIDC JSON Web Key Set (JWKS) relative path
-    jwksUri: protocol/openid-connect/certs
-    # -- OIDC token relative path
-    token: protocol/openid-connect/token
-    # -- OIDC user information relative path
-    userinfo: protocol/openid-connect/userinfo
+    # -- OIDC authorization path
+    authorization: "{{ .Values.sso.url }}/protocol/openid-connect/auth"
+    # -- OIDC logout / end session path
+    endSession: "{{ .Values.sso.url }}/protocol/openid-connect/logout"
+    # -- OIDC JSON Web Key Set (JWKS) path
+    jwksUri: "{{ .Values.sso.url }}/protocol/openid-connect/certs"
+    # -- OIDC token path
+    token: "{{ .Values.sso.url }}/protocol/openid-connect/token"
+    # -- OIDC user information path
+    userinfo: "{{ .Values.sso.url }}/protocol/openid-connect/userinfo"
     # -- Literal OIDC JWKS data retrieved from JWKS Uri.  Only needed if `jwsksUri` is not defined.
     jwks:
   # -- Identity provider attributes that store metadata about the authenticated user.

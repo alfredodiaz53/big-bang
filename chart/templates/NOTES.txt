@@ -217,11 +217,11 @@ DEPRECATION NOTICE:
       client_secret: {{ .sso.client_secret }}
       {{- end }}
       {{- if .sso.token_url }}
-      # "token_url" was split and is now defined by "sso.url" and "sso.oidc.token"
+      # "token_url" was moved to "sso.oidc.token"
       token_url: {{ .sso.token_url }}
       {{- end }}
       {{- if .sso.auth_url }}
-      # "auth_url" was split and is now defined by "sso.url" and "sso.oidc.authorization"
+      # "auth_url" was moved to "sso.oidc.authorization"
       auth_url: {{ .sso.auth_url }}
       {{- end }}
       {{- if .sso.secretName }}
@@ -234,15 +234,15 @@ DEPRECATION NOTICE:
       sso:
         grafana:
           {{- if .monitoring.sso.grafana.auth_url }}
-          # "auth_url" defined by sso.url and sso.oidc.authorization
+          # "auth_url" moved to "sso.oidc.authorization"
           auth_url: {{ .monitoring.sso.grafana.auth_url }}
           {{- end }}
           {{- if .monitoring.sso.grafana.token_url }}
-          # "token_url" defined by sso.url and sso.oidc.token
+          # "token_url" moved to "sso.oidc.token"
           token_url: {{ .monitoring.sso.grafana.token_url }}
           {{- end }}
           {{- if .monitoring.sso.grafana.api_url }}
-          # "api_url" defined by sso.url and sso.oidc.userinfo
+          # "api_url" moved to "sso.oidc.userinfo"
           api_url: {{ .monitoring.sso.grafana.api_url }}
           {{- end }}
     {{- end }}
@@ -250,15 +250,15 @@ DEPRECATION NOTICE:
     twistlock:
       sso:
         {{- if .twistlock.sso.provider_name }}
-        # "provider_name" moved to sso.name
+        # "provider_name" moved to "sso.name"
         provider_name: {{ .twistlock.sso.provider_name }}
         {{- end }}
         {{- if .twistlock.sso.issuer_uri }}
-        # "issuer_uri" moved to sso.url
+        # "issuer_uri" moved to "sso.url"
         issuer_uri: {{ .twistlock.sso.issuer_uri }}
         {{- end }}
         {{- if .twistlock.sso.idp_url }}
-        # "idp_url" moved to sso.url + sso.saml.service
+        # "idp_url" moved to "sso.saml.service"
         idp_url: {{ .twistlock.sso.idp_url }}
         {{- end }}
         {{- if .twistlock.sso.console_url }}
@@ -266,11 +266,11 @@ DEPRECATION NOTICE:
         console_url: {{ .twistlock.sso.console_url }}
         {{- end }}
         {{- if .twistlock.sso.groups }}
-        # "groups" moved to sso.attributes.group
+        # "groups" moved to "sso.attributes.group"
         groups: {{ .twistlock.sso.groups }}
         {{- end }}
         {{- if .twistlock.sso.cert }}
-        # "cert" is derived from sso.saml.metadata
+        # "cert" is derived from "sso.saml.metadata"
         cert: {{ .twistlock.sso.cert | trunc 27 }}
         {{- end }}
     {{- end }}
@@ -279,32 +279,32 @@ DEPRECATION NOTICE:
       {{- if .addons.anchore.sso.role_attribute }}
       anchore:
         sso:
-          # "role_attribute" moved to sso.attributes.group
+          # "role_attribute" moved to "sso.attributes.group"
           role_attribute: {{ .addons.anchore.sso.role_attribute }}
       {{- end }}
       {{- if .addons.argocd.sso.provider_name }}
       argocd:
         sso:
-          # "provider_name" moved to sso.name
+          # "provider_name" moved to "sso.name"
           provider_name: {{ .addons.argocd.sso.provider_name }}
       {{- end }}
       {{- if coalesce .addons.gitlab.sso.label .addons.gitlab.sso.issuer_uri .addons.gitlab.sso.end_session_uri .addons.gitlab.sso.uid_field -}}
       gitlab:
         sso:
           {{- if .addons.gitlab.sso.label }}
-          # "label" moved to sso.name
+          # "label" moved to "sso.name"
           label: {{ .addons.gitlab.sso.label }}
           {{- end }}
           {{- if .addons.gitlab.sso.issuer_uri }}
-          # "issuer_uri" moved to sso.url
+          # "issuer_uri" moved to "sso.url"
           issuer_uri: {{ .addons.gitlab.sso.issuer_uri }}
           {{- end }}
           {{- if .addons.gitlab.sso.end_session_uri }}
-          # "end_session_uri" moved to sso.url + sso.oidc.endSession
+          # "end_session_uri" moved to "sso.oidc.endSession"
           end_session_uri: {{ .addons.gitlab.sso.end_session_uri }}
           {{- end }}
           {{- if .addons.gitlab.sso.uid_field }}
-          # "uid_field" moved to sso.attributes.username
+          # "uid_field" moved to "sso.attributes.username"
           uid_field: {{ .addons.gitlab.sso.uid_field }}
           {{- end }}
       {{- end }}
@@ -312,15 +312,15 @@ DEPRECATION NOTICE:
       mattermost:
         sso:
           {{- if .addons.mattermost.sso.auth_endpoint }}
-          # "auth_endpoint" moved to sso.url + sso.oidc.authorization
+          # "auth_endpoint" moved to "sso.oidc.authorization"
           auth_endpoint: {{ .addons.mattermost.sso.auth_endpoint }}
           {{- end }}
           {{- if .addons.mattermost.sso.token_endpoint }}
-          # "token_endpoint" moved to sso.url + sso.oidc.token
+          # "token_endpoint" moved "sso.oidc.token"
           token_endpoint: {{ .addons.mattermost.sso.token_endpoint }}
           {{- end }}
           {{- if .addons.mattermost.sso.user_api_endpoint }}
-          # "user_api_endpoint" moved to sso.url + sso.oidc.userinfo
+          # "user_api_endpoint" moved to "sso.oidc.userinfo"
           user_api_endpoint: {{ .addons.mattermost.sso.user_api_endpoint }}
           {{- end }}
       {{- end }}
@@ -328,27 +328,27 @@ DEPRECATION NOTICE:
       nexus:
         sso:
           {{- if .addons.nexus.sso.idp_data.username }}
-          # "username" moved to sso.attributes.username
+          # "username" moved to "sso.attributes.username"
           username: {{ .addons.nexus.sso.idp_data.username }}
           {{- end }}
           {{- if .addons.nexus.sso.idp_data.firstName }}
-          # "firstName" moved to sso.attributes.firstname
+          # "firstName" moved to "sso.attributes.firstname"
           firstName: {{ .addons.nexus.sso.idp_data.firstName }}
           {{- end }}
           {{- if .addons.nexus.sso.idp_data.lastName }}
-          # "lastName" moved to sso.attributes.lastname
+          # "lastName" moved to "sso.attributes.lastname"
           lastName: {{ .addons.nexus.sso.idp_data.lastName }}
           {{- end }}
           {{- if .addons.nexus.sso.idp_data.email }}
-          # "email" moved to sso.attributes.email
+          # "email" moved to "sso.attributes.email"
           email: {{ .addons.nexus.sso.idp_data.email }}
           {{- end }}
           {{- if .addons.nexus.sso.idp_data.groups }}
-          # "groups" moved to sso.attributes.group
+          # "groups" moved to "sso.attributes.group"
           groups: {{ .addons.nexus.sso.idp_data.groups }}
           {{- end }}
           {{- if .addons.nexus.sso.idp_data.idpMetadata }}
-          # idpMetadata moved to sso.saml.metadata
+          # idpMetadata moved to "sso.saml.metadata"
           idpMetadata: {{ .addons.nexus.sso.idp_data.idpMetadata | trunc 27 }}
           {{- end }}
       {{- end }}
@@ -356,27 +356,27 @@ DEPRECATION NOTICE:
       sonarqube:
         sso:
           {{- if .addons.sonarqube.sso.provider_name }}
-          # "provider_name" moved to sso.name
+          # "provider_name" moved to "sso.name"
           provider_name: {{ .addons.sonarqube.sso.provider_name }}
           {{- end }}
           {{- if .addons.sonarqube.sso.certificate }}
-          # "certificate"
+          # "certificate" derived from "sso.saml.metadata"
           certificate: {{ .addons.sonarqube.sso.certificate | trunc 27 }}
           {{- end }}
           {{- if .addons.sonarqube.sso.login }}
-          # "login" moved to sso.attributes.user
+          # "login" moved to "sso.attributes.user"
           login: {{ .addons.sonarqube.sso.login }}
           {{- end }}
           {{- if .addons.sonarqube.sso.name }}
-          # "name" moved to sso.attributes.name
+          # "name" moved to "sso.attributes.name"
           name: {{ .addons.sonarqube.sso.name }}
           {{- end }}
           {{- if .addons.sonarqube.sso.email }}
-          # "email" moved to sso.attributes.email
+          # "email" moved to "sso.attributes.email"
           email: {{ .addons.sonarqube.sso.email }}
           {{- end }}
           {{- if .addons.sonarqube.sso.group }}
-          # "group" moved to sso.attributes.group
+          # "group" moved to "sso.attributes.group"
           group: {{ .addons.sonarqube.sso.group }}
           {{- end }}
       {{- end }}
