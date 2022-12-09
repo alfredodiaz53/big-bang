@@ -39,9 +39,9 @@ sso:
   {{- /* host and realm are not needed if issuer, auth_url, token_url, userinfo_url, jwkset_url, and endsession_url are all defined */ -}}
   oidc:
     host: {{ dig "oidc" "host" $.Values.sso.oidc.host . | quote }}
-    realm: {{ dig "oidc" "realm" $.Values.sso.oidc.realm . | quote }}
+    realm: {{ default (include "sso.oidc.realm" .) (dig "oidc" "realm" $.Values.sso.oidc.realm .) | quote }}
   {{- /* Optional fields should be nil checked */ -}}
-  {{- $legacy := empty $.Values.sso.url -}}
+  {{- $legacy := and .Values.sso.oidc.realm .Values.sso.oidc.host -}}
   {{- list "issuer" (default (ternary nil (include "sso.url" $) $legacy) .issuer) | include "bigbang.addValueIfSet" | indent 2 }}
   {{- list "auth_url" (default (ternary nil (include "sso.oidc.auth" $) $legacy) .auth_url) | include "bigbang.addValueIfSet" | indent 2 }}
   {{- list "token_url" (default (ternary nil (include "sso.oidc.token" $) $legacy) .token_url) | include "bigbang.addValueIfSet" | indent 2 }}

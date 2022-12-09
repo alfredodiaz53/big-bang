@@ -238,6 +238,11 @@ bigbang.dev/istioVersion: {{ .Values.istio.git.branch }}
   {{- tpl (dig "oidc" "endSession" (printf "%s/protocol/openid-connect/logout" (include "sso.url" .)) .Values.sso) . -}}
 {{- end -}}
 
+{{- /* Returns an SSO realm (OIDC) */ -}}
+{{- define "sso.oidc.realm" -}}
+  {{- coalesce .Values.sso.oidc.realm (regexReplaceAll ".*/realms/([^/]*)" .Values.sso.url "${1}") (regexReplaceAll "\\W+" .Values.sso.name "") -}}
+{{- end -}}
+
 {{- /* Returns the single sign on service (SAML) */ -}}
 {{- define "sso.saml.service" -}}
   {{- tpl (dig "saml" "service" (printf "%s/protocol/saml" (include "sso.url" .)) .Values.sso) . -}}
