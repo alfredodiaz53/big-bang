@@ -20,4 +20,4 @@ There is a values.yaml file in this same directory which provides an example of 
 | Cluster Auditor | Static environment on edge, compliance will be validated in development/cloud |
 | Twistlock | Runtime security at least |
 
-Review and reference [the values file in this same folder to deploy BigBang in Appliance Mode](../../assets/configs/appliance-mode/values.yaml).
+Review and reference [the values file in the configs folder to deploy BigBang in Appliance Mode](../../assets/configs/appliance-mode/values.yaml).
