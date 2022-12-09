@@ -65,14 +65,14 @@ sso:
     {{- else }}
     entityId: "https://nexus.{{ $domainName }}/service/rest/v1/security/saml/metadata"
     {{- end }}
-    usernameAttribute: "{{ dig "sso" "idp_data" "username" (dig "attributes" "username" "username" .Values.sso) .Values.addons.nexus }}"
-    firstNameAttribute: "{{ dig "sso" "idp_data" "firstName" (dig "attributes" "firstname" "firstName" .Values.sso) .Values.addons.nexus }}"
-    lastNameAttribute: "{{ dig "sso" "idp_data" "lastName" (dig "attributes" "lastname" "lastName" .Values.sso) .Values.addons.nexus }}"
-    emailAttribute: "{{ dig "sso" "idp_data" "email" (dig "attributes" "email" "email" .Values.sso) .Values.addons.nexus }}"
-    groupsAttribute: "{{ dig "sso" "idp_data" "groups" (dig "attributes" "group" "groups" .Values.sso) .Values.addons.nexus }}"
+    usernameAttribute: "{{ default (dig "attributes" "username" "username" .Values.sso) (dig "sso" "idp_data" "username" "" .Values.addons.nexus) }}"
+    firstNameAttribute: "{{ default (dig "attributes" "firstname" "firstName" .Values.sso) (dig "sso" "idp_data" "firstName" "" .Values.addons.nexus) }}"
+    lastNameAttribute: "{{ default (dig "attributes" "lastname" "lastName" .Values.sso) (dig "sso" "idp_data" "lastName" "" .Values.addons.nexus) }}"
+    emailAttribute: "{{ default (dig "attributes" "email" "email" .Values.sso) (dig "sso" "idp_data" "email" "" .Values.addons.nexus) }}"
+    groupsAttribute: "{{ default (dig "attributes" "group" "groups" .Values.sso) (dig "sso" "idp_data" "groups" "" .Values.addons.nexus) }}"
     validateResponseSignature: "true"
     validateAssertionSignature: "true"
-    idpMetadata: '{{ dig "sso" "idp_data" "idpMetadata" (dig "saml" "metadata" "" .Values.sso) .Values.addons.nexus }}'
+    idpMetadata: "{{ default (dig "saml" "metadata" "" .Values.sso) (dig "sso" "idp_data" "idpMetadata" "" .Values.addons.nexus) }}"
   realm:
     - "NexusAuthenticatingRealm"
     - "NexusAuthorizingRealm"
