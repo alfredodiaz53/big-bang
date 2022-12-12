@@ -108,6 +108,13 @@ loki:
     tag: "3.3.4-bb.0"
     repo: "registry1"
 
+neuvector:
+  git: null
+  oci:
+    name: "neuvector"
+    tag: "2.2.2-bb.1"
+    repo: "registry1"
+
 tempo:
   git: null
   oci:
