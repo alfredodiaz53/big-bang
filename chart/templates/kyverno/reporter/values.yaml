@@ -45,8 +45,7 @@ monitoring:
   enabled: {{ .Values.monitoring.enabled }}
   grafana:
     namespace: monitoring
-  {{- $istioInjection := (and (eq (dig "istio" "injection" "enabled" .Values.kyvernoreporter) "enabled") .Values.istio.enabled) }}
-  {{- if $istioInjection }}
+  {{- if .Values.istio.enabled }}
   serviceMonitor:
     scheme: https
     tlsConfig:
