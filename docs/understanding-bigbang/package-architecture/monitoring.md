@@ -211,6 +211,31 @@ monitoring:
         replicas: 3
 ```
 
+#### Prometheus
+
+High Availability can be accomplished by increasing the number of replicas for the deployment of Prometheus;
+```yaml
+monitoring:
+  values:
+    thanosRuler:
+      enabled: true
+    prometheusOperator:
+      clusterDomain: "cluster.local"
+    prometheus:
+      thanosService:
+        enabled: true
+      thanosServiceMonitor:
+        enabled: true
+      prometheusSpec:
+        replicas: 3
+        thanos:
+          baseImage: registry1.dso.mil/ironbank/opensource/thanos/thanos
+          version: v0.29.0
+          objectStorageConfig:
+            key: objstore.yml
+            name: thanos-objstore-secret
+```
+
 #### Grafana
 
 High Availability can be accomplished by increasing the number of replicas for the deployment of Grafana and configuring an external database connection (postgresql/mysql) so users and dashboard information can be centrally located for the replicas to have a source of truth. See Grafana's [upstream documentation](https://grafana.com/docs/grafana/v9.0/setup-grafana/configure-grafana/#database)
