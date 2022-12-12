@@ -21,8 +21,6 @@ podAnnotations:
   {{ include "istioAnnotation" . }}
 {{- end }}
 
-
-
 kyvernoPlugin:
   image:
     pullPolicy: {{ .Values.imagePullPolicy }}
@@ -32,7 +30,6 @@ kyvernoPlugin:
   podAnnotations:
     {{ include "istioAnnotation" . }}
   {{- end }}
-
 
 ui:
   image:
