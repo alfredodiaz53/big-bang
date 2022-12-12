@@ -89,6 +89,11 @@ loki:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/loki.git
     path: "./chart"
     branch: "my-dev-branch"
+neuvector:
+  git:
+    repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/neuvector.git
+    path: "./chart"
+    branch: "my-dev-branch"
 tempo:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/tempo.git
