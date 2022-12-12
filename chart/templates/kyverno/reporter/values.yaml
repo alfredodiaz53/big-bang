@@ -21,6 +21,9 @@ podAnnotations:
   {{ include "istioAnnotation" . }}
 {{- end }}
 
+{{- $istioInjection := (and (eq (dig "istio" "injection" "enabled" .Values.kyvernoreporter) "enabled") .Values.istio.enabled) }}
+
+
 kyvernoPlugin:
   image:
     pullPolicy: {{ .Values.imagePullPolicy }}
@@ -30,6 +33,7 @@ kyvernoPlugin:
   podAnnotations:
     {{ include "istioAnnotation" . }}
   {{- end }}
+
 
 ui:
   image:
@@ -45,6 +49,23 @@ monitoring:
   enabled: {{ .Values.monitoring.enabled }}
   grafana:
     namespace: monitoring
+  {{- if $istioInjection }}
+  serviceMonitor:
+    scheme: https
+    tlsConfig:
+      caFile: /etc/prom-certs/root-cert.pem
+      certFile: /etc/prom-certs/cert-chain.pem
+      keyFile: /etc/prom-certs/key.pem
+      insecureSkipVerify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod certificate
+  kyverno:
+    serviceMonitor:
+      scheme: https
+      tlsConfig:
+        caFile: /etc/prom-certs/root-cert.pem
+        certFile: /etc/prom-certs/cert-chain.pem
+        keyFile: /etc/prom-certs/key.pem
+        insecureSkipVerify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod certificate
+  {{- end }}
 
 openshift: {{ .Values.openshift }}
 
