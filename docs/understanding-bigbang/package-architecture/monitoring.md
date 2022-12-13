@@ -213,7 +213,7 @@ monitoring:
 
 #### Prometheus
 
-High Availability can be accomplished by increasing the number of replicas for the deployment of Prometheus;
+High Availability can be accomplished by increasing the number of replicas for the deployment of Prometheus. [Thanos](https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/thanos/-/tree/main) must also be installed in order for data to replicate across pods. An example of a Thanos object storage config [is here](https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/thanos/-/blob/main/tests/test-values.yaml).
 ```yaml
 monitoring:
   values:
