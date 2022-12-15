@@ -24,7 +24,7 @@ istio:
 
 {{- if $istioInjection }}
 podAnnotations:
-   traffic.sidecar.istio.io/excludeInboundPorts: "8074,8075"
+  traffic.sidecar.istio.io/excludeInboundPorts: "8074,8075"
   {{ include "istioAnnotation" . }}
 updateJob:
   disabled: true
