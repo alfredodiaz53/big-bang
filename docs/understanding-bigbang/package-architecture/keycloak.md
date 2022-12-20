@@ -248,8 +248,15 @@ By default Big Bang deploys Keycloak with two replicas in a high availability cl
 ```yaml
 addons:
   keycloak:
+    database:
+      host: ""
+      type: ""
+      port: ""
+      database: ""
+      username: ""
+      password: "in-encrypted-values"
     values:
-      replicas: 2
+      replicas: 3
 ```
 
 ## Dependent Packages
