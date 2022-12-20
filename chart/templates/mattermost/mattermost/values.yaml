@@ -24,8 +24,6 @@ istio:
 
 {{- if $istioInjection }}
 podAnnotations:
-  # Mattermost gossip traffic must be excluded from sidecar to support HA
-  traffic.sidecar.istio.io/excludeInboundPorts: "8074"
   {{ include "istioAnnotation" . }}
 updateJob:
   disabled: true
