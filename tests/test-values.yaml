@@ -362,12 +362,17 @@ kyvernopolicies:
       require-image-signature:
         parameters:
           require:
-          - image: ghcr.io/kyverno/test-verify-image:*
-            key: |-
-              -----BEGIN PUBLIC KEY-----
-              MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE8nXRh950IZbRj8Ra/N9sbqOPZrfM
-              5/KAQN0/KjHcorm/J5yctVd7iEcnessRQjU917hmKO6JWVGHpDguIyakZA==
-              -----END PUBLIC KEY-----
+          - imageReferences:
+            - "ghcr.io/kyverno/test-verify-image:*"
+            attestors:
+            - count: 1
+              entries:
+              - keys:
+                  publicKeys: |-
+                    -----BEGIN PUBLIC KEY-----
+                    MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE8nXRh950IZbRj8Ra/N9sbqOPZrfM
+                    5/KAQN0/KjHcorm/J5yctVd7iEcnessRQjU917hmKO6JWVGHpDguIyakZA==
+                    -----END PUBLIC KEY-----
       require-labels:
         parameters:
           require:
