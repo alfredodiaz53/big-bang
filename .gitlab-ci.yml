@@ -1,9 +1,7 @@
 include:
   - project: 'platform-one/big-bang/pipeline-templates/pipeline-templates'
-    ref: master
-    file: '/pipelines/bigbang.yaml'
-
-
-
-
-
+    ref: airgap-bb-install
+    file: '/pipelines/bigbang-package.yaml' 
+variables:
+  PIPELINE_REPO_BRANCH: airgap-bb-install
+  DEBUG_ENABLED: "true"
