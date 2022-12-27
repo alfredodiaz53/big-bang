@@ -1514,6 +1514,11 @@ addons:
               }
 
               service_registration "kubernetes" {}
+      minio:
+        enabled: true
+        disableSSL: true
+        endpoint: minio.vault.svc.cluster.local
+
 
       bbtests:
         enabled: true
