@@ -1474,8 +1474,7 @@ addons:
           VAULT_SKIP_VERIFY: "true"
           VAULT_LOG_FORMAT: "json"
         dataStorage:
-          enabled: true
-          size: 256Mi
+          enabled: false
         auditStorage:
           size: 256Mi
         ha:
