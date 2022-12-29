@@ -389,13 +389,13 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | addons.anchore.redis.password | string | `""` | Password to connect to pre-existing Redis. |
 | addons.anchore.values | object | `{}` | Values to passthrough to the anchore chart: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/anchore-enterprise.git |
 | addons.anchore.postRenderers | list | `[]` | Post Renderers.  See docs/postrenders.md |
-| addons.mattermostoperator.enabled | bool | `false` |  |
-| addons.mattermostoperator.git.repo | string | `"https://repo1.dso.mil/platform-one/big-bang/apps/collaboration-tools/mattermost-operator.git"` |  |
-| addons.mattermostoperator.git.path | string | `"./chart"` |  |
-| addons.mattermostoperator.git.tag | string | `"1.19.0-bb.0"` |  |
-| addons.mattermostoperator.flux | object | `{}` | Flux reconciliation overrides specifically for the Mattermost Operator Package |
-| addons.mattermostoperator.values | object | `{}` | Values to passthrough to the mattermost operator chart: https://repo1.dso.mil/platform-one/big-bang/apps/collaboration-tools/mattermost-operator/-/blob/main/chart/values.yaml |
-| addons.mattermostoperator.postRenderers | list | `[]` | Post Renderers.  See docs/postrenders.md |
+| addons.mattermostOperator.enabled | bool | `false` |  |
+| addons.mattermostOperator.git.repo | string | `"https://repo1.dso.mil/platform-one/big-bang/apps/collaboration-tools/mattermost-operator.git"` |  |
+| addons.mattermostOperator.git.path | string | `"./chart"` |  |
+| addons.mattermostOperator.git.tag | string | `"1.19.0-bb.0"` |  |
+| addons.mattermostOperator.flux | object | `{}` | Flux reconciliation overrides specifically for the Mattermost Operator Package |
+| addons.mattermostOperator.values | object | `{}` | Values to passthrough to the mattermost operator chart: https://repo1.dso.mil/platform-one/big-bang/apps/collaboration-tools/mattermost-operator/-/blob/main/chart/values.yaml |
+| addons.mattermostOperator.postRenderers | list | `[]` | Post Renderers.  See docs/postrenders.md |
 | addons.mattermost.enabled | bool | `false` | Toggle deployment of Mattermost. |
 | addons.mattermost.git.repo | string | `"https://repo1.dso.mil/platform-one/big-bang/apps/collaboration-tools/mattermost.git"` |  |
 | addons.mattermost.git.path | string | `"./chart"` |  |
