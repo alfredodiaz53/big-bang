@@ -159,6 +159,7 @@ sso:
       clientID: {{ .Values.addons.argocd.sso.client_id }}
       clientSecret: $oidc.keycloak.clientSecret
       requestedScopes: ["openid","ArgoCD"]
+      rootCA: {{- toYaml .Values.sso.certificate_authority | nindent 8 }}
 {{- end }}
 {{- end -}}
 
