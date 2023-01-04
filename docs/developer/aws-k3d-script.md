@@ -84,6 +84,18 @@ The Big Bang product is tightly coupled with the GitOps tool FluxCD. Before you 
 ./scripts/install_flux.sh -u your-user-name -p your-password
 ```
 
+## Deploy Bigbang
+
+From the bigbang directory deploy BigBang via helm
+```shell
+helm upgrade -i bigbang chart/ -n bigbang --create-namespace --set registryCredentials.username=XXXXX --set registryCredentials.password='XXXXX' -f chart/values.yaml
+```
+
+To add overrides add references to your override yaml file
+```shell
+-f ../other-overrides.yaml
+```
+
 ## Troubleshooting
 
 1. If you are on a Mac insure that you have GNU sed command installed. Otherwise you will see this error and the kubeconfig will not be updated with the IP from the instance.
