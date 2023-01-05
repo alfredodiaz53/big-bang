@@ -146,7 +146,7 @@ networkPolicies:
     {{- $default := dict "app" (dig "gateways" $gateway "ingressGateway" nil .Values.istio) "istio" nil }}
     {{- toYaml (dig "values" "gateways" $gateway "selector" $default .Values.istio) | nindent 4 }}
 
-config:
+configs:
   cm:
     {{- $argocdHosts := (dig "istio" "argocd" "hosts" dict .Values.addons.argocd.values) }}
     {{- if $argocdHosts }}
