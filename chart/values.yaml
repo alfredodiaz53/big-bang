@@ -399,7 +399,7 @@ kyvernopolicies:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/kyverno-policies.git
     path: ./chart
-    tag: "1.0.1-bb.9"
+    tag: "1.0.1-bb.11"
 
   # -- Flux reconciliation overrides specifically for the Kyverno Package
   flux: {}
@@ -659,7 +659,7 @@ monitoring:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/monitoring.git
     path: "./chart"
-    tag: "41.7.3-bb.0"
+    tag: "43.1.2-bb.0"
 
   # -- Flux reconciliation overrides specifically for the Monitoring Package
   flux:
@@ -773,7 +773,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/argocd.git
       path: "./chart"
-      tag: "5.5.7-bb.6"
+      tag: "5.16.1-bb.0"
 
     # -- Flux reconciliation overrides specifically for the ArgoCD Package
     flux: {}
@@ -1403,7 +1403,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/keycloak.git
       path: "./chart"
-      tag: "18.2.1-bb.5"
+      tag: "18.2.1-bb.6"
 
     database:
       # -- Hostname of a pre-existing database to use for Keycloak.
@@ -1452,7 +1452,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/vault.git
       path: "./chart"
-      tag: "0.22.1-bb.2"
+      tag: "0.23.0-bb.0"
 
     # -- Flux reconciliation overrides specifically for the Vault Package
     flux: {}
