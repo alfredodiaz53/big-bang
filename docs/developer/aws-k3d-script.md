@@ -91,7 +91,7 @@ From the bigbang directory deploy BigBang via helm
 helm upgrade -i bigbang chart/ -n bigbang --create-namespace --set registryCredentials.username=XXXXX --set registryCredentials.password='XXXXX' -f chart/values.yaml
 ```
 
-To add overrides add references to your override yaml file
+Overrides can be supplemented by adding references to the specific yaml file, the right-most values file will take highest precedence: 
 ```shell
 -f ../other-overrides.yaml
 ```
