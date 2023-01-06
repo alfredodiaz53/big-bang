@@ -1403,7 +1403,11 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/keycloak.git
       path: "./chart"
+<<<<<<< HEAD
       tag: "18.3.0-bb.2"
+=======
+      tag: "18.3.0-bb.0"
+>>>>>>> 0afef3da (Keycloak quarkus)
 
     database:
       # -- Hostname of a pre-existing database to use for Keycloak.
