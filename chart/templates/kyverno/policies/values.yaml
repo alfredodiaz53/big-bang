@@ -134,6 +134,9 @@ policies:
           {{- if (dig "console" "localVolumeUpgrade" false .Values.twistlock.values) }}
           - twistlock
           {{- end }}
+          {{- if .Values.addons.keycloak.enabled }}
+          - keycloak
+          {{- end }}
           names:
           {{- if (dig "console" "localVolumeUpgrade" false .Values.twistlock.values) }}
           - volume-upgrade-job*
@@ -189,6 +192,10 @@ policies:
           # values from a readOnly projected volume holding secrets/configmap items, into the shared
           # volume. The shared volume is mounted with subpaths pointing to specific files in the container.
           - gitlab-gitaly*
+          {{- end }}
+          {{- if .Values.addons.keycloak.enabled }}
+          # Volumes using emptyDir shared with initContainers to inject custom provider plugins or custom themes
+          - keycloak-*
           {{- end }}
   {{- end }}
 
