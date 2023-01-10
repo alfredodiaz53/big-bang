@@ -381,7 +381,7 @@ kyverno:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/kyverno.git
     path: "./chart"
-    tag: "2.6.1-bb.0"
+    tag: "2.6.5-bb.0"
 
   # -- Flux reconciliation overrides specifically for the Kyverno Package
   flux: {}
@@ -399,7 +399,7 @@ kyvernopolicies:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/kyverno-policies.git
     path: ./chart
-    tag: "1.0.1-bb.11"
+    tag: "1.0.1-bb.12"
 
   # -- Flux reconciliation overrides specifically for the Kyverno Package
   flux: {}
@@ -1022,7 +1022,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/developer-tools/nexus.git
       path: "./chart"
-      tag: "42.0.0-bb.4"
+      tag: "44.0.0-bb.0"
 
     # -- Base64 encoded license file.
     license_key: ""
@@ -1173,7 +1173,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/anchore-enterprise.git
       path: "./chart"
-      tag: "1.20.0-bb.2"
+      tag: "1.20.1-bb.0"
 
     # -- Flux reconciliation overrides specifically for the Anchore Package
     flux:
@@ -1403,7 +1403,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/keycloak.git
       path: "./chart"
-      tag: "18.2.1-bb.6"
+      tag: "18.3.0-bb.0"
 
     database:
       # -- Hostname of a pre-existing database to use for Keycloak.
