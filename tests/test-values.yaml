@@ -395,6 +395,9 @@ kyvernopolicies:
           - 'kyverno-policies-bbtest/test: required'
           - kyverno-policies-bbtest/required
       require-image-signature:
+        # Audit is required when two matches/attestors are present due to a bug
+        # https://github.com/kyverno/kyverno/pull/5956
+        validationFailureAction: "audit"
         parameters:
           require:
           - imageReferences:
