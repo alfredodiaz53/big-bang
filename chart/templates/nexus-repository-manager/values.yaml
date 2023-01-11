@@ -24,7 +24,7 @@ job_image:
 monitoring:
   enabled: {{ .Values.monitoring.enabled }}
   serviceMonitor:
-    createMetricsUser: true
+    createMetricsUser: {{ .Values.monitoring.enabled }}
   {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.addons.velero.values) "STRICT") }}
     scheme: https
     tlsConfig:
