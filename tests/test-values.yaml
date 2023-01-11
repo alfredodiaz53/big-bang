@@ -1195,7 +1195,9 @@ addons:
 
   mattermostOperator:
     enabled: false
-
+  # deprecated
+  #mattermostOperator:
+  
   mattermost:
     enabled: false
     sso:
