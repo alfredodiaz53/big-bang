@@ -30,6 +30,7 @@ policies:
           - twistlock-defender-ds*
       {{- end }}
       {{- if .Values.neuvector.enabled }}
+      # Neuvector needs access to host to inspect network traffic
       - resources:
           namespaces:
           - neuvector
@@ -72,6 +73,7 @@ policies:
     enabled: true
     validationFailureAction: enforce
     {{- if .Values.neuvector.enabled }}
+    # Neuvector scanner pods must run the most up to date version in order to have up to date CVE lists
     exclude:
       any:
       - resources:
@@ -112,6 +114,7 @@ policies:
           - logging-fluent-bit*
       {{- end }}
       {{- if .Values.neuvector.enabled }}
+      # Neuvector needs priviledge to inspect network traffic
       - resources:
           namespaces:
           - neuvector
@@ -481,6 +484,11 @@ policies:
           - twistlock-defender-ds*
       {{- end }}
       {{- if .Values.neuvector.enabled }}
+      # Neuvector mounts the following hostPaths:
+      # `/var/neuvector`: for Neuvector's buffering and persistent state
+      # `/var/run`: 
+      # `/proc`:
+      # `/sys/fs/cgroup`:
       - resources:
           namespaces:
           - neuvector
@@ -528,6 +536,8 @@ policies:
           - twistlock-defender-ds*
       {{- end }}
       {{- if .Values.neuvector.enabled }}
+      # Neuvector mounts the following hostPaths as writeable: 
+      # `/var/neuvector`: for Neuvector's buffering and persistent state
       - resources:
           namespaces:
           - neuvector

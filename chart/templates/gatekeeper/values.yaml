@@ -56,6 +56,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
       - logging/logging-fluent-bit-.*
       {{- end }}
       {{- if .Values.neuvector.enabled }}
+      # Neuvector needs access to host to inspect network traffic
       - neuvector/neuvector-enforcer-pod.*
       - neuvector/neuvector-controller-pod.*
       {{- end }}
@@ -77,6 +78,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
   bannedImageTags:
     parameters:
       excludedResources:
+        # Neuvector scanner pods must run the most up to date version in order to have up to date CVE lists
         - neuvector/neuvector-scanner-pod.*
   {{- end }}
 
@@ -99,6 +101,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
         - twistlock/twistlock-defender-ds-.*
         {{- end }}
         {{- if .Values.neuvector.enabled }}
+        # Neuvector needs access to host to inspect network traffic
         - neuvector/neuvector-enforcer-pod.*
         {{- end }}
   {{- end }}
@@ -116,6 +119,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
         # Fluentbit needs privileged to read and store the buffer for tailing logs from the nodes
         - logging/fluent-bit
         {{- if .Values.neuvector.enabled }}
+        # Neuvector needs priviledge to inspect network traffic
         - neuvector/neuvector-enforcer-pod.*
         - neuvector/neuvector-controller-pod.*
         {{- end }}
@@ -185,7 +189,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
         - logging/logging-promtail-.*
        {{- end }}
        {{- if .Values.neuvector.enabled }}
-        # Neuvecotr requires hostpath volume types
+        # Neuvector requires hostpath volume types
         # https://github.com/neuvector/neuvector-helm/blob/master/charts/core/templates/enforcer-daemonset.yaml#L108
         - neuvector/neuvector-enforcer-pod.*
         - neuvector/neuvector-controller-pod.*
