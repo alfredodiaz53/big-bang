@@ -1022,7 +1022,9 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/developer-tools/nexus.git
       path: "./chart"
-      tag: "44.0.0-bb.0"
+      # tag: "45.0.0-bb.0"
+      tag: null
+      branch: "53-renovate-upgrade-nexus-dependencies"
 
     # -- Base64 encoded license file.
     license_key: ""
