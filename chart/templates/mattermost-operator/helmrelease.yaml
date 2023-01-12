@@ -1,4 +1,4 @@
-{{- $fluxSettingsMattermostOperator := merge .Values.addons.mattermostOperator.flux .Values.flux -}}
+{{- $fluxSettingsMattermostOperator := merge .Values.addons.mattermostOperator.flux .Values.addons.mattermostoperator.flux .Values.flux -}}
 {{- $mmOpOldValues := default .Values.addons.mattermostoperator dict -}}
 {{- $mmOpValues := merge $mmOpOldValues .Values.addons.mattermostOperator -}}
 {{- if or $mmOpValues.enabled .Values.addons.mattermost.enabled }}
@@ -15,27 +15,27 @@ spec:
   targetNamespace: mattermost-operator
   chart:
     spec:
-      {{- if eq (include "checkGitRef" .Values.addons.mattermostOperator) "true" }}
-      chart: {{ .Values.addons.mattermostOperator.git.path }}
+      {{- if eq (include "checkGitRef" $mmOpValues) "true" }}
+      chart: {{ $mmOpValues.git.path }}
       sourceRef:
         kind: GitRepository
         name: mattermost-operator
         namespace: {{ .Release.Namespace }}
       {{- else }}
-      chart: {{ .Values.addons.mattermostOperator.oci.name }}
-      version: {{ .Values.addons.mattermostOperator.oci.tag }}
+      chart: {{ $mmOpValues.oci.name }}
+      version: {{ $mmOpValues.oci.tag }}
       sourceRef:
         kind: HelmRepository
-        name: {{ .Values.addons.mattermostOperator.oci.repo }}
+        name: {{ $mmOpValues.oci.repo }}
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m
 
   {{- toYaml $fluxSettingsMattermostOperator | nindent 2 }}
   
-  {{- if .Values.addons.mattermostOperator.postRenderers }}
+  {{- if $mmOpValues.postRenderers }}
   postRenderers:
-  {{- toYaml .Values.addons.mattermostOperator.postRenderers | nindent 4 }}
+  {{- toYaml $mmOpValues.postRenderers | nindent 4 }}
   {{- end }}
   valuesFrom:
     - name: {{ .Release.Name }}-mattermost-operator-values
