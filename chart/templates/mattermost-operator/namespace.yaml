@@ -1,4 +1,6 @@
-{{- if or .Values.addons.mattermostOperator.enabled .Values.addons.mattermost.enabled }}
+{{- $mmOpOldValues := default .Values.addons.mattermostoperator dict -}}
+{{- $mmOpValues := merge $mmOpOldValues .Values.addons.mattermostOperator -}}
+{{- if or $mmOpValues.enabled .Values.addons.mattermost.enabled }}
 apiVersion: v1
 kind: Namespace
 metadata:
