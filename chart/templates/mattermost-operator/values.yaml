@@ -1,5 +1,8 @@
-{{- if or .Values.addons.mattermostOperator.enabled .Values.addons.mattermost.enabled }}
-{{- include "values-secret" (dict "root" $ "package" .Values.addons.mattermostOperator "name" "mattermost-operator" "defaults" (include "bigbang.defaults.mattermostOperator" .)) }}
+{{- $mmOpOldValues := default .Values.addons.mattermostoperator dict -}}
+{{- $mmOpValues := merge $mmOpOldValues .Values.addons.mattermostOperator -}}
+{{- if or $mmOpValues.enabled .Values.addons.mattermost.enabled }}
+
+{{- include "values-secret" (dict "root" $ "package" $mmOpValues "name" "mattermost-operator" "defaults" (include "bigbang.defaults.mattermostOperator" .)) }}
 {{- end }}
 
 {{- define "bigbang.defaults.mattermostOperator" -}}
