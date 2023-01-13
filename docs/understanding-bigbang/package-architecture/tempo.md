@@ -27,8 +27,6 @@ end
 
 ```
 
-For more information on the Anchore Enterprise architecture, see [Enterprise Service Overview and Architecture](https://docs.anchore.com/current/docs/overview/architecture/).
-
 ## Big Bang Touch Points
 
 ### Licensing
