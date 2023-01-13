@@ -1,4 +1,4 @@
-{{- $fluxSettingsMattermostOperator := merge .Values.addons.mattermostOperator.flux .Values.addons.mattermostoperator.flux .Values.flux -}}
+{{- $fluxSettingsMattermostOperator := merge .Values.addons.mattermostOperator.flux .Values.addons.mattermostoperator.flux -}}
 {{- $mmOpOldValues := default .Values.addons.mattermostoperator dict -}}
 {{- $mmOpValues := merge $mmOpOldValues .Values.addons.mattermostOperator -}}
 {{- if or $mmOpValues.enabled .Values.addons.mattermost.enabled }}
