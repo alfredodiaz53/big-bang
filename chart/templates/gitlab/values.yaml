@@ -10,7 +10,7 @@ domain: {{ $domainName }}
 
 # Define variables to help with conditionals later
 {{- $istioInjection := (and (eq (dig "istio" "injection" "enabled" .Values.addons.gitlab) "enabled") .Values.istio.enabled) }}
-{{- $iamProfile := (and (ne .Values.addons.gitlab.objectStorage.iamProfile "") .Values.addons.gitlab.objectStorage.endpoint) }}
+{{- $iamProfile := (and (ne .Values.addons.gitlab.objectStorage.iamProfile "") .Values.addons.gitlab.objectStorage.region) }}
 
 openshift: {{ .Values.openshift }}
 
@@ -68,9 +68,9 @@ postgresql:
   {{- end }}
 {{- end }}
 
-{{- if or .Values.addons.gitlab.objectStorage.endpoint $istioInjection }}
+{{- if or .Values.addons.gitlab.objectStorage.region $istioInjection }}
 registry:
-  {{- if .Values.addons.gitlab.objectStorage.endpoint }}
+  {{- if .Values.addons.gitlab.objectStorage.region }}
   storage:
     secret: gitlab-object-storage
     key: registry
@@ -98,9 +98,9 @@ registry:
 {{- end }}
 
 gitlab:
-  {{- if or .Values.addons.gitlab.objectStorage.endpoint $istioInjection }}
+  {{- if or .Values.addons.gitlab.objectStorage.region $istioInjection }}
   toolbox:
-    {{- if .Values.addons.gitlab.objectStorage.endpoint }}
+    {{- if .Values.addons.gitlab.objectStorage.region }}
     backups:
       objectStorage:
         config:
@@ -294,7 +294,7 @@ global:
       key: PGPASSWORD
   {{- end }}
 
-  {{- if .Values.addons.gitlab.objectStorage.endpoint }}
+  {{- if .Values.addons.gitlab.objectStorage.region }}
   registry:
     {{- if .Values.addons.gitlab.objectStorage.bucketPrefix }}
     bucket: {{ .Values.addons.gitlab.objectStorage.bucketPrefix }}-gitlab-registry
@@ -303,7 +303,7 @@ global:
     {{- end }}
   {{- end }}
 
-  {{- if or .Values.addons.gitlab.sso.enabled .Values.addons.gitlab.objectStorage.endpoint }}
+  {{- if or .Values.addons.gitlab.sso.enabled .Values.addons.gitlab.objectStorage.region }}
   appConfig:
     {{- end }}
 
@@ -329,7 +329,7 @@ global:
           key: gitlab-sso.json
     {{- end }}
 
-    {{- if .Values.addons.gitlab.objectStorage.endpoint }}
+    {{- if .Values.addons.gitlab.objectStorage.region }}
     lfs:
       {{- if .Values.addons.gitlab.objectStorage.bucketPrefix }}
       bucket: {{ .Values.addons.gitlab.objectStorage.bucketPrefix }}-gitlab-lfs
