@@ -54,7 +54,7 @@ addons:
         -----END CERTIFICATE-----
 
     values:
-      replicas: 1
+      replicas: 3
       command:
         - "/opt/keycloak/bin/kc.sh"
       args:
