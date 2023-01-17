@@ -92,7 +92,7 @@ end
 ```
 ### Storage
 
-Tempo has a dependency on object storage (e.g., GCS, S3, Azure Blob). To set a preferred object storage option in the bigang values reference the values below:
+Tempo can utilize a local PVC for storage, but for production it is recommended to utilize in-cluster or external object-storage (e.g., GCS, S3, Azure Blob). To set a preferred object storage option in the bigang values reference the values below:
 
 ```yaml
 tempo:
