@@ -22,6 +22,7 @@ grafana --> T["tempo"]
 subgraph "tempo namespace"
     subgraph "tempo pod"
         T --> O
+        Q["tempo-query"] --> T
     end
 end
 
@@ -37,7 +38,7 @@ For production workloads, Grafana has a built in Tempo data source that can be u
 
 ### Single Sign On
 
-Tempo does not have built in SSO. In order to provide SSO, this deployment leverages Authservice
+Tempo-Query does not have built in SSO. In order to provide SSO, this deployment leverages Authservice
 
 1. Create a Tempo client
    - Change the following configuration items
@@ -121,7 +122,7 @@ tempo:
 
 ### UI
 
-Tempo has no UI packaged with it. Grafana is the frontend to view traces.
+Grafana is the primary frontend used to view traces. However, another option is to utilize tempo which comes with a UI package which is a jaeger frontend option in order to view traces.
 
 ### Logging
 
