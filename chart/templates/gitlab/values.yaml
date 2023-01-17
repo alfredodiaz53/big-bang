@@ -278,7 +278,7 @@ global:
     registry:
       name: {{ .Values.addons.gitlab.hostnames.registry }}.{{ $domainName }}
 
-  {{- if (ne .Values.addons.gitlab.objectStorage.iamProfile "") }}
+  {{- if ne .Values.addons.gitlab.objectStorage.iamProfile "" }}
   minio:
     enabled: false
   {{- end }}
