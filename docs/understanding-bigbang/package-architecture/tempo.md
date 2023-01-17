@@ -129,3 +129,11 @@ Within Big Bang, logs are captured by fluentbit or promtail and shipped to your 
 ### Health Checks
 
 When the global override strategy endpoint is configured within Tempo [Consistent Hash Rings](https://grafana.com/docs/tempo/latest/operations/consistent_hash_ring/) (e.g., distributor, ingester, metrics-generator, and compactor) will display web pages with the individual hash ring status, including the state, health, and last heartbeat time of each metrics-generator.
+
+### Dependent Packages
+
+When enabling `minio` for Tempo without filling in `loki.objectStorage` values, minioOperator is required as a minio tenant will be auto-created and configured as the object storage backend.
+
+Tempo can be deployed by itself but since it's so closely tied with Grafana, the monitoring package is set as a required dependency within Big Bang so both are setup and auto-configured.
+
+As mentioned above, Tempo requires a service mesh within the cluster to generate and track traces. Istio is set as a dependency for tempo as a result.
