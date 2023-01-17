@@ -27,6 +27,11 @@ networkPolicies:
     {{- $default := dict "app" (dig "gateways" $gateway "ingressGateway" nil .Values.istio) "istio" nil }}
     {{- toYaml (dig "values" "gateways" $gateway "selector" $default .Values.istio) | nindent 4 }}
 
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 3
+
 {{- if and (dig "redis" "enabled" false .Values.addons.authservice.values) .Values.monitoring.enabled }}
 redis-bb:
   metrics:
