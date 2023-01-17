@@ -36,6 +36,10 @@ Tempo has no licensing options nor requirements.
 
 For production workloads, Grafana has a built in Tempo data source that can be used to query Tempo and visualize traces.
 
+### UI
+
+Grafana is the primary frontend used to view traces. However, another option is to utilize tempo which comes with a UI package which is a jaeger frontend option in order to view traces.
+
 ### Single Sign On
 
 Tempo-Query does not have built in SSO. In order to provide SSO, this deployment leverages Authservice
@@ -81,7 +85,7 @@ ingress --> IP
 
 subgraph "tempo namespace"
     subgraph "tempo pod"
-        T["tempo"]
+        T["tempo-query"]
         IP["istio proxy"] --> A
         IP --> T
     end
@@ -111,7 +115,7 @@ tempo:
     # Unencoded string data. This should be placed in the secret values and then encrypted
     accessSecret: ""
 
-    # -- Bucket Names for Loki as a comma delimited list.
+    # -- Bucket Names for Tempo
     # examples: "tempo-traces"
     bucket: ""
 
@@ -119,10 +123,6 @@ tempo:
     # storage on port 80/9000 set this value to true.
     insecure: false
 ```
-
-### UI
-
-Grafana is the primary frontend used to view traces. However, another option is to utilize tempo which comes with a UI package which is a jaeger frontend option in order to view traces.
 
 ### Logging
 
