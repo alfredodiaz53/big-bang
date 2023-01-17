@@ -2,9 +2,9 @@
 
 ## Overview
 
-This package contains an extensible and configurable installation of Grafana Tempo based on the upstream chart provided by grafana. Tempo can be used to collect traces from your cluster service-mesh. Grafana has a built-in data source that can be used to query Tempo and visualize traces.
+This package contains an extensible and configurable installation of Grafana Tempo based on the upstream chart provided by grafana. Tempo can be used to collect traces from your cluster service-mesh. Grafana has a built-in data source that can be used to query Tempo and visualize traces. For production workloads, Grafana has a built in Tempo data source that can be used to query Tempo and visualize traces.
 
-[Tempo](https://grafana.com/docs/tempo/latest/) is an open source, easy-to-use, and high-scale distributed tracing backend. With Tempo, the only dependencyis object storage (e.g., S3, Azure Blob, etc.). Tempo can ingest common open source tracing protocols, including Jaeger, Zipkin, and OpenTelemetry.
+[Tempo](https://grafana.com/docs/tempo/latest/) is an open source, easy-to-use, and high-scale distributed tracing backend. With Tempo, the only dependency is object storage (e.g., S3, Azure Blob, etc.). Tempo can ingest common open source tracing protocols, including Jaeger, Zipkin, and OpenTelemetry.
 
 
 ### Grafana Tempo
@@ -33,8 +33,6 @@ end
 ### Licensing
 
 Tempo has no licensing options nor requirements.
-
-For production workloads, Grafana has a built in Tempo data source that can be used to query Tempo and visualize traces.
 
 ### UI
 
