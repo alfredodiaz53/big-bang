@@ -27,7 +27,7 @@ networkPolicies:
     {{- $default := dict "app" (dig "gateways" $gateway "ingressGateway" nil .Values.istio) "istio" nil }}
     {{- toYaml (dig "values" "gateways" $gateway "selector" $default .Values.istio) | nindent 4 }}
 
-{{- if or .Values.addons.authservice.values.redis.enabled .Values.addons.authservice.values.global.redis_server_uri }}
+{{- if or (dig "redis" "enabled" true .Values.addons.authservice.values) .Values.addons.authservice.values.global.redis_server_uri }}
   autoscaling:
     enabled: true
     minReplicas: 2
