@@ -6,7 +6,7 @@
 
 {{- define "bigbang.defaults.kyvernopolicies" -}}
 
-{{- $deployNodeAgent := (and .Values.addons.velero.enabled (dig "deployNodeAgent" false .Values.addons.velero.values)) }}
+{{- $deployRestic := (and .Values.addons.velero.enabled (dig "deployRestic" false .Values.addons.velero.values)) }}
 
 waitforready:
   imagePullSecrets:
@@ -30,7 +30,6 @@ policies:
           - twistlock-defender-ds*
       {{- end }}
       {{- if .Values.neuvector.enabled }}
-      # Neuvector needs access to host to inspect network traffic
       - resources:
           namespaces:
           - neuvector
@@ -72,6 +71,15 @@ policies:
   disallow-image-tags:
     enabled: true
     validationFailureAction: enforce
+    {{- if .Values.neuvector.enabled }}
+    exclude:
+      any:
+      - resources:
+          namespaces:
+          - neuvector
+          names:
+          - neuvector-scanner-pod*
+    {{- end }}
 
   disallow-istio-injection-bypass:
     enabled: {{ .Values.istio.enabled }}
@@ -104,7 +112,6 @@ policies:
           - logging-fluent-bit*
       {{- end }}
       {{- if .Values.neuvector.enabled }}
-      # Neuvector needs privileged access for realtime scanning of files from the node / access to the container runtime
       - resources:
           namespaces:
           - neuvector
@@ -112,6 +119,77 @@ policies:
           - neuvector-enforcer-pod*
           - neuvector-controller-pod*
       {{- end }}
+  {{- end }}
+
+{{- if or (.Values.addons.gitlab.enabled) (and (dig "console" "localVolumeUpgrade" false .Values.twistlock.values) (.Release.IsUpgrade)) }}
+  disallow-shared-subpath-volume-writes:
+    # Subpath volumes can be used in combination with symlinks to break out into the host filesystem
+    exclude:
+      any:
+      - resources:
+          namespaces:
+          {{- if .Values.addons.gitlab.enabled }}
+          - gitlab
+          {{- end }}
+          {{- if (dig "console" "localVolumeUpgrade" false .Values.twistlock.values) }}
+          - twistlock
+          {{- end }}
+          names:
+          {{- if (dig "console" "localVolumeUpgrade" false .Values.twistlock.values) }}
+          - volume-upgrade-job*
+          {{- end }}
+          {{- if .Values.addons.gitlab.enabled }}
+          # Volume `toolbox-secrets` is an emptyDir mounted read/write in initContainer `configure`
+          # It is also mounted in the container `toolbox` using a subPath, making it open to the
+          # vulnerability.  The initContainer uses a shell script, stored in a configmap, to copies
+          # values from a readOnly projected volume holding secrets/configmap items, into the shared
+          # volume.  The shared volume is mounted with subpaths pointing to specific files in the container.
+          - gitlab-toolbox*
+          # Volume `sidekiq-secrets` is an emptyDir mounted read/write in initContainer `configure`
+          # It is also mounted in the containers `sidekiq` and `dependencies` using a subPath,
+          # making it open to the vulnerability.  The initContainer uses a shell script, stored in
+          # a configmap, to copies values from a readOnly projected volume holding secrets/configmap
+          # items, into the shared volume.  The shared volume is mounted with subpaths pointing to
+          # specific files in the container.
+          - gitlab-sidekiq*
+          # Volume `webservice-secrets` is an emptyDir mounted read/write in initContainer `configure`
+          # It is also mounted in the containers `webservice` and `dependencies` using a subPath,
+          # making it open to the vulnerability.  The initContainer uses a shell script, stored in
+          # a configmap, to copies values from a readOnly projected volume holding secrets/configmap
+          # items, into the shared volume.  The shared volume is mounted with subpaths pointing to
+          # specific files in the container.
+          - gitlab-webservice-default*
+          # Volume `migrations-secrets` is an emptyDir mounted read/write in initContainer `configure`
+          # It is also mounted in the container `migrations` using a subPath, making it open to the
+          # vulnerability.  The initContainer uses a shell script, stored in a configmap, to copies
+          # values from a readOnly projected volume holding secrets/configmap items, into the shared
+          # volume.  The shared volume is mounted with subpaths pointing to specific files in the container.
+          - gitlab-migrations*
+          # Volume `etc-ssl-certs` is an emptyDir mounted read/write in initContainer `certificates`
+          # It is also mounted in the container `registry` using a subPath, making it open to the
+          # vulnerability. The initContainer uses a shell script, stored in a configmap, to copies
+          # values from a readOnly projected volume holding secrets/configmap items, into the shared
+          # volume. The shared volume is mounted with subpaths pointing to specific files in the container.
+          - gitlab-registry*
+          # Volume `etc-ssl-certs` is an emptyDir mounted read/write in initContainer `certificates`
+          # It is also mounted in the container `gitlab-exporter` using a subPath, making it open to the
+          # vulnerability. The initContainer uses a shell script, stored in a configmap, to copies
+          # values from a readOnly projected volume holding secrets/configmap items, into the shared
+          # volume. The shared volume is mounted with subpaths pointing to specific files in the container.
+          - gitlab-gitlab-exporter*
+          # Volume `etc-ssl-certs` is an emptyDir mounted read/write in initContainer `certificates`
+          # It is also mounted in the container `gitlab-shell` using a subPath, making it open to the
+          # vulnerability. The initContainer uses a shell script, stored in a configmap, to copies
+          # values from a readOnly projected volume holding secrets/configmap items, into the shared
+          # volume. The shared volume is mounted with subpaths pointing to specific files in the container.
+          - gitlab-gitlab-shell*
+          # Volume `etc-ssl-certs` is an emptyDir mounted read/write in initContainer `certificates`
+          # It is also mounted in the container `gitaly` using a subPath, making it open to the
+          # vulnerability. The initContainer uses a shell script, stored in a configmap, to copies
+          # values from a readOnly projected volume holding secrets/configmap items, into the shared
+          # volume. The shared volume is mounted with subpaths pointing to specific files in the container.
+          - gitlab-gitaly*
+          {{- end }}
   {{- end }}
 
   {{- if or .Values.fluentbit.enabled .Values.monitoring.enabled .Values.twistlock.enabled }}
@@ -158,11 +236,6 @@ policies:
           - gitlab-redis-*
     {{- end }}
 
-  # Kyverno Beta feature - https://kyverno.io/docs/writing-policies/verify-images/
-  require-image-signature:
-    enabled: false
-    validationFailureAction: audit
-
   require-istio-on-namespaces:
     enabled: {{ .Values.istio.enabled }}
     exclude:
@@ -184,17 +257,17 @@ policies:
 
   require-non-root-group:
     validationFailureAction: audit
-    {{- if or $deployNodeAgent .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled .Values.addons.gitlab.enabled }}
+    {{- if or $deployRestic .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled .Values.addons.gitlab.enabled }}
     exclude:
       any:
-      {{- if $deployNodeAgent }}
-      # Velero.  The node agent backup tool requires root group access to see the host's runtime pod directory which is
-      # mounted inside velero/node agent pods.
+      {{- if $deployRestic }}
+      # Velero.  The restic backup tool requires root group access to see the host's runtime pod directory which is
+      # mounted inside velero/restic pods.
       - resources:
           namespaces:
           - velero
           names:
-          - node-agent*
+          - restic*
       {{- end }}
       {{- if .Values.twistlock.enabled }}
       # Twistlock Defenders run as root to perform real time scanning on the nodes/cluster, including:
@@ -246,17 +319,17 @@ policies:
       excludeContainers:
         - istio-init
     {{- end }}
-    {{- if or $deployNodeAgent .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled .Values.addons.gitlab.enabled }}
+    {{- if or $deployRestic .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled .Values.addons.gitlab.enabled }}
     exclude:
       any:
-      {{- if $deployNodeAgent }}
-      # Velero.  The node agent backup tool requires root user access to the host's runtime pod directory which is
-      # mounted inside velero/node agent pods.
+      {{- if $deployRestic }}
+      # Velero.  The restic backup tool requires root user access to the host's runtime pod directory which is
+      # mounted inside velero/restic pods.
       - resources:
           namespaces:
           - velero
           names:
-          - node-agent*
+          - restic*
       {{- end }}
       {{- if .Values.twistlock.enabled }}
       # Twistlock Defenders run as root to perform real time scanning on the nodes/cluster, including:
@@ -349,7 +422,7 @@ policies:
 
   restrict-host-path-mount:
     validationFailureAction: enforce
-    {{- if or .Values.fluentbit.enabled .Values.monitoring.enabled .Values.promtail.enabled .Values.twistlock.enabled .Values.neuvector.enabled $deployNodeAgent }}
+    {{- if or .Values.fluentbit.enabled .Values.monitoring.enabled .Values.promtail.enabled .Values.twistlock.enabled .Values.neuvector.enabled $deployRestic }}
     exclude:
       any:
       {{- if or .Values.fluentbit.enabled .Values.promtail.enabled }}
@@ -408,11 +481,6 @@ policies:
           - twistlock-defender-ds*
       {{- end }}
       {{- if .Values.neuvector.enabled }}
-      # Neuvector mounts the following hostPaths:
-      # `/var/neuvector`: for Neuvector's buffering and persistent state
-      # `/var/run`: communication to docker daemon
-      # `/proc`: monitoring of proccesses for malicious activity
-      # `/sys/fs/cgroup`: important files the controller wants to monitor for malicious content
       - resources:
           namespaces:
           - neuvector
@@ -420,15 +488,15 @@ policies:
           - neuvector-enforcer-pod*
           - neuvector-controller-pod*
       {{- end }}
-      {{- if $deployNodeAgent }}
-      # Velero.  The node agent backup tool requires root user access to the host's runtime pod directory which is
-      # mounted inside velero/node agent pods.  Since the host's pod runtime directory may expose sensitive information, 
-      # it is better to exclude the node agent pods than to add the path as allowable mounts
+      {{- if $deployRestic }}
+      # Velero.  The restic backup tool requires root user access to the host's runtime pod directory which is
+      # mounted inside velero/restic pods.  Since the host's pod runtime directory may expose sensitive information, 
+      # it is better to exclude the restic pods than to add the path as allowable mounts
       - resources:
           namespaces:
           - velero
           names:
-          - node-agent*
+          - restic*
       {{- end }}
     {{- end }}
 
@@ -460,8 +528,6 @@ policies:
           - twistlock-defender-ds*
       {{- end }}
       {{- if .Values.neuvector.enabled }}
-      # Neuvector mounts the following hostPaths as writeable: 
-      # `/var/neuvector`: for Neuvector's buffering and persistent state
       - resources:
           namespaces:
           - neuvector
@@ -524,22 +590,22 @@ policies:
       {{- end }}
   {{- end }}
   
-  {{- if $deployNodeAgent }}
+  {{- if $deployRestic }}
   restrict-user-id:
     exclude:
       any:
-      {{- if $deployNodeAgent }}
-      # Velero.  The node agent backup tool requires root user access to the host's runtime pod directory which is
-      # mounted inside velero/node agent pods.
+      {{- if $deployRestic }}
+      # Velero.  The restic backup tool requires root user access to the host's runtime pod directory which is
+      # mounted inside velero/restic pods.
       - resources:
           namespaces:
           - velero
           names:
-          - node-agent*
+          - restic*
       {{- end }}
   {{- end }}
 
-  {{- if or .Values.fluentbit.enabled .Values.monitoring.enabled .Values.promtail.enabled .Values.twistlock.enabled .Values.neuvector.enabled $deployNodeAgent }}
+  {{- if or .Values.fluentbit.enabled .Values.monitoring.enabled .Values.promtail.enabled .Values.twistlock.enabled .Values.neuvector.enabled $deployRestic }}
   restrict-volume-types:
     exclude:
       any:
@@ -579,11 +645,6 @@ policies:
       {{- end }}
       {{- if .Values.neuvector.enabled }}
       # Neuvector requires HostPath volume types
-        # Neuvector mounts the following hostPaths:
-        # `/var/neuvector`: (as writable) for Neuvector's buffering and persistent state
-        # `/var/run`: communication to docker daemon
-        # `/proc`: monitoring of proccesses for malicious activity
-        # `/sys/fs/cgroup`: important files the controller wants to monitor for malicious content
       # https://github.com/neuvector/neuvector-helm/blob/master/charts/core/templates/enforcer-daemonset.yaml#L108
       - resources:
           namespaces:
@@ -592,14 +653,14 @@ policies:
           - neuvector-enforcer-pod*
           - neuvector-controller-pod*
       {{- end }}
-      {{- if $deployNodeAgent }}
-      # Velero.  The node agent backup tool requires root user access to the host's runtime pod directory which is
-      # mounted inside velero/node agent pods.
+      {{- if $deployRestic }}
+      # Velero.  The restic backup tool requires root user access to the host's runtime pod directory which is
+      # mounted inside velero/restic pods.
       - resources:
           namespaces:
           - velero
           names:
-          - node-agent*
+          - restic*
       {{- end }}
   {{- end }}
 
