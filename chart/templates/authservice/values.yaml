@@ -28,10 +28,10 @@ networkPolicies:
     {{- toYaml (dig "values" "gateways" $gateway "selector" $default .Values.istio) | nindent 4 }}
 
 {{- if or (dig "redis" "enabled" true .Values.addons.authservice.values) .Values.addons.authservice.values.global.redis_server_uri }}
-  autoscaling:
-    enabled: true
-    minReplicas: 2
-    maxReplicas: 3
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 3
 {{- end }}
 
 {{- if and (dig "redis" "enabled" false .Values.addons.authservice.values) .Values.monitoring.enabled }}
