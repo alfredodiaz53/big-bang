@@ -335,7 +335,7 @@ global:
       {{- else }}
       bucket: gitlab-lfs
       {{- end }}
-
+      {{- if not (dig "global" "appConfig" "object_store" "enabled" false .Values.addons.gitlab.values)}}
       connection:
         secret: gitlab-object-storage
         key: rails
@@ -346,9 +346,11 @@ global:
       {{- else }}
       bucket: gitlab-artifacts
       {{- end }}
+      {{- if not (dig "global" "appConfig" "object_store" "enabled" false .Values.addons.gitlab.values)}}
       connection:
         secret: gitlab-object-storage
         key: rails
+      {{- end }}
 
     uploads:
       {{- if .Values.addons.gitlab.objectStorage.bucketPrefix }}
@@ -356,9 +358,11 @@ global:
       {{- else }}
       bucket: gitlab-uploads
       {{- end }}
+      {{- if not (dig "global" "appConfig" "object_store" "enabled" false .Values.addons.gitlab.values)}}
       connection:
         secret: gitlab-object-storage
         key: rails
+      {{- end }}
 
     packages:
       {{- if .Values.addons.gitlab.objectStorage.bucketPrefix }}
@@ -366,10 +370,11 @@ global:
       {{- else }}
       bucket: gitlab-packages
       {{- end }}
-
+      {{- if not (dig "global" "appConfig" "object_store" "enabled" false .Values.addons.gitlab.values)}}
       connection:
         secret: gitlab-object-storage
         key: rails
+      {{- end }}
 
     externalDiffs:
       {{- if .Values.addons.gitlab.objectStorage.bucketPrefix }}
@@ -377,9 +382,11 @@ global:
       {{- else }}
       bucket: gitlab-mr-diffs
       {{- end }}
+      {{- if not (dig "global" "appConfig" "object_store" "enabled" false .Values.addons.gitlab.values)}}
       connection:
         secret: gitlab-object-storage
         key: rails
+      {{- end }}
 
     terraformState:
       {{- if .Values.addons.gitlab.objectStorage.bucketPrefix }}
@@ -387,9 +394,11 @@ global:
       {{- else }}
       bucket: gitlab-terraform-state
       {{- end }}
+      {{- if not (dig "global" "appConfig" "object_store" "enabled" false .Values.addons.gitlab.values)}}
       connection:
         secret: gitlab-object-storage
         key: rails
+      {{- end }}
 
     dependencyProxy:
       {{- if .Values.addons.gitlab.objectStorage.bucketPrefix }}
@@ -397,9 +406,11 @@ global:
       {{- else }}
       bucket: gitlab-dependency-proxy
       {{- end }}
+      {{- if not (dig "global" "appConfig" "object_store" "enabled" false .Values.addons.gitlab.values)}}
       connection:
         secret: gitlab-object-storage
         key: rails
+      {{- end }}
 
     pseudonymizer:
       {{- if .Values.addons.gitlab.objectStorage.bucketPrefix }}
