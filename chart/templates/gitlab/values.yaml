@@ -278,7 +278,7 @@ global:
     registry:
       name: {{ .Values.addons.gitlab.hostnames.registry }}.{{ $domainName }}
 
-  {{- if or (ne .Values.addons.gitlab.objectStorage.iamProfile "") .Values.addons.gitlab.objectStorage.region }}
+  {{- if ne .Values.addons.gitlab.objectStorage.iamProfile "" }}
   minio:
     enabled: false
   {{- end }}
@@ -329,7 +329,6 @@ global:
           key: gitlab-sso.json
     {{- end }}
 
-    {{- if .Values.addons.gitlab.objectStorage.region }}
     lfs:
       {{- if .Values.addons.gitlab.objectStorage.bucketPrefix }}
       bucket: {{ .Values.addons.gitlab.objectStorage.bucketPrefix }}-gitlab-lfs
@@ -340,7 +339,6 @@ global:
       connection:
         secret: gitlab-object-storage
         key: rails
-      {{- end }}
 
     artifacts:
       {{- if .Values.addons.gitlab.objectStorage.bucketPrefix }}
