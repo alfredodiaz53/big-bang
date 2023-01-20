@@ -341,7 +341,6 @@ global:
         secret: gitlab-object-storage
         key: rails
       {{- end }}
-    {{- end }}
 
     artifacts:
       {{- if .Values.addons.gitlab.objectStorage.bucketPrefix }}
