@@ -435,6 +435,7 @@ global:
       tmpBucket: {{ .Values.addons.gitlab.objectStorage.bucketPrefix }}-gitlab-backup-tmp
       {{- else }}
       tmpBucket: gitlab-backup-tmp
+      {{- end }}
   {{- end }}
 
   {{- if and (ne .Values.addons.gitlab.redis.password "") (or .Values.addons.gitlab.enabled .Values.addons.gitlabRunner.enabled) }}
