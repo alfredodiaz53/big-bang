@@ -452,7 +452,6 @@ global:
 
 {{- if ne .Values.addons.gitlab.objectStorage.iamProfile "" }}
 use_iam_profile: true
-{{- end }}
 {{- end -}}
 
 
