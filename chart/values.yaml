@@ -1173,8 +1173,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/anchore-enterprise.git
       path: "./chart"
-      tag: null
-      branch: "kpt-update-sync"
+      tag: "1.21.1-bb.0"
 
     # -- Flux reconciliation overrides specifically for the Anchore Package
     flux:
