@@ -9,8 +9,14 @@ istio:
 monitoring:
   enabled: {{ .Values.monitoring.enabled }}
 manager:
+  runAsUser: 1000
   env:
     ssl: false
+scanner:
+  runAsUser: 1000
+cve:
+  updater:
+    runAsUser: 1000
 {{- end }}
 
 {{- /* Create secret */ -}}
