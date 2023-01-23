@@ -10,7 +10,7 @@ domain: {{ $domainName }}
 
 # Define variables to help with conditionals later
 {{- $istioInjection := (and (eq (dig "istio" "injection" "enabled" .Values.addons.gitlab) "enabled") .Values.istio.enabled) }}
-{{- $iamProfile := (and (ne .Values.addons.gitlab.objectStorage.iamProfile "") .Values.addons.gitlab.objectStorage.region) }}
+{{- $iamProfile := (and (ne .Values.addons.gitlab.objectStorage.iamProfile "") (or .Values.addons.gitlab.objectStorage.region .Values.addons.gitlab.objectStorage.endpoint)) }}
 
 openshift: {{ .Values.openshift }}
 
