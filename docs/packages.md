@@ -4,7 +4,7 @@
 1. Monitoring: `Metrics scraping with Prometheus and dedicated Grafana Dashboards/PrometheusRule alerts as appropriate`
 2. Tracing: `Tempo or Jaeger connections for tracing application traffic`
 3. Network Policies: `Network Policies for connectivity`
-4. mTLS: `Istio Injected, with either a Strict or Permissive Mode`
+4. mTLS: `Istio Injected, with either a Strict or Permissive Mutual TLS Mode`
 
 #### Values
 
