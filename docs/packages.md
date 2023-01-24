@@ -2,14 +2,12 @@
 
 #### Columns
 
-
 1. Monitoring: `Metrics scraping with Prometheus and dedicated Grafana Dashboards/PrometheusRule alerts as appropriate`
 2. Tracing: `Tempo or Jaeger connections for tracing application traffic`
 3. Network Policies: `Network Policies for connectivity`
 4. mTLS: `Istio Injected, with either a Strict or Permissive Mutual TLS Mode`
 
 #### Values
-
 
 1. N/A: `Feature doesn't exist`
 2. No: `Feature exists, Not Implemented in Big Bang`
@@ -24,7 +22,7 @@
 | [Jaeger](https://repo1.dso.mil/big-bang/apps/core/jaeger) |  ![Jaeger Build](https://repo1.dso.mil/big-bang/apps/core/jaeger/badges/main/pipeline.svg) | Yes | Yes | [Yes](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/602) | [Yes (STRICT)](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/1295) |
 | [Kiali](https://repo1.dso.mil/big-bang/apps/core/kiali) |  ![Kiali Build](https://repo1.dso.mil/big-bang/apps/core/kiali/badges/main/pipeline.svg) | Yes | Yes | [Yes](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/589) | [Yes (STRICT)](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/1296) |
 | [Monitoring](https://repo1.dso.mil/big-bang/apps/core/monitoring) |  ![Monitoring Build](https://repo1.dso.mil/big-bang/apps/core/monitoring/badges/main/pipeline.svg) | Yes | Yes | [Yes](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/509) | [Yes (STRICT)](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/1900) |
-| [NeuVector](https://repo1.dso.mil/big-bang/apps/sandbox/neuvector)        ![](https://img.shields.io/badge/BETA-purple?style=flat-square) |  ![NeuVector Build](https://repo1.dso.mil/big-bang/apps/sandbox/neuvector/badges/main/pipeline.svg) | [No](https://repo1.dso.mil/big-bang/apps/sandbox/neuvector/-/merge_requests/10) | No | Yes | [Yes (STRICT)](https://repo1.dso.mil/big-bang/apps/sandbox/neuvector/-/blob/main/chart/templates/bigbang/peerauthentication/peerauthentication/peer-authentication.yaml) |
+| [NeuVector](https://repo1.dso.mil/big-bang/apps/sandbox/neuvector)           ![](https://img.shields.io/badge/BETA-purple?style=flat-square) |  ![NeuVector Build](https://repo1.dso.mil/big-bang/apps/sandbox/neuvector/badges/main/pipeline.svg) | [No](https://repo1.dso.mil/big-bang/apps/sandbox/neuvector/-/merge_requests/10) | No | Yes | [Yes (STRICT)](https://repo1.dso.mil/big-bang/apps/sandbox/neuvector/-/blob/main/chart/templates/bigbang/peerauthentication/peerauthentication/peer-authentication.yaml) |
 | [Twistlock](https://repo1.dso.mil/big-bang/apps/security-tools/twistlock) |  ![Twistlock Build](https://repo1.dso.mil/big-bang/apps/security-tools/twistlock/badges/main/pipeline.svg) | Yes | Yes | [Yes](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/498) | [Yes (STRICT)](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/1396) |
 | [ECK Operator](https://repo1.dso.mil/big-bang/apps/core/eck-operator) |  ![ECK Operator Build](https://repo1.dso.mil/big-bang/apps/core/eck-operator/badges/main/pipeline.svg) | Yes | Yes | [Yes](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/510) | [Yes (STRICT)](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/1236) |
 | [Elasticsearch Kibana](https://repo1.dso.mil/big-bang/apps/core/elasticsearch-kibana) |  ![EK Operator Build](https://repo1.dso.mil/big-bang/apps/core/elasticsearch-kibana/badges/main/pipeline.svg) | Yes | Yes | [Yes](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/527) | [Yes (STRICT)](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/1537) |
@@ -53,8 +51,6 @@
 
 ## Development Tools
 
-
-
 | Package | Status | Monitoring | Tracing | Network Policies | mTLS |
 |----|----|----|----|----|----|
 | [Gitlab](https://repo1.dso.mil/big-bang/apps/developer-tools/gitlab) |  ![Gitlab Build](https://repo1.dso.mil/big-bang/apps/developer-tools/gitlab/badges/main/pipeline.svg) | Yes | Yes | [Yes](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/504) | [Yes (STRICT)](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/1724) |
@@ -68,8 +64,10 @@
 
 | Package | Status | Monitoring | Tracing | Network Policies | mTLS |
 |----|----|----|----|----|----|
-| [Mattermost](https://repo1.dso.mil/big-bang/apps/collaboration-tools/mattermost) |  ![Mattermost Build](https://repo1.dso.mil/big-bang/apps/collaboration-tools/mattermost/badges/main/pipeline.svg) | Disabled | Yes | [Yes](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/515) | Yes (Permissive) |
+| [Mattermost](https://repo1.dso.mil/big-bang/apps/collaboration-tools/mattermost) |  ![Mattermost Build](https://repo1.dso.mil/big-bang/apps/collaboration-tools/mattermost/badges/main/pipeline.svg) | Yes \* | Yes | [Yes](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/515) | Yes (Permissive) |
 | [Mattermost Operator](https://repo1.dso.mil/big-bang/apps/collaboration-tools/mattermost-operator) |  ![Mattermost Operator Build](https://repo1.dso.mil/big-bang/apps/collaboration-tools/mattermost-operator/badges/main/pipeline.svg) | No | No | [Yes](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/499) | [Yes (STRICT)](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/1531) |
+
+> `*` Monitoring/metrics are only available for enterprise (licensed) deployments of Mattermost
 
 ## Application Utilities
 
