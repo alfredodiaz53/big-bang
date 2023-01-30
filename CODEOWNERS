@@ -1,6 +1,6 @@
 # Default CodeOwners/Project Maintainers
-*  @micah.nagel  @ryan.thompson.44 @ryan.j.garcia @rob.ferguson
+* @micah.nagel @ryan.thompson.44 @ryan.j.garcia @rob.ferguson
 
 # Allow any one of the listed codeowners to approve merges to the documentation 
 # Does not allow the creator of the merge request to be the approver.
-/docs/  @echuang   @kevin.wilder @LynnStill @micah.nagel  @ryan.j.garcia  @ronwebb @ryan.thompson.44 @rob.ferguson 
+/docs/ @echuang @kevin.wilder @LynnStill @micah.nagel @ryan.j.garcia @ronwebb @ryan.thompson.44 @rob.ferguson 
