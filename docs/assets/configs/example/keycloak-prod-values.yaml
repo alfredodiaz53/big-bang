@@ -126,6 +126,7 @@ addons:
               quarkus.kc-routing-redirects.path-filters./api/v4/user=/auth/realms/YOUR-REALM-NAME/protocol/openid-connect/userinfo
               quarkus.kc-routing-redirects.path-filters./oauth/token=/auth/realms/YOUR-REALM-NAME/protocol/openid-connect/token
 
+
       # This config includes an example of injecting a custom theme jar on startup
       # Instructions for building a custom theme can be found in the Big Bang Keycloak repository
       #    https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/keycloak/-/blob/main/development/README.md
