@@ -54,10 +54,12 @@ neuvector:
 
 The enforcer pods are part of a daemonset that will be based upon the number of cluster nodes - with default tolerations for standard control-plane taints. Addition tolerations can be set for nodes by appending to the existing set:
 
+**Note:** The controller, manager, and cve.scanner deployments can also have their tolerations updated by mirroring this process. 
+
 ```yaml
 neuvector:
   values:
-    controller: # enforcer, manager, cve.scanner also have tolerations
+    enforcer: # controller, manager, cve.scanner also have tolerations
       tolerations:
         - effect: NoSchedule
           key: node-role.kubernetes.io/master
