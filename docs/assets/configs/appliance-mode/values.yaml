@@ -1,13 +1,44 @@
 # Enables and configures packages for [Appliance Mode](../README.md):
 
+istio:
+  values:
+    istiod:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+
+istio-controlplane:
+  values:
+    operator:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+    values:
+      global: 
+        proxy:
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+        proxy_init:
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+
+jaeger:
+  enabled: false
+
+kiali:
+  enabled: false
+
 clusterAuditor:
   enabled: true
   values:
     resources:
       requests:
-        cpu: 100m
-        memory: 256Mi
-      limits:
         cpu: 100m
         memory: 256Mi
 
@@ -17,33 +48,68 @@ gatekeeper:
     replicas: 1
     controllerManager:
       resources:
-        limits:
-          cpu: 100m
-          memory: 256Mi
         requests:
           cpu: 100m
           memory: 256Mi
-
-kiali:
-  enabled: false
+    audit:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          cpu: 600m
+          memory: 512Mi
 
 kyverno:
   enabled: false
   values:
     replicaCount: 1
 
+logging:
+  enabled: false
+
+eckoperator:
+  enabled: false
+
+fluentbit:
+  enabled: false
+
+promtail:
+  enabled: true
+  values:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 32Mi
+
 loki:
+  enabled: true
   values: 
     singleBinary:
       replicas: 1
       resources:
-        limits:
-          cpu: 100m
-          memory: 256Mi
         requests:
           cpu: 100m
           memory: 256Mi
-  
+
+neuvector:
+  enabled: true
+  values:
+    controller:
+      replicas: 1
+    resources:
+      limits:
+        cpu: 200m
+        memory: 768Mi
+      requests:
+        cpu: 100m
+        memory: 512Mi
+    cve:
+      scanner:
+        replicas: 1
+    k3s:
+      enabled: true
+
 tempo:
   values:
     tempo: 
@@ -55,47 +121,45 @@ tempo:
           cpu: 200m
           memory: 256Mi
 
-fluentbit:
-  enabled: false
-
-promtail:
-  enabled: true
-
 monitoring: 
   values:
     prometheus:
       prometheusSpec:
         resources:
           requests:
-            cpu: 200m
-            memory: 256Mi
+            cpu: 100m
+            memory: 128Mi
           limits:
-            cpu: 200m
-            memory: 256Mi
+            cpu: 300m
+            memory: 2Gi
     kube-state-metrics:
       resources:
         requests:
           cpu: 10m
           memory: 128Mi
-        limits:
-          cpu: 10m
-          memory: 128Mi
     prometheus-node-exporter:
+      hostRootFsMount:
+        enabled: false
       resources:
         requests:
-          cpu: 100m
-          memory: 128Mi
-        limits:
           cpu: 100m
           memory: 128Mi
     grafana:
       testFramework:
         enabled: false
-      downloadDashboards:
+    prometheusOperator:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      prometheusConfigReloader:
         resources:
-          limits:
-            cpu: 20m
-            memory: 20Mi
           requests:
-            cpu: 20m
-            memory: 20Mi
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 50Mi
+
+twistlock:
+  enabled: false
