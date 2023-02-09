@@ -6,8 +6,34 @@ istio:
   neuvector:
     gateways:
     - istio-system/{{ default "public" .Values.neuvector.ingress.gateway }}
+{{- if .Values.monitoring.enabled }}
 monitoring:
-  enabled: {{ .Values.monitoring.enabled }}
+  enabled: true
+
+controller:
+  secret:
+    enabled: true
+    data: 
+      # This configuration is read in at deploy time and users are created.
+      userinitcfg.yaml:
+        users:
+        - username: metrics
+          password: bb-M3trics
+          role: reader
+          fullname: metrics
+    
+monitor:
+  install: true
+  exporter:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+    svc:
+      enabled: true
+    CTRL_USERNAME: metrics
+    CTRL_PASSWORD: bb-M3trics
+{{- end }}
+
 manager:
   env:
     ssl: false
