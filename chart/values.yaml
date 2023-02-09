@@ -147,7 +147,7 @@ istio:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/istio-controlplane.git
     path: "./chart"
-    tag: "1.16.1-bb.1"
+    tag: "1.16.1-bb.2"
 
   # -- Tetrate Istio Distribution - Tetrate provides FIPs verified Istio and Envoy software and support,
   # validated through the FIPs Boring Crypto module. Find out more from Tetrate - https://www.tetrate.io/tetrate-istio-subscription
@@ -432,7 +432,7 @@ kyvernoreporter:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/kyverno-reporter.git
     path: ./chart
-    tag: "2.13.4-bb.1"
+    tag: "2.16.0-bb.0"
 
   # -- Flux reconciliation overrides specifically for the Kyverno Reporter Package
   flux: {}
@@ -545,7 +545,7 @@ loki:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/loki.git
     path: "./chart"
-    tag: "3.7.0-bb.1"
+    tag: "3.7.0-bb.2"
 
   # -- Flux reconciliation overrides specifically for the Loki Package
   flux: {}
