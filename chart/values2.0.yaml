@@ -242,16 +242,22 @@ addons:
       tag: "3.8.0-bb.6"
       repo: "registry1"
 
-# -- Wrapper chart for integrating Big Bang into a package
+# -- Wrapper chart for integrating Big Bang into a package, default deployment with OCI HelmRepo
 wrapper:
+  oci:
+    # -- Name of the OCI chart in `repo`
+    name: bigbang-wrapper
+    # -- Tag of the OCI chart in `repo`
+    tag: "0.0.2"
+    # -- Repository holding OCI chart, corresponding to `ociRepositories` name
+    repo: "registry1"
   git:
     # -- Git repo holding the wrapper helm chart
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/wrapper
+    repo: "" # https://repo1.dso.mil/platform-one/big-bang/apps/wrapper
     # -- Path inside of the git repo to find the helm chart
-    path: chart
+    path: "" # chart
     # -- Git tag to check out.  Takes precedence over branch. [More info](https://fluxcd.io/flux/components/source/gitrepositories/#reference)
-    tag:
-    branch: main
+    tag: "" # 0.0.2
 
 # -- Packages to deploy with Big Bang integration
 # @default - '{}'
@@ -266,7 +272,7 @@ packages:
     kustomize: false
 
     git:
-      # -- (Required) Git repo URL holding the helm chart for this package
+      # -- Git repo URL holding the helm chart for this package
       repo:
       # -- Git commit to check out.  Takes precedence over semver, tag, and branch. [More info](https://fluxcd.io/flux/components/source/gitrepositories/#reference)
       commit:
@@ -280,6 +286,14 @@ packages:
       # -- Path inside of the git repo to find the helm chart or kustomize
       # @default -- For Helm charts `chart`.  For Kustomize `/`.
       path:
+
+    oci:
+      # -- Name of the OCI chart in `repo`
+      name:
+      # -- Tag of the OCI chart in `repo`
+      tag:
+      # -- Repository holding OCI chart, corresponding to `ociRepositories` name
+      repo:
 
     # -- Override flux settings for this package
     flux: {}
