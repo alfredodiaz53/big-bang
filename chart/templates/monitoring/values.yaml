@@ -314,10 +314,10 @@ grafana:
       {{- if .Values.sso.name }}
       name: {{ .Values.sso.name }}
       {{- end }}
-      {{- if and .Values.monitoring.sso.enabled (not (empty .Values.monitoring.sso.grafana.client_id)) }}
+      {{- if and .Values.monitoring.sso.enabled .Values.monitoring.sso.grafana.client_id }}
       client_id: $__file{/etc/secrets/auth_generic_oauth/client_id}
       {{- end }}
-      {{- if and .Values.monitoring.sso.enabled (not (empty .Values.monitoring.sso.grafana.client_secret)) }}
+      {{- if and .Values.monitoring.sso.enabled .Values.monitoring.sso.grafana.client_secret }}
       client_secret: $__file{/etc/secrets/auth_generic_oauth/client_secret}
       {{- end }}
       scopes: {{ .Values.monitoring.sso.grafana.scopes | default "openid profile email" }}
@@ -334,7 +334,7 @@ grafana:
       {{- list "tls_client_key" .tls_client_key | include "bigbang.addValueIfSet" | indent 6 }}
     {{- end }}
 
-  {{- if and .Values.monitoring.sso.enabled (not (empty .Values.monitoring.sso.grafana.client_id)) }}
+  {{- if and .Values.monitoring.sso.enabled .Values.monitoring.sso.grafana.client_id }}
   extraSecretMounts:
     - name: auth-generic-oauth-secret
       mountPath: /etc/secrets/auth_generic_oauth
