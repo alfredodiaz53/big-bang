@@ -252,12 +252,12 @@ wrapper:
     # -- Repository holding OCI chart, corresponding to `ociRepositories` name
     repo: "registry1"
   git:
-    # -- Git repo holding the wrapper helm chart
-    repo: "" # https://repo1.dso.mil/platform-one/big-bang/apps/wrapper
-    # -- Path inside of the git repo to find the helm chart
-    path: "" # chart
-    # -- Git tag to check out.  Takes precedence over branch. [More info](https://fluxcd.io/flux/components/source/gitrepositories/#reference)
-    tag: "" # 0.0.2
+    # -- Git repo holding the wrapper helm chart, example: https://repo1.dso.mil/platform-one/big-bang/apps/wrapper
+    repo: ""
+    # -- Path inside of the git repo to find the helm chart, example: chart
+    path: ""
+    # -- Git tag to check out.  Takes precedence over branch. [More info](https://fluxcd.io/flux/components/source/gitrepositories/#reference), example: 0.0.2
+    tag: ""
 
 # -- Packages to deploy with Big Bang integration
 # @default - '{}'
@@ -288,7 +288,7 @@ packages:
       path:
 
     oci:
-      # -- Name of the OCI chart in `repo`
+      # -- Name of the OCI chart in `repo`, defaults to package name/values key
       name:
       # -- Tag of the OCI chart in `repo`
       tag:
