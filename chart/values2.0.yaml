@@ -246,9 +246,9 @@ addons:
 wrapper:
   oci:
     # -- Name of the OCI chart in `repo`
-    name: bigbang-wrapper
+    name: wrapper
     # -- Tag of the OCI chart in `repo`
-    tag: "0.0.2"
+    tag: "0.1.0"
     # -- Repository holding OCI chart, corresponding to `ociRepositories` name
     repo: "registry1"
   git:
