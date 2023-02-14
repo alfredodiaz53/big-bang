@@ -31,7 +31,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: {{ dig "oci" "repo" "registry1" $vals }}
-        namespace: {{ .Release.Namespace }}
+        namespace: {{ $.Release.Namespace }}
       {{- end }}
       interval: {{ default "5m" $fluxSettings.interval }}
       reconcileStrategy: Revision
