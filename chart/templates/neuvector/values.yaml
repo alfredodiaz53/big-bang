@@ -1,6 +1,6 @@
 {{- define "bigbang.defaults.neuvector" -}}
 # Includes suffix of "A1a" to ensure password always meets default minimum password requirements
-{{- $neuvectorMetricsPass := join "" (list (randAlphaNum 12) "A1a")}}
+{{- $neuvectorMetricsPass := join "" (list (randAlphaNum 12) (randAlpha 2 | upper) (randAlpha 2 | lower) (randNumeric 2))}}
 
 # hostname is deprecated and replaced with domain. But if hostname exists then use it.
 domain: {{ default .Values.domain .Values.hostname }}
