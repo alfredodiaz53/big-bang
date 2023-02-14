@@ -1,4 +1,7 @@
 {{- define "bigbang.defaults.neuvector" -}}
+# Includes suffix of "A1a" to ensure password always meets default minimum password requirements
+{{- $neuvectorMetricsPass := join "" (list (randAlphaNum 12) "A1a")}}
+
 # hostname is deprecated and replaced with domain. But if hostname exists then use it.
 domain: {{ default .Values.domain .Values.hostname }}
 istio:
@@ -16,9 +19,10 @@ controller:
     data: 
       # This configuration is read in at deploy time and users are created.
       userinitcfg.yaml:
+        always_reload: true
         users:
         - username: metrics
-          password: bb-M3trics
+          password: {{ $neuvectorMetricsPass }}
           role: reader
           fullname: metrics
     
@@ -31,7 +35,7 @@ monitor:
     svc:
       enabled: true
     CTRL_USERNAME: metrics
-    CTRL_PASSWORD: bb-M3trics
+    CTRL_PASSWORD: {{ $neuvectorMetricsPass }}
 {{- end }}
 
 manager:
