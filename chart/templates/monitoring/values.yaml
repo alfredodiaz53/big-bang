@@ -185,8 +185,7 @@ grafana:
 
   {{- if .Values.tempo.enabled }}
   env:
-    - name: GF_FEATURE_TOGGLES_ENABLE
-      value: "traceqlEditor tempoSearch tempoServiceGraph"
+    GF_FEATURE_TOGGLES_ENABLE: "traceqlEditor tempoSearch tempoServiceGraph"
   {{- end }}
 
   image:
