@@ -55,7 +55,11 @@ addons:
         -----END CERTIFICATE-----
 
     values:
-      replicas: 3
+      #replicas: 3
+      autoscaling:
+        enabled: true
+        minReplcias: 2
+        maxReplicas: 5
       command:
         - "/opt/keycloak/bin/kc.sh"
       args:
@@ -94,6 +98,18 @@ addons:
           value: ispn
         - name: KC_CACHE_STACK
           value: kubernetes
+        - name: JGROUPS_DISCOVERY_PROTOCOL
+          value: kubernetes.KUBE_PING
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: CACHE_OWNERS_COUNT
+          value: "2"
+        - name: CACHE_OWNERS_AUTH_SESSIONS_COUNT
+          value: "2"
+
 
       secrets:
         env:
