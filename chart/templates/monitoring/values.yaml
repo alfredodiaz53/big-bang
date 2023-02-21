@@ -183,6 +183,11 @@ grafana:
   envFromSecret: grafana-env-secret
   {{- end }}
 
+  {{- if .Values.tempo.enabled }}
+  env:
+    GF_FEATURE_TOGGLES_ENABLE: "traceqlEditor tempoSearch tempoServiceGraph"
+  {{- end }}
+
   image:
     pullPolicy: {{ .Values.imagePullPolicy }}
     pullSecrets:
@@ -314,8 +319,12 @@ grafana:
       {{- if .Values.sso.name }}
       name: {{ .Values.sso.name }}
       {{- end }}
-      client_id: {{ .Values.monitoring.sso.grafana.client_id }}
-      client_secret: {{ .Values.monitoring.sso.grafana.client_secret }}
+      {{- if and .Values.monitoring.sso.enabled .Values.monitoring.sso.grafana.client_id }}
+      client_id: $__file{/etc/secrets/auth_generic_oauth/client_id}
+      {{- end }}
+      {{- if and .Values.monitoring.sso.enabled .Values.monitoring.sso.grafana.client_secret }}
+      client_secret: $__file{/etc/secrets/auth_generic_oauth/client_secret}
+      {{- end }}
       scopes: {{ .Values.monitoring.sso.grafana.scopes | default "openid profile email" }}
       auth_url: {{ default (include "sso.oidc.auth" .) .Values.monitoring.sso.grafana.auth_url }}
       token_url: {{ default (include "sso.oidc.token" .) .Values.monitoring.sso.grafana.token_url }}
@@ -329,6 +338,15 @@ grafana:
       {{- list "tls_client_cert" .tls_client_cert | include "bigbang.addValueIfSet" | indent 6 }}
       {{- list "tls_client_key" .tls_client_key | include "bigbang.addValueIfSet" | indent 6 }}
     {{- end }}
+
+  {{- if and .Values.monitoring.sso.enabled .Values.monitoring.sso.grafana.client_id }}
+  extraSecretMounts:
+    - name: auth-generic-oauth-secret
+      mountPath: /etc/secrets/auth_generic_oauth
+      secretName: grafana-sso
+      defaultMode: 0440    
+      readOnly: true
+  {{- end }}
 
   {{- if $istioInjection }}
   serviceMonitor:
@@ -418,7 +436,6 @@ prometheusOperator:
       {{- if and (dig "additionalScrapeConfigs"  list $default) (dig "additionalScrapeConfigs"  list $overlay) }}
          {{ $_ := set $overlay "additionalScrapeConfigs" (concat $default.additionalScrapeConfigs $overlay.additionalScrapeConfigs) }}
       {{- end }}
-     
 
     {{- end }}
   {{- end }}
