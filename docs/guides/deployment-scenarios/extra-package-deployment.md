@@ -35,17 +35,22 @@ These pieces can typically be complicated to get setup correctly and connected t
 
 ## How to use it
 
-The first piece you need in order to make use of this extensibility is the addition of `wrapper` in your Big Bang values. As of this documentation revision that should look like:
+The first piece you need in order to make use of this extensibility is the addition of `wrapper` in your Big Bang values. As of this documentation revision that should look like the below:
 
 ```yaml
+ociRepositories:
+  - name: "registry1"
+    repository: "oci://registry1.dso.mil/bigbang"
+    existingSecret: "private-registry"
+
 wrapper:
-  git:
-    repo: https://repo1.dso.mil/big-bang/product/packages/wrapper.git
-    path: chart
+  oci:
+    name: wrapper
     tag: "0.1.0"
+    repo: "registry1"
 ```
 
-NOTE: In Big Bang 2.0 this will be included in the default values. The wrapper does not require any additional values (simply need to point to its "storage" location of git/helm repository as seen above).
+In Big Bang 2.0 this will be included in the default values with an OCI source. The wrapper does not require any additional values (simply need to point to its "storage" location of git/helm repository as seen above).
 
 The wrapper does not add anything additional to your deployment, unless you also specify a `packages` value which configures what package to deploy and what wrapper configuration is desired. A basic example of a package deployment could look like this:
 
@@ -58,7 +63,7 @@ packages:
       path: charts/podinfo
 ```
 
-NOTE: Both wrapper and packages do have OCI support for sourcing the artifacts but this will not be the default until the move to 2.0 and "first-class" support for `HelmRepository` resources.
+The package also has OCI support for sourcing the artifacts; usage will be encouraged with the move to 2.0 and "first-class" support for `HelmRepository` resources.
 
 With these values added you should have a very basic deployment of `podinfo` added onto your Big Bang install with some basic default integrations. The rest of this guide will walk you through each section of Big Bang touchpoints and some example configurations you could use. Each of the configurations are compatible with each other (i.e. you can combine the examples below).
 
