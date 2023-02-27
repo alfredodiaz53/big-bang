@@ -338,7 +338,6 @@ echo
 
 echo
 echo "updating packages"
-# ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "sudo apt-get remove -y docker docker-engine docker.io containerd runc"
 ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "sudo apt-get -y update"
 
 echo
