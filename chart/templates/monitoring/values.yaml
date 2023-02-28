@@ -429,8 +429,8 @@ prometheusOperator:
 {{- end }}
 
 {{- /* This function merges defaults in lists from above into overlays */ -}}
-{{- /* The end user will not have to replicate extraSecretMountss from above when providing an overlay */ -}}
-{{- /* There is a hidden flag `skipOverlayMerge` that can be added to any extraSecretMountss to ignore the defaults */ -}}
+{{- /* The end user will not have to replicate `prometheus.prometheusSpec.additionalScrapeConfigs` or `grafana.extraSecretMounts` from above when providing an overlay */ -}}
+{{- /* There is a hidden flag `skipOverlayMerge` that can be added to `prometheus.prometheusSpec` or `grafana` overlays to ignore the defaults */ -}}
 {{- define "bigbang.overlays.monitoring" }}
 
   {{- $defaults := fromYaml (include "bigbang.defaults.monitoring" .) }}
