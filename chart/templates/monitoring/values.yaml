@@ -339,7 +339,7 @@ grafana:
       {{- list "tls_client_key" .tls_client_key | include "bigbang.addValueIfSet" | indent 6 }}
     {{- end }}
 
-  {{- if and .Values.monitoring.sso.enabled .Values.monitoring.sso.grafana.client_id (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso)) }}
+  {{- if or (and .Values.monitoring.sso.enabled .Values.monitoring.sso.grafana.client_id) (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso)) }}
   extraSecretMounts:
     {{- if .Values.monitoring.sso.grafana.client_id }}
     - name: auth-generic-oauth-secret
@@ -436,13 +436,25 @@ prometheusOperator:
   {{- $defaults := fromYaml (include "bigbang.defaults.monitoring" .) }}
 
   {{- $overlays := dig "values" dict .Values.monitoring }}
-  {{- range $grafanaConfig, $default := $defaults.grafana }}
-    {{- $overlay := (dig "grafana" $grafanaConfig dict $overlays) }}
+  {{- range $prometheusConfig, $default := $defaults.prometheus }}
+    {{- $overlay := (dig "prometheus" $prometheusConfig dict $overlays) }}
     # Only continue if an overlay matches a default constriant and hidden "skipOverlayMerge" is not set
     {{- if and $overlay (not $overlay.skipOverlayMerge) }}
 
-      # Add any default extraSecretMountss to overlay
-      {{- if and (dig "extraSecretMounts"  list $default) (dig "extraSecretMounts"  list $overlay) }}
+      # Add any default additionalScrapeConfigs to overlay
+      {{- if and (dig "additionalScrapeConfigs"  list $default) (dig "additionalScrapeConfigs"  list $overlay) }}
+         {{ $_ := set $overlay "additionalScrapeConfigs" (concat $default.additionalScrapeConfigs $overlay.additionalScrapeConfigs) }}
+      {{- end }}
+
+    {{- end }}
+  {{- end }}
+  {{- range $monitoringConfig, $default := $defaults }}
+    {{- $overlay := (dig $monitoringConfig dict $overlays) }}
+    # Only continue if an overlay matches a default constriant and hidden "skipOverlayMerge" is not set
+    {{- if and $overlay (not $overlay.skipOverlayMerge) }}
+
+      # Add any default extraSecretMounts to overlay
+      {{- if and (dig "extraSecretMounts" list $default) (dig "extraSecretMounts" list $overlay) }}
          {{ $_ := set $overlay "extraSecretMounts" (concat $default.extraSecretMounts $overlay.extraSecretMounts) }}
       {{- end }}
 
