@@ -615,7 +615,9 @@ tempo:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/tempo.git
     path: "./chart"
-    tag: "1.0.0-bb.2"
+    #tag: "1.0.0-bb.2"
+    tag: ""
+    branch: "prom-np-add"
 
   # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
   ingress:
@@ -660,6 +662,10 @@ tempo:
 
   # -- Values to passthrough to the Tempo chart: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/tempo.git
   values: {}
+#    tempo:
+#      metricsGenerator:
+#        enabled: true
+#        remoteWriteUrl: "http://monitoring-monitoring-kube-prometheus.monitoring.svc.cluster.local:9090/api/v1/write"
 
   # -- Post Renderers.  See docs/postrenders.md
   postRenderers: []
@@ -675,7 +681,9 @@ monitoring:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/monitoring.git
     path: "./chart"
-    tag: "43.1.2-bb.2"
+    #tag: "43.1.2-bb.2"
+    tag: ""
+    branch: "tempo-np-add"
 
   # -- Flux reconciliation overrides specifically for the Monitoring Package
   flux:
@@ -722,6 +730,10 @@ monitoring:
 
   # -- Values to passthrough to the monitoring chart: https://repo1.dso.mil/platform-one/big-bang/apps/core/monitoring.git
   values: {}
+#    prometheus:
+#      prometheusSpec:
+#        enableFeatures:
+#          - remote-write-receiver
 
   # -- Post Renderers.  See docs/postrenders.md
   postRenderers: []
