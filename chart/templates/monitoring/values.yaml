@@ -429,21 +429,21 @@ prometheusOperator:
 {{- end }}
 
 {{- /* This function merges defaults in lists from above into overlays */ -}}
-{{- /* The end user will not have to replicate additionalScrapeConfigs from above when providing an overlay */ -}}
-{{- /* There is a hidden flag `skipOverlayMerge` that can be added to any additionalScrapeConfigs to ignore the defaults */ -}}
+{{- /* The end user will not have to replicate extraSecretMountss from above when providing an overlay */ -}}
+{{- /* There is a hidden flag `skipOverlayMerge` that can be added to any extraSecretMountss to ignore the defaults */ -}}
 {{- define "bigbang.overlays.monitoring" }}
 
   {{- $defaults := fromYaml (include "bigbang.defaults.monitoring" .) }}
 
   {{- $overlays := dig "values" dict .Values.monitoring }}
-  {{- range $prometheusConfig, $default := $defaults.prometheus }}
-    {{- $overlay := (dig "prometheus" $prometheusConfig dict $overlays) }}
+  {{- range $grafanaConfig, $default := $defaults.grafana }}
+    {{- $overlay := (dig "grafana" $grafanaConfig dict $overlays) }}
     # Only continue if an overlay matches a default constriant and hidden "skipOverlayMerge" is not set
     {{- if and $overlay (not $overlay.skipOverlayMerge) }}
 
-      # Add any default additionalScrapeConfigs to overlay
-      {{- if and (dig "additionalScrapeConfigs"  list $default) (dig "additionalScrapeConfigs"  list $overlay) }}
-         {{ $_ := set $overlay "additionalScrapeConfigs" (concat $default.additionalScrapeConfigs $overlay.additionalScrapeConfigs) }}
+      # Add any default extraSecretMountss to overlay
+      {{- if and (dig "extraSecretMounts"  list $default) (dig "extraSecretMounts"  list $overlay) }}
+         {{ $_ := set $overlay "extraSecretMounts" (concat $default.extraSecretMounts $overlay.extraSecretMounts) }}
       {{- end }}
 
     {{- end }}
