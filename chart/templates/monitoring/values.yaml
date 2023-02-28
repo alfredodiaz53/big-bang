@@ -339,13 +339,22 @@ grafana:
       {{- list "tls_client_key" .tls_client_key | include "bigbang.addValueIfSet" | indent 6 }}
     {{- end }}
 
-  {{- if and .Values.monitoring.sso.enabled .Values.monitoring.sso.grafana.client_id }}
+  {{- if and .Values.monitoring.sso.enabled .Values.monitoring.sso.grafana.client_id (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso)) }}
   extraSecretMounts:
+    {{- if .Values.monitoring.sso.grafana.client_id }}
     - name: auth-generic-oauth-secret
       mountPath: /etc/secrets/auth_generic_oauth
       secretName: grafana-sso
       defaultMode: 0440    
       readOnly: true
+    {{- end }}
+    {{- if (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso)) }}
+    - name: "oidc-ca-certificate"
+      mountPath: "/etc/oidc/ca.pem"
+      secretName: "tls-ca-sso"
+      readOnly: true
+      subPath: "ca.pem"
+    {{- end }}
   {{- end }}
 
   {{- if $istioInjection }}
