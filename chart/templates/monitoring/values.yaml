@@ -458,6 +458,10 @@ prometheusOperator:
          {{ $_ := set $overlay "extraSecretMounts" (concat $default.extraSecretMounts $overlay.extraSecretMounts) }}
       {{- end }}
 
+      # Add any default additionalDataSources to overlay
+      {{- if and (dig "additionalDataSources" list $default) (dig "additionalDataSources" list $overlay) }}
+         {{ $_ := set $overlay "additionalDataSources" (concat $default.additionalDataSources $overlay.additionalDataSources) }}
+      {{- end }}
     {{- end }}
   {{- end }}
 {{ toYaml $overlays }}
