@@ -339,7 +339,7 @@ grafana:
       {{- list "tls_client_key" .tls_client_key | include "bigbang.addValueIfSet" | indent 6 }}
     {{- end }}
 
-  {{- if or (and .Values.monitoring.sso.enabled .Values.monitoring.sso.grafana.client_id) (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso)) }}
+  {{- if and .Values.monitoring.sso.enabled (or .Values.monitoring.sso.grafana.client_id (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso))) }}
   extraSecretMounts:
     {{- if .Values.monitoring.sso.grafana.client_id }}
     - name: auth-generic-oauth-secret
