@@ -410,6 +410,7 @@ ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes u
 if [[ "$METAL_LB" == true ]]; then
   echo "installing MetalLB"
   ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "kubectl create -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml"
+	# Wait for controller to be live so that validating webhooks function when we apply the config
 	echo "waiting for MetalLB controller"
 	ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "kubectl wait --for=condition=available --timeout 120s -n metallb-system deployment controller"
 
