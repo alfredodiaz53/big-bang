@@ -7,7 +7,7 @@ domain: {{ default .Values.domain .Values.hostname }}
 
 openshift: {{ .Values.openshift }}
 
-{{ $istioInjection := (and .Values.istio.enabled (eq (dig "istio" "injection" "enabled" .Values.addons.neuvector) "enabled")) }}
+{{ $istioInjection := (and .Values.istio.enabled (eq (dig "istio" "injection" "enabled" .Values.neuvector) "enabled")) }}
 
 istio:
   enabled: {{ .Values.istio.enabled }}
