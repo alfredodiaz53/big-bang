@@ -1,33 +1,31 @@
-This Style Guide explains general conventions.
+# General Conventions Style Guide
+This style guide outlines the general conventions to follow for package names, structure standardization, version numbers, and YAML formatting.
 
 ## Package Names
+When creating package names, follow these guidelines:
 
-* Package names must be lowercase letters and numbers. Words _may_ be separated
-with dashes (-):
-* Neither uppercase letters nor underscores can be used in package names. Dots
-should not be used in package names.
-* Package names should be consistent between the git repository, namespace, resource prefixes and labels.
-* Package names from yaml can be translated to Kubernetes resource names using Helm's kebab-case function. This replaces capital letters with a - and the lowercase version of the letter.
-
-#### Notable exceptions:
-     
-When a package name is 2 words and additional words are < 4 characters it can be considered part of the single name. Examples include: fluentbit (technically Fluent Bit) and argocd (technically Argo CD).
+- Use only lowercase letters and numbers.
+- Use dashes (-) to separate words.
+- Do not use uppercase letters or underscores.
+- Do not use dots in package names.
+- Ensure that package names are consistent between the git repository, namespace, resource prefixes, and labels.
+- Use Helm's kebab-case function to translate package names from YAML to Kubernetes resource names. This replaces capital letters with a hyphen (-) and the lowercase version of the letter.
+##### Notable Exceptions
+> If a package name is two words and the additional words are less than four characters, consider it as part of the single name. Examples include "fluentbit" (technically "Fluent Bit") and "argocd" (technically "Argo CD").
 
 ## Structure Standardization
+For each package, ensure that the following items have the same name:
 
-The following items for each package should have the same name:
-* Folder: `chart/templates/<package>`
-* Top level key: `chart/templates/values.yaml`
-* Namespace: `chart/templates/<package>/namespace.yaml` or `chart/templates/<package>/helmrelease.yaml`
-  * unless targeting another package's namespace.
-* Repo name: `https://repo1.dso.mil/bigbang/packages/<package>/`
+- Folder: chart/templates/<package>
+- Top-level key: chart/templates/values.yaml
+- Namespace: chart/templates/<package>/namespace.yaml or chart/templates/<package>/helmrelease.yaml, unless targeting another package's namespace.
+- Repo name: https://repo1.dso.mil/bigbang/packages/<package>/
 
 ## Version Numbers
+This section is a work in progress, and we suggest updating it when finalized.
 
-### WIP Lots of discourse on this topic suggest updating this section when finalized
+##
 
-## Formatting YAML 
+Consistency is key when it comes to formatting choices. Ensure that your codebase follows these formatting guidelines consistently throughout.
 
-* YAML files should be indented using _two spaces_ (and never tabs).
-* Keys are camelCase and alphanumeric. No special characters
-* All Kubernetes resource names, repository names, and namespaces are lowercase, alphanumeric or -, and kebab-case.
+Remember that these conventions are meant to serve as a starting point, and it's always important to consider the specific needs and constraints of your project or organization when making decisions about package names, structure, versioning, and formatting.
