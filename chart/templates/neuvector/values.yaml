@@ -15,12 +15,20 @@ istio:
     gateways:
     - istio-system/{{ default "public" .Values.neuvector.ingress.gateway }}
   injection: {{ ternary "enabled" "disabled" $istioInjection }}
-  mtls:
-    mode: PERMISSIVE
 
-{{- if .Values.monitoring.enabled }}
 monitoring:
-  enabled: true
+  enabled: {{ .Values.monitoring.enabled }}
+  serviceMonitor:
+    enabled: {{ .Values.monitoring.enabled }}
+    # conditional passes only for default istio: enabled, mTLS: SCRICT
+    {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.twistlock.values) "STRICT") }}
+    scheme: https
+    tlsConfig:
+      caFile: /etc/prom-certs/root-cert.pem
+      certFile: /etc/prom-certs/cert-chain.pem
+      keyFile: /etc/prom-certs/key.pem
+      insecureSkipVerify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod certificate
+    {{- end }}
 
 controller:
   podAnnotations:
