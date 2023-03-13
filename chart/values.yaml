@@ -448,7 +448,7 @@ kyvernoreporter:
 # ----------------------------------------------------------------------------------------------------------------------
 # Logging
 #
-logging:
+elasticsearchKibana:
   # -- Toggle deployment of Logging (EFK).
   enabled: true
   git:
@@ -488,7 +488,7 @@ logging:
   # -- Post Renderers.  See docs/postrenders.md
   postRenderers: []
 
-eckoperator:
+eckOperator:
   # -- Toggle deployment of ECK Operator.
   enabled: true
   git:

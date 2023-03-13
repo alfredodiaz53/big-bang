@@ -73,14 +73,14 @@ kyvernoreporter:
     tag: "2.13.1-bb.0"
     repo: "registry1"
 
-logging:
+elasticsearchKibana:
   git: null
   oci:
     name: "elasticsearch-kibana"
     tag: "0.13.0-bb.0"
     repo: "registry1"
 
-eckoperator:
+eckOperator:
   git: null
   oci:
     name: "eck-operator"
