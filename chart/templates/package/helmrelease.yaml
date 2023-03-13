@@ -41,10 +41,12 @@ spec:
   {{- toYaml $vals.postRenderers | nindent 2 }}
   {{- end }}
   valuesFrom:
-  - name: {{ $pkg }}-values
-    kind: Secret
   - name: bigbang-values
     kind: Secret
+    valuesKey: common
+  - name: bigbang-values
+    kind: Secret
+    valuesKey: defaults
 
   {{- /* Always wait on policy enforcement */ -}}
   {{- $gatekeeperDep := $.Values.gatekeeper.enabled -}}
