@@ -18,18 +18,7 @@ istio:
 
 {{- if .Values.monitoring.enabled }}
 monitoring:
-  enabled: {{ .Values.monitoring.enabled }}
-  serviceMonitor:
-    enabled: {{ .Values.monitoring.enabled }}
-    # conditional passes only for default istio: enabled, mTLS: SCRICT
-    {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.twistlock.values) "STRICT") }}
-    scheme: https
-    tlsConfig:
-      caFile: /etc/prom-certs/root-cert.pem
-      certFile: /etc/prom-certs/cert-chain.pem
-      keyFile: /etc/prom-certs/key.pem
-      insecureSkipVerify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod certificate
-    {{- end }}
+  enabled: true
 
 controller:
   podAnnotations:
@@ -52,6 +41,15 @@ monitor:
     enabled: true
     serviceMonitor:
       enabled: true
+      # conditional passes only for default istio: enabled, mTLS: SCRICT
+      {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.twistlock.values) "STRICT") }}
+      scheme: https
+      tlsConfig:
+        caFile: /etc/prom-certs/root-cert.pem
+        certFile: /etc/prom-certs/cert-chain.pem
+        keyFile: /etc/prom-certs/key.pem
+        insecureSkipVerify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod certificate
+      {{- end }}
     svc:
       enabled: true
       type: ClusterIP
