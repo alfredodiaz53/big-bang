@@ -14,7 +14,7 @@ kind: Namespace
 metadata:
   name: logging
   labels:
-    app.kubernetes.io/name: logging
+    app.kubernetes.io/name: elasticsearch-kibana
     app.kubernetes.io/component: "core"
     {{- include "commonLabels" . | nindent 4}}
     istio-injection: {{ $istioInjection }}
