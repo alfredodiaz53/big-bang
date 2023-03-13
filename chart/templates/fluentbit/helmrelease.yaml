@@ -3,14 +3,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: fluent-bit
+  name: fluentbit
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: logging
+    app.kubernetes.io/name: fluentbit
     app.kubernetes.io/component: "core"
     {{- include "commonLabels" . | nindent 4}}
 spec:
-  targetNamespace: logging
+  targetNamespace: fluentbit
   chart:
     spec:
       {{- if eq (include "checkGitRef" .Values.fluentbit) "true" }}
