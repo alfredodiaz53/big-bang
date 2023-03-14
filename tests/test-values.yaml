@@ -716,6 +716,15 @@ tempo:
           cpu: 200m
           memory: 128Mi
 
+promtail:
+  enabled: true
+  imagePullSecrets:
+  - name: private-registry
+
+  networkPolicies:
+    enabled: true
+
+
 monitoring:
   enabled: true
   sso:
