@@ -1,3 +1,5 @@
+{{- $logOldValues := default dict .Values.logging -}}
+{{- $logValues := merge $logOldValues .Values.elasticsearchKibana -}}
 {{- $fluxSettingsFluentbit := merge .Values.fluentbit.flux .Values.flux -}}
 {{- if .Values.fluentbit.enabled }}
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
@@ -47,9 +49,9 @@ spec:
       valuesKey: "overlays"
 
   {{/* To support a "standalone" fluentbit for shipping to central location we conditionally depend on logging enabled */}}
-  {{- if or .Values.logging.enabled .Values.gatekeeper.enabled .Values.istio.enabled .Values.kyvernopolicies.enabled .Values.monitoring.enabled }}
+  {{- if or $logValues.enabled .Values.gatekeeper.enabled .Values.istio.enabled .Values.kyvernopolicies.enabled .Values.monitoring.enabled }}
   dependsOn:
-    {{- if .Values.logging.enabled }}
+    {{- if $logValues.enabled }}
     - name: ek
       namespace: {{ .Release.Namespace }}
     {{- end }}
