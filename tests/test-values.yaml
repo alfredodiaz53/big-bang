@@ -638,7 +638,7 @@ fluentbit:
             storage.type filesystem
 
 loki:
-  enabled: false
+  enabled: true
   strategy: scalable
   values:
     minio:
