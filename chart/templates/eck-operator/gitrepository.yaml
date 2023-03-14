@@ -1,4 +1,8 @@
-{{- if and (eq (include "checkGitRef" .Values.eckoperator) "true") (not .Values.offline) (or .Values.eckoperator.enabled .Values.logging.enabled) }}
+{{- $eckOpOldValues := default dict .Values.eckoperator -}}
+{{- $eckOpValues := merge $eckOpOldValues .Values.eckOperator -}}
+{{- $logOldValues := default dict .Values.logging -}}
+{{- $logValues := merge $logOldValues .Values.elasticsearchKibana -}}
+{{- if and (eq (include "checkGitRef" $eckOpValues) "true") (not .Values.offline) (or $eckOpValues.enabled $logValues.enabled) }}
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: GitRepository
 metadata:
@@ -10,9 +14,9 @@ metadata:
     {{- include "commonLabels" . | nindent 4}}
 spec:
   interval: {{ .Values.flux.interval }}
-  url: {{ .Values.eckoperator.git.repo }}
+  url: {{ $eckOpValues.git.repo }}
   ref:
-    {{- include "validRef" .Values.eckoperator.git | nindent 4 }}
+    {{- include "validRef" $eckOpValues.git | nindent 4 }}
   {{ include "gitIgnore" . }}
   {{- include "gitCreds" . | nindent 2 }}
 {{- end }}

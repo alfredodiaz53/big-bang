@@ -1,5 +1,7 @@
-{{- $fluxSettingsEk := merge .Values.logging.flux .Values.flux -}}
-{{- if .Values.logging.enabled }}
+{{- $logOldValues := default dict .Values.logging -}}
+{{- $logValues := merge $logOldValues .Values.elasticsearchKibana -}}
+{{- $fluxSettingsEk := merge $logValues.flux .Values.flux -}}
+{{- if $logValues.enabled }}
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -13,27 +15,27 @@ spec:
   targetNamespace: logging
   chart:
     spec:
-      {{- if eq (include "checkGitRef" .Values.logging) "true" }}
-      chart: {{ .Values.logging.git.path }}
+      {{- if eq (include "checkGitRef" $logValues) "true" }}
+      chart: {{ $logValues.git.path }}
       sourceRef:
         kind: GitRepository
         name: elasticsearch-kibana
         namespace: {{ .Release.Namespace }}
       {{- else }}
-      chart: {{ .Values.logging.oci.name }}
-      version: {{ .Values.logging.oci.tag }}
+      chart: {{ $logValues.oci.name }}
+      version: {{ $logValues.oci.tag }}
       sourceRef:
         kind: HelmRepository
-        name: {{ .Values.logging.oci.repo }}
+        name: {{ $logValues.oci.repo }}
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m
 
   {{- toYaml $fluxSettingsEk | nindent 2 }}
 
-  {{- if .Values.logging.postRenderers }}
+  {{- if $logValues.postRenderers }}
   postRenderers:
-  {{ toYaml .Values.logging.postRenderers | nindent 4 }}
+  {{ toYaml $logValues.postRenderers | nindent 4 }}
   {{- end }}
   valuesFrom:
     - name: {{ .Release.Name }}-ek-values
@@ -46,7 +48,7 @@ spec:
       kind: Secret
       valuesKey: "overlays"
 
-  {{/* ECK and Logging _always_ depend on .Values.logging being enabled, so can assume they exist here */}}
+  {{/* ECK and Logging _always_ depend on $logValues being enabled, so can assume they exist here */}}
   dependsOn:
     - name: eck-operator
       namespace: {{ .Release.Namespace }}
