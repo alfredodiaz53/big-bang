@@ -1,4 +1,8 @@
-{{- if or .Values.eckoperator.enabled .Values.logging.enabled }}
+{{- $eckOpOldValues := default dict .Values.eckoperator -}}
+{{- $eckOpValues := merge $eckOpOldValues .Values.eckOperator -}}
+{{- $logOldValues := default dict .Values.logging -}}
+{{- $logValues := merge $logOldValues .Values.elasticsearchKibana -}}
+{{- if or $eckOpValues.enabled $logValues.enabled }}
 apiVersion: v1
 kind: Namespace
 metadata:

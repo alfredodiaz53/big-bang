@@ -1,5 +1,9 @@
-{{- $fluxSettingsEckOperator := merge .Values.eckoperator.flux .Values.flux -}}
-{{- if or .Values.eckoperator.enabled .Values.logging.enabled }}
+{{- $eckOpOldValues := default dict .Values.eckoperator -}}
+{{- $eckOpValues := merge $eckOpOldValues .Values.eckOperator -}}
+{{- $logOldValues := default dict .Values.logging -}}
+{{- $logValues := merge $logOldValues .Values.elasticsearchKibana -}}
+{{- $fluxSettingsEckOperator := merge $eckOpValues.flux .Values.flux -}}
+{{- if or $eckOpValues.enabled $logValues.enabled }}
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -13,27 +17,27 @@ spec:
   targetNamespace: eck-operator
   chart:
     spec:
-      {{- if eq (include "checkGitRef" .Values.eckoperator) "true" }}
-      chart: {{ .Values.eckoperator.git.path }}
+      {{- if eq (include "checkGitRef" $eckOpValues) "true" }}
+      chart: {{ $eckOpValues.git.path }}
       sourceRef:
         kind: GitRepository
         name: eck-operator
         namespace: {{ .Release.Namespace }}
       {{- else }}
-      chart: {{ .Values.eckoperator.oci.name }}
-      version: {{ .Values.eckoperator.oci.tag }}
+      chart: {{ $eckOpValues.oci.name }}
+      version: {{ $eckOpValues.oci.tag }}
       sourceRef:
         kind: HelmRepository
-        name: {{ .Values.eckoperator.oci.repo }}
+        name: {{ $eckOpValues.oci.repo }}
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m
 
   {{- toYaml $fluxSettingsEckOperator | nindent 2 }}
 
-  {{- if .Values.eckoperator.postRenderers }}
+  {{- if $eckOpValues.postRenderers }}
   postRenderers:
-  {{ toYaml .Values.eckoperator.postRenderers | nindent 4 }}
+  {{ toYaml $eckOpValues.postRenderers | nindent 4 }}
   {{- end }}
   valuesFrom:
     - name: {{ .Release.Name }}-eck-operator-values
