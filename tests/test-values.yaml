@@ -720,9 +720,8 @@ promtail:
   enabled: true
   imagePullSecrets:
   - name: private-registry
-
-  networkPolicies:
-    enabled: true
+  bbtests:
+      enabled: true
 
 
 monitoring:
