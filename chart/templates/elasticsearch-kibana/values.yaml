@@ -1,8 +1,10 @@
-{{- if .Values.logging.enabled }}
-{{- include "values-secret" (dict "root" $ "package" .Values.logging "name" "ek" "defaults" (include "bigbang.defaults.logging" .)) }}
+{{- $logOldValues := default dict .Values.logging -}}
+{{- $logValues := merge $logOldValues .Values.elasticsearchKibana -}}
+{{- if $logValues.enabled }}
+{{- include "values-secret" (dict "root" $ "package" $logValues "name" "ek" "defaults" (include "bigbang.defaults.elasticsearchKibana" .)) }}
 {{- end }}
 
-{{- define "bigbang.defaults.logging" -}}
+{{- define "bigbang.defaults.elasticsearchKibana" -}}
 # hostname is deprecated and replaced with domain. But if hostname exists then use it.
 {{- $domainName := default .Values.domain .Values.hostname }}
 hostname: {{ $domainName }}
@@ -16,12 +18,12 @@ istio:
   enabled: {{ .Values.istio.enabled }}
   kibana:
     gateways:
-    - istio-system/{{ default "public" .Values.logging.ingress.gateway }}
+    - istio-system/{{ default "public" $logValues.ingress.gateway }}
 
 networkPolicies:
   enabled: {{ .Values.networkPolicies.enabled }}
   ingressLabels:
-    {{- $gateway := default "public" .Values.logging.ingress.gateway }}
+    {{- $gateway := default "public" $logValues.ingress.gateway }}
     {{- $default := dict "app" (dig "gateways" $gateway "ingressGateway" nil .Values.istio) "istio" nil }}
     {{- toYaml (dig "values" "gateways" $gateway "selector" $default .Values.istio) | nindent 4 }}
 
@@ -30,7 +32,7 @@ mattermost:
   enabled: true
 {{- end }}
 
-{{- with .Values.logging.sso }}
+{{- with $logValues.sso }}
 {{- if .enabled }}
 sso:
   enabled: {{ .enabled }}
@@ -70,8 +72,8 @@ monitoring:
 
 metrics:
   enabled: {{ .Values.monitoring.enabled }}
-  {{- $istioInjection := (and (eq (dig "istio" "injection" "enabled" .Values.logging) "enabled") .Values.istio.enabled) }}
-  {{- if and (eq (dig "istio" "mtls" "mode" "STRICT" .Values.logging.values) "STRICT") $istioInjection }}
+  {{- $istioInjection := (and (eq (dig "istio" "injection" "enabled" $logValues) "enabled") .Values.istio.enabled) }}
+  {{- if and (eq (dig "istio" "mtls" "mode" "STRICT" $logValues.values) "STRICT") $istioInjection }}
   serviceMonitor:
     scheme: https
     tlsConfig:
@@ -98,7 +100,7 @@ elasticsearch:
           capabilities:
             drop:
               - ALL
-      {{- if .Values.logging.sso.enabled }}
+      {{- if $logValues.sso.enabled }}
       - name: elastic-internal-init-keystore
         securityContext:
           privileged: false
@@ -124,7 +126,7 @@ elasticsearch:
           capabilities:
             drop:
               - ALL
-      {{- if .Values.logging.sso.enabled }}
+      {{- if $logValues.sso.enabled }}
       - name: elastic-internal-init-keystore
         securityContext:
           privileged: false
@@ -150,7 +152,7 @@ elasticsearch:
           capabilities:
             drop:
               - ALL
-      {{- if .Values.logging.sso.enabled }}
+      {{- if $logValues.sso.enabled }}
       - name: elastic-internal-init-keystore
         securityContext:
           privileged: false
@@ -176,7 +178,7 @@ elasticsearch:
           capabilities:
             drop:
               - ALL
-      {{- if .Values.logging.sso.enabled }}
+      {{- if $logValues.sso.enabled }}
       - name: elastic-internal-init-keystore
         securityContext:
           privileged: false
@@ -202,7 +204,7 @@ elasticsearch:
           capabilities:
             drop:
               - ALL
-      {{- if .Values.logging.sso.enabled }}
+      {{- if $logValues.sso.enabled }}
       - name: elastic-internal-init-keystore
         securityContext:
           privileged: false
