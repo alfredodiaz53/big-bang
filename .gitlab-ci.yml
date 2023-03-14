@@ -1,0 +1,6 @@
+include:
+  - project: 'platform-one/big-bang/pipeline-templates/pipeline-templates'
+    ref: helmrepo_wait
+    file: '/pipelines/bigbang.yaml'
+variables:
+  PIPELINE_REPO_BRANCH: 'helmrepo_wait'
