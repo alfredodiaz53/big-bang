@@ -4,14 +4,14 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: loki
-  namespace: {{ .Release.Namespace }}
+  namespace: logging
   labels:
     app.kubernetes.io/name: loki
     app.kubernetes.io/component: "core"
     {{- include "commonLabels" . | nindent 4}}
 spec:
   releaseName: {{ default "loki" .Values.loki.releaseName }}
-  targetNamespace: {{ .Release.Namespace }}
+  targetNamespace: logging
   chart:
     spec:
       {{- if eq (include "checkGitRef" .Values.loki) "true" }}
