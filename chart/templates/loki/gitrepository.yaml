@@ -3,7 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: GitRepository
 metadata:
   name: loki
-  namespace: logging
+  namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: loki
     app.kubernetes.io/component: "core"
