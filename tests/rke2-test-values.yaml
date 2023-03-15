@@ -3,6 +3,17 @@
 networkPolicies:
   controlPlaneCidr: 10.0.0.0/8
 
+istio:
+  values:
+    values:
+      global: 
+        proxy:
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits: null
+
 clusterAuditor:
   values:
     resources:
@@ -432,7 +443,7 @@ addons:
               runAsGroup: 1001
               fsGroup: 1001
             
-  nexus:
+  nexusRepositoryManager:
     values:
       persistence:
         # Do NOT set this below 5Gi, nexus will fail to boot

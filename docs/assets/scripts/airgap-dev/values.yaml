@@ -107,7 +107,7 @@ addons:
     enabled: false
     git:
       repo: ssh://git@host.k3d.internal/home/git/repos/haproxy
-  mattermostoperator:
+  mattermostOperator:
     enabled: false
     git:
       repo: ssh://git@host.k3d.internal/home/git/repos/mattermost-operator
@@ -119,7 +119,7 @@ addons:
     enabled: false
     git:
       repo: ssh://git@host.k3d.internal/home/git/repos/keycloak
-  nexus:
+  nexusRepositoryManager:
     enabled: false
     git:
       repo: ssh://git@host.k3d.internal/home/git/repos/nexus

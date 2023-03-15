@@ -13,11 +13,21 @@ openshift: {{ .Values.openshift }}
 image:
   imagePullPolicy: {{ .Values.imagePullPolicy }}
   
+{{ $istioInjection := (and .Values.istio.enabled (eq (dig "istio" "injection" "enabled" .Values.addons.mattermost) "enabled")) }}
+
 istio:
   enabled: {{ .Values.istio.enabled }}
   chat:
     gateways:
     - istio-system/{{ default "public" .Values.addons.mattermost.ingress.gateway }}
+  injection: {{ ternary "enabled" "disabled" $istioInjection }}
+
+{{- if $istioInjection }}
+podAnnotations:
+  {{ include "istioAnnotation" . }}
+updateJob:
+  disabled: true
+{{- end }}
 
 monitoring:
   enabled: {{ .Values.monitoring.enabled }}
@@ -27,9 +37,9 @@ sso:
   enabled: {{ .enabled }}
   client_id: {{ .client_id }}
   client_secret: {{ .client_secret | default "no-secret" }}
-  auth_endpoint: {{ .auth_endpoint | default (printf "https://%s/auth/realms/%s/protocol/openid-connect/auth" $.Values.sso.oidc.host $.Values.sso.oidc.realm) }}
-  token_endpoint: {{ .token_endpoint | default (printf "https://%s/auth/realms/%s/protocol/openid-connect/token" $.Values.sso.oidc.host $.Values.sso.oidc.realm) }}
-  user_api_endpoint: {{ .user_api_endpoint | default (printf "https://%s/auth/realms/%s/protocol/openid-connect/userinfo" $.Values.sso.oidc.host $.Values.sso.oidc.realm) }}
+  auth_endpoint: {{ default (include "sso.oidc.auth" $) .auth_endpoint }}
+  token_endpoint: {{ default (include "sso.oidc.token" $) .token_endpoint }}
+  user_api_endpoint: {{ default (include "sso.oidc.userinfo" $) .user_api_endpoint }}
 {{- end }}
 
 networkPolicies:
@@ -54,12 +64,19 @@ enterprise:
 database:
   secret: "mattermost-database-secret"
 {{- else }}
-
 postgresql:
   image:
     pullSecrets:
       - private-registry
   install: true
+  {{- if $istioInjection }}
+  primary:
+    podAnnotations:
+      {{ include "istioAnnotation" $ }}
+  readReplicas:
+    podAnnotations:
+      {{ include "istioAnnotation" $ }}
+  {{- end }}
 {{- end }}
 {{- end }}
 
@@ -79,6 +96,10 @@ minio:
   tenants:
     metrics:
       enabled: {{ $.Values.monitoring.enabled }}
+  {{- if $istioInjection }}
+  annotations:
+    {{ include "istioAnnotation" $ }}
+  {{- end }}
 {{- end }}
 {{- end }}
 

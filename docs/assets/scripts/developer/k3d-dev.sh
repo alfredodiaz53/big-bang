@@ -8,7 +8,7 @@ fi
 
 if [[ -z "${AMI_ID}" ]]; then
   # default
-  AMI_ID=ami-0126fb88475632215
+  AMI_ID=$(aws ec2 describe-images --filters Name=owner-alias,Values=aws-marketplace Name=architecture,Values=x86_64 Name=name,Values="ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*" --query 'sort_by(Images, &CreationDate)[].ImageId | [0]' --output text)
 fi
 
 #### Preflight Checks
@@ -194,19 +194,14 @@ fi
 
 ##### Launch Specification
 # Typical settings for Big Bang development
-AMIName="ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server*"
 InstanceType="${InstSize}"
 VolumeSize=120
 
-# Lookup the image name to find the latest version
-# echo -n Retrieving latest image ID matching ${AMIName} ...
-# ImageId=$(aws ec2 describe-images --output json --no-cli-pager --filters "Name=name,Values=${AMIName}" --query "reverse(sort_by(Images, &CreationDate))[:1].ImageId" --output text)
-#echo done
-# Hardcode the latest image instead of searching for it to avoid unexpected changes
 echo "Using AMI image id ${AMI_ID}"
 ImageId="${AMI_ID}"
 
 # Create userdata.txt
+mkdir -p ~/aws
 cat << EOF > ~/aws/userdata.txt
 MIME-Version: 1.0
 Content-Type: multipart/mixed; boundary="==MYBOUNDARY=="
@@ -337,42 +332,41 @@ echo
 echo
 echo "starting instance config"
 
-echo "Instance will automatically terminate 8 hours from now unless you alter the crontab"
+echo "Instance will automatically terminate 8 hours from now unless you alter the root crontab"
 ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "sudo bash -c 'echo \"\$(date -u -d \"+8 hours\" +\"%M %H\") * * * /usr/sbin/shutdown -h now\" | crontab -'"
 echo
 
 echo
-echo "installing packages"
-ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "sudo apt remove -y docker docker-engine docker.io containerd runc"
-ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "sudo apt -y update"
-ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "sudo apt install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common"
+echo "updating packages"
+ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "sudo apt-get -y update"
 
 echo
-echo
+echo "installing docker"
+# install dependencies
+ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release gnupg-agent software-properties-common"
 # Add the Docker repository, we are installing from Docker and not the Ubuntu APT repo.
-ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -"
-ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "sudo apt-key fingerprint 0EBFCD88"
-ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} 'sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"'
-ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} 'sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg'
-ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} 'echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list'
-
-
-echo
-echo
-# Install Docker
-echo "install Docker"
-ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "sudo apt update && sudo apt install -y docker-ce docker-ce-cli containerd.io kubectl jq tree vim"
+ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} 'sudo mkdir -m 0755 -p /etc/apt/keyrings'
+ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} 'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg'
+ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null'
+ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "sudo apt-get update && sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
 
 echo
 echo
 # Add your base user to the Docker group so that you do not need sudo to run docker commands
 ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "sudo usermod -aG docker ubuntu"
+echo
+
+# install kubectl
+echo Installing kubectl...
+ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} 'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"'
+ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} 'sudo mv /home/ubuntu/kubectl /usr/local/bin/'
+ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} 'sudo chmod +x /usr/local/bin/kubectl'
 
 echo
 echo
 # install k3d on instance
 echo "Installing k3d on instance"
-ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "wget -q -O - https://raw.githubusercontent.com/rancher/k3d/main/install.sh | TAG=v5.4.6 bash"
+ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "wget -q -O - https://raw.githubusercontent.com/rancher/k3d/main/install.sh | TAG=v5.4.8 bash"
 echo
 echo "k3d version"
 ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "k3d version"
@@ -415,24 +409,31 @@ ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes u
 # Handle MetalLB cluster resource creation
 if [[ "$METAL_LB" == true ]]; then
   echo "installing MetalLB"
-  ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "kubectl create -f https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/namespace.yaml"
-  ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "kubectl create -f https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/metallb.yaml"
+  ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "kubectl create -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml"
+	# Wait for controller to be live so that validating webhooks function when we apply the config
+	echo "waiting for MetalLB controller"
+	ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "kubectl wait --for=condition=available --timeout 120s -n metallb-system deployment controller"
 
   ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} <<- 'ENDSSH'
 	#run this command on remote
 	cat << EOF > metallb-config.yaml
-	apiVersion: v1
-	kind: ConfigMap
+	apiVersion: metallb.io/v1beta1
+	kind: IPAddressPool
 	metadata:
+	  name: default
 	  namespace: metallb-system
-	  name: config
-	data:
-	  config: |
-	    address-pools:
-	    - name: default
-	      protocol: layer2
-	      addresses:
-	      - 172.20.1.240-172.20.1.243
+	spec:
+	  addresses:
+	  - 172.20.1.240-172.20.1.243
+	---
+	apiVersion: metallb.io/v1beta1
+	kind: L2Advertisement
+	metadata:
+	  name: l2advertisement1
+	  namespace: metallb-system
+	spec:
+	  ipAddressPools:
+	  - default
 	EOF
 	ENDSSH
 
@@ -446,13 +447,6 @@ if [[ "$PRIVATE_IP" == true ]]; then
 else  # default is to use public ip
   $sed_gsed -i "s/0\.0\.0\.0/${PublicIP}/g" ~/.kube/${AWSUSERNAME}-dev-config
 fi
-
-# add tools
-echo Installing kubectl...
-ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} 'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"'
-ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} 'sudo mv /home/ubuntu/kubectl /usr/local/bin/'
-ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} 'sudo chmod +x /usr/local/bin/kubectl'
-
 
 if [[ "$METAL_LB" == true ]]; then
   ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} <<- 'ENDSSH'
@@ -475,8 +469,8 @@ echo "====================== DEPLOYMENT FINISHED ===============================
 echo "================================================================================"
 # ending instructions
 echo
-echo "SAVE THE FOLLOWING INSTRUCTIONS INTO A TEMPORARY TEXT DOCUMENT SO THAT YOU DON'T LOOSE THEM"
-echo "NOTE: The EC2 instance will automatically terminate 8 hours from the time of creation unless you delete the cron job"
+echo "SAVE THE FOLLOWING INSTRUCTIONS INTO A TEMPORARY TEXT DOCUMENT SO THAT YOU DON'T LOSE THEM"
+echo "NOTE: The EC2 instance will automatically terminate 8 hours from the time of creation unless you delete the root cron job"
 echo
 echo "ssh to instance:"
 echo "  ssh -i ~/.ssh/${KeyName}.pem -o IdentitiesOnly=yes ubuntu@${PublicIP}"
