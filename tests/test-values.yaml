@@ -723,7 +723,6 @@ promtail:
   bbtests:
       enabled: true
 
-
 monitoring:
   enabled: true
   sso:
