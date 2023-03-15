@@ -1,8 +1,8 @@
-{{- if or .Values.loki.enabled .Values.promtail.enabled }}
+{{- if or .Values.loki.enabled .Values.promtail.enabled .Values.logging.enabled }}
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: loki
+  name: logging
   labels:
     app.kubernetes.io/name: loki
     app.kubernetes.io/component: "core"
