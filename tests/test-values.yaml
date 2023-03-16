@@ -580,7 +580,7 @@ kyvernopolicies:
           - bigbang
 
 logging:
-  enabled: true
+  enabled: false
   sso:
     enabled: false
     client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_kibana
@@ -621,7 +621,7 @@ logging:
           cypress_kibana_url: "https://kibana.bigbang.dev"
 
 fluentbit:
-  enabled: true
+  enabled: false
   values:
     securityContext:
       privileged: true
@@ -629,7 +629,7 @@ fluentbit:
       enabled: true
 
 loki:
-  enabled: true
+  enabled: false
   strategy: scalable
   values:
     minio:
@@ -708,14 +708,14 @@ tempo:
           memory: 128Mi
 
 promtail:
-  enabled: true
+  enabled: false
   imagePullSecrets:
   - name: private-registry
   bbtests:
       enabled: true
 
 monitoring:
-  enabled: true
+  enabled: false
   sso:
     enabled: false
     prometheus:
