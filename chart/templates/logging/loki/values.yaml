@@ -69,6 +69,11 @@ loki:
     {{ include "istioAnnotation" . }}
   {{- end }}
 
+singleBinary:
+  {{- if (eq .Values.loki.strategy "scalable") }}
+  replicas: 0
+  {{- end }}
+
 {{- with .Values.loki.objectStorage }}
 {{- if and (eq $.Values.loki.strategy "scalable") (not (and .endpoint .region)) }}
 minio:
