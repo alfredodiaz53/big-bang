@@ -4,15 +4,15 @@ Thanks for taking the time to contribute to BigBang!
 
 Table of Contents:
 
-- [Contributing to Big Bang](#contributing-to-big-bang)
-  - [Developers Guide](#developers-guide)
-  - [Iron Bank Images](#iron-bank-images)
-  - [Local Kubernetes cluster](#local-kubernetes-cluster)
-  - [Deploying Big Bang (Quick Start)](#deploying-big-bang-quick-start)
-  - [Testing Big Bang Development Changes](#testing-big-bang-development-changes)
-  - [DNS](#dns)
-  - [Secrets & Certificates](#secrets--certificates)
-  - [Merge requests process](#merge-requests-process)
+- [Developers Guide](#developers-guide)
+- [Iron Bank Images](#iron-bank-images)
+- [Local Kubernetes cluster](#local-kubernetes-cluster)
+- [Deploying Big Bang (Quick Start)](#deploying-big-bang-quick-start)
+- [Testing Big Bang Development Changes](#testing-big-bang-development-changes)
+- [DNS](#dns)
+- [Secrets & Certificates](#secrets--certificates)
+- [Merge requests process](#merge-requests-process)
+- [ADRs](#architecture-decision-records)
 
 ## Developers Guide
 
@@ -82,3 +82,9 @@ Follow instructions in the [Big Bang encryption guide](./docs/understanding-bigb
 The merge request process is provided as an overview of the pipeline stages required to get a commit merged.
 
 Follow instruction in [CI-Workflow](./docs/developer/ci-workflow.md) for specific details on the pipeline stages.
+
+## Architecture Decision Records
+
+As a large opensource project we need a way to document and record our decisions for knowledge sharing and future evaluation. We have chosen to follow the methodology set forth by [this article](http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions) for creating ADRs. We use the [adr-tools](https://github.com/npryce/adr-tools) tool to aide in creating/updating ADRs.
+
+Existing ADRs are stored in the [`docs/adrs`](./docs/adrs/) directory and ordered by creation/acceptance date.
