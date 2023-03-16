@@ -11,7 +11,7 @@ metadata:
     {{- include "commonLabels" . | nindent 4}}
 spec:
   releaseName: {{ default "loki" .Values.loki.releaseName }}
-  targetNamespace: logging
+  targetNamespace: {{ .Release.Namespace }}
   chart:
     spec:
       {{- if eq (include "checkGitRef" .Values.loki) "true" }}
