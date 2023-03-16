@@ -85,6 +85,6 @@ Follow instruction in [CI-Workflow](./docs/developer/ci-workflow.md) for specifi
 
 ## Architecture Decision Records
 
-As a large opensource project we need a way to document and record our decisions for knowledge sharing and future evaluation. We have chosen to follow the methodology set forth by [this article](http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions) for creating ADRs. We use the [adr-tools](https://github.com/npryce/adr-tools) tool to aide in creating/updating ADRs.
+As a large opensource project we need a way to document and record our decisions for knowledge sharing and future evaluation. We have chosen to follow the methodology set forth by [this article](http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions) for creating ADRs. We use the [adr-tools](https://github.com/npryce/adr-tools) tool to aide in creating/updating ADRs. The criteria for what requires an ADR is not mandated, and rather is left to the team's discretion. At minimum anything justifying a major release / breaking change should have an ADR associated.
 
 Existing ADRs are stored in the [`docs/adrs`](./docs/adrs/) directory and ordered by creation/acceptance date.
