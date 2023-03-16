@@ -56,7 +56,7 @@ Keep Addons in Umbrella for the time being and focus on releasing configuration 
 
 As mentioned in the above drawbacks, this decision is not without its consequences.
 
-As mentioned since we would not be leveraging any "extra packages" solution for our own addons we will need to considering the missing links for the customer experience. We should still be able to fill those gaps, without altering the current addon deployments, but it will require changes to `packages` and documentation on the nested helmrelease example.
+As mentioned since we would not be leveraging any "extra packages" solution for our own addons we will need to consider the missing links for the customer experience. We should still be able to fill those gaps, without altering the current addon deployments, but it will require changes to `packages` and documentation on the nested helmrelease example.
 
 Since the release testing and CI processes will continue to include all packages, we will need to be aware that those areas will continue to draw chunks of our time away from other development. However, since we will not have as much need to support customers through the upgrade / troubleshoot other issues, our time will be more freed up to find other ways to optimize these processes and implement changes in those areas instead.
 
