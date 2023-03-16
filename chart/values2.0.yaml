@@ -269,16 +269,8 @@ packages:
     # @default -- true
     enabled: false
 
-    # -- Toggle wrapper deployment of this package
-    # @default -- true
-    wrapper:
-      enabled: true
     # -- Use a kustomize deployment rather than Helm
     kustomize: false
-
-    # -- Toggle wrapper deployment of this package
-    # @default -- false
-    imagepullsecret: true
 
     # -- OCI source is supported and recommended for Helm deployments
     oci:
