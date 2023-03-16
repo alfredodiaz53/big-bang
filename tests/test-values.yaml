@@ -73,6 +73,9 @@ istio:
         auth:
           strategy: "anonymous"
 
+istioOperator:
+  enabled: true
+
 jaeger:
   enabled: true
   sso:

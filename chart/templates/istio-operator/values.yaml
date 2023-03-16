@@ -1,4 +1,4 @@
-{{- if .Values.istiooperator.enabled }}
+{{- if .Values.istioOperator.enabled }}
 {{- include "values-secret" (dict "root" $ "package" .Values.istiooperator "name" "istio-operator" "defaults" (include "bigbang.defaults.istiooperator" .)) }}
 {{- end }}
 
