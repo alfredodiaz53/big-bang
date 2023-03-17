@@ -23,22 +23,17 @@ spec:
     kind: GitRepository
     name: {{ $pkg }}
     namespace: {{ dig "namespace" "name" $pkg $vals }}
-  prune: true
+  interval: {{ dig "interval" "2m" $fluxSettings }}
+  timeout: {{ dig "timeout" "10m" $fluxSettings }}
+  force: {{ dig "force" false $fluxSettings }}
+  wait: {{ dig "wait" true $fluxSettings }}
+  retryInterval: {{ dig "retryInterval" "2m0s" $fluxSettings }}
+  prune: {{ dig "prune" true $fluxSettings }}
   postBuild:
-    substitute:
-      # Package information
-      package_name: {{ $pkg }}
-      package_namespace: {{ dig "namespace" "name" $pkg $vals }}
+    substituteFrom:
+    - name: {{ $pkg }}-values
+      kind: Secret
 
-      # Flux information
-      flux_helm_release_path: "chart/"
-      flux_helm_source_kind: "GitRepository"
-      flux_helm_source_name: {{ $pkg }}
-      flux_helm_source_namespace: {{ $pkg }}
-      # Big Bang information
-      bb_domain: {{ $.Values.domain }}
-      bb_istio_enabled: "{{ $.Values.istio.enabled }}"
-      bb_gateway: "public"
 ---
 {{ end -}}
 {{- end -}}
