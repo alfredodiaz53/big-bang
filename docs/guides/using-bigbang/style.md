@@ -26,6 +26,6 @@ This section is a work in progress, and we suggest updating it when finalized.
 
 ##
 
-Consistency is key when it comes to formatting choices. Ensure that your codebase follows these formatting guidelines consistently throughout.
+Consistency is key when it comes to formatting choices. Ensure that your changes to Big Bang follow these formatting guidelines consistently throughout.
 
-Remember that these conventions are meant to serve as a starting point, and it's always important to consider the specific needs and constraints of your project or organization when making decisions about package names, structure, versioning, and formatting.
+Remember that these conventions are meant to serve as a starting point, and it's always important to consider the specific needs and constraints of your contribution when making decisions about package names, structure, versioning, and formatting.
