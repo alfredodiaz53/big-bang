@@ -18,7 +18,7 @@ For each package, ensure that the following items have the same name:
 
 - Folder: chart/templates/<package>
 - Top-level key: chart/templates/values.yaml
-- Namespace: chart/templates/<package>/namespace.yaml or chart/templates/<package>/helmrelease.yaml, unless targeting another package's namespace.
+- Namespace: chart/templates/<package>/namespace.yaml, unless targeting another package's namespace.
 - Repo name: https://repo1.dso.mil/bigbang/packages/<package>/
 
 ## Version Numbers
