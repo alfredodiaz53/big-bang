@@ -17,7 +17,6 @@ metadata:
     {{- include "commonLabels" $ | nindent 4 }}
 spec:
   targetNamespace: {{ dig "namespace" "name" $pkg $vals }}
-  interval: 10m
   path: {{ dig "git" "path" "" $vals }}
   sourceRef:
     kind: GitRepository
