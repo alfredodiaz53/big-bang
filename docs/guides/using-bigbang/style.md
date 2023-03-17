@@ -21,8 +21,12 @@ For each package, ensure that the following items have the same name:
 - Namespace: chart/templates/<package>/namespace.yaml, unless targeting another package's namespace.
 - Repo name: https://repo1.dso.mil/bigbang/packages/<package>/
 
-## Version Numbers
-This section is a work in progress, and we suggest updating it when finalized.
+## Formatting YAML
+When formatting YAML files, follow these guidelines:
+
+- Indent using two spaces, not tabs.
+- Use camelCase and alphanumeric keys, without any special characters.
+- Ensure that all Kubernetes resource names, repository names, and namespaces are lowercase, alphanumeric, or hyphenated, using kebab-case.
 
 ##
 
