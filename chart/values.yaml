@@ -596,9 +596,28 @@ neuvector:
   ingress:
     gateway: ""
 
+  sso:
+    # -- Toggle SSO for Neuvector on and off
+    enable: false
+
+    # -- Toggle reload for Neuvector on and off
+    always_reload: false
+    
+    # -- OIDC issuer for Neuvector
+    issuer: ""
+
+    # -- OIDC Client ID to use for Neuvector
+    client_id: ""
+
+    # -- OIDC Client Secret to use for Neuvector
+    client_secret: ""
+
+    # -- Role to use for Neuvector. Possible value admin
+    default_role: ""
+
   # -- Flux reconciliation overrides specifically for the Neuvector Package
   flux: {}
-
+  
   # -- Values to passthrough to the Neuvector chart: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/neuvector.git
   values: {}
 
