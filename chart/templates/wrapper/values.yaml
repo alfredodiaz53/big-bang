@@ -54,6 +54,7 @@ stringData:
         {{- end -}}
       {{- end -}}
       {{- end -}}
+      {{- end -}}
       {{- end }}
 ---
 {{ end -}}
