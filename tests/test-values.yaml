@@ -167,7 +167,7 @@ gatekeeper:
           - kiali/kiali-cypress-test
           - mattermost/mattermost-cypress-test
           - keycloak/keycloak-cypress-test
-          - jaeger/jaeger-operator-cypress-test
+          - jaeger/jaeger-cypress-test
           - monitoring/kube-prometheus-stack-cypress-test
           - vault/vault-cypress-test
           - logging/loki-cypress-test
@@ -299,7 +299,7 @@ gatekeeper:
           - kiali/kiali-cypress-test
           - mattermost/mattermost-cypress-test
           - keycloak/keycloak-cypress-test
-          - jaeger/jaeger-operator-cypress-test
+          - jaeger/jaeger-cypress-test
           - monitoring/kube-prometheus-stack-cypress-test
           - vault/vault-cypress-test
           - logging/loki-cypress-test
@@ -624,16 +624,6 @@ fluentbit:
       privileged: true
     bbtests:
       enabled: true
-    config:
-      inputs: |
-        [INPUT]
-            Name tail
-            Path /var/log/containers/*flux-system*.log
-            Parser containerd
-            Tag kube.*
-            Mem_Buf_Limit 50MB
-            Skip_Long_Lines On
-            storage.type filesystem
 
 loki:
   enabled: false
@@ -855,12 +845,16 @@ addons:
             memory: 256Mi
           limits: {}
       server:
+        autoscaling:
+          enabled: false
         resources:
           requests:
             cpu: 20m
             memory: 128Mi
           limits: {}
       repoServer:
+        autoscaling:
+          enabled: false
         resources:
           requests:
             cpu: 50m
@@ -1489,7 +1483,7 @@ addons:
             quarkus.properties: '{{ .Files.Get "resources/dev/quarkus.properties" }}'
       extraInitContainers: |-
         - name: plugin
-          image: registry1.dso.mil/ironbank/big-bang/p1-keycloak-plugin:3.0.1
+          image: registry1.dso.mil/ironbank/big-bang/p1-keycloak-plugin:3.1.0
           imagePullPolicy: Always
           command:
           - sh
