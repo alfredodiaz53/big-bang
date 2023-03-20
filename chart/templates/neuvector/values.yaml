@@ -37,7 +37,7 @@ controller:
           role: reader
           fullname: metrics
       oidcinitcfg.yaml:
-        always_reload: {{ .Values.neuvector.sso.always_reload }}
+        always_reload: true
         enable: {{ .Values.neuvector.sso.enabled }}
         issuer: {{ default (include "sso.url" .) (tpl (default "" .Values.neuvector.sso.issuer) .) }}
         client_id: {{ .Values.neuvector.sso.client_id }}

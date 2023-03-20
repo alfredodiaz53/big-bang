@@ -599,9 +599,6 @@ neuvector:
   sso:
     # -- Toggle SSO for Neuvector on and off
     enabled: true
-
-    # -- Toggle reload for Neuvector on and off
-    always_reload: true
     
     # -- OIDC Client ID to use for Neuvector
     client_id: ""
