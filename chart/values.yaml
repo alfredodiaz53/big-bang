@@ -603,8 +603,8 @@ neuvector:
     # -- Toggle reload for Neuvector on and off
     always_reload: true
     
-    # -- OIDC issuer for Neuvector
-    issuer: ""
+    # -- OIDC Client ID to use for Neuvector
+    client_id: ""
 
     # -- OIDC Client Secret to use for Neuvector
     client_secret: ""
