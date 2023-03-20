@@ -598,10 +598,10 @@ neuvector:
 
   sso:
     # -- Toggle SSO for Neuvector on and off
-    enable: false
+    enabled: true
 
     # -- Toggle reload for Neuvector on and off
-    always_reload: false
+    always_reload: true
     
     # -- OIDC issuer for Neuvector
     issuer: ""
@@ -612,7 +612,7 @@ neuvector:
     # -- OIDC Client Secret to use for Neuvector
     client_secret: ""
 
-    # -- Role to use for Neuvector. Possible value admin
+    # -- Default role to use for Neuvector OIDC users. Supports admin, reader, or no default
     default_role: ""
 
   # -- Flux reconciliation overrides specifically for the Neuvector Package
