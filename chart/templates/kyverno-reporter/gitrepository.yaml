@@ -3,10 +3,10 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: GitRepository
 metadata:
-  name: {{ $pkg }}
+  name: {{ $pkg | kebabcase }}
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: {{ $pkg }}
+    app.kubernetes.io/name: {{ $pkg | kebabcase }}
     {{- include "commonLabels" . | nindent 4}}
 spec:
   interval: {{ .Values.flux.interval }}

@@ -7,10 +7,10 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: {{ $pkg }}
+  name: {{ $pkg | kebabcase }}
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: {{ $pkg }}
+    app.kubernetes.io/name: {{ $pkg | kebabcase }}
     {{- include "commonLabels" . | nindent 4}}
 spec:
   targetNamespace: kyverno-reporter
@@ -20,7 +20,7 @@ spec:
       chart: {{ (get .Values $pkg).git.path }}
       sourceRef:
         kind: GitRepository
-        name: {{ $pkg }}
+        name: {{ $pkg | kebabcase }}
         namespace: {{ .Release.Namespace }}
       {{- else }}
       chart: {{ (get .Values $pkg).oci.name }}
@@ -39,13 +39,13 @@ spec:
   {{ toYaml (get .Values $pkg).postRenderers | nindent 4 }}
   {{- end }}
   valuesFrom:
-    - name: {{ .Release.Name }}-{{ $pkg }}-values
+    - name: {{ .Release.Name }}-{{ $pkg | kebabcase }}-values
       kind: Secret
       valuesKey: "common"
-    - name: {{ .Release.Name }}-{{ $pkg }}-values
+    - name: {{ .Release.Name }}-{{ $pkg | kebabcase }}-values
       kind: Secret
       valuesKey: "defaults"
-    - name: {{ .Release.Name }}-{{ $pkg }}-values
+    - name: {{ .Release.Name }}-{{ $pkg | kebabcase }}-values
       kind: Secret
       valuesKey: "overlays"
   dependsOn:

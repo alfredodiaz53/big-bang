@@ -1,7 +1,7 @@
 {{- $pkg := "kyvernoReporter" }}
 
 {{- if (get .Values $pkg).enabled }}
-{{- include "values-secret" (dict "root" $ "package" (get .Values $pkg) "name" $pkg "defaults" (include (printf "bigbang.defaults.%s" $pkg) .)) }}
+{{- include "values-secret" (dict "root" $ "package" (get .Values $pkg) "name" ($pkg | kebabcase) "defaults" (include (printf "bigbang.defaults.%s" $pkg | kebabcase) .)) }}
 {{- end }}
 
 {{- define "bigbang.defaults.kyverno-reporter" -}}
