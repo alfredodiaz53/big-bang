@@ -116,9 +116,9 @@ PLATFORM ONE ANCHORE WARNING:
 {{- end }}
 {{- end }}
 
-{{- if and $.Values.eckoperator.enabled $.Values.logging.enabled }}
-  {{- if $.Values.logging.sso.enabled }}
-    {{- if and (not $.Values.logging.license.trial) (not $.Values.logging.license.keyJSON) }}
+{{- if and $.Values.eckOperator.enabled $.Values.elasticsearchKibana.enabled }}
+  {{- if $.Values.elasticsearchKibana.sso.enabled }}
+    {{- if and (not $.Values.elasticsearchKibana.license.trial) (not $.Values.elasticsearchKibana.license.keyJSON) }}
 PLATFORM ONE LOGGING WARNING:
   You have enabled SSO but not provided an enterprise license configuration to use. SSO is not functional without a license.
   Edit the values for the eck-operator to specify a license key JSON or use the trial license for development.
@@ -126,7 +126,7 @@ PLATFORM ONE LOGGING WARNING:
   {{- end }}
 {{- end }}
 
-{{- if and (or $.Values.promtail.enabled $.Values.loki.enabled) .Values.logging.enabled }}
+{{- if and (or $.Values.promtail.enabled $.Values.loki.enabled) .Values.elasticsearchKibana.enabled }}
 PLATFORM ONE LOGGING WARNING:
   You have enabled both promtail/loki and efk logging.  This is permitted during beta testing of promtail/loki.
   After the beta period, only one logging stack will be supported at one time, with the PLG stack becoming the default supported stack.
@@ -182,7 +182,7 @@ DEPRECATION NOTICE:
 {{- if .Values.addons.nexus }}
 DEPRECATION NOTICE:
   .Values.addons.nexus has been deprecated and will be removed in a future Big Bang release.
-  Please reconfigure your values overrides to use .Values.addons.nexusRepositoryManager 
+  Please reconfigure your values overrides to use .Values.addons.nexusRepositoryManager
 {{- end }}
 
 {{- $nexusOldValues := default dict .Values.addons.nexus -}}
@@ -390,5 +390,5 @@ DEPRECATION NOTICE:
 {{- if .Values.addons.mattermostoperator }}
 DEPRECATION NOTICE:
   .Values.addons.mattermostoperator has been deprecated and will be removed in a future Big Bang release.
-  Please reconfigure your values overrides to use .Values.addons.mattermostOperator 
+  Please reconfigure your values overrides to use .Values.addons.mattermostOperator
 {{- end }}
