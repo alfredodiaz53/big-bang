@@ -1,5 +1,4 @@
-{{- $logOldValues := default dict .Values.logging -}}
-{{- $logValues := merge $logOldValues .Values.elasticsearchKibana -}}
+{{- $logValues := .Values.elasticsearchKibana -}}
 {{- $fluxSettingsEk := merge $logValues.flux .Values.flux -}}
 {{- if $logValues.enabled }}
 apiVersion: helm.toolkit.fluxcd.io/v2beta1

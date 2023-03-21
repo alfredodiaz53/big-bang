@@ -1,7 +1,5 @@
-{{- $eckOpOldValues := default dict .Values.eckoperator -}}
-{{- $eckOpValues := merge $eckOpOldValues .Values.eckOperator -}}
-{{- $logOldValues := default dict .Values.logging -}}
-{{- $logValues := merge $logOldValues .Values.elasticsearchKibana -}}
+{{- $eckOpValues := .Values.eckOperator -}}
+{{- $logValues := .Values.elasticsearchKibana -}}
 {{- if and (eq (include "checkGitRef" $eckOpValues) "true") (not .Values.offline) (or $eckOpValues.enabled $logValues.enabled) }}
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: GitRepository

@@ -1,5 +1,4 @@
-{{- $logOldValues := default dict .Values.logging -}}
-{{- $logValues := merge $logOldValues .Values.elasticsearchKibana -}}
+{{- $logValues := .Values.elasticsearchKibana -}}
 {{- if $logValues.enabled }}
 {{- include "values-secret" (dict "root" $ "package" $logValues "name" "ek" "defaults" (include "bigbang.defaults.elasticsearchKibana" .)) }}
 {{- end }}
