@@ -5,6 +5,7 @@
 {{- define "bigbang.defaults.fluentbit" -}}
 {{- $disableDefault := dig "additionalOutputs" "disableDefault" false .Values.fluentbit.values }}
 
+{{- $logValues := .Values.elasticsearchKibana -}}
 {{- if (not $disableDefault) }}
 {{- if .Values.elasticsearchKibana.enabled }}
 env:
