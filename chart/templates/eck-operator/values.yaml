@@ -4,6 +4,7 @@
 {{- include "values-secret" (dict "root" $ "package" $eckOpValues "name" "eck-operator" "defaults" (include "bigbang.defaults.eckOperator" .)) }}
 {{- end }}
 
+{{- $logValues := .Values.elasticsearchKibana -}}
 {{- define "bigbang.defaults.eckOperator" -}}
 license:
   trial: {{ $logValues.license.trial }}
