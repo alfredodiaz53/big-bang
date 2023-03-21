@@ -1,5 +1,5 @@
 # General Conventions Style Guide
-This style guide outlines the general conventions to follow for package names, structure standardization, version numbers, and YAML formatting.
+This style guide outlines the general conventions to follow for package names, structure standardization, version numbers, and YAML formatting focusing on the Big Bang Helm chart. Individual packages (core, addons, community) may not follow these exact standards.
 
 ## Package Names
 When creating package names, follow these guidelines:
