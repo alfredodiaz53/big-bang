@@ -1,16 +1,14 @@
-{{- $eckOpOldValues := default dict .Values.eckoperator -}}
-{{- $eckOpValues := merge $eckOpOldValues .Values.eckOperator -}}
-{{- $logOldValues := default dict .Values.logging -}}
-{{- $logValues := merge $logOldValues .Values.elasticsearchKibana -}}
+{{- $eckOpValues := .Values.eckOperator -}}
+{{- $logValues := .Values.elasticsearchKibana -}}
 {{- if or $eckOpValues.enabled $logValues.enabled }}
 {{- include "values-secret" (dict "root" $ "package" $eckOpValues "name" "eck-operator" "defaults" (include "bigbang.defaults.eckOperator" .)) }}
 {{- end }}
 
 {{- define "bigbang.defaults.eckOperator" -}}
 license:
-  trial: {{ .Values.logging.license.trial }}
+  trial: {{ $logValues.license.trial }}
   keyJSON: |
-    {{ .Values.logging.license.keyJSON | nindent 4 }}
+    {{ $logValues.license.keyJSON | nindent 4 }}
 
 image:
   pullPolicy: {{ .Values.imagePullPolicy }}
