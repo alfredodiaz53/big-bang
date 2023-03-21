@@ -1,5 +1,4 @@
-{{- $logValues := .Values.elasticsearchKibana -}}
-{{- if and (eq (include "checkGitRef" $logValues) "true") (not .Values.offline) ( $logValues.enabled ) }}
+{{- if and (eq (include "checkGitRef" .Values.elasticsearchKibana) "true") (not .Values.offline) ( .Values.elasticsearchKibana.enabled ) }}
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: GitRepository
 metadata:
@@ -11,9 +10,9 @@ metadata:
     {{- include "commonLabels" . | nindent 4}}
 spec:
   interval: {{ .Values.flux.interval }}
-  url: {{ $logValues.git.repo }}
+  url: {{ .Values.elasticsearchKibana.git.repo }}
   ref:
-    {{- include "validRef" $logValues.git | nindent 4 }}
+    {{- include "validRef" .Values.elasticsearchKibana.git | nindent 4 }}
   {{ include "gitIgnore" . }}
   {{- include "gitCreds" . | nindent 2 }}
 {{- end }}

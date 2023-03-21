@@ -5,9 +5,8 @@
 {{- define "bigbang.defaults.fluentbit" -}}
 {{- $disableDefault := dig "additionalOutputs" "disableDefault" false .Values.fluentbit.values }}
 
-{{- $logValues := .Values.elasticsearchKibana -}}
 {{- if (not $disableDefault) }}
-{{- if $logValues.enabled }}
+{{- if .Values.elasticsearchKibana.enabled }}
 env:
   - name: FLUENT_ELASTICSEARCH_PASSWORD
     valueFrom:
@@ -31,10 +30,10 @@ extraVolumeMounts:
   - mountPath: /etc/elasticsearch/certs/
     name: elasticsearch-certs
 {{- end }}
-{{- if or $logValues.enabled .Values.loki.enabled }}
+{{- if or .Values.elasticsearchKibana.enabled .Values.loki.enabled }}
 config:
   outputs: |
-    {{- if $logValues.enabled }}
+    {{- if .Values.elasticsearchKibana.enabled }}
     [OUTPUT]
         Name                     es
         Match                    kube.*
@@ -126,7 +125,7 @@ serviceMonitor:
   # - istio: enabled
   # - mTLS: SCRICT
   # - istio injection: enabled (for logging ns)
-  {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.fluentbit.values) "STRICT") (eq (dig "istio" "injection" "enabled" $logValues.values) "enabled") }}
+  {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.fluentbit.values) "STRICT") (eq (dig "istio" "injection" "enabled" .Values.elasticsearchKibana.values) "enabled") }}
   scheme: https
   tlsConfig:
     caFile: /etc/prom-certs/root-cert.pem
