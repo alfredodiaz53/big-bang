@@ -2,14 +2,8 @@
 This style guide outlines the general conventions to follow for package names, structure standardization, version numbers, and YAML formatting focusing on the Big Bang Helm chart. Individual packages (core, addons, community) may not follow these exact standards.
 
 ## Package Names
-When creating package names, follow these guidelines:
+When creating package names, consider that different usages of the name will require different formats. For Helm values keys use camelCase to delineate multi-word package names. Avoid using . or - within values keys to simplify Helm templating. Kubernetes resources require translation to kebab-case as they do not support uppercase. Package naming for Kubernetes resources should be consistent across all resources (GitRepository, Namespace, HelmRelease, labels, etc).
 
-- Use only lowercase letters and numbers.
-- Use dashes (-) to separate words.
-- Do not use uppercase letters or underscores.
-- Do not use dots in package names.
-- Ensure that package names are consistent between the git repository, namespace, resource prefixes, and labels.
-- Use Helm's kebab-case function to translate package names from YAML to Kubernetes resource names. This replaces capital letters with a hyphen (-) and the lowercase version of the letter.
 ##### Notable Exceptions
 > If a package name is two words and the additional words are less than four characters, consider it as part of the single name. Examples include "fluentbit" (technically "Fluent Bit") and "argocd" (technically "Argo CD").
 
