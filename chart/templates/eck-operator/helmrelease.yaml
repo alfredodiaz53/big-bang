@@ -1,7 +1,5 @@
-{{- $eckOpOldValues := default dict .Values.eckoperator -}}
-{{- $eckOpValues := merge $eckOpOldValues .Values.eckOperator -}}
-{{- $logOldValues := default dict .Values.logging -}}
-{{- $logValues := merge $logOldValues .Values.elasticsearchKibana -}}
+{{- $eckOpValues := .Values.eckOperator -}}
+{{- $logValues := .Values.elasticsearchKibana -}}
 {{- $fluxSettingsEckOperator := merge $eckOpValues.flux .Values.flux -}}
 {{- if or $eckOpValues.enabled $logValues.enabled }}
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
