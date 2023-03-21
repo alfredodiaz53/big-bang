@@ -1,4 +1,3 @@
-{{- $logValues := .Values.elasticsearchKibana -}}
 {{- $fluxSettingsFluentbit := merge .Values.fluentbit.flux .Values.flux -}}
 {{- if .Values.fluentbit.enabled }}
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
