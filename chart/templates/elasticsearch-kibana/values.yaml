@@ -2,6 +2,7 @@
 {{- include "values-secret" (dict "root" $ "package" .Values.elasticsearchKibana "name" "ek" "defaults" (include "bigbang.defaults.elasticsearchKibana" .)) }}
 {{- end }}
 
+{{- $logValues := .Values.elasticsearchKibana -}}
 {{- define "bigbang.defaults.elasticsearchKibana" -}}
 # hostname is deprecated and replaced with domain. But if hostname exists then use it.
 {{- $domainName := default .Values.domain .Values.hostname }}
