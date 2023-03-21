@@ -1,5 +1,4 @@
-{{- $logOldValues := default dict .Values.logging -}}
-{{- $logValues := merge $logOldValues .Values.elasticsearchKibana -}}
+{{- $logValues := .Values.elasticsearchKibana -}}
 {{- if and (eq (include "checkGitRef" $logValues) "true") (not .Values.offline) ( $logValues.enabled ) }}
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: GitRepository

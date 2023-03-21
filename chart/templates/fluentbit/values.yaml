@@ -1,5 +1,4 @@
-{{- $logOldValues := default dict .Values.logging -}}
-{{- $logValues := merge $logOldValues .Values.elasticsearchKibana -}}
+{{- $logValues := .Values.elasticsearchKibana -}}
 
 {{- if .Values.fluentbit.enabled }}
 {{- include "values-secret" (dict "root" $ "package" .Values.fluentbit "name" "fluentbit" "defaults" (include "bigbang.defaults.fluentbit" .)) }}
