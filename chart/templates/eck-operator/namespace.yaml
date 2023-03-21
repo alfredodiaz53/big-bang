@@ -1,6 +1,4 @@
-{{- $eckOpValues := .Values.eckOperator -}}
-{{- $logValues := .Values.elasticsearchKibana -}}
-{{- if or $eckOpValues.enabled $logValues.enabled }}
+{{- if or .Values.eckOperator.enabled .Values.elasticsearchKibana.enabled }}
 apiVersion: v1
 kind: Namespace
 metadata:
