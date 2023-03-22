@@ -289,7 +289,7 @@ jaeger:
   # -- Toggle deployment of Jaeger.
   enabled: true
   oci:
-    name: "jaeger-operator"
+    name: "jaeger"
     tag: "2.41.0-bb.0"
     repo: "registry1"
 
@@ -441,6 +441,7 @@ kyvernoreporter:
   # -- Toggle deployment of Kyverno Reporter
   enabled: false
   oci:
+  ### change to kyverno-reporter once merged in
     name: "policy-reporter"
     tag: "2.16.0-bb.0"
     repo: "registry1"
@@ -697,7 +698,7 @@ monitoring:
   # -- Toggle deployment of Monitoring (Prometheus, Grafana, and Alertmanager).
   enabled: true
   oci:
-    name: "kube-prometheus-stack"
+    name: "monitoring"
     tag: "43.1.2-bb.4"
     repo: "registry1"
 
