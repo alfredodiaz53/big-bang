@@ -67,6 +67,7 @@ monitor:
       {{- if $istioInjection }}
       {{ include "istioAnnotation" . }}
       {{- end }}
+    {{- end }}
     serviceMonitor:
       enabled: {{ .Values.monitoring.enabled }}
       # conditional passes only for default istio: enabled, mTLS: SCRICT
