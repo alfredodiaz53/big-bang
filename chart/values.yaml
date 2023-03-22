@@ -5,6 +5,17 @@ domain: bigbang.dev
 # All this does right now is toggle GitRepositories, it is _not_ fully functional
 offline: false
 
+# -- List of OCI repositories/credentials to pull helm charts from
+# Must specify username/password or existingSecret (of type kubernetes.io/dockerconfigjson) if repository requires auth
+# Using "private-registry" for existingSecret will reuse credentials from registryCredentials above
+ociRepositories:
+  - name: "registry1"
+    repository: "oci://registry1.dso.mil/bigbang"
+    existingSecret: "private-registry"
+    username: ""
+    password: ""
+    email: ""
+
 # -- Single set of registry credentials used to pull all images deployed by BigBang.
 registryCredentials:
   registry: registry1.dso.mil
@@ -144,10 +155,10 @@ istio:
   # -- Toggle deployment of Istio.
   enabled: true
 
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/istio-controlplane.git
-    path: "./chart"
+  oci:
+    name: "istio"
     tag: "1.17.1-bb.0"
+    repo: "registry1"
 
   # -- Tetrate Istio Distribution - Tetrate provides FIPs verified Istio and Envoy software and support,
   # validated through the FIPs Boring Crypto module. Find out more from Tetrate - https://www.tetrate.io/tetrate-istio-subscription
@@ -260,10 +271,10 @@ istio:
 istiooperator:
   # -- Toggle deployment of Istio Operator.
   enabled: true
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/istio-operator.git
-    path: "./chart"
+  oci:
+    name: "istio-operator"
     tag: "1.17.1-bb.0"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Istio Operator Package
   flux: {}
@@ -277,10 +288,10 @@ istiooperator:
 jaeger:
   # -- Toggle deployment of Jaeger.
   enabled: true
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/jaeger.git
-    path: "./chart"
+  oci:
+    name: "jaeger-operator"
     tag: "2.41.0-bb.0"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Jaeger Package
   flux:
@@ -312,10 +323,10 @@ jaeger:
 kiali:
   # -- Toggle deployment of Kiali.
   enabled: true
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/kiali.git
-    path: "./chart"
+  oci:
+    name: "kiali"
     tag: "1.64.0-bb.0"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Kiali Package
   flux: {}
@@ -348,10 +359,10 @@ kiali:
 clusterAuditor:
   # -- Toggle deployment of Cluster Auditor.
   enabled: true
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/cluster-auditor.git
-    path: "./chart"
+  oci:
+    name: "cluster-auditor"
     tag: "1.5.0-bb.2"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Cluster Auditor Package
   flux: {}
@@ -369,10 +380,10 @@ clusterAuditor:
 gatekeeper:
   # -- Toggle deployment of OPA Gatekeeper.
   enabled: true
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/policy.git
-    path: "./chart"
+  oci:
+    name: "gatekeeper"
     tag: "3.11.0-bb.2"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the OPA Gatekeeper Package
   flux:
@@ -394,10 +405,10 @@ gatekeeper:
 kyverno:
   # -- Toggle deployment of Kyverno.
   enabled: false
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/kyverno.git
-    path: "./chart"
+  oci:
+    name: "kyverno"
     tag: "2.6.5-bb.3"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Kyverno Package
   flux: {}
@@ -412,10 +423,10 @@ kyverno:
 kyvernopolicies:
   # -- Toggle deployment of Kyverno policies
   enabled: false
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/kyverno-policies.git
-    path: ./chart
+  oci:
+    name: "kyverno-policies"
     tag: "1.1.0-bb.3"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Kyverno Package
   flux: {}
@@ -429,10 +440,10 @@ kyvernopolicies:
 kyvernoreporter:
   # -- Toggle deployment of Kyverno Reporter
   enabled: false
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/kyverno-reporter.git
-    path: ./chart
+  oci:
+    name: "policy-reporter"
     tag: "2.16.0-bb.0"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Kyverno Reporter Package
   flux: {}
@@ -451,10 +462,10 @@ kyvernoreporter:
 logging:
   # -- Toggle deployment of Logging (EFK).
   enabled: true
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/elasticsearch-kibana.git
-    path: "./chart"
+  oci:
+    name: "elasticsearch-kibana"
     tag: "1.1.0-bb.1"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Logging (EFK) Package
   flux:
@@ -491,10 +502,10 @@ logging:
 eckoperator:
   # -- Toggle deployment of ECK Operator.
   enabled: true
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/eck-operator.git
-    path: "./chart"
+  oci:
+    name: "eck-operator"
     tag: "2.6.1-bb.0"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the ECK Operator Package
   flux: {}
@@ -505,10 +516,10 @@ eckoperator:
 fluentbit:
   # -- Toggle deployment of Fluent-Bit.
   enabled: true
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/fluentbit.git
-    path: "./chart"
+  oci:
+    name: "fluentbit"
     tag: "0.24.0-bb.0"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Fluent-Bit Package
   flux: {}
@@ -525,10 +536,10 @@ fluentbit:
 promtail:
   # -- Toggle deployment of Promtail.
   enabled: false
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/promtail.git
-    path: "./chart"
+  oci:
+    name: "promtail"
     tag: "6.8.1-bb.1"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Promtail Package
   flux: {}
@@ -542,10 +553,10 @@ promtail:
 loki:
   # -- Toggle deployment of Loki.
   enabled: false
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/loki.git
-    path: "./chart"
+  oci:
+    name: "loki"
     tag: "4.8.0-bb.0"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Loki Package
   flux: {}
@@ -587,10 +598,10 @@ loki:
 neuvector:
    # -- Toggle deployment of Neuvector.
   enabled: false
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/neuvector.git
-    path: "./chart"
+  oci:
+    name: "neuvector"
     tag: "2.4.2-bb.4"
+    repo: "registry1"
 
   # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
   ingress:
@@ -625,10 +636,10 @@ neuvector:
 tempo:
   # -- Toggle deployment of Tempo.
   enabled: false
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/tempo.git
-    path: "./chart"
+  oci:
+    name: "tempo"
     tag: "1.0.0-bb.3"
+    repo: "registry1"
 
   # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
   ingress:
@@ -685,10 +696,10 @@ tempo:
 monitoring:
   # -- Toggle deployment of Monitoring (Prometheus, Grafana, and Alertmanager).
   enabled: true
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/monitoring.git
-    path: "./chart"
+  oci:
+    name: "kube-prometheus-stack"
     tag: "43.1.2-bb.4"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Monitoring Package
   flux:
@@ -746,10 +757,10 @@ monitoring:
 twistlock:
   # -- Toggle deployment of Twistlock.
   enabled: true
-  git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/twistlock.git
-    path: "./chart"
+  oci:
+    name: "twistlock"
     tag: "0.11.4-bb.3"
+    repo: "registry1"
 
   # -- Flux reconciliation overrides specifically for the Twistlock Package
   flux: {}
