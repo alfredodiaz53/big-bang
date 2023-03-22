@@ -797,10 +797,10 @@ addons:
   argocd:
     # -- Toggle deployment of ArgoCD.
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/argocd.git
-      path: "./chart"
+    oci:
+      name: "argocd"
       tag: "5.22.1-bb.2"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the ArgoCD Package
     flux: {}
@@ -846,10 +846,10 @@ addons:
     #     minimal:
     #       callback_uri: "https://somecallback"
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/authservice.git
-      path: "./chart"
+    oci:
+      name: "authservice"
       tag: "0.5.3-bb.5"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Authservice Package
     flux: {}
@@ -869,10 +869,10 @@ addons:
   minioOperator:
     # -- Toggle deployment of minio operator and instance.
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/application-utilities/minio-operator.git
-      path: "./chart"
+    oci:
+      name: "minio-operator"
       tag: "4.5.4-bb.0"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Minio Operator Package
     flux: {}
@@ -886,10 +886,10 @@ addons:
   minio:
     # -- Toggle deployment of minio.
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/application-utilities/minio.git
-      path: "./chart"
+    oci:
+      name: "minio-instance"
       tag: "4.5.4-bb.3"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Minio Package
     flux: {}
@@ -919,10 +919,10 @@ addons:
       gitlab: gitlab
       registry: registry
 
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/developer-tools/gitlab.git
-      path: "./chart"
+    oci:
+      name: "gitlab"
       tag: "6.9.2-bb.1"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Gitlab Package
     flux: {}
@@ -1012,10 +1012,11 @@ addons:
   gitlabRunner:
     # -- Toggle deployment of Gitlab Runner
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/developer-tools/gitlab-runner.git
-      path: "./chart"
+    oci:
+      name: "gitlab-runner"
       tag: "0.49.1-bb.0"
+      repo: "registry1"
+
 
     # -- Flux reconciliation overrides specifically for the Gitlab Runner Package
     flux: {}
@@ -1029,10 +1030,10 @@ addons:
   nexusRepositoryManager:
     # -- Toggle deployment of Nexus Repository Manager.
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/developer-tools/nexus.git
-      path: "./chart"
+    oci:
+      name: "nexus-repository-manager"
       tag: "47.1.0-bb.0"
+      repo: "registry1"
 
     # -- Base64 encoded license file.
     license_key: ""
@@ -1090,10 +1091,10 @@ addons:
   sonarqube:
     # -- Toggle deployment of SonarQube.
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/developer-tools/sonarqube.git
-      path: "./chart"
+    oci:
+      name: "sonarqube"
       tag: "8.0.0-bb.1"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Sonarqube Package
     flux: {}
@@ -1148,10 +1149,10 @@ addons:
   # Deployment of HAProxy is automatically toggled depending on Monitoring SSO and Monitoring Istio Injection
   #
   haproxy:
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/developer-tools/haproxy.git
-      path: "./chart"
+    oci:
+      name: "haproxy"
       tag: "1.12.0-bb.0"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the HAProxy Package
     flux: {}
@@ -1169,10 +1170,10 @@ addons:
   anchore:
     # -- Toggle deployment of Anchore.
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/anchore-enterprise.git
-      path: "./chart"
+    oci:
+      name: "anchore"
       tag: "1.23.0-bb.0"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Anchore Package
     flux:
@@ -1255,10 +1256,10 @@ addons:
   #
   mattermostOperator:
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/collaboration-tools/mattermost-operator.git
-      path: "./chart"
+    oci:
+      name: "mattermost-operator"
       tag: "1.19.0-bb.0"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Mattermost Operator Package
     flux: {}
@@ -1272,10 +1273,10 @@ addons:
   mattermost:
     # -- Toggle deployment of Mattermost.
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/collaboration-tools/mattermost.git
-      path: "./chart"
+    oci:
+      name: "mattermost"
       tag: "7.8.1-bb.0"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Mattermost Package
     flux: {}
@@ -1359,10 +1360,10 @@ addons:
     # -- Toggle deployment of Velero.
     enabled: false
 
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/cluster-utilities/velero.git
-      path: "./chart"
+    oci:
+      name: "velero"
       tag: "3.1.2-bb.2"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Velero Package
     flux: {}
@@ -1387,10 +1388,10 @@ addons:
     # if you enable Keycloak you should uncomment the istio passthrough configurations above
     # istio.ingressGateways.passthrough-ingressgateway and istio.gateways.passthrough
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/keycloak.git
-      path: "./chart"
+    oci:
+      name: "keycloak"
       tag: "18.4.0-bb.1"
+      repo: "registry1"
 
     database:
       # -- Hostname of a pre-existing database to use for Keycloak.
@@ -1436,10 +1437,10 @@ addons:
   vault:
     # -- Toggle deployment of Vault.
     enabled: false
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/vault.git
-      path: "./chart"
+    oci:
+      name: "vault"
       tag: "0.23.0-bb.2"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the Vault Package
     flux: {}
@@ -1466,10 +1467,10 @@ addons:
     # Acceptable options are enabled: true, enabled: false, enabled: auto
     # true = enabled / false = disabled / auto = automatic (Installs only if metrics API endpoint is not present)
     enabled: auto
-    git:
-      repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/metrics-server.git
-      path: "./chart"
+    oci:
+      name: "metrics-server"
       tag: "3.8.4-bb.0"
+      repo: "registry1"
 
     # -- Flux reconciliation overrides specifically for the metrics server Package
     flux: {}
