@@ -99,7 +99,7 @@ policies:
       # Fluentbit needs privileged to read and store the buffer for tailing logs from the nodes
       - resources:
           namespaces:
-          - logging
+          - fluentbit
           names:
           - logging-fluent-bit*
       {{- end }}
@@ -122,7 +122,7 @@ policies:
       # Fluent bit needs to be able to run on all nodes to gather logs from the host for containers
       - resources:
           namespaces:
-          - logging
+          - fluentbit
           names:
           - logging-fluent-bit*
       {{- end }}
@@ -149,7 +149,7 @@ policies:
     {{- if .Values.addons.gitlab.enabled }}
     exclude:
       any:
-      # Gitlab Redis sub-chart does not have configurable securityContext values from upstream. An issue has been opened 
+      # Gitlab Redis sub-chart does not have configurable securityContext values from upstream. An issue has been opened
       # upstream to add these capabilities: https://gitlab.com/gitlab-org/charts/gitlab/-/issues/3375
       - resources:
           namespaces:
@@ -209,17 +209,17 @@ policies:
       {{- end }}
       {{- if .Values.fluentbit.enabled }}
       # Fluentbit requires access to journalctl as well as /var/log.  This would require modifications
-      # to the host operating system, creating a user, adding that user to the  systemd-journal user group 
+      # to the host operating system, creating a user, adding that user to the  systemd-journal user group
       # and then granting permissions recursively on /var/log.
       - resources:
           namespaces:
-          - logging
+          - fluentbit
           names:
           - logging-fluent-bit*
       {{- end }}
       {{- if .Values.promtail.enabled }}
       # promtail requires access to journalctl as well as /var/log.  This would require modifications
-      # to the host operating system, creating a user, adding that user to the  systemd-journal user group 
+      # to the host operating system, creating a user, adding that user to the  systemd-journal user group
       # and then granting permissions recursively on /var/log.
       # promtail requires access to /run/promtail for its buffering and persistent state.
       - resources:
@@ -229,7 +229,7 @@ policies:
           - logging-promtail*
       {{- end }}
       {{- if .Values.addons.gitlab.enabled }}
-      # Gitlab Redis sub-chart does not have configurable securityContext values from upstream. An issue has been opened 
+      # Gitlab Redis sub-chart does not have configurable securityContext values from upstream. An issue has been opened
       # upstream to add these capabilities: https://gitlab.com/gitlab-org/charts/gitlab/-/issues/3375
       - resources:
           namespaces:
@@ -242,7 +242,7 @@ policies:
   require-non-root-user:
     validationFailureAction: audit
     {{ if .Values.istio.enabled }}
-    parameters: 
+    parameters:
       excludeContainers:
         - istio-init
     {{- end }}
@@ -271,17 +271,17 @@ policies:
       {{- end }}
       {{- if .Values.fluentbit.enabled }}
       # Fluentbit requires access to journalctl as well as /var/log.  This would require modifications
-      # to the host operating system, creating a user, adding that user to the  systemd-journal user group 
+      # to the host operating system, creating a user, adding that user to the  systemd-journal user group
       # and then granting permissions recursively on /var/log.
       - resources:
           namespaces:
-          - logging
+          - fluentbit
           names:
           - logging-fluent-bit*
       {{- end }}
       {{- if .Values.promtail.enabled }}
       # promtail requires access to journalctl as well as /var/log.  This would require modifications
-      # to the host operating system, creating a user, adding that user to the  systemd-journal user group 
+      # to the host operating system, creating a user, adding that user to the  systemd-journal user group
       # and then granting permissions recursively on /var/log.
       # promtail requires access to /run/promtail for its buffering and persistent state.
       - resources:
@@ -291,7 +291,7 @@ policies:
           - logging-promtail*
       {{- end }}
       {{- if .Values.addons.gitlab.enabled }}
-      # Gitlab Redis sub-chart does not have configurable securityContext values from upstream. An issue has been opened 
+      # Gitlab Redis sub-chart does not have configurable securityContext values from upstream. An issue has been opened
       # upstream to add these capabilities: https://gitlab.com/gitlab-org/charts/gitlab/-/issues/3375
       - resources:
           namespaces:
@@ -355,7 +355,7 @@ policies:
       {{- if or .Values.fluentbit.enabled .Values.promtail.enabled }}
       - resources:
           namespaces:
-          - logging
+          - fluentbit #could be an issue here, this was - logging before
           names:
           {{- if .Values.fluentbit.enabled }}
           # Fluent Bit mounts the following hostPaths:
@@ -367,6 +367,10 @@ policies:
           # FluentBit from the policy than add the paths as allowable mounts
           - logging-fluent-bit*
           {{- end }}
+      # - resources:
+      #     namespaces:
+      #     - promtail
+      #     names:
           {{- if .Values.promtail.enabled }}
           # Promtail mounts the following hostPaths:
           # - `/var/log/pods`: to tail pod logs
@@ -416,13 +420,13 @@ policies:
       - resources:
           namespaces:
           - neuvector
-          names: 
+          names:
           - neuvector-enforcer-pod*
           - neuvector-controller-pod*
       {{- end }}
       {{- if $deployNodeAgent }}
       # Velero.  The node agent backup tool requires root user access to the host's runtime pod directory which is
-      # mounted inside velero/node agent pods.  Since the host's pod runtime directory may expose sensitive information, 
+      # mounted inside velero/node agent pods.  Since the host's pod runtime directory may expose sensitive information,
       # it is better to exclude the node agent pods than to add the path as allowable mounts
       - resources:
           namespaces:
@@ -460,7 +464,7 @@ policies:
           - twistlock-defender-ds*
       {{- end }}
       {{- if .Values.neuvector.enabled }}
-      # Neuvector mounts the following hostPaths as writeable: 
+      # Neuvector mounts the following hostPaths as writeable:
       # `/var/neuvector`: for Neuvector's buffering and persistent state
       - resources:
           namespaces:
@@ -500,13 +504,17 @@ policies:
       {{- if or .Values.fluentbit.enabled .Values.promtail.enabled }}
       - resources:
           namespaces:
-          - logging
+          - fluentbit #could be an issue here for promtail, this was - logging before
           names:
           {{- if .Values.fluentbit.enabled }}
           # NEEDS FURTHER JUSTIFICATION
           # FluentBit needs selinux option type spc_t
           - logging-fluent-bit*
           {{- end }}
+      # - resources:
+      #     namespaces:
+      #     - promtail
+      #     names:
           {{- if .Values.promtail.enabled }}
           # NEEDS FURTHER JUSTIFICATION
           # Promtail needs selinux option type spc_t
@@ -523,7 +531,7 @@ policies:
           - twistlock-defender-ds*
       {{- end }}
   {{- end }}
-  
+
   {{- if $deployNodeAgent }}
   restrict-user-id:
     exclude:
@@ -546,13 +554,17 @@ policies:
       {{- if or .Values.fluentbit.enabled .Values.promtail.enabled }}
       - resources:
           namespaces:
-          - logging
+          - fluentbit #could be an issue here for promtail, this was - logging before
           names:
           {{- if .Values.fluentbit.enabled }}
           # Fluent bit containers requires HostPath volumes, to tail node and container logs.  It is also used for buffering
           # https://docs.fluentbit.io/manual/pipeline/filters/kubernetes#workflow-of-tail-+-kubernetes-filter
           - logging-fluent-bit*
           {{- end }}
+      # - resources:
+      #     namespaces:
+      #     - promtail
+      #     names:
           {{- if .Values.promtail.enabled }}
           # NEEDS FURTHER JUSTIFICATION
           # Promtail requires HostPath volume types
