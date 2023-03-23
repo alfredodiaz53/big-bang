@@ -135,7 +135,7 @@ A logging stack is a set of scalable tools that can aggregate logs from cluster 
 | |EFK|[Elasticsearch / Kibana](./elasticsearch-kibana.md)|Storage & Visualization|[policy](https://repo1.dso.mil/big-bang/product/packages/policy)|
 | |EFK|[Fluentbit](./fluentbit.md)|Forwarder|[fluentbit](https://repo1.dso.mil/big-bang/product/packages/fluentbit)|
 |X|PLG|[Loki](./loki.md)|Storage|[loki](https://repo1.dso.mil/big-bang/product/packages/loki)|
-|X|PLG|[Promtail](./promtail.md|Forwarder|[promtail](https://repo1.dso.mil/big-bang/product/packages/promtail)|
+|X|PLG|[Promtail](./promtail.md)|Forwarder|[promtail](https://repo1.dso.mil/big-bang/product/packages/promtail)|
 > PLG stack uses Grafana, deployed in [monitoring](#monitoring), for visualization.
 
 ### Policy Enforcement
