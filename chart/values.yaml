@@ -5,6 +5,13 @@ domain: bigbang.dev
 # All this does right now is toggle GitRepositories, it is _not_ fully functional
 offline: false
 
+# -- Single set of registry credentials used to pull all images deployed by BigBang.
+registryCredentials:
+  registry: registry1.dso.mil
+  username: ""
+  password: ""
+  email: ""
+
 # -- List of OCI repositories/credentials to pull helm charts from
 # Must specify username/password or existingSecret (of type kubernetes.io/dockerconfigjson) if repository requires auth
 # Using "private-registry" for existingSecret will reuse credentials from registryCredentials above
@@ -15,13 +22,6 @@ ociRepositories:
     username: ""
     password: ""
     email: ""
-
-# -- Single set of registry credentials used to pull all images deployed by BigBang.
-registryCredentials:
-  registry: registry1.dso.mil
-  username: ""
-  password: ""
-  email: ""
 
 # -- Multiple sets of registry credentials used to pull all images deployed by BigBang.
 # Credentials will only be created when a valid combination exists, registry, username, and password (email is optional)
