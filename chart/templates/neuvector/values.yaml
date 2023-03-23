@@ -21,14 +21,9 @@ monitoring:
 
 {{- if or .Values.monitoring.enabled $istioInjection .Values.neuvector.sso.enabled }}
 controller:
-  {{- if or .Values.monitoring.enabled $istioInjection }}
+  {{- if $istioInjection }}
   podAnnotations:
-    {{- if .Values.monitoring.enabled }}
-    checksum/metrics-pass: {{ sha256sum $neuvectorMetricsPass }}
-    {{- end }}
-    {{- if $istioInjection }}
     {{ include "istioAnnotation" . }}
-    {{- end }}
   {{- end }}
   {{- if or .Values.monitoring.enabled .Values.neuvector.sso.enabled }}
   secret:
