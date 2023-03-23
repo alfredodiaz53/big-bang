@@ -36,7 +36,7 @@ eckOperator:
   hrName: "eck-operator"
   filePath: "eck-operator"
 fluentbit:
-  hrName: "fluent-bit"
+  hrName: "fluentbit"
   filePath: "fluentbit"
 promtail:
   filePath: "logging/promtail"
