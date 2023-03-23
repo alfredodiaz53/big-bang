@@ -97,6 +97,9 @@ cve:
   updater:
     podAnnotations:
       {{ include "istioAnnotation" . }}
+  scanner:
+    podAnnotations:
+      {{ include "istioAnnotation" . }}
 {{- end }}
 
 {{- if .Values.istio.enabled }}
