@@ -6,11 +6,15 @@ Big Bang is a declarative, continuous delivery tool for deploying DoD hardened a
 
 ## Usage & Scope
 
-Big Bang's scope is to provide publicly available installation manifests for:
+Big Bang's scope is to provide publicly available installation manifests for packages needed for the DoD DevSecOps Reference Architecture and additional useful utilities. Big Bang packages are broken into three categories:
 
-- A specific set of packages that adhere to the DevSecOps Reference Architecture. The core list of packages can be found [here](https://repo1.dso.mil/platform-one/big-bang/apps/core).
+- Core: [Core packages](./docs/understanding-bigbang/package-architecture/README.md##Core) are anything that is required by the DoD DevSecOps Reference Architecture (specifically the Sidecar Container Security Stack), that are supported directly by the Big Bang development team. This does not include any of the software factory components referenced in the DoD DevSecOps Reference Architecture.
 
-- Packages that facilitate development of applications that adhere to the DevSecOps Reference Architecture. The full list of packages can be found [here](https://repo1.dso.mil/platform-one/big-bang/apps).
+- Addons: [Addon packages](./docs/understanding-bigbang/package-architecture/README.md##Addons) are anything that the Big Bang development team directly supports that do not fall under the above core definition. These packages serve to extend the functionality/features of Big Bang.
+
+- Community: [Community packages](https://repo1.dso.mil/big-bang/product/community) are any packages that are maintained by the broader Big Bang community (users, vendors, etc). These packages could be alternatives to core or addon packages, or even entirely new packages to help extend usage/functionality of Big Bang.
+
+In order for an installation of Big Bang to be a valid installation/configuration you must install/deploy a core package of each category (for additional details on categories and options see [here](./docs/understanding-bigbang/package-architecture/README.md##Core)).
 
 Big Bang also builds tooling around the testing and validation of Big Bang packages. These tools are provided as-is, without support.
 
