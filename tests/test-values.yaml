@@ -74,7 +74,7 @@ istio:
           strategy: "anonymous"
 
 jaeger:
-  enabled: true
+  enabled: false
   sso:
     enabled: false
     client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_jaeger
@@ -112,7 +112,7 @@ kiali:
           #cypress_keycloak_password: "tnr_w!G33ZyAt@C8"
 
 clusterAuditor:
-  enabled: true
+  enabled: false
   values:
     resources:
       requests:
@@ -128,7 +128,7 @@ clusterAuditor:
           cypress_url: 'https://grafana.bigbang.dev/d/YBgRZG6Mz/opa-violations?orgId=1'
 
 gatekeeper:
-  enabled: true
+  enabled: false
   values:
     replicas: 1
     controllerManager:
@@ -318,14 +318,12 @@ gatekeeper:
       enabled: true
 
 kyverno:
-  enabled: false
   values:
     replicaCount: 1
     bbtests:
       enabled: true
 
 kyvernoreporter:
-  enabled: false
   values:
     bbtests:
       cypress:
@@ -334,7 +332,6 @@ kyvernoreporter:
           cypress_prometheus_url: https://prometheus.bigbang.dev
 
 kyvernopolicies:
-  enabled: false
   values:
     bbtests:
       enabled: true
@@ -577,7 +574,7 @@ kyvernopolicies:
           - bigbang
 
 logging:
-  enabled: true
+  enabled: false
   sso:
     enabled: false
     client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_kibana
@@ -618,7 +615,7 @@ logging:
           cypress_kibana_url: "https://kibana.bigbang.dev"
 
 fluentbit:
-  enabled: true
+  enabled: false
   values:
     securityContext:
       privileged: true
@@ -626,7 +623,6 @@ fluentbit:
       enabled: true
 
 loki:
-  enabled: false
   strategy: scalable
   values:
     minio:
@@ -664,7 +660,6 @@ loki:
           LOKI_URL: 'http://logging-loki-write.logging.svc:3100'
 
 tempo:
-  enabled: false
   values:
     istio:
       tempoQuery:
@@ -775,7 +770,6 @@ monitoring:
           cypress_check_istio_dashboards: 'true'
 
 neuvector:
-  enabled: false
   values:
     k3s:
       enabled: true
@@ -787,7 +781,7 @@ neuvector:
           cypress_url: https://neuvector.bigbang.dev
 
 twistlock:
-  enabled: true
+  enabled: false
   sso:
     enabled: false
     client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_twistlock-saml
