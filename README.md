@@ -6,11 +6,11 @@ Big Bang is a declarative, continuous delivery tool for deploying DoD hardened a
 
 ## Usage & Scope
 
-Big Bang's scope is to provide publicly available installation manifests for packages needed for the DoD DevSecOps Reference Architecture and additional useful utilities. Big Bang packages are broken into three categories:
+Big Bang's scope is to provide publicly available installation manifests for packages required to adhere to the DoD DevSecOps Reference Architecture and additional useful utilities. Big Bang packages are broken into three categories:
 
-- Core: [Core packages](./docs/understanding-bigbang/package-architecture/README.md##Core) are anything that is required by the DoD DevSecOps Reference Architecture (specifically the Sidecar Container Security Stack), that are supported directly by the Big Bang development team. This does not include any of the software factory components referenced in the DoD DevSecOps Reference Architecture.
+- Core: [Core packages](./docs/understanding-bigbang/package-architecture/README.md##Core) are a group of capabilities required by the DoD DevSecOps Reference Architecture, that are supported directly by the Big Bang development team. The specific capabilities that are considered core currently are Service Mesh, Policy Enforcement, Logging, Monitoring, and Runtime Security.
 
-- Addons: [Addon packages](./docs/understanding-bigbang/package-architecture/README.md##Addons) are anything that the Big Bang development team directly supports that do not fall under the above core definition. These packages serve to extend the functionality/features of Big Bang.
+- Addons: [Addon packages](./docs/understanding-bigbang/package-architecture/README.md##Addons) are any packages/capabilities that the Big Bang development team directly supports that do not fall under the above core definition. These serve to extend the functionality/features of Big Bang.
 
 - Community: [Community packages](https://repo1.dso.mil/big-bang/product/community) are any packages that are maintained by the broader Big Bang community (users, vendors, etc). These packages could be alternatives to core or addon packages, or even entirely new packages to help extend usage/functionality of Big Bang.
 
