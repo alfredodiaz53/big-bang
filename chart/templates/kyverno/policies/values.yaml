@@ -352,10 +352,10 @@ policies:
     {{- if or .Values.fluentbit.enabled .Values.monitoring.enabled .Values.promtail.enabled .Values.twistlock.enabled .Values.neuvector.enabled $deployNodeAgent }}
     exclude:
       any:
-      {{- if or .Values.fluentbit.enabled .Values.promtail.enabled }}
+      {{- if .Values.fluentbit.enabled }}
       - resources:
           namespaces:
-          - fluentbit #could be an issue here, this was - logging before
+          - fluentbit
           names:
           {{- if .Values.fluentbit.enabled }}
           # Fluent Bit mounts the following hostPaths:
@@ -367,10 +367,11 @@ policies:
           # FluentBit from the policy than add the paths as allowable mounts
           - logging-fluent-bit*
           {{- end }}
-      # - resources:
-      #     namespaces:
-      #     - promtail
-      #     names:
+      {{- if .Values.promtail.enabled }}
+      - resources:
+          namespaces:
+          - logging
+          names:
           {{- if .Values.promtail.enabled }}
           # Promtail mounts the following hostPaths:
           # - `/var/log/pods`: to tail pod logs
@@ -501,20 +502,21 @@ policies:
   restrict-selinux-type:
     exclude:
       any:
-      {{- if or .Values.fluentbit.enabled .Values.promtail.enabled }}
+      {{- if .Values.fluentbit.enabled }}
       - resources:
           namespaces:
-          - fluentbit #could be an issue here for promtail, this was - logging before
+          - fluentbit
           names:
           {{- if .Values.fluentbit.enabled }}
           # NEEDS FURTHER JUSTIFICATION
           # FluentBit needs selinux option type spc_t
           - logging-fluent-bit*
           {{- end }}
-      # - resources:
-      #     namespaces:
-      #     - promtail
-      #     names:
+      {{- if .Values.promtail.enabled }}
+      - resources:
+          namespaces:
+          - logging
+          names:
           {{- if .Values.promtail.enabled }}
           # NEEDS FURTHER JUSTIFICATION
           # Promtail needs selinux option type spc_t
@@ -551,20 +553,21 @@ policies:
   restrict-volume-types:
     exclude:
       any:
-      {{- if or .Values.fluentbit.enabled .Values.promtail.enabled }}
+      {{- if .Values.fluentbit.enabled }}
       - resources:
           namespaces:
-          - fluentbit #could be an issue here for promtail, this was - logging before
+          - fluentbit
           names:
           {{- if .Values.fluentbit.enabled }}
           # Fluent bit containers requires HostPath volumes, to tail node and container logs.  It is also used for buffering
           # https://docs.fluentbit.io/manual/pipeline/filters/kubernetes#workflow-of-tail-+-kubernetes-filter
           - logging-fluent-bit*
           {{- end }}
-      # - resources:
-      #     namespaces:
-      #     - promtail
-      #     names:
+      {{- if .Values.promtail.enabled }}
+      - resources:
+          namespaces:
+          - logging
+          names:
           {{- if .Values.promtail.enabled }}
           # NEEDS FURTHER JUSTIFICATION
           # Promtail requires HostPath volume types
