@@ -72,6 +72,8 @@ istio:
       dashboard:
         auth:
           strategy: "anonymous"
+istiooperator:
+  enabled: true
 
 jaeger:
   enabled: true
