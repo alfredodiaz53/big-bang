@@ -684,7 +684,7 @@ tempo:
 #
 monitoring:
   # -- Toggle deployment of Monitoring (Prometheus, Grafana, and Alertmanager).
-  enabled: true
+  enabled: false
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/monitoring.git
     path: "./chart"
