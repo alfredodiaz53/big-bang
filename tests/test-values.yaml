@@ -996,6 +996,8 @@ addons:
 
   gitlabRunner:
     enabled: false
+    autoRegister: 
+      enabled: true
     flux:
       timeout: 30m
     values:
