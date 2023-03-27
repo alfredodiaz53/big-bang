@@ -1,7 +1,5 @@
 # Extra Package Deployment
 
-⚠️ **NOTE: This doc is a work in progress as this functionality is not standardized or fully tested yet. Changes may happen at any point, and this functionality should be considered as BETA until Big Bang 2.0.** ⚠️
-
 When using Big Bang you often find that you need or want to deploy an additional package alongside your chosen core/addon packages. This might be a mission app or just an extra helm chart from the Big Bang community or broader helm/kubernetes community.
 
 In order to ease the burden on end users and increase integration with Big Bang components we have provided a way to deploy these additional packages with extra "wrapping" to provide additional alignment with Big Bang standards.
