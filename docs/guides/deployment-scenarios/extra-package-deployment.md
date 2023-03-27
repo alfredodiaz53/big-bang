@@ -162,7 +162,7 @@ packages:
     network:
       allowControlPlaneEgress: true
       additionalPolicies: []
-      # example of additional egress network policy
+      # # example of additional egress network policy
       # - name: egress-additional
       #   spec: 
       #     podSelector: {}
