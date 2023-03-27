@@ -147,7 +147,7 @@ fi
 # Create SSH key if it doesn't exist
 echo -n Checking if key pair ${KeyName} exists ...
 aws ec2 describe-key-pairs --output json --no-cli-pager --key-names ${KeyName} > /dev/null 2>&1 || keypair=missing
-if [ "${keypair}" == "missing" ]; then
+if [[ "${keypair}" == "missing" ]]; then
   echo -n -e "missing\nCreating key pair ${KeyName} ... "
   aws ec2 create-key-pair --output json --no-cli-pager --key-name ${KeyName} | jq -r '.KeyMaterial' > ~/.ssh/${KeyName}.pem
   chmod 600 ~/.ssh/${KeyName}.pem
@@ -161,7 +161,7 @@ fi
 # Create security group if it doesn't exist
 echo -n "Checking if security group ${SGname} exists ..."
 aws ec2 describe-security-groups --output json --no-cli-pager --group-names ${SGname} > /dev/null 2>&1 || secgrp=missing
-if [ "${secgrp}" == "missing" ]; then
+if [[ "${secgrp}" == "missing" ]]; then
   echo -e "missing\nCreating security group ${SGname} ... "
   aws ec2 create-security-group --output json --no-cli-pager --description "IP based filtering for ${SGname}" --group-name ${SGname} --vpc-id ${VPC}
   echo done
@@ -182,7 +182,7 @@ aws ec2 create-tags --resources ${SecurityGroupId} --tags Key=Name,Value=${SGnam
 WorkstationIP=`curl http://checkip.amazonaws.com/ 2> /dev/null`
 echo -n Checking if ${WorkstationIP} is authorized in security group ...
 aws ec2 describe-security-groups --output json --no-cli-pager --group-names ${SGname} | grep ${WorkstationIP} > /dev/null || ipauth=missing
-if [ "${ipauth}" == "missing" ]; then
+if [[ "${ipauth}" == "missing" ]]; then
   echo -e "missing\nAdding ${WorkstationIP} to security group ${SGname} ..."
   if [[ "$PRIVATE_IP" == true ]];
 	then
@@ -292,7 +292,7 @@ InstId=`aws ec2 run-instances \
   | jq -r '.Instances[0].InstanceId'`
 
 # Check if spot instance request was not created
-if [ -z ${InstId} ]; then
+if [[ -z ${InstId} ]]; then
   exit 1;
 fi
 
@@ -535,3 +535,9 @@ else   # Not using MetalLB and using pubilc IP. This is the default
   echo "  ${PublicIP}	gitlab.bigbang.dev prometheus.bigbang.dev kibana.bigbang.dev"
   echo
 fi
+
+# these will be exported if the shell script is "sourced"
+export AWSUSERNAME=${AWSUSERNAME}
+export KUBECONFIG=~/.kube/${AWSUSERNAME}-dev-config
+export PUBLICIP=${PublicIP}
+alias big-bang-connect="ssh -i ~/.ssh/${KeyName}.pem -o IdentitiesOnly=yes ubuntu@${PublicIP}"

@@ -54,6 +54,17 @@ k3d-dev.sh -b -p -m -d -h
  -d   destroy related AWS resources
  -h   output help
 ```
+
+### Exporting Environment Variables
+
+If this command is run with `source`, it will export some environment variables that will assist in local development.  
+
+They include but are not limited to `KUBECONFIG`, `AWSUSERNAME`, `PUBLICIP`, and also an alias called `big-bang-connect`, which will open an SSH connection to your instance.
+
+```shell
+source ./docs/assets/scripts/developer/k3d-dev.sh 
+```
+
 ## To use a different AWS profile, VPC, or AMI
 The script uses the default AWS profile and defaults the VPC id and AMI id. 
 To change this default behavior you can export environment variables before running the script.  
