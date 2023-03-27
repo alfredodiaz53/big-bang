@@ -1,0 +1,249 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "default": {},
+  "title": "Root Schema",
+  "required": [
+    "loki"
+  ],
+  "$defs": {
+    "values": {
+      "type": "object",
+      "default": {},
+      "title": "The values Schema",
+      "required": [],
+      "properties": {},
+      "examples": [
+        {}
+      ]
+    },
+    "flux": {
+      "type": "object",
+      "default": {},
+      "title": "The flux Schema",
+      "required": [],
+      "properties": {},
+      "examples": [
+        {}
+      ]
+    },
+    "git": {
+      "type": "object",
+      "default": {},
+      "title": "The git Schema",
+      "required": [
+        "repo",
+        "path"
+      ],
+      "oneOf": [
+        {
+          "required": [
+            "tag"
+          ],
+          "not": {
+            "required": [
+              "branch"
+            ]
+          }
+        },
+        {
+          "required": [
+            "branch"
+          ],
+          "not": {
+            "required": [
+              "tag"
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "repo": {
+          "type": "string",
+          "title": "The repo Schema",
+          "examples": [
+            "https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/loki.git"
+          ]
+        },
+        "path": {
+          "type": "string",
+          "title": "The path Schema",
+          "examples": [
+            "./chart"
+          ]
+        },
+        "tag": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "title": "The tag Schema",
+          "nullable": false,
+          "examples": [
+            "4.8.0-bb.0"
+          ]
+        },
+        "branch": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "title": "The branch Schema",
+          "nullable": false,
+          "examples": [
+            "feature-branch"
+          ]
+        }
+      },
+      "examples": [
+        {
+          "repo": "https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/loki.git",
+          "path": "./chart",
+          "tag": "4.8.0-bb.0"
+        }
+      ]
+    },
+    "postRenderers": {
+      "type": "array",
+      "default": [],
+      "title": "The postRenderers Schema",
+      "items": {},
+      "examples": [
+        []
+      ]
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": false,
+      "title": "The enabled Schema",
+      "examples": [
+        false
+      ]
+    }
+  },
+  "properties": {
+    "istio": {
+      "type": "object",
+      "default": {},
+      "title": "The loki Schema",
+      "required": [
+        "enabled",
+        "git",
+        "flux",
+        "values",
+        "postRenderers"
+      ],
+      "enabled": {
+        "$ref": "#/$defs/enabled"
+      },
+      "git": {
+        "$ref": "#/$defs/git"
+      },
+      "flux": {
+        "ref": "#/$defs/flux"
+      },
+      "values": {
+        "$ref": "#/$defs/values"
+      },
+      "postRenderers": {
+        "$ref": "#/$defs/postRenderers"
+      }
+    },
+    "loki": {
+      "type": "object",
+      "default": {},
+      "title": "The loki Schema",
+      "required": [
+        "enabled",
+        "git",
+        "flux",
+        "strategy",
+        "objectStorage",
+        "values",
+        "postRenderers"
+      ],
+      "properties": {
+        "enabled": {
+          "$ref": "#/$defs/enabled"
+        },
+        "git": {
+          "$ref": "#/$defs/git"
+        },
+        "flux": {
+          "ref": "#/$defs/flux"
+        },
+        "strategy": {
+          "type": "string",
+          "default": "",
+          "title": "The strategy Schema",
+          "examples": [
+            "monolith"
+          ]
+        },
+        "objectStorage": {
+          "type": "object",
+          "default": {},
+          "title": "The objectStorage Schema",
+          "required": [
+            "endpoint",
+            "region",
+            "accessKey",
+            "accessSecret",
+            "bucketNames"
+          ],
+          "properties": {
+            "endpoint": {
+              "type": "string",
+              "default": "",
+              "title": "The endpoint Schema",
+              "examples": [
+                ""
+              ]
+            },
+            "region": {
+              "type": "string",
+              "default": "",
+              "title": "The region Schema",
+              "examples": [
+                ""
+              ]
+            },
+            "accessKey": {
+              "type": "string",
+              "default": "",
+              "title": "The accessKey Schema",
+              "examples": [
+                ""
+              ]
+            },
+            "accessSecret": {
+              "type": "string",
+              "default": "",
+              "title": "The accessSecret Schema",
+              "examples": [
+                ""
+              ]
+            },
+            "bucketNames": {
+              "type": "object",
+              "default": {},
+              "title": "The bucketNames Schema",
+              "required": [],
+              "properties": {},
+              "examples": [
+                {}
+              ]
+            }
+          }
+        },
+        "values": {
+          "$ref": "#/$defs/values"
+        },
+        "postRenderers": {
+          "$ref": "#/$defs/postRenderers"
+        }
+      }
+    }
+  }
+}
