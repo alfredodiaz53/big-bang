@@ -996,6 +996,8 @@ addons:
 
   gitlabRunner:
     enabled: false
+    flux:
+      timeout: 30m
     values:
       resources:
         requests:
