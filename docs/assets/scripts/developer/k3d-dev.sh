@@ -538,6 +538,7 @@ fi
 
 # these will be exported if the shell script is "sourced"
 export AWSUSERNAME=${AWSUSERNAME}
+export SSHKEYNAME=${KeyName}
 export KUBECONFIG=~/.kube/${AWSUSERNAME}-dev-config
 export PUBLICIP=${PublicIP}
 alias big-bang-connect="ssh -i ~/.ssh/${KeyName}.pem -o IdentitiesOnly=yes ubuntu@${PublicIP}"
