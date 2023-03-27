@@ -1000,6 +1000,10 @@ addons:
   gitlabRunner:
     # -- Toggle deployment of Gitlab Runner
     enabled: false
+    # -- Toggle autoRegistration of Gitlab Runner when Gitlab is deployed in the same cluster with the Runner
+    # -- Runner autoRegistraion requires Kyverno to be enabled
+    autoRegister: 
+      enabled: true
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/gitlab-runner.git
       path: "./chart"
