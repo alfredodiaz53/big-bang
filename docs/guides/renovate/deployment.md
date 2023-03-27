@@ -40,3 +40,6 @@ See [Self Hosted Configuration](https://docs.renovatebot.com/self-hosted-configu
 
 #### Cron Job
 See [Scheduling Renovate Guide](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/renovate/scheduling.md)
+
+#### Individual Package Configuration
+The configuration file for Renovate is called `renovate.json` and is located in each project's root directory. See [Package Configuration](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/renovate/package-configuration.md) 
