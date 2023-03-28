@@ -1,13 +1,40 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "http://example.com/example.json",
+  "$id": "http://bigbang.dev/bigbang.json",
   "type": "object",
   "default": {},
-  "title": "Root Schema",
+  "title": "Big Bang Root Schema",
   "required": [
     "loki"
   ],
   "$defs": {
+    "basePackage": {
+      "type": "object",
+      "required": [
+        "enabled",
+        "git",
+        "flux",
+        "values",
+        "postRenderers"
+      ],
+      "properties": {
+        "enabled": {
+          "$ref": "#/$defs/enabled"
+        },
+        "git": {
+          "$ref": "#/$defs/git"
+        },
+        "flux": {
+          "ref": "#/$defs/flux"
+        },
+        "values": {
+          "$ref": "#/$defs/values"
+        },
+        "postRenderers": {
+          "$ref": "#/$defs/postRenderers"
+        }
+      }
+    },
     "values": {
       "type": "object",
       "default": {},
@@ -126,59 +153,26 @@
     "istio": {
       "type": "object",
       "default": {},
-      "title": "The loki Schema",
-      "required": [
-        "enabled",
-        "git",
-        "flux",
-        "values",
-        "postRenderers"
-      ],
-      "enabled": {
-        "$ref": "#/$defs/enabled"
-      },
-      "git": {
-        "$ref": "#/$defs/git"
-      },
-      "flux": {
-        "ref": "#/$defs/flux"
-      },
-      "values": {
-        "$ref": "#/$defs/values"
-      },
-      "postRenderers": {
-        "$ref": "#/$defs/postRenderers"
-      }
+      "title": "The istio Schema",
+      "allOf": [{ "$ref": "#/$defs/basePackage" }]
     },
     "loki": {
       "type": "object",
       "default": {},
       "title": "The loki Schema",
       "required": [
-        "enabled",
-        "git",
-        "flux",
         "strategy",
-        "objectStorage",
-        "values",
-        "postRenderers"
+        "objectStorage"
       ],
+      "allOf": [{ "$ref": "#/$defs/basePackage" }],
       "properties": {
-        "enabled": {
-          "$ref": "#/$defs/enabled"
-        },
-        "git": {
-          "$ref": "#/$defs/git"
-        },
-        "flux": {
-          "ref": "#/$defs/flux"
-        },
         "strategy": {
           "type": "string",
           "default": "",
           "title": "The strategy Schema",
           "examples": [
-            "monolith"
+            "monolith",
+            "scalable"
           ]
         },
         "objectStorage": {
@@ -236,12 +230,6 @@
               ]
             }
           }
-        },
-        "values": {
-          "$ref": "#/$defs/values"
-        },
-        "postRenderers": {
-          "$ref": "#/$defs/postRenderers"
         }
       }
     }
