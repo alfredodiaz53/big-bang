@@ -17,10 +17,11 @@ When formatting YAML files, follow these guidelines:
 ## Structure Standardization
 For each package, ensure that the following items have the same name:
 
-- Folder: chart/templates/\<package>
+- Folder: chart/templates/<package\>
 - Top-level key: chart/templates/values.yaml
-- Namespace: chart/templates/\<package>/namespace.yaml, unless targeting another package's namespace.
-- Repo name: https://repo1.dso.mil/bigbang/packages/\<package>/
+- Namespace: chart/templates/<package\>/namespace.yaml, unless targeting another package's namespace.
+- Repo name: https://repo1.dso.mil/bigbang/packages/<package\>
+
 
 ##
 
