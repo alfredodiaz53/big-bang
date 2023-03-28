@@ -29,7 +29,7 @@ spec:
       {{- end }}
       interval: 5m
 
-  {{- toYaml $fluxSettingsIstiooperator | nindent 2 }}
+  {{- toYaml $fluxSettingsIstioOperator | nindent 2 }}
 
   {{- if .Values.istiooperator.postRenderers }}
   postRenderers:
