@@ -504,7 +504,6 @@ policies:
           namespaces:
           - fluentbit
           names:
-          {{- if .Values.fluentbit.enabled }}
           # NEEDS FURTHER JUSTIFICATION
           # FluentBit needs selinux option type spc_t
           - logging-fluent-bit*
@@ -514,11 +513,9 @@ policies:
           namespaces:
           - logging
           names:
-          {{- if .Values.promtail.enabled }}
           # NEEDS FURTHER JUSTIFICATION
           # Promtail needs selinux option type spc_t
           - logging-promtail*
-          {{- end }}
       {{- end }}
       {{- if .Values.twistlock.enabled }}
       # NEEDS FURTHER JUSTIFICATION
@@ -555,7 +552,6 @@ policies:
           namespaces:
           - fluentbit
           names:
-          {{- if .Values.fluentbit.enabled }}
           # Fluent bit containers requires HostPath volumes, to tail node and container logs.  It is also used for buffering
           # https://docs.fluentbit.io/manual/pipeline/filters/kubernetes#workflow-of-tail-+-kubernetes-filter
           - logging-fluent-bit*
@@ -565,12 +561,10 @@ policies:
           namespaces:
           - logging
           names:
-          {{- if .Values.promtail.enabled }}
           # NEEDS FURTHER JUSTIFICATION
           # Promtail requires HostPath volume types
           # https://github.com/grafana/helm-charts/blob/main/charts/promtail/templates/daemonset.yaml#L120
           - logging-promtail*
-          {{- end }}
       {{- end }}
       {{- if .Values.monitoring.enabled }}
       # Prometheus node exporter requires a HostPath volume to monitor host metrics in /proc and /sys
