@@ -1203,10 +1203,10 @@ addons:
       curlContainerImage: registry1.dso.mil/ironbank/big-bang/base:2.0.0
 
   minioOperator:
-    enabled: false
+    enabled: true
 
   minio:
-    enabled: false
+    enabled: true
     values:
       tenant:
         pools:
