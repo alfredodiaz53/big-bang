@@ -337,6 +337,9 @@ kyvernopolicies:
   values:
     bbtests:
       enabled: true
+      scripts:
+        envs:
+          ENABLED_POLICIES: ""
     excludeContainers:
     - not-me
     - or-me
