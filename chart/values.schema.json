@@ -9,6 +9,7 @@
     "offline",
     "registryCredentials",
     "openshift",
+    "git",
     "istio",
     "istiooperator",
     "jaeger",
@@ -193,6 +194,34 @@
           "minItems": 1
         }
       ]
+    },
+    "git": {
+      "type": "object",
+      "properties": {
+        "existingSecret": { "type": "string" },
+        "credentials": {
+          "type": "object",
+          "properties": {
+            "username": { "type": "string" },
+            "password": { "type": "string" },
+            "caFile": { "type": "string" },
+            "privateKey": { "type": "string" },
+            "publicKey": { "type": "string" },
+            "knownHosts": { "type": "string" }
+          },
+          "required": [],
+          "anyOf": [
+            {"required": ["username", "password"]},
+            {"required": ["privateKey", "publicKey", "knownHosts"]}
+          ],
+          "additionalProperties": false
+        }
+      },
+      "anyOf": [
+        {"required": ["existingSecret"]},
+        {"required": ["credentials"]}
+      ],
+      "additionalProperties": false
     },
     "openshift": { "type": "boolean" },
     "istio": {
