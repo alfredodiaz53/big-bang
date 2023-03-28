@@ -53,7 +53,11 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
       {{- end }}
       {{- if .Values.fluentbit.enabled }}
       # Fluentbit pods need access to host to get log files
+<<<<<<< HEAD
       - fluentbit/logging-fluent-bit-.*
+=======
+      - logging-fluent-bit-.*
+>>>>>>> 8e32a7ad (update to meet standards)
       {{- end }}
       {{- if .Values.neuvector.enabled }}
       # Neuvector needs access to host to inspect network traffic
@@ -109,7 +113,11 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
     parameters:
       excludedResources:
         # Fluentbit needs privileged to read and store the buffer for tailing logs from the nodes
+<<<<<<< HEAD
         - fluentbit/fluent-bit
+=======
+        - fluent-bit
+>>>>>>> 8e32a7ad (update to meet standards)
         {{- if .Values.neuvector.enabled }}
         # Neuvector needs privileged access for realtime scanning of files from the node / access to the container runtime
         - neuvector/neuvector-enforcer-pod.*
@@ -144,7 +152,11 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
       excludedResources:
       {{- if .Values.fluentbit.enabled }}
       # FluentBit needs selinux option type spc_t
+<<<<<<< HEAD
       - fluentbit/fluent-bit
+=======
+      - fluent-bit
+>>>>>>> 8e32a7ad (update to meet standards)
       {{- end }}
       {{- if .Values.twistlock.enabled }}
       # Twistlock Defenders need selinux option type spc_t
@@ -163,7 +175,11 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
        {{- if .Values.fluentbit.enabled }}
         # fluent-bit container requires certain host level access to ship logs and for keep track of state
         # https://docs.fluentbit.io/manual/pipeline/filters/kubernetes#workflow-of-tail-kubernetes-filter
+<<<<<<< HEAD
         - fluentbit/logging-fluent-bit-.*
+=======
+        - logging-fluent-bit-.*
+>>>>>>> 8e32a7ad (update to meet standards)
        {{- end }}
        {{- if .Values.twistlock.enabled }}
         # Twistlock requires /dev/log for its syslog daemon.
