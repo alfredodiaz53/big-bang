@@ -33,171 +33,6 @@
     "monitoring",
     "twistlock"
   ],
-  "$defs": {
-    "registryCredential": {
-      "type": "object",
-      "properties": {
-        "registry": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "registry",
-        "username",
-        "password"
-      ],
-      "additionalProperties": false
-    },
-    "basePackage": {
-      "type": "object",
-      "required": [
-        "enabled",
-        "git",
-        "flux",
-        "values",
-        "postRenderers"
-      ],
-      "properties": {
-        "enabled": {
-          "$ref": "#/$defs/enabled"
-        },
-        "git": {
-          "$ref": "#/$defs/git"
-        },
-        "flux": {
-          "ref": "#/$defs/flux"
-        },
-        "values": {
-          "$ref": "#/$defs/values"
-        },
-        "postRenderers": {
-          "$ref": "#/$defs/postRenderers"
-        }
-      }
-    },
-    "values": {
-      "type": "object",
-      "default": {},
-      "title": "The values Schema",
-      "required": [],
-      "properties": {},
-      "examples": [
-        {}
-      ]
-    },
-    "flux": {
-      "type": "object",
-      "default": {},
-      "title": "The flux Schema",
-      "required": [],
-      "properties": {},
-      "examples": [
-        {}
-      ]
-    },
-    "git": {
-      "type": "object",
-      "default": {},
-      "title": "The git Schema",
-      "required": [
-        "repo",
-        "path"
-      ],
-      "oneOf": [
-        {
-          "required": [
-            "tag"
-          ],
-          "not": {
-            "required": [
-              "branch"
-            ]
-          }
-        },
-        {
-          "required": [
-            "branch"
-          ],
-          "not": {
-            "required": [
-              "tag"
-            ]
-          }
-        }
-      ],
-      "properties": {
-        "repo": {
-          "type": "string",
-          "title": "The repo Schema",
-          "examples": [
-            "https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/loki.git"
-          ]
-        },
-        "path": {
-          "type": "string",
-          "title": "The path Schema",
-          "examples": [
-            "./chart"
-          ]
-        },
-        "tag": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "title": "The tag Schema",
-          "nullable": false,
-          "examples": [
-            "4.8.0-bb.0"
-          ]
-        },
-        "branch": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "title": "The branch Schema",
-          "nullable": false,
-          "examples": [
-            "feature-branch"
-          ]
-        }
-      },
-      "examples": [
-        {
-          "repo": "https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/loki.git",
-          "path": "./chart",
-          "tag": "4.8.0-bb.0"
-        }
-      ]
-    },
-    "postRenderers": {
-      "type": "array",
-      "default": [],
-      "title": "The postRenderers Schema",
-      "items": {},
-      "examples": [
-        []
-      ]
-    },
-    "enabled": {
-      "type": "boolean",
-      "default": false,
-      "title": "The enabled Schema",
-      "examples": [
-        false
-      ]
-    }
-  },
   "properties": {
     "domain": {
       "type": "string"
@@ -363,66 +198,7 @@
       }
     },
     "flux": {
-      "type": "object",
-      "properties": {
-        "timeout": {
-          "type": "string"
-        },
-        "interval": {
-          "type": "string"
-        },
-        "test": {
-          "type": "object",
-          "properties": {
-            "enable": {
-              "type": "boolean"
-            }
-          }
-        },
-        "install": {
-          "type": "object",
-          "properties": {
-            "remediation": {
-              "type": "object",
-              "properties": {
-                "retries": {
-                  "type": "integer"
-                }
-              }
-            }
-          }
-        },
-        "upgrade": {
-          "type": "object",
-          "properties": {
-            "remediation": {
-              "type": "object",
-              "properties": {
-                "retries": {
-                  "type": "integer"
-                },
-                "remediateLastFailure": {
-                  "type": "boolean"
-                }
-              }
-            },
-            "cleanupOnFail": {
-              "type": "boolean"
-            }
-          }
-        },
-        "rollback": {
-          "type": "object",
-          "properties": {
-            "timeout": {
-              "type": "string"
-            },
-            "cleanupOnFail": {
-              "type": "boolean"
-            }
-          }
-        }
-      }
+      "$ref": "#/$defs/flux"
     },
     "networkPolicies": {
       "type": "object",
@@ -440,11 +216,17 @@
           "type": "string"
         }
       },
-      "required": ["enabled"]
+      "required": [
+        "enabled"
+      ]
     },
     "imagePullPolicy": {
       "type": "string",
-      "enum": ["None", "Always", "IfNotPresent"]
+      "enum": [
+        "None",
+        "Always",
+        "IfNotPresent"
+      ]
     },
     "istio": {
       "title": "The istio Schema",
@@ -849,6 +631,223 @@
           }
         }
       }
+    }
+  },
+  "$defs": {
+    "registryCredential": {
+      "type": "object",
+      "properties": {
+        "registry": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "registry",
+        "username",
+        "password"
+      ],
+      "additionalProperties": false
+    },
+    "basePackage": {
+      "type": "object",
+      "required": [
+        "enabled",
+        "git",
+        "flux",
+        "values",
+        "postRenderers"
+      ],
+      "properties": {
+        "enabled": {
+          "$ref": "#/$defs/enabled"
+        },
+        "git": {
+          "$ref": "#/$defs/git"
+        },
+        "flux": {
+          "$ref": "#/$defs/flux"
+        },
+        "values": {
+          "$ref": "#/$defs/values"
+        },
+        "postRenderers": {
+          "$ref": "#/$defs/postRenderers"
+        }
+      }
+    },
+    "values": {
+      "type": "object",
+      "default": {},
+      "title": "The values Schema",
+      "required": [],
+      "properties": {},
+      "examples": [
+        {}
+      ]
+    },
+    "flux": {
+      "type": "object",
+      "properties": {
+        "timeout": {
+          "type": "string"
+        },
+        "interval": {
+          "type": "string"
+        },
+        "test": {
+          "type": "object",
+          "properties": {
+            "enable": {
+              "type": "boolean"
+            }
+          }
+        },
+        "install": {
+          "type": "object",
+          "properties": {
+            "remediation": {
+              "type": "object",
+              "properties": {
+                "retries": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        },
+        "upgrade": {
+          "type": "object",
+          "properties": {
+            "remediation": {
+              "type": "object",
+              "properties": {
+                "retries": {
+                  "type": "integer"
+                },
+                "remediateLastFailure": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "cleanupOnFail": {
+              "type": "boolean"
+            }
+          }
+        },
+        "rollback": {
+          "type": "object",
+          "properties": {
+            "timeout": {
+              "type": "string"
+            },
+            "cleanupOnFail": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "git": {
+      "type": "object",
+      "default": {},
+      "title": "The git Schema",
+      "required": [
+        "repo",
+        "path"
+      ],
+      "oneOf": [
+        {
+          "required": [
+            "tag"
+          ],
+          "not": {
+            "required": [
+              "branch"
+            ]
+          }
+        },
+        {
+          "required": [
+            "branch"
+          ],
+          "not": {
+            "required": [
+              "tag"
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "repo": {
+          "type": "string",
+          "title": "The repo Schema",
+          "examples": [
+            "https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/loki.git"
+          ]
+        },
+        "path": {
+          "type": "string",
+          "title": "The path Schema",
+          "examples": [
+            "./chart"
+          ]
+        },
+        "tag": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "title": "The tag Schema",
+          "nullable": false,
+          "examples": [
+            "4.8.0-bb.0"
+          ]
+        },
+        "branch": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "title": "The branch Schema",
+          "nullable": false,
+          "examples": [
+            "feature-branch"
+          ]
+        }
+      },
+      "examples": [
+        {
+          "repo": "https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/loki.git",
+          "path": "./chart",
+          "tag": "4.8.0-bb.0"
+        }
+      ]
+    },
+    "postRenderers": {
+      "type": "array",
+      "default": [],
+      "title": "The postRenderers Schema",
+      "items": {},
+      "examples": [
+        []
+      ]
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": false,
+      "title": "The enabled Schema",
+      "examples": [
+        false
+      ]
     }
   }
 }
