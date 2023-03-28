@@ -1,5 +1,5 @@
-{{- if .Values.logging.enabled }}
-{{- include "values-secret" (dict "root" $ "package" .Values.logging "name" "ek" "defaults" (include "bigbang.defaults.logging" .)) }}
+{{- if .Values.elasticsearchKibana.enabled }}
+{{- include "values-secret" (dict "root" $ "package" .Values.elasticsearchKibana "name" "ek" "defaults" (include "bigbang.defaults.logging" .)) }}
 {{- end }}
 
 {{- define "bigbang.defaults.logging" -}}
@@ -16,12 +16,12 @@ istio:
   enabled: {{ .Values.istio.enabled }}
   kibana:
     gateways:
-    - istio-system/{{ default "public" .Values.logging.ingress.gateway }}
+    - istio-system/{{ default "public" .Values.elasticsearchKibana.ingress.gateway }}
 
 networkPolicies:
   enabled: {{ .Values.networkPolicies.enabled }}
   ingressLabels:
-    {{- $gateway := default "public" .Values.logging.ingress.gateway }}
+    {{- $gateway := default "public" .Values.elasticsearchKibana.ingress.gateway }}
     {{- $default := dict "app" (dig "gateways" $gateway "ingressGateway" nil .Values.istio) "istio" nil }}
     {{- toYaml (dig "values" "gateways" $gateway "selector" $default .Values.istio) | nindent 4 }}
 
@@ -30,7 +30,7 @@ mattermost:
   enabled: true
 {{- end }}
 
-{{- with .Values.logging.sso }}
+{{- with .Values.elasticsearchKibana.sso }}
 {{- if .enabled }}
 sso:
   enabled: {{ .enabled }}
@@ -70,8 +70,8 @@ monitoring:
 
 metrics:
   enabled: {{ .Values.monitoring.enabled }}
-  {{- $istioInjection := (and (eq (dig "istio" "injection" "enabled" .Values.logging) "enabled") .Values.istio.enabled) }}
-  {{- if and (eq (dig "istio" "mtls" "mode" "STRICT" .Values.logging.values) "STRICT") $istioInjection }}
+  {{- $istioInjection := (and (eq (dig "istio" "injection" "enabled" .Values.elasticsearchKibana) "enabled") .Values.istio.enabled) }}
+  {{- if and (eq (dig "istio" "mtls" "mode" "STRICT" .Values.elasticsearchKibana.values) "STRICT") $istioInjection }}
   serviceMonitor:
     scheme: https
     tlsConfig:
@@ -98,7 +98,7 @@ elasticsearch:
           capabilities:
             drop:
               - ALL
-      {{- if .Values.logging.sso.enabled }}
+      {{- if .Values.elasticsearchKibana.sso.enabled }}
       - name: elastic-internal-init-keystore
         securityContext:
           privileged: false
@@ -124,7 +124,7 @@ elasticsearch:
           capabilities:
             drop:
               - ALL
-      {{- if .Values.logging.sso.enabled }}
+      {{- if .Values.elasticsearchKibana.sso.enabled }}
       - name: elastic-internal-init-keystore
         securityContext:
           privileged: false
@@ -150,7 +150,7 @@ elasticsearch:
           capabilities:
             drop:
               - ALL
-      {{- if .Values.logging.sso.enabled }}
+      {{- if .Values.elasticsearchKibana.sso.enabled }}
       - name: elastic-internal-init-keystore
         securityContext:
           privileged: false
@@ -176,7 +176,7 @@ elasticsearch:
           capabilities:
             drop:
               - ALL
-      {{- if .Values.logging.sso.enabled }}
+      {{- if .Values.elasticsearchKibana.sso.enabled }}
       - name: elastic-internal-init-keystore
         securityContext:
           privileged: false
@@ -202,7 +202,7 @@ elasticsearch:
           capabilities:
             drop:
               - ALL
-      {{- if .Values.logging.sso.enabled }}
+      {{- if .Values.elasticsearchKibana.sso.enabled }}
       - name: elastic-internal-init-keystore
         securityContext:
           privileged: false
