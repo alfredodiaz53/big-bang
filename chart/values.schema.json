@@ -151,14 +151,78 @@
   },
   "properties": {
     "istio": {
-      "type": "object",
-      "default": {},
       "title": "The istio Schema",
       "allOf": [{ "$ref": "#/$defs/basePackage" }]
     },
-    "loki": {
+    "istiooperator": {
+      "title": "The istiooperator Schema",
+      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+    },
+    "jaeger": {
+      "title": "The jaeger Schema",
+      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+    },
+    "kiali": {
+      "title": "The kiali Schema",
+      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+    },
+    "clusterAuditor": {
+      "title": "The clusterAuditor Schema",
+      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+    },
+    "gatekeeper": {
+      "title": "The gatekeeper Schema",
+      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+    },
+    "kyverno": {
+      "title": "The istiooperator Schema",
+      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+    },
+    "kyvernopolicies": {
+      "title": "The istiooperator Schema",
+      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+    },
+    "kyvernoreporter": {
+      "title": "The kyvernoreporter Schema",
+      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+    },
+    "logging": {
+      "title": "The logging Schema",
+      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+    },
+    "eckoperator": {
+      "title": "The eckoperator Schema",
       "type": "object",
-      "default": {},
+      "required": [
+        "enabled",
+        "git",
+        "flux",
+        "values"
+      ],
+      "properties": {
+        "enabled": {
+          "$ref": "#/$defs/enabled"
+        },
+        "git": {
+          "$ref": "#/$defs/git"
+        },
+        "flux": {
+          "ref": "#/$defs/flux"
+        },
+        "values": {
+          "$ref": "#/$defs/values"
+        }
+      }
+    },
+    "fluentbit": {
+      "title": "The fluentbit Schema",
+      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+    },
+    "promtail": {
+      "title": "The promtail Schema",
+      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+    },
+    "loki": {
       "title": "The loki Schema",
       "required": [
         "strategy",
@@ -232,6 +296,136 @@
           }
         }
       }
-    }
+    },
+    "neuvector": {
+      "title": "The neuvector Schema",
+      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+    },
+    "tempo": {
+      "title": "The tempo Schema",
+      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+    },
+    "monitoring": {
+      "title": "The monitoring Schema",
+      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+    },
+    "twistlock": {
+      "title": "The twistlock Schema",
+      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+    },
+    "addons": {
+      "type": "object",
+      "properties": {
+        "argocd": {
+          "title": "The argocd Schema",
+          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+        },
+        "authservice": {
+          "title": "The authservice Schema",
+          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+        },
+        "minioOperator": {
+          "title": "The minioOperator Schema",
+          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+        },
+        "minio": {
+          "title": "The minio Schema",
+          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+        },
+        "gitlab": {
+          "title": "The gitlab Schema",
+          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+        },
+        "gitlabRunner": {
+          "title": "The gitlabRunner Schema",
+          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+        },
+        "nexusRepositoryManager": {
+          "title": "The nexusRepositoryManager Schema",
+          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+        },
+        "sonarqube": {
+          "title": "The sonarqube Schema",
+          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+        },
+        "haproxy": {
+          "title": "The haproxy Schema",
+          "type": "object",
+          "required": [
+            "git",
+            "flux",
+            "values"
+          ],
+          "properties": {
+            "enabled": {
+              "$ref": "#/$defs/enabled"
+            },
+            "git": {
+              "$ref": "#/$defs/git"
+            },
+            "flux": {
+              "ref": "#/$defs/flux"
+            },
+            "values": {
+              "$ref": "#/$defs/values"
+            }
+          }
+        },
+        "anchore": {
+          "title": "The anchore Schema",
+          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+        },
+        "mattermostOperator": {
+          "title": "The mattermostOperator Schema",
+          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+        },
+        "mattermost": {
+          "title": "The mattermost Schema",
+          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+        },
+        "velero": {
+          "title": "The velero Schema",
+          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+        },
+        "keycloak": {
+          "title": "The keycloak Schema",
+          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+        },
+        "vault": {
+          "title": "The vault Schema",
+          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+        },
+        "metricsServer": {
+          "title": "The metricsServer Schema",
+          "type": "object",
+          "required": [
+            "enabled",
+            "git",
+            "flux",
+            "values"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "string",
+              "title": "The enabled Schema",
+              "examples": [
+                "true",
+                "false",
+                "auto"
+              ]
+            },
+            "git": {
+              "$ref": "#/$defs/git"
+            },
+            "flux": {
+              "ref": "#/$defs/flux"
+            },
+            "values": {
+              "$ref": "#/$defs/values"
+            }
+          }
+        }
+      }
+    } 
   }
 }
