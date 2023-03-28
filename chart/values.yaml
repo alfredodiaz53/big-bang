@@ -276,7 +276,7 @@ istiooperator:
 
 jaeger:
   # -- Toggle deployment of Jaeger.
-  enabled: true
+  enabled: false
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/jaeger.git
     path: "./chart"
