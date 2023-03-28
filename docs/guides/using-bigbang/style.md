@@ -7,6 +7,8 @@ When creating package names, consider that different usages of the name will req
 ##### Notable Exceptions
 > If a package name is two words and the additional words are less than four characters, consider it as part of the single name. Examples include "fluentbit" (technically "Fluent Bit") and "argocd" (technically "Argo CD").
 
+> The "log storage" packages are deployed to the `logging` namespace rather than their respective names (`elasticsearch-kibana` and `loki`). This was primarily done to accommodate persistence of data for legacy deployments.
+
 ## Formatting YAML
 When formatting YAML files, follow these guidelines:
 
