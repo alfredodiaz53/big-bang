@@ -27,17 +27,17 @@ kyvernoreporter:
   filePath: "kyverno/reporter"
   dependencies:
     - "kyvernopolicies"
-logging:
+elasticsearchKibana:
   repoName: "elasticsearch-kibana"
   hrName: "ek"
-  filePath: "logging/elasticsearch-kibana"
-eckoperator:
+  filePath: "elasticsearch-kibana"
+eckOperator:
   repoName: "eck-operator"
   hrName: "eck-operator"
-  filePath: "logging/eck-operator"
+  filePath: "eck-operator"
 fluentbit:
-  hrName: "fluent-bit"
-  filePath: "logging/fluentbit"
+  hrName: "fluentbit"
+  filePath: "fluentbit"
 promtail:
   filePath: "logging/promtail"
   dependencies:

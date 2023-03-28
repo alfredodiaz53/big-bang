@@ -19,7 +19,7 @@ We have also documented the package overrides required if you want to set a sing
 | Cluster Auditor | `Always` | <pre lang="yaml">clusterAuditor:<br>  values:<br>    image:<br>      imagePullPolicy: IfNotPresent</pre> |
 | OPA Gatekeeper | `IfNotPresent` | <pre lang="yaml">gatekeeper:<br>  values:<br>    postInstall:<br>      labelNamespace:<br>        image:<br>          pullPolicy: IfNotPresent<br>    postUpgrade:<br>      cleanupCRD:<br>        image:<br>          pullPolicy: IfNotPresent<br>    image:<br>      pullPolicy: IfNotPresent</pre> |
 | Kyverno  | `IfNotPresent` | <pre lang="yaml">addons:<br>  kyverno:<br>    values:<br>      image:<br>        pullPolicy: IfNotPresent<br>      initImage:<br>        pullPolicy: IfNotPresent</pre> |
-| Elasticsearch / Kibana | `IfNotPresent` | <pre lang="yaml">logging:<br>  values:<br>    imagePullPolicy: IfNotPresent</pre> |
+| Elasticsearch / Kibana | `IfNotPresent` | <pre lang="yaml">elasticsearchKibana:<br>  values:<br>    imagePullPolicy: IfNotPresent</pre> |
 | ECK Operator | `IfNotPresent` | <pre lang="yaml">eckoperator:<br>  values:<br>    image:<br>      pullPolicy: IfNotPresent</pre> |
 | Fluentbit | `Always` | <pre lang="yaml">fluentbit:<br>  values:<br>    image:<br>      pullPolicy: IfNotPresent</pre> |
 | Loki | `IfNotPresent` | <pre lang="yaml">loki:<br>  values:<br>    image:<br>      pullPolicy: IfNotPresent</pre> |
