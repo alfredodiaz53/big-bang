@@ -72,11 +72,10 @@ istio:
       dashboard:
         auth:
           strategy: "anonymous"
-istiooperator:
-  enabled: true
+
 
 jaeger:
-  enabled: false
+  enabled: true
   sso:
     enabled: false
     client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_jaeger
@@ -91,7 +90,7 @@ jaeger:
           cypress_url: "https://tracing.bigbang.dev"
 
 kiali:
-  enabled: false
+  enabled: true
   sso:
     enabled: false
     client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_kiali
@@ -114,7 +113,7 @@ kiali:
           #cypress_keycloak_password: "tnr_w!G33ZyAt@C8"
 
 clusterAuditor:
-  enabled: false
+  enabled: true
   values:
     resources:
       requests:
@@ -320,7 +319,7 @@ gatekeeper:
       enabled: true
 
 kyverno:
-  enabled: true
+  enabled: false
   values:
     replicaCount: 1
     bbtests:
@@ -579,7 +578,7 @@ kyvernopolicies:
           - bigbang
 
 logging:
-  enabled: false
+  enabled: true
   sso:
     enabled: false
     client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_kibana
@@ -1203,10 +1202,10 @@ addons:
       curlContainerImage: registry1.dso.mil/ironbank/big-bang/base:2.0.0
 
   minioOperator:
-    enabled: true
+    enabled: false
 
   minio:
-    enabled: true
+    enabled: false
     values:
       tenant:
         pools:
@@ -1531,7 +1530,7 @@ addons:
           subPath: quarkus.properties
 
   vault:
-    enabled: true
+    enabled: false
     ingress:
       gateway: "passthrough"
       key: "" # Gets added via chart/ingress-certs.yaml
