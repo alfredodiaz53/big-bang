@@ -448,7 +448,7 @@ kyvernoreporter:
 # ----------------------------------------------------------------------------------------------------------------------
 # Logging
 #
-logging:
+elasticsearchKibana:
   # -- Toggle deployment of Logging (EFK).
   enabled: false
   git:
@@ -488,7 +488,7 @@ logging:
   # -- Post Renderers.  See docs/postrenders.md
   postRenderers: []
 
-eckoperator:
+eckOperator:
   # -- Toggle deployment of ECK Operator.
   enabled: false
   git:
@@ -599,7 +599,7 @@ neuvector:
   sso:
     # -- Toggle SSO for Neuvector on and off
     enabled: true
-    
+
     # -- OIDC Client ID to use for Neuvector
     client_id: ""
 
@@ -611,7 +611,7 @@ neuvector:
 
   # -- Flux reconciliation overrides specifically for the Neuvector Package
   flux: {}
-  
+
   # -- Values to passthrough to the Neuvector chart: https://repo1.dso.mil/big-bang/product/packages/neuvector.git
   values: {}
 
