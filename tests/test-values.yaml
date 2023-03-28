@@ -163,6 +163,7 @@ gatekeeper:
           - nexus-repository-manager/nexus-repository-manager-cypress-test
           - cluster-auditor/cluster-auditor-cypress-test
           - gitlab/gitlab-cypress-test
+          - gitlab-runner/gitlab-runner-cypress-test
           - gitlab/gitlab-runner-cypress-test
           - kiali/kiali-cypress-test
           - mattermost/mattermost-cypress-test
@@ -295,6 +296,7 @@ gatekeeper:
           - nexus-repository-manager/nexus-repository-manager-cypress-test
           - cluster-auditor/cluster-auditor-cypress-test
           - gitlab/gitlab-cypress-test
+          - gitlab-runner/gitlab-runner-cypress-test
           - gitlab/gitlab-runner-cypress-test
           - kiali/kiali-cypress-test
           - mattermost/mattermost-cypress-test
@@ -437,6 +439,7 @@ kyvernopolicies:
           - resources:
               namespaces:
               - gitlab
+              - gitlab-runner
               - kiali
               - cluster-auditor
               - mattermost
@@ -469,6 +472,7 @@ kyvernopolicies:
           - resources:
               namespaces:
               - gitlab
+              - gitlab-runner
               - kiali
               - cluster-auditor
               - mattermost
@@ -511,6 +515,7 @@ kyvernopolicies:
           - resources:
               namespaces:
               - gitlab
+              - gitlab-runner
               - kiali
               - cluster-auditor
               - mattermost
@@ -993,6 +998,17 @@ addons:
         limits: {}
       runners:
         protected: false
+      networkPolicies:
+        additionalPolicies:
+        - name: egress-runner-jobs
+          spec: 
+            podSelector: {}
+            policyTypes:
+            - Egress
+            egress:
+            - to:
+              - ipBlock:
+                  cidr: 0.0.0.0/0
       bbtests:
         enabled: true
         cypress:
