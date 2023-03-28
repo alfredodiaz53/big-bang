@@ -3,14 +3,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: fluent-bit
+  name: fluentbit
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: logging
+    app.kubernetes.io/name: fluentbit
     app.kubernetes.io/component: "core"
     {{- include "commonLabels" . | nindent 4}}
 spec:
-  targetNamespace: logging
+  targetNamespace: fluentbit
   chart:
     spec:
       {{- if eq .Values.fluentbit.sourceType "git" }}
@@ -47,9 +47,9 @@ spec:
       valuesKey: "overlays"
 
   {{/* To support a "standalone" fluentbit for shipping to central location we conditionally depend on logging enabled */}}
-  {{- if or .Values.logging.enabled .Values.gatekeeper.enabled .Values.istio.enabled .Values.kyvernopolicies.enabled .Values.monitoring.enabled }}
+  {{- if or .Values.elasticsearchKibana.enabled .Values.gatekeeper.enabled .Values.istio.enabled .Values.kyvernopolicies.enabled .Values.monitoring.enabled }}
   dependsOn:
-    {{- if .Values.logging.enabled }}
+    {{- if .Values.elasticsearchKibana.enabled }}
     - name: ek
       namespace: {{ .Release.Namespace }}
     {{- end }}
