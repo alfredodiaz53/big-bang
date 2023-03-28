@@ -707,7 +707,7 @@ tempo:
           memory: 128Mi
 
 monitoring:
-  enabled: true
+  enabled: false
   sso:
     enabled: false
     prometheus:
