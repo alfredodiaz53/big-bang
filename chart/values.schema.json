@@ -406,11 +406,11 @@
           ],
           "properties": {
             "enabled": {
-              "type": "string",
+              "type": ["boolean", "string"],
               "title": "The enabled Schema",
               "examples": [
-                "true",
-                "false",
+                true,
+                false,
                 "auto"
               ]
             },
