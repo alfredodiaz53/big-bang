@@ -1,4 +1,4 @@
-{{- if and (eq (include "checkGitRef" .Values.eckoperator) "true") (not .Values.offline) (or .Values.eckoperator.enabled .Values.logging.enabled) }}
+{{- if and (eq (include "checkGitRef" .Values.eckOperator) "true") (not .Values.offline) (or .Values.eckOperator.enabled .Values.elasticsearchKibana.enabled) }}
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: GitRepository
 metadata:
@@ -10,9 +10,9 @@ metadata:
     {{- include "commonLabels" . | nindent 4}}
 spec:
   interval: {{ .Values.flux.interval }}
-  url: {{ .Values.eckoperator.git.repo }}
+  url: {{ .Values.eckOperator.git.repo }}
   ref:
-    {{- include "validRef" .Values.eckoperator.git | nindent 4 }}
+    {{- include "validRef" .Values.eckOperator.git | nindent 4 }}
   {{ include "gitIgnore" . }}
   {{- include "gitCreds" . | nindent 2 }}
 {{- end }}
