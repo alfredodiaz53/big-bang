@@ -5,6 +5,10 @@
   "default": {},
   "title": "Big Bang Root Schema",
   "required": [
+    "domain",
+    "offline",
+    "registryCredentials",
+    "openshift",
     "istio",
     "istiooperator",
     "jaeger",
@@ -25,6 +29,17 @@
     "twistlock"
   ],
   "$defs": {
+    "registryCredential": {
+      "type": "object",
+      "properties": {
+        "registry": { "type": "string" },
+        "username": { "type": "string" },
+        "password": { "type": "string" },
+        "email": { "type": "string" }
+      },
+      "required": ["registry", "username", "password", "email"],
+      "additionalProperties": false
+    },
     "basePackage": {
       "type": "object",
       "required": [
@@ -168,17 +183,18 @@
   },
   "properties": {
     "domain": { "type": "string" },
+    "offline": { "type": "boolean" },
     "registryCredentials": {
-      "type": "object",
-      "properties": {
-        "registry": { "type": "string" },
-        "username": { "type": "string" },
-        "password": { "type": "string" },
-        "email": { "type": "string" }
-      },
-      "required": ["registry"],
-      "additionalProperties": false
+      "oneOf": [
+        { "$ref": "#/$defs/registryCredential" },
+        {
+          "type": "array",
+          "items": { "$ref": "#/$defs/registryCredential" },
+          "minItems": 1
+        }
+      ]
     },
+    "openshift": { "type": "boolean" },
     "istio": {
       "title": "The istio Schema",
       "allOf": [{ "$ref": "#/$defs/basePackage" }]
