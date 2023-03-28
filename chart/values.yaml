@@ -12,7 +12,7 @@ registryCredentials:
   password: ""
   email: ""
 
-# -- Multiple sets of registry credentials used to pull all images deployed by BigBang.
+# -- Multiple sets of registry cred entials used to pull all images deployed by BigBang.
 # Credentials will only be created when a valid combination exists, registry, username, and password (email is optional)
 # Or a list of registires:
 #  - registry: registry1.dso.mil
@@ -347,7 +347,7 @@ kiali:
 #
 clusterAuditor:
   # -- Toggle deployment of Cluster Auditor.
-  enabled: true
+  enabled: false
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/cluster-auditor.git
     path: "./chart"
@@ -368,7 +368,7 @@ clusterAuditor:
 #
 gatekeeper:
   # -- Toggle deployment of OPA Gatekeeper.
-  enabled: true
+  enabled: false
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/policy.git
     path: "./chart"
@@ -450,7 +450,7 @@ kyvernoreporter:
 #
 logging:
   # -- Toggle deployment of Logging (EFK).
-  enabled: true
+  enabled: false
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/elasticsearch-kibana.git
     path: "./chart"
@@ -684,7 +684,7 @@ tempo:
 #
 monitoring:
   # -- Toggle deployment of Monitoring (Prometheus, Grafana, and Alertmanager).
-  enabled: false
+  enabled: enabled
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/monitoring.git
     path: "./chart"
