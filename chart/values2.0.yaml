@@ -133,7 +133,7 @@ twistlock:
   git: null
   oci:
     name: "twistlock"
-    tag: "0.11.4-bb.0"
+    tag: "0.11.4-bb.3"
     repo: "registry1"
 
 addons:
