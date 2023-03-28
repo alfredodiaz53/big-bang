@@ -10,6 +10,7 @@
     "registryCredentials",
     "openshift",
     "git",
+    "sso",
     "istio",
     "istiooperator",
     "jaeger",
@@ -33,12 +34,24 @@
     "registryCredential": {
       "type": "object",
       "properties": {
-        "registry": { "type": "string" },
-        "username": { "type": "string" },
-        "password": { "type": "string" },
-        "email": { "type": "string" }
+        "registry": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
       },
-      "required": ["registry", "username", "password"],
+      "required": [
+        "registry",
+        "username",
+        "password"
+      ],
       "additionalProperties": false
     },
     "basePackage": {
@@ -183,14 +196,22 @@
     }
   },
   "properties": {
-    "domain": { "type": "string" },
-    "offline": { "type": "boolean" },
+    "domain": {
+      "type": "string"
+    },
+    "offline": {
+      "type": "boolean"
+    },
     "registryCredentials": {
       "oneOf": [
-        { "$ref": "#/$defs/registryCredential" },
+        {
+          "$ref": "#/$defs/registryCredential"
+        },
         {
           "type": "array",
-          "items": { "$ref": "#/$defs/registryCredential" },
+          "items": {
+            "$ref": "#/$defs/registryCredential"
+          },
           "minItems": 1
         }
       ]
@@ -198,71 +219,225 @@
     "git": {
       "type": "object",
       "properties": {
-        "existingSecret": { "type": "string" },
+        "existingSecret": {
+          "type": "string"
+        },
         "credentials": {
           "type": "object",
           "properties": {
-            "username": { "type": "string" },
-            "password": { "type": "string" },
-            "caFile": { "type": "string" },
-            "privateKey": { "type": "string" },
-            "publicKey": { "type": "string" },
-            "knownHosts": { "type": "string" }
+            "username": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "caFile": {
+              "type": "string"
+            },
+            "privateKey": {
+              "type": "string"
+            },
+            "publicKey": {
+              "type": "string"
+            },
+            "knownHosts": {
+              "type": "string"
+            }
           },
           "required": [],
           "anyOf": [
-            {"required": ["username", "password"]},
-            {"required": ["privateKey", "publicKey", "knownHosts"]}
+            {
+              "required": [
+                "username",
+                "password"
+              ]
+            },
+            {
+              "required": [
+                "privateKey",
+                "publicKey",
+                "knownHosts"
+              ]
+            }
           ],
           "additionalProperties": false
         }
       },
       "anyOf": [
-        {"required": ["existingSecret"]},
-        {"required": ["credentials"]}
+        {
+          "required": [
+            "existingSecret"
+          ]
+        },
+        {
+          "required": [
+            "credentials"
+          ]
+        }
       ],
       "additionalProperties": false
     },
-    "openshift": { "type": "boolean" },
+    "sso": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "certificateAuthority": {
+          "type": "object",
+          "properties": {
+            "cert": {
+              "type": "string"
+            },
+            "secretName": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "saml": {
+          "type": "object",
+          "properties": {
+            "entityDescriptor": {
+              "type": "string"
+            },
+            "service": {
+              "type": "string"
+            },
+            "metadata": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "oidc": {
+          "type": "object",
+          "properties": {
+            "authorization": {
+              "type": "string"
+            },
+            "endSession": {
+              "type": "string"
+            },
+            "jwksUri": {
+              "type": "string"
+            },
+            "token": {
+              "type": "string"
+            },
+            "userinfo": {
+              "type": "string"
+            },
+            "jwks": {
+              "type": "string"
+            },
+            "claims": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "groups": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "openshift": {
+      "type": "boolean"
+    },
     "istio": {
       "title": "The istio Schema",
-      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+      "allOf": [
+        {
+          "$ref": "#/$defs/basePackage"
+        }
+      ]
     },
     "istiooperator": {
       "title": "The istiooperator Schema",
-      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+      "allOf": [
+        {
+          "$ref": "#/$defs/basePackage"
+        }
+      ]
     },
     "jaeger": {
       "title": "The jaeger Schema",
-      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+      "allOf": [
+        {
+          "$ref": "#/$defs/basePackage"
+        }
+      ]
     },
     "kiali": {
       "title": "The kiali Schema",
-      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+      "allOf": [
+        {
+          "$ref": "#/$defs/basePackage"
+        }
+      ]
     },
     "clusterAuditor": {
       "title": "The clusterAuditor Schema",
-      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+      "allOf": [
+        {
+          "$ref": "#/$defs/basePackage"
+        }
+      ]
     },
     "gatekeeper": {
       "title": "The gatekeeper Schema",
-      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+      "allOf": [
+        {
+          "$ref": "#/$defs/basePackage"
+        }
+      ]
     },
     "kyverno": {
       "title": "The istiooperator Schema",
-      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+      "allOf": [
+        {
+          "$ref": "#/$defs/basePackage"
+        }
+      ]
     },
     "kyvernopolicies": {
       "title": "The istiooperator Schema",
-      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+      "allOf": [
+        {
+          "$ref": "#/$defs/basePackage"
+        }
+      ]
     },
     "kyvernoreporter": {
       "title": "The kyvernoreporter Schema",
-      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+      "allOf": [
+        {
+          "$ref": "#/$defs/basePackage"
+        }
+      ]
     },
     "logging": {
       "title": "The logging Schema",
-      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+      "allOf": [
+        {
+          "$ref": "#/$defs/basePackage"
+        }
+      ]
     },
     "eckoperator": {
       "title": "The eckoperator Schema",
@@ -290,11 +465,19 @@
     },
     "fluentbit": {
       "title": "The fluentbit Schema",
-      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+      "allOf": [
+        {
+          "$ref": "#/$defs/basePackage"
+        }
+      ]
     },
     "promtail": {
       "title": "The promtail Schema",
-      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+      "allOf": [
+        {
+          "$ref": "#/$defs/basePackage"
+        }
+      ]
     },
     "loki": {
       "title": "The loki Schema",
@@ -302,7 +485,11 @@
         "strategy",
         "objectStorage"
       ],
-      "allOf": [{ "$ref": "#/$defs/basePackage" }],
+      "allOf": [
+        {
+          "$ref": "#/$defs/basePackage"
+        }
+      ],
       "properties": {
         "strategy": {
           "type": "string",
@@ -373,54 +560,102 @@
     },
     "neuvector": {
       "title": "The neuvector Schema",
-      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+      "allOf": [
+        {
+          "$ref": "#/$defs/basePackage"
+        }
+      ]
     },
     "tempo": {
       "title": "The tempo Schema",
-      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+      "allOf": [
+        {
+          "$ref": "#/$defs/basePackage"
+        }
+      ]
     },
     "monitoring": {
       "title": "The monitoring Schema",
-      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+      "allOf": [
+        {
+          "$ref": "#/$defs/basePackage"
+        }
+      ]
     },
     "twistlock": {
       "title": "The twistlock Schema",
-      "allOf": [{ "$ref": "#/$defs/basePackage" }]
+      "allOf": [
+        {
+          "$ref": "#/$defs/basePackage"
+        }
+      ]
     },
     "addons": {
       "type": "object",
       "properties": {
         "argocd": {
           "title": "The argocd Schema",
-          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+          "allOf": [
+            {
+              "$ref": "#/$defs/basePackage"
+            }
+          ]
         },
         "authservice": {
           "title": "The authservice Schema",
-          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+          "allOf": [
+            {
+              "$ref": "#/$defs/basePackage"
+            }
+          ]
         },
         "minioOperator": {
           "title": "The minioOperator Schema",
-          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+          "allOf": [
+            {
+              "$ref": "#/$defs/basePackage"
+            }
+          ]
         },
         "minio": {
           "title": "The minio Schema",
-          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+          "allOf": [
+            {
+              "$ref": "#/$defs/basePackage"
+            }
+          ]
         },
         "gitlab": {
           "title": "The gitlab Schema",
-          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+          "allOf": [
+            {
+              "$ref": "#/$defs/basePackage"
+            }
+          ]
         },
         "gitlabRunner": {
           "title": "The gitlabRunner Schema",
-          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+          "allOf": [
+            {
+              "$ref": "#/$defs/basePackage"
+            }
+          ]
         },
         "nexusRepositoryManager": {
           "title": "The nexusRepositoryManager Schema",
-          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+          "allOf": [
+            {
+              "$ref": "#/$defs/basePackage"
+            }
+          ]
         },
         "sonarqube": {
           "title": "The sonarqube Schema",
-          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+          "allOf": [
+            {
+              "$ref": "#/$defs/basePackage"
+            }
+          ]
         },
         "haproxy": {
           "title": "The haproxy Schema",
@@ -447,27 +682,51 @@
         },
         "anchore": {
           "title": "The anchore Schema",
-          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+          "allOf": [
+            {
+              "$ref": "#/$defs/basePackage"
+            }
+          ]
         },
         "mattermostOperator": {
           "title": "The mattermostOperator Schema",
-          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+          "allOf": [
+            {
+              "$ref": "#/$defs/basePackage"
+            }
+          ]
         },
         "mattermost": {
           "title": "The mattermost Schema",
-          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+          "allOf": [
+            {
+              "$ref": "#/$defs/basePackage"
+            }
+          ]
         },
         "velero": {
           "title": "The velero Schema",
-          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+          "allOf": [
+            {
+              "$ref": "#/$defs/basePackage"
+            }
+          ]
         },
         "keycloak": {
           "title": "The keycloak Schema",
-          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+          "allOf": [
+            {
+              "$ref": "#/$defs/basePackage"
+            }
+          ]
         },
         "vault": {
           "title": "The vault Schema",
-          "allOf": [{ "$ref": "#/$defs/basePackage" }]
+          "allOf": [
+            {
+              "$ref": "#/$defs/basePackage"
+            }
+          ]
         },
         "metricsServer": {
           "title": "The metricsServer Schema",
@@ -480,7 +739,10 @@
           ],
           "properties": {
             "enabled": {
-              "type": ["boolean", "string"],
+              "type": [
+                "boolean",
+                "string"
+              ],
               "title": "The enabled Schema",
               "examples": [
                 true,
@@ -500,6 +762,6 @@
           }
         }
       }
-    } 
+    }
   }
 }
