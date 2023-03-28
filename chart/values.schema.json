@@ -167,6 +167,18 @@
     }
   },
   "properties": {
+    "domain": { "type": "string" },
+    "registryCredentials": {
+      "type": "object",
+      "properties": {
+        "registry": { "type": "string" },
+        "username": { "type": "string" },
+        "password": { "type": "string" },
+        "email": { "type": "string" }
+      },
+      "required": ["registry"],
+      "additionalProperties": false
+    },
     "istio": {
       "title": "The istio Schema",
       "allOf": [{ "$ref": "#/$defs/basePackage" }]
