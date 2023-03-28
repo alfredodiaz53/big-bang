@@ -76,7 +76,7 @@ istiooperator:
   enabled: true
 
 jaeger:
-  enabled: true
+  enabled: false
   sso:
     enabled: false
     client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_jaeger
@@ -91,7 +91,7 @@ jaeger:
           cypress_url: "https://tracing.bigbang.dev"
 
 kiali:
-  enabled: true
+  enabled: false
   sso:
     enabled: false
     client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_kiali
@@ -114,7 +114,7 @@ kiali:
           #cypress_keycloak_password: "tnr_w!G33ZyAt@C8"
 
 clusterAuditor:
-  enabled: true
+  enabled: false
   values:
     resources:
       requests:
@@ -320,7 +320,7 @@ gatekeeper:
       enabled: true
 
 kyverno:
-  enabled: false
+  enabled: true
   values:
     replicaCount: 1
     bbtests:
@@ -579,7 +579,7 @@ kyvernopolicies:
           - bigbang
 
 logging:
-  enabled: true
+  enabled: false
   sso:
     enabled: false
     client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_kibana
