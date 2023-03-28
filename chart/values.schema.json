@@ -38,7 +38,7 @@
         "password": { "type": "string" },
         "email": { "type": "string" }
       },
-      "required": ["registry", "username", "password", "email"],
+      "required": ["registry", "username", "password"],
       "additionalProperties": false
     },
     "basePackage": {
