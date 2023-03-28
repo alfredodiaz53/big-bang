@@ -5,7 +5,24 @@
   "default": {},
   "title": "Big Bang Root Schema",
   "required": [
-    "loki"
+    "istio",
+    "istiooperator",
+    "jaeger",
+    "kiali",
+    "clusterAuditor",
+    "gatekeeper",
+    "kyverno",
+    "kyvernopolicies",
+    "kyvernoreporter",
+    "logging",
+    "eckoperator",
+    "fluentbit",
+    "promtail",
+    "loki",
+    "neuvector",
+    "tempo",
+    "monitoring",
+    "twistlock"
   ],
   "$defs": {
     "basePackage": {
