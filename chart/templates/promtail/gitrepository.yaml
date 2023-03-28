@@ -1,18 +1,32 @@
+<<<<<<<< HEAD:chart/templates/promtail/gitrepository.yaml
 {{- if and (eq .Values.promtail.sourceType "git") (not .Values.offline) .Values.promtail.enabled }}
+========
+{{- if and (eq (include "checkGitRef" .Values.elasticsearchKibana) "true") (not .Values.offline) ( .Values.elasticsearchKibana.enabled ) }}
+>>>>>>>> 9185828c (update to meet standards):chart/templates/elasticsearch-kibana/gitrepository.yaml
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: GitRepository
 metadata:
   name: promtail
   namespace: {{ .Release.Namespace }}
   labels:
+<<<<<<<< HEAD:chart/templates/promtail/gitrepository.yaml
     app.kubernetes.io/name: promtail
+========
+    app.kubernetes.io/name: elasticsearch-kibana
+>>>>>>>> 9185828c (update to meet standards):chart/templates/elasticsearch-kibana/gitrepository.yaml
     app.kubernetes.io/component: "core"
     {{- include "commonLabels" . | nindent 4}}
 spec:
   interval: {{ .Values.flux.interval }}
+<<<<<<<< HEAD:chart/templates/promtail/gitrepository.yaml
   url: {{ .Values.promtail.git.repo }}
   ref:
     {{- include "validRef" .Values.promtail.git | nindent 4 }}
+========
+  url: {{ .Values.elasticsearchKibana.git.repo }}
+  ref:
+    {{- include "validRef" .Values.elasticsearchKibana.git | nindent 4 }}
+>>>>>>>> 9185828c (update to meet standards):chart/templates/elasticsearch-kibana/gitrepository.yaml
   {{ include "gitIgnore" . }}
   {{- include "gitCreds" . | nindent 2 }}
 {{- end }}
