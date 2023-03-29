@@ -288,6 +288,8 @@ InstId=`aws ec2 run-instances \
   --instance-initiated-shutdown-behavior "terminate" \
   --user-data file://$HOME/aws/userdata.txt \
   --block-device-mappings file://$HOME/aws/device_mappings.json \
+  --no-associate-public-ip-address \
+  --secondary-private-ip-address-count 1 \
   --instance-market-options file://$HOME/aws/spot_options.json \
   | jq -r '.Instances[0].InstanceId'`
 
@@ -303,20 +305,26 @@ aws ec2 create-tags --resources ${InstId} --tags Key=Name,Value=${AWSUSERNAME}-d
 echo "Waiting for instance ${InstId} to be ready ..."
 aws ec2 wait instance-running --output json --no-cli-pager --instance-ids ${InstId} &> /dev/null
 
-# allow some extra seconds for the instance to be fully initiallized
-echo "Wait a little longer..."
+# allow some extra seconds for the instance to be fully initialized
+echo "Almost there, 15 seconds to go..."
 sleep 15
-
-# Get the public IP address of our instance
-PublicIP=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].PublicIpAddress'`
 
 # Get the private IP address of our instance
 PrivateIP=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].PrivateIpAddress'`
+PrivateIP2=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[] | select(.Primary==false) | .PrivateIpAddress'`
+
+PublicIP=`aws ec2 allocate-address --output json --no-cli-pager --tag-specifications="ResourceType=elastic-ip,Tags=[{Key=Name,Value=Danny.Gershman-EIP1}]" | jq -r '.PublicIp'`
+SecondaryIP=`aws ec2 allocate-address --output json --no-cli-pager --tag-specifications="ResourceType=elastic-ip,Tags=[{Key=Name,Value=Danny.Gershman-EIP2}]" | jq -r '.PublicIp'`
+
+echo "Associating IP addresses..."
+aws ec2 associate-address --output json --no-cli-pager --instance-id ${InstId} --private-ip ${PrivateIP} --public-ip $PublicIP
+aws ec2 associate-address --output json --no-cli-pager --instance-id ${InstId} --private-ip ${PrivateIP2} --public-ip $SecondaryIP
 
 echo
 echo "Instance ${InstId} is ready!"
 echo "Instance private IP is ${PrivateIP}"
 echo "Instance public IP is ${PublicIP}"
+echo "Secondary public IP is ${SecondaryIP}"
 echo
 
 # Remove previous keys related to this IP from your SSH known hosts so you don't end up with a conflict
@@ -386,7 +394,7 @@ k3d_command+=" -v /etc:/etc@server:*\;agent:* -v /dev/log:/dev/log@server:*\;age
 # Disable traefik and metrics-server
 k3d_command+=" --k3s-arg \"--disable=traefik@server:0\"  --k3s-arg \"--disable=metrics-server@server:0\""
 # Port mappings to support Istio ingress + API access
-k3d_command+=" --port 80:80@loadbalancer --port 443:443@loadbalancer --api-port 6443"
+k3d_command+=" --port ${PrivateIP}:80:80@loadbalancer --port ${PrivateIP}:443:443@loadbalancer --port ${PrivateIP2}:80:81@loadbalancer --port ${PrivateIP2}:443:444@loadbalancer --api-port 6443"
 
 # Add MetalLB specific k3d config
 if [[ "$METAL_LB" == true ]]; then
