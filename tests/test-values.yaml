@@ -337,9 +337,6 @@ kyvernopolicies:
   values:
     bbtests:
       enabled: true
-      scripts:
-        envs:
-          ENABLED_POLICIES: ""
     excludeContainers:
     - not-me
     - or-me
@@ -580,6 +577,10 @@ kyvernopolicies:
         parameters:
           disallow:
           - bigbang
+      sync-gitlab-root-password:
+        enabled: {{ .Values.gitlabRunner.enabled }}
+      sync-gitlab-runner-secret:
+        enabled: {{ .Values.gitlabRunner.enabled }}
 
 logging:
   enabled: false
