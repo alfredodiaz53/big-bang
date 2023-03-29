@@ -1,26 +1,4 @@
-# Renovate Configuration for Helm Chart Repository
-
-Renovate is an automated dependency update tool that can be configured to keep dependencies up-to-date in a chart repository. The configuration file for Renovate is called `renovate.json` and is located in each project's root directory. 
-
-Big Bang uses [WhiteSource Renovate](https://www.whitesourcesoftware.com/free-developer-tools/renovate/) to identify out-of-date dependencies within supported packages.  When dependency update is needed, Renovate will automatically create a merge request and issue in GitLab to track the work.
-
-## Standards
-The following are suggested package requirements based on established policies to resolve dependency updates:
-
-### Images
-- All docker images in [Iron Bank](https://registry1.dso.mil) shall be checked for updates.
-- All production [GitLab repo](https://repo1.dso.mil) docker images shall be checked for updates.
-- All image tags shall be automatically updated if an update is required.
-- All image SHAs shall be automatically updated if an update is required.
-- Merge requests shall NOT be automatically merged
-- Merge requests shall be marked as Draft
-- Dashboard issues shall contain the name of the package
-
-### Helm Charts
-- Dashboard issues shall have text requesting the upstream Helm chart be updated with the new image.
-
-> Renovate cannot currently handle the use case Big Bang has for syncing the upstream Helm Chart.  We do not want to always get the latest upstream Helm, since it may introduce features not available in the version of the package we are deploying.  In addition, we do want to update the upstream Helm chart to make sure we get the latest fixes and features related to the package. This requires the package owners to find the last Helm Chart release that contains the version of the package residing in Iron Bank.
-
+# Renovate Configuration for Big Bang Consumer Template
 
 ## Package Configuration
 
@@ -38,13 +16,11 @@ This key is used to set the title for the dependency dashboard. In the example, 
 
 > See [Renovate Configuration](https://docs.renovatebot.com/configuration-options/#dependencydashboard) for more info.
 
-### Package Rules
 
-##### packageRules
+### packageRules
 This key provides an array of rules that define how packages are matched and grouped. In the example, any matching package with the datasource `docker` will be grouped under the name `Ironbank`. It can accept an array of objects see [Renovate Package Rules Docs](https://docs.renovatebot.com/configuration-options/#packagerules) for more info.
 
-### RegEx
-##### regexManagers
+### regexManagers
 This key specifies regex-based rules for updating dependencies. Several `regexManagers` are defined in the example, each with a specific `fileMatch` path and `matchStrings` regex. It can accept an array of objects.
 
 ##### File Match
@@ -64,9 +40,6 @@ You can optionally capture `<currentDigest>` as the SHA256 digest for an image i
 To capture a group, you simply use [regex named groups](https://www.regular-expressions.info/refext.html).  If you cannot capture the group in regex, you can use a `template` to hard code the value.  Here is an example with both capturing and a template:
 
 See [Renovate Configuration](https://docs.renovatebot.com/configuration-options/#regexmanagers) for more details.
-
-
-
 
 ### Other options
 
@@ -99,52 +72,102 @@ The configuration field allows you to define a list of dependency names to be ig
 
 ### Example Package Configuration
 
-> The following is based on the Gitlab package's renovate.json.
+> The following example is for a user fork of the [customer template](https://repo1.dso.mil/big-bang/customers/template).
 
+The first 10 lines set up the basics of what a Renovate ticket is expected to look like when created.  Package Rules is set up to use git-tags.  Regex Managers are detailed below.
 ```json
 {
     "baseBranches": ["main"],
     "configWarningReuseIssue": false,
     "dependencyDashboard": true,
-    "dependencyDashboardHeader": "- [ ] Sync upstream helm chart. \n - [ ] Update synker file.", 
-    "dependencyDashboardTitle": "Renovate: Upgrade Gitlab Dependencies",
+    "dependencyDashboardHeader": "- [ ] Sync upstream versions with updated dependencies.",
+    "dependencyDashboardTitle": "Renovate: Upgrade Package Dependencies",
     "draftPR": true,
-    "enabledManagers": ["helm-values", "regex"],
-    "ignorePaths": ["chart/charts/**", "chart/examples/**", "chart/scripts/**"],
-    "labels": ["gitlab","renovate"],
-    "commitMessagePrefix": "SKIP UPDATE CHECK",
+    "enabledManagers": ["regex"],
+    "ignorePaths": ["chart/charts/**"],
+    "labels": ["renovate"],
+    "commitMessagePrefix": "",
+    "separateMajorMinor": false,
     "packageRules": [
-        {
-            "matchDatasources": ["docker"],
-            "groupName": "Ironbank"
-        }
-    ],
+          {
+            "matchDatasources": ["git-tags"]
+          }
+        ],
     "regexManagers": [
         {
-            "fileMatch": ["^chart/Chart\\.yaml$"],
+            "fileMatch": ["^base/kustomization\\.yaml$"],
             "matchStrings": [
-                "appVersion:[^\\S\\r\\n]+(?<currentValue>.+)"
+              ".+?ref=+(?<currentValue>.+)"
             ],
-            "depNameTemplate": "registry1.dso.mil/ironbank/gitlab/gitlab/gitlab-webservice",
-            "datasourceTemplate": "docker"
+            "depNameTemplate": "https://repo1.dso.mil/big-bang/bigbang.git",
+            "datasourceTemplate": "git-tags",
+            "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
         },
         {
-            "fileMatch": ["^chart/Chart\\.yaml$"],
+            "fileMatch": ["^dev/kustomization\\.yaml$"],
             "matchStrings": [
-                "image:[^\\S\\r\\n]+(?<depName>.+):(?<currentValue>.+)"
+              "tag:\\s+\"(?<currentValue>.+)\""
             ],
-            "datasourceTemplate": "docker"
+            "depNameTemplate": "https://repo1.dso.mil/big-bang/bigbang.git",
+            "datasourceTemplate": "git-tags",
+            "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
         },
         {
-            "fileMatch": ["^chart/values\\.yaml$"],
+            "fileMatch": ["^dev/configmap\\.yaml$"],
             "matchStrings": [
-                "image:[^\\S\\r\\n]+(?<depName>.+)\\s+tag:[^\\S\\r\\n]+(?<currentValue>[\\d\\.]+)"
+              "repo:\\s+(?<depName>.+)\\s+tag:\\s+\"(?<currentValue>.+)\""
             ],
-            "datasourceTemplate": "docker"
+            "depName": "https://repo1.dso.mil/big-bang/product/packages/kyverno.git",
+            "datasourceTemplate": "git-tags",
+            "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-bb\\.(?<build>\\d+)$"
         }
     ],
-    "separateMajorMinor": false
 }
+```
+
+#### RexEx Managers
+This is where the majority of the work is done for Renovate.
+
+In this example the version of Big Bang tracked by the base/kustomization.yaml is the target of renovate. 
+The regex targets `- git::https://repo1.dso.mil/platform-one/big-bang/bigbang.git//base?ref=1.41.0` setting `1.41.0` as a capture group.
+
+```json
+  {
+      "fileMatch": ["^base/kustomization\\.yaml$"],
+      "matchStrings": [
+        ".+?ref=+(?<currentValue>.+)"
+      ],
+      "depNameTemplate": "https://repo1.dso.mil/big-bang/bigbang.git",
+      "datasourceTemplate": "git-tags",
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
+  }
+```
+> The same concept can be applied to dev/kustomization.yaml
+
+
+Targeting individual packages requires a more complex regex statement.  In this example we are targeting a kyverno version number based on the following yaml in dev/configmap.yaml:
+
+```yaml
+kyverno:
+  git:
+    repo: https://repo1.dso.mil/big-bang/product/packages/kyverno.git
+    tag: "2.6.5-bb.2"
+  values:
+    replicaCount: 1
+```
+
+The regex walks down the keys using `\\s+` to include any whitespace.
+
+```json
+    {
+      "fileMatch": ["^dev/configmap\\.yaml$"],
+      "matchStrings": [
+        "kyverno:\\s+git:\\s+repo:\\s+(?<depName>.+)\\s+tag:\\s+\"(?<currentValue>.+)\""
+      ],
+      "depNameTemplate": "https://repo1.dso.mil/big-bang/product/packages/kyverno.git",
+      "datasourceTemplate": "git-tags",
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-bb\\.(?<build>\\d+)$"
+   }
 ```
 
 In conclusion, the `renovate.json` file allows us to configure the Renovate bot to keep our Helm chart repository up-to-date with the latest dependencies, by using various settings to suit our needs.
