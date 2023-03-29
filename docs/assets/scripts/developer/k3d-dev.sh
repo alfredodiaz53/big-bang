@@ -65,7 +65,7 @@ KeyName="${AWSUSERNAME}-dev"
 SGname="${AWSUSERNAME}-dev"
 # Identify which VPC to create the spot instance in
 VPC="${VPC_ID}"  # default VPC
-
+ATTACH_SECONDARY_IP=${ATTACH_SECONDARY_IP:=false}
 
 while [ -n "$1" ]; do # while loop starts
 
@@ -81,7 +81,11 @@ while [ -n "$1" ]; do # while loop starts
 
   -m) echo "-m option passed to install MetalLB" 
       METAL_LB=true
-  ;; 
+  ;;
+
+  -a) echo "-a option passed to create secondary public IP"
+      ATTACH_SECONDARY_IP=true
+  ;;
 
   -d) echo "-d option passed to destroy the AWS resources"
       AWSINSTANCEIDs=$( aws ec2 describe-instances \
@@ -114,11 +118,12 @@ while [ -n "$1" ]; do # while loop starts
   ;;
 
   -h) echo "Usage:"
-      echo "k3d-dev.sh -b -p -m -d -h"
+      echo "k3d-dev.sh -b -p -m -a -d -h"
       echo ""
       echo " -b   use BIG M5 instance. Default is t3.2xlarge"
       echo " -p   use private IP for security group and k3d cluster"
       echo " -m   create k3d cluster with metalLB"
+      echo " -a   attach secondary Public IP"
       echo " -d   destroy related AWS resources"
       echo " -h   output help"
       exit 0
@@ -309,22 +314,46 @@ aws ec2 wait instance-running --output json --no-cli-pager --instance-ids ${Inst
 echo "Almost there, 15 seconds to go..."
 sleep 15
 
+CURRENT_EPOCH=`echo $(($(date +%s) / 60 / 60 / 24))`
+
 # Get the private IP address of our instance
 PrivateIP=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].PrivateIpAddress'`
-PrivateIP2=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[] | select(.Primary==false) | .PrivateIpAddress'`
 
-PublicIP=`aws ec2 allocate-address --output json --no-cli-pager --tag-specifications="ResourceType=elastic-ip,Tags=[{Key=Name,Value=Danny.Gershman-EIP1}]" | jq -r '.PublicIp'`
-SecondaryIP=`aws ec2 allocate-address --output json --no-cli-pager --tag-specifications="ResourceType=elastic-ip,Tags=[{Key=Name,Value=Danny.Gershman-EIP2}]" | jq -r '.PublicIp'`
-
-echo "Associating IP addresses..."
+echo "Checking to see if an Elastic IP is already allocated and not attached..."
+PublicIP=`aws ec2 describe-addresses --filter "Name=tag:Name,Values=${AWSUSERNAME}-EIP1" --query 'Addresses[?AssociationId==null]' | jq -r '.[0].PublicIp'`
+if [[ -z "${PublicIP}" ]]; then
+  echo "Allocating a new (another) primary elastic IP..."
+  PublicIP=`aws ec2 allocate-address --output json --no-cli-pager --tag-specifications="ResourceType=elastic-ip,Tags=[{Key=Name,Value=${AWSUSERNAME}-EIP1},{Key=Owner,Value=${AWSUSERNAME}}]" | jq -r '.PublicIp'`
+else
+  echo "Previously allocated primary Elastic IP found ${PublicIP}!"
+fi
+echo "Associating IP ${PublicIP} address to instance ${InstId}..."
 aws ec2 associate-address --output json --no-cli-pager --instance-id ${InstId} --private-ip ${PrivateIP} --public-ip $PublicIP
-aws ec2 associate-address --output json --no-cli-pager --instance-id ${InstId} --private-ip ${PrivateIP2} --public-ip $SecondaryIP
+EIP1_ID=`aws ec2 describe-addresses --public-ips ${PublicIP} | jq -r '.Addresses[].AllocationId'`
+aws ec2 create-tags --resources ${EIP1_ID} --tags Key="lastused",Value="${CURRENT_EPOCH}"
 
 echo
 echo "Instance ${InstId} is ready!"
 echo "Instance private IP is ${PrivateIP}"
 echo "Instance public IP is ${PublicIP}"
-echo "Secondary public IP is ${SecondaryIP}"
+
+if [[ "${ATTACH_SECONDARY_IP}" == true ]]; then
+  PrivateIP2=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[] | select(.Primary==false) | .PrivateIpAddress'`
+  echo "Checking to see if a Secondary Elastic IP is already allocated and not attached..."
+  SecondaryIP=`aws ec2 describe-addresses --filter "Name=tag:Name,Values=${AWSUSERNAME}-EIP2" --query 'Addresses[?AssociationId==null]' | jq -r '.[0].PublicIp'`
+  if [[ -z "${SecondaryIP}" ]]; then
+    echo "Allocating a new/another secondary elastic IP..."
+    SecondaryIP=`aws ec2 allocate-address --output json --no-cli-pager --tag-specifications="ResourceType=elastic-ip,Tags=[{Key=Name,Value=${AWSUSERNAME}-EIP2},{Key=Owner,Value=${AWSUSERNAME}}]" | jq -r '.PublicIp'`
+  else
+    echo "Previously allocated secondary primary Elastic IP found ${PublicIP}!"
+  fi
+  echo "Associating Secondary IP ${SecondaryIP} address to instance ${InstId}..."
+  aws ec2 associate-address --output json --no-cli-pager --instance-id ${InstId} --private-ip ${PrivateIP2} --public-ip $SecondaryIP
+  EIP2_ID=`aws ec2 describe-addresses --public-ips ${SecondaryIP} | jq -r '.Addresses[].AllocationId'`
+  aws ec2 create-tags --resources ${EIP2_ID} --tags Key="lastused",Value="${CURRENT_EPOCH}"
+  echo "Secondary public IP is ${SecondaryIP}"
+fi
+
 echo
 
 # Remove previous keys related to this IP from your SSH known hosts so you don't end up with a conflict
@@ -337,6 +366,8 @@ until run "hostname"; do
   echo "Retry ssh command.."
 done
 echo
+
+exit 100
 
 ##### Configure Instance
 ## TODO: replace these individual commands with userdata when the spot instance is created?
@@ -394,7 +425,12 @@ k3d_command+=" -v /etc:/etc@server:*\;agent:* -v /dev/log:/dev/log@server:*\;age
 # Disable traefik and metrics-server
 k3d_command+=" --k3s-arg \"--disable=traefik@server:0\"  --k3s-arg \"--disable=metrics-server@server:0\""
 # Port mappings to support Istio ingress + API access
-k3d_command+=" --port ${PrivateIP}:80:80@loadbalancer --port ${PrivateIP}:443:443@loadbalancer --port ${PrivateIP2}:80:81@loadbalancer --port ${PrivateIP2}:443:444@loadbalancer --api-port 6443"
+
+if [[ "${ATTACH_SECONDARY_IP}" == false ]]; then
+  k3d_command+=" --port ${PrivateIP}:80:80@loadbalancer --port ${PrivateIP}:443:443@loadbalancer --port --api-port 6443"
+else
+  k3d_command+=" --port ${PrivateIP}:80:80@loadbalancer --port ${PrivateIP}:443:443@loadbalancer --port ${PrivateIP2}:80:81@loadbalancer --port ${PrivateIP2}:443:444@loadbalancer --api-port 6443"
+fi
 
 # Add MetalLB specific k3d config
 if [[ "$METAL_LB" == true ]]; then
@@ -542,4 +578,11 @@ else   # Not using MetalLB and using pubilc IP. This is the default
   echo "Example:"
   echo "  ${PublicIP}	gitlab.bigbang.dev prometheus.bigbang.dev kibana.bigbang.dev"
   echo
+fi
+
+
+if [[ "${ATTACH_SECONDARY_IP}" == true]]; then
+  export SECONDARYIP=${SecondaryIP}
+  echo "A secondary IP is available for use if you wish to have a passthrough ingress for Istio along with a public ingress Gateway, this maybe useful for Keycloak x509 mTLS"
+  echo "  ${SecondaryIP} keycloak.bigbang.dev"
 fi
