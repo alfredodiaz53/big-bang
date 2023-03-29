@@ -16,12 +16,6 @@ function run() {
   ssh -i ~/.ssh/${SSHKEYNAME}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PUBLICIP} $1
 }
 
-# install npm
-run "sudo apt-get install -y make npm"
-run "sudo snap install go --classic"
-run "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash"
-run "source ~/.nvm/nvm.sh && nvm install --lts && nvm use --lts"
-
 # install zarf
 echo Installing zarf...
 run "curl -LO https://github.com/defenseunicorns/zarf/releases/download/${ZARF_VERSION}/zarf_${ZARF_VERSION}_Linux_amd64"
