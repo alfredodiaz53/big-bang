@@ -42,7 +42,7 @@ As mentioned in our why section - upgrades for Big Bang are hard. A big piece of
 
 One of the challenges we are balancing is keeping end users up to date with the latest security patches as quick as they release, while avoiding the danger of updating 10, 20, 30+ packages in a single upgrade. Part of our approach to resolving this pain is releasing/encouraging smaller upgrades, more often. A piece of our solution for this is providing the Renovate tool as a Big Bang package, along with guidance around usage and templates for configuration. Renovate is a tool that provides automation of dependency updates. Within the context of Big Bang this would alert end users of new package releases. The ultimate goal is that customers could update packages asynchronously from the Big Bang releases (smaller updates, more often).
 
-This again will largely look more like a new feature - although it may have implications to the current release process/cadence. We will continue to release Big Bang versions, but again we hope for these to be smaller updates due to package updates happening differently.
+This again will largely look more like a new feature - although it may have implications to the current release process/cadence. We will continue to release Big Bang versions, but again we hope for these to be smaller updates due to package updates happening differently. The release cadence as well might be modified as a result.
 
 ### OCI HelmRepositories
 
