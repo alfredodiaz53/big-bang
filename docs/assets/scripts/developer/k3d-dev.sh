@@ -314,7 +314,7 @@ aws ec2 wait instance-running --output json --no-cli-pager --instance-ids ${Inst
 echo "Almost there, 15 seconds to go..."
 sleep 15
 
-CURRENT_EPOCH=`echo $(($(date +%s) / 60 / 60 / 24))`
+CURRENT_EPOCH=`date +'%s'`
 
 # Get the private IP address of our instance
 PrivateIP=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].PrivateIpAddress'`
