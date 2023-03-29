@@ -578,9 +578,9 @@ kyvernopolicies:
           disallow:
           - bigbang
       sync-gitlab-root-password:
-        enabled: {{ .Values.gitlabRunner.enabled }}
+        enabled: "{{ .Values.gitlabRunner.enabled }}"
       sync-gitlab-runner-secret:
-        enabled: {{ .Values.gitlabRunner.enabled }}
+        enabled: "{{ .Values.gitlabRunner.enabled }}"
 
 logging:
   enabled: false
