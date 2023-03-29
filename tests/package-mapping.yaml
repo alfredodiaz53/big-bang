@@ -7,12 +7,12 @@
 # Note: For any locations where the value matches the top level key, these can be left blank.
 
 istio:
-  repoName: "istio-controlplane"
-  filePath: "istio/controlplane"
+  repoName: "istio"
+  filePath: "istio"
 istiooperator:
   repoName: "istio-operator"
   hrName: "istio-operator"
-  filePath: "istio/operator"
+  filePath: "istio-operator"
 clusterAuditor:
   repoName: "cluster-auditor"
   hrName: "cluster-auditor"
