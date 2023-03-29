@@ -6,8 +6,9 @@ What is Big Bang 2.0? Why are we doing it? 2.0 is the second major release since
 
 A lot of the why behind 2.0 comes down to customer pain points. Here are a few of the top ones that tie into specific things changing in 2.0:
 1. The barrier to entry for users is too high, both from a technical/knowledge standpoint and from a cost perspective
-2. Adding on community packages/mission apps is too hard - there's no easy (or even documented) way to add a new community package to your deployment
-3. Upgrades of Big Bang are hard, partially due to the amount of changes in each release
+2. Upgrades of Big Bang are difficult, partially due to the large amount of changes in each release
+3. Adding on community packages/mission apps is too hard - there's no easy (or even documented) way to add a new community package to your deployment
+
 
 Beyond these pain points there are also changes we are making to enable future platform improvements - that necessitate a major release.
 
@@ -25,11 +26,11 @@ These will be *small* breaking changes to user values. If you want to continue t
 
 ### Standardization of Naming
 
-Within Big Bang packages have a wide variety of naming conventions and mis-matches between different locations. Some packages may have a values key that doesn't match the namespace or `HelmRelease` name. In order to improve the user experience we are standardizing the names in these areas. Package values keys will line up with the namespace and `HelmRelease`/`GitRepository` name 1:1 with case translations to accommodate different usages (`camelCase` for Helm values, `kebab-case` for Kubernetes resources). In addition, Big Bang will provide a documented style guide with any exceptions to the guide.
+Within Big Bang, packages have a wide variety of naming conventions and mis-matches between different locations. Some packages may have a values key that doesn't match the namespace or `HelmRelease` name. In order to improve the user experience we are standardizing the names in these areas. Package values keys will line up with the namespace and `HelmRelease`/`GitRepository` name 1:1 with case translations to accommodate different usages (`camelCase` for Helm values, `kebab-case` for Kubernetes resources). In addition, Big Bang will provide a documented style guide with any exceptions to the guide.
 
 Once again - these will be *small* breaking changes to user values and potentially has effects on any extra user scripts/tooling on top of Big Bang. Exact changes will be provided as part of a follow on blog post and in the release notes for 2.0.
 
-### Extra Package Deployment
+### Improved Package Extensibility
 
 With 2.0 we will be providing a way to deploy community/arbitrary packages as part of Big Bang, as a "first-class" experience. This will provide a way for users to effectively extend Big Bang, and still have the lifecycle of additional packages tied to the Big Bang deployment directly. Beyond this, there will also be a new `wrapper` provided that offers some features for integration of an application inside of Big Bang, strictly via Big Bang values. This includes things like configuring `VirtualService`, `ServiceMonitor`, and `NetworkPolicy` resources.
 
@@ -39,7 +40,7 @@ For additional details on what this looks like from a user/values perspective re
 
 As mentioned in our why section - upgrades for Big Bang are hard. A big piece of this is a lack of documentation surrounding what a Big Bang upgrade should look like, and how to complete one. In 2.0 we will be providing clear documentation around updates for both single packages and the entire stack as a whole.
 
-One of the challenges we are balancing is keeping end users up to date with the latest security patches as quick as they release, while avoiding the danger of updating 10, 20, 30+ packages in a single upgrade. Part of our approach to resolving this pain is releasing/encouraging smaller upgrades, more often. A piece of our solution for this is to provide the Renovate tool as a Big Bang package, with guidance around usage and templates for configuration. Renovate is a tool that provides automation of dependency updates - within the context of Big Bang this would alert end users of new package releases. The ultimate goal is that customers could update packages asynchronously from the Big Bang releases (smaller updates, more often).
+One of the challenges we are balancing is keeping end users up to date with the latest security patches as quick as they release, while avoiding the danger of updating 10, 20, 30+ packages in a single upgrade. Part of our approach to resolving this pain is releasing/encouraging smaller upgrades, more often. A piece of our solution for this is providing the Renovate tool as a Big Bang package, along with guidance around usage and templates for configuration. Renovate is a tool that provides automation of dependency updates. Within the context of Big Bang this would alert end users of new package releases. The ultimate goal is that customers could update packages asynchronously from the Big Bang releases (smaller updates, more often).
 
 This again will largely look more like a new feature - although it may have implications to the current release process/cadence. We will continue to release Big Bang versions, but again we hope for these to be smaller updates due to package updates happening differently.
 
@@ -51,4 +52,4 @@ This is a change in the underlying architecture of Big Bang, but it will be offe
 
 ## Where can I learn more?
 
-Big Bang's 2.0 epic is a great place to start [here](https://repo1.dso.mil/groups/big-bang/-/epics/217). Beyond this we encourage users to get involved on our Mattermost channels and via the [BBTOC](https://repo1.dso.mil/platform-one/bbtoc).
+Big Bang's 2.0 epic is a great place to start [here](https://repo1.dso.mil/groups/big-bang/-/epics/217). Beyond this we encourage users to get involved via the [BBTOC](https://repo1.dso.mil/platform-one/bbtoc).
