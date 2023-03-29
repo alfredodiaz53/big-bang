@@ -580,9 +580,9 @@ else   # Not using MetalLB and using pubilc IP. This is the default
   echo
 fi
 
-
-if [[ "${ATTACH_SECONDARY_IP}" == true]]; then
-  export SECONDARYIP=${SecondaryIP}
-  echo "A secondary IP is available for use if you wish to have a passthrough ingress for Istio along with a public ingress Gateway, this maybe useful for Keycloak x509 mTLS"
+if [[ "${ATTACH_SECONDARY_IP}" == true ]]; then
+  echo "A secondary IP is available for use if you wish to have a passthrough ingress for Istio along with a public Ingress Gateway, this maybe useful for Keycloak x509 mTLS authentication."
   echo "  ${SecondaryIP} keycloak.bigbang.dev"
 fi
+
+
