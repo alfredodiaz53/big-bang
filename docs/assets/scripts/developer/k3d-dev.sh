@@ -66,6 +66,7 @@ SGname="${AWSUSERNAME}-dev"
 # Identify which VPC to create the spot instance in
 VPC="${VPC_ID}"  # default VPC
 RESET_K3D=false
+ATTACH_SECONDARY_IP=${ATTACH_SECONDARY_IP:=false}
 
 while [ -n "$1" ]; do # while loop starts
 
@@ -81,6 +82,10 @@ while [ -n "$1" ]; do # while loop starts
 
   -m) echo "-m option passed to install MetalLB" 
       METAL_LB=true
+  ;;
+
+  -a) echo "-a option passed to create secondary public IP"
+      ATTACH_SECONDARY_IP=true
   ;;
 
   -d) echo "-d option passed to destroy the AWS resources"
@@ -110,15 +115,23 @@ while [ -n "$1" ]; do # while loop starts
       aws ec2 delete-security-group --group-name=${SGname} &> /dev/null
       echo "KeyPair to be deleted: ${KeyName}"
       aws ec2 delete-key-pair --key-name ${KeyName} &> /dev/null
+      ALLOCATIONIDs=(`aws ec2 describe-addresses --output text --filter "Name=tag:Owner,Values=${AWSUSERNAME}" --query "Addresses[].AllocationId"`)
+      for i in "${ALLOCATIONIDs[@]}"
+      do
+         echo -n "Releasing Elastic IP $i ..."
+         aws ec2 release-address --allocation-id $i
+         echo "done"
+      done
       exit 0 
   ;;
 
   -h) echo "Usage:"
-      echo "k3d-dev.sh -b -p -m -d -h"
+      echo "k3d-dev.sh -b -p -m -a -d -h"
       echo ""
       echo " -b   use BIG M5 instance. Default is t3.2xlarge"
       echo " -p   use private IP for security group and k3d cluster"
       echo " -m   create k3d cluster with metalLB"
+      echo " -a   attach secondary Public IP"
       echo " -d   destroy related AWS resources"
       echo " -h   output help"
       exit 0
@@ -187,6 +200,15 @@ if [[ "${RESET_K3D}" == false ]]; then
     SpotPrice="0.35"
   fi
 
+
+  #### Cleaning up unused Elastic IPs
+  ALLOCATIONIDs=(`aws ec2 describe-addresses --filter "Name=tag:Owner,Values=${AWSUSERNAME}" --query "Addresses[?AssociationId==null]" | jq -r '.[].AllocationId'`)
+  for i in "${ALLOCATIONIDs[@]}"
+  do
+     echo -n "Releasing Elastic IP $i ..."
+     aws ec2 release-address --allocation-id $i
+     echo "done"
+  done
 
   #### SSH Key Pair
   # Create SSH key if it doesn't exist
@@ -326,6 +348,12 @@ EOF
   # NOTE: t3a.2xlarge spot price is 0.35 m5a.4xlarge is 0.69
   echo "Running spot instance ..."
 
+  # If we are using a Secondary IP, don't use an auto-assigned IP, and also generate a 2nd private address for EIPs allocation.
+  additional_create_instance_options=""
+  if [[ "${ATTACH_SECONDARY_IP}" == true ]]; then
+    additional_create_instance_options+=" --no-associate-public-ip-address --secondary-private-ip-address-count 1"
+  fi
+
   InstId=`aws ec2 run-instances \
     --output json --no-paginate \
     --count 1 --image-id "${ImageId}" \
@@ -335,7 +363,7 @@ EOF
     --instance-initiated-shutdown-behavior "terminate" \
     --user-data file://$HOME/aws/userdata.txt \
     --block-device-mappings file://$HOME/aws/device_mappings.json \
-    --instance-market-options file://$HOME/aws/spot_options.json \
+    --instance-market-options file://$HOME/aws/spot_options.json ${additional_create_instance_options} \
     | jq -r '.Instances[0].InstanceId'`
 
   # Check if spot instance request was not created
@@ -351,12 +379,56 @@ EOF
   aws ec2 wait instance-running --output json --no-cli-pager --instance-ids ${InstId} &> /dev/null
 
   # allow some extra seconds for the instance to be fully initiallized
-  echo "Wait a little longer..."
+  echo "Almost there, 15 seconds to go..."
   sleep 15
+
+  ## IP Address Allocation and Attachment
+  CURRENT_EPOCH=`date +'%s'`
 
   # Get the public IP address of our instance
   PublicIP=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].PublicIpAddress'`
 
+  # Get the private IP address of our instance
+  PrivateIP=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].PrivateIpAddress'`
+
+  # Use Elastic IPs if a Secondary IP is required, instead of the auto assigned one.
+  if [[ "${ATTACH_SECONDARY_IP}" == false ]]; then
+    PublicIP=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].PublicIpAddress'`
+  else
+    echo "Checking to see if an Elastic IP is already allocated and not attached..."
+    PublicIP=`aws ec2 describe-addresses --filter "Name=tag:Name,Values=${AWSUSERNAME}-EIP1" --query 'Addresses[?AssociationId==null]' | jq -r '.[0].PublicIp // ""'`
+    if [[ -z "${PublicIP}" ]]; then
+      echo "Allocating a new/another primary elastic IP..."
+      PublicIP=`aws ec2 allocate-address --output json --no-cli-pager --tag-specifications="ResourceType=elastic-ip,Tags=[{Key=Name,Value=${AWSUSERNAME}-EIP1},{Key=Owner,Value=${AWSUSERNAME}}]" | jq -r '.PublicIp'`
+    else
+      echo "Previously allocated primary Elastic IP ${PublicIP} found."
+    fi
+
+    echo "Instance public IP is ${PublicIP}"
+    echo
+
+    echo -n "Associating IP ${PublicIP} address to instance ${InstId} ..."
+    EIP1_ASSOCIATION_ID=`aws ec2 associate-address --output json --no-cli-pager --instance-id ${InstId} --private-ip ${PrivateIP} --public-ip $PublicIP | jq -r '.AssociationId'`
+    echo "${EIP1_ASSOCIATION_ID}"
+    EIP1_ID=`aws ec2 describe-addresses --public-ips ${PublicIP} | jq -r '.Addresses[].AllocationId'`
+    aws ec2 create-tags --resources ${EIP1_ID} --tags Key="lastused",Value="${CURRENT_EPOCH}"
+
+    PrivateIP2=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[] | select(.Primary==false) | .PrivateIpAddress'`
+    echo "Checking to see if a Secondary Elastic IP is already allocated and not attached..."
+    SecondaryIP=`aws ec2 describe-addresses --filter "Name=tag:Name,Values=${AWSUSERNAME}-EIP2" --query 'Addresses[?AssociationId==null]' | jq -r '.[0].PublicIp // ""'`
+    if [[ -z "${SecondaryIP}" ]]; then
+      echo "Allocating a new/another secondary elastic IP..."
+      SecondaryIP=`aws ec2 allocate-address --output json --no-cli-pager --tag-specifications="ResourceType=elastic-ip,Tags=[{Key=Name,Value=${AWSUSERNAME}-EIP2},{Key=Owner,Value=${AWSUSERNAME}}]" | jq -r '.PublicIp'`
+    else
+      echo "Previously allocated secondary Elastic IP ${SecondaryIP} found."
+    fi
+    echo -n "Associating Secondary IP ${SecondaryIP} address to instance ${InstId}..."
+    EIP2_ASSOCIATION_ID=`aws ec2 associate-address --output json --no-cli-pager --instance-id ${InstId} --private-ip ${PrivateIP2} --public-ip $SecondaryIP | jq -r '.AssociationId'`
+    echo "${EIP2_ASSOCIATION_ID}"
+    EIP2_ID=`aws ec2 describe-addresses --public-ips ${SecondaryIP} | jq -r '.Addresses[].AllocationId'`
+    aws ec2 create-tags --resources ${EIP2_ID} --tags Key="lastused",Value="${CURRENT_EPOCH}"
+    echo "Secondary public IP is ${SecondaryIP}"
+  fi
   ##### Configure Instance
   ## TODO: replace these individual commands with userdata when the spot instance is created?
   echo
@@ -428,18 +500,23 @@ fi
 
 # Shared k3d settings across all options
 # 1 server, 3 agents
-k3d_command="k3d cluster create --servers 1  --agents 3"
+k3d_command="k3d cluster create --servers 1 --agents 3"
 # Volumes to support Twistlock defenders
 k3d_command+=" -v /etc:/etc@server:*\;agent:* -v /dev/log:/dev/log@server:*\;agent:* -v /run/systemd/private:/run/systemd/private@server:*\;agent:*"
 # Disable traefik and metrics-server
-k3d_command+=" --k3s-arg \"--disable=traefik@server:0\"  --k3s-arg \"--disable=metrics-server@server:0\""
+k3d_command+=" --k3s-arg \"--disable=traefik@server:0\" --k3s-arg \"--disable=metrics-server@server:0\""
 # Port mappings to support Istio ingress + API access
-k3d_command+=" --port 80:80@loadbalancer --port 443:443@loadbalancer --api-port 6443"
 
 K3S_IMAGE_TAG=${K3S_IMAGE_TAG:=""}
 if [[ ! -z "$K3S_IMAGE_TAG" ]]; then
   echo "Using custom K3S image tag $K3S_IMAGE_TAG..."
   k3d_command+=" --image docker.io/rancher/k3s:$K3S_IMAGE_TAG"
+fi
+
+if [[ "${ATTACH_SECONDARY_IP}" == false ]]; then
+  k3d_command+=" --port ${PrivateIP}:80:80@loadbalancer --port ${PrivateIP}:443:443@loadbalancer --api-port 6443"
+else
+  k3d_command+=" --port ${PrivateIP}:80:80@loadbalancer --port ${PrivateIP}:443:443@loadbalancer --port ${PrivateIP2}:80:81@loadbalancer --port ${PrivateIP2}:443:444@loadbalancer --api-port 6443"
 fi
 
 # Add MetalLB specific k3d config
@@ -460,6 +537,7 @@ else
 fi
 
 # Create k3d cluster
+echo "Creating k3d cluster with command: ${k3d_command}"
 run "${k3d_command}"
 run "kubectl config use-context k3d-k3s-default"
 run "kubectl cluster-info"
@@ -581,11 +659,16 @@ then	# Not using MetalLB and using private IP
   echo "  sshuttle --dns -vr ubuntu@${PublicIP} 172.31.0.0/16 --ssh-cmd 'ssh -i ~/.ssh/${KeyName}.pem'"
   echo
   echo "To access apps from a browser edit your /etc/hosts to add the private IP of your EC2 instance with application hostnames. Example:"
-  echo "  ${PrivateIP}	gitlab.bigbang.dev prometheus.bigbang.dev kibana.bigbang.dev"
-  echo
-else   # Not using MetalLB and using public IP. This is the default
+  echo "  ${PrivateIP}  gitlab.bigbang.dev prometheus.bigbang.dev kibana.bigbang.dev"
+  echo 
+else   # Not using MetalLB and using pubilc IP. This is the default
   echo "To access apps from a browser edit your /etc/hosts to add the public IP of your EC2 instance with application hostnames."
   echo "Example:"
-  echo "  ${PublicIP}	gitlab.bigbang.dev prometheus.bigbang.dev kibana.bigbang.dev"
+  echo "  ${PublicIP} gitlab.bigbang.dev prometheus.bigbang.dev kibana.bigbang.dev"
   echo
+fi
+
+if [[ "${ATTACH_SECONDARY_IP}" == true ]]; then
+  echo "A secondary IP is available for use if you wish to have a passthrough ingress for Istio along with a public Ingress Gateway, this maybe useful for Keycloak x509 mTLS authentication."
+  echo "  ${SecondaryIP}  keycloak.bigbang.dev"
 fi
