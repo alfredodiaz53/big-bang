@@ -1,18 +1,18 @@
-{{- if and (eq (include "checkGitRef" .Values.istiooperator) "true") (not .Values.offline) .Values.istiooperator.enabled }}
+{{- if and (eq (include "checkGitRef" .Values.istio) "true") (not .Values.offline) .Values.istio.enabled }}
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: GitRepository
 metadata:
-  name: istio-operator
+  name: istio
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: istio-operator
+    app.kubernetes.io/name: istio-controlplane
     app.kubernetes.io/component: "core"
     {{- include "commonLabels" . | nindent 4}}
 spec:
   interval: {{ .Values.flux.interval }}
-  url: {{ .Values.istiooperator.git.repo }}
+  url: {{ .Values.istio.git.repo }}
   ref:
-    {{- include "validRef" .Values.istiooperator.git | nindent 4 }}
+    {{- include "validRef" .Values.istio.git | nindent 4 }}
   {{ include "gitIgnore" . }}
   {{- include "gitCreds" . | nindent 2 }}
 {{- end }}
