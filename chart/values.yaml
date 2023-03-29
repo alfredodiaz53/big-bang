@@ -415,7 +415,7 @@ kyvernopolicies:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/kyverno-policies.git
     path: ./chart
-    tag: "1.1.0-bb.3"
+    tag: "1.1.0-bb.4"
 
   # -- Flux reconciliation overrides specifically for the Kyverno Package
   flux: {}
