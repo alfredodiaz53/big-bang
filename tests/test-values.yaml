@@ -577,10 +577,6 @@ kyvernopolicies:
         parameters:
           disallow:
           - bigbang
-      sync-gitlab-root-password:
-        enabled: true
-      sync-gitlab-runner-secret:
-        enabled: true
 
 logging:
   enabled: false
