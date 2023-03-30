@@ -65,3 +65,149 @@ The following is a general overview of the process, the [deployment guides](./gu
 ## New User Orientation
 
 * New users are encouraged to read through the Useful Background Contextual Information present in the [understanding-bigbang folder](./understanding-bigbang)
+
+## Frequently Asked Questions
+
+### **Costs and licensing fees**
+
+> Will a user, government program, or support contract incur any costs, other
+than their own labor, for installing and using BigBang?
+ 
+BigBang itself is open-source, and you do not need to pay Platform One
+to use it in your environment.
+
+Out baseline includes multiple software components, with a variety 
+of open-source and commercial licenses. Details of these components and
+their licensing models can be found here: 
+[BigBang Licensing Model Overview](https://docs-bigbang.dso.mil/1.54.0/docs/understanding-bigbang/licensing-model/)
+
+In BigBang 2.0, we will be separating our distribution into an open-source
+core and commercial add-ons package, for increased clarity.
+
+You are in complete control over which components you install in your
+environment, and choose whether or not to use commercial software.
+However, certain commercial applications, such as Twistlock, will be
+required for a cATO.
+
+> Are users required to set up a "contract" with Platform One in order to
+use BigBang?
+
+No. BigBang is open source, and can be used by you and your organization
+without payment to Platform One.
+
+Platform One does offer optional hosting and support contracts. If you
+have your own cluster but need help installing and operating BigBang,
+our BigBang Integration Team will be able to help. And if you don't have
+a cluster at all, your environment can be hosted on Party Bus. Finally,
+if you want Platform One to deploy an instance of your environment to
+make sure changes to our baseline won't break your integration tests,
+consider setting up a Digital Twin
+
+<!--
+TODO: link to BBI
+TODO: link to Party Bus
+TODO: link to Digital Twin
+-->
+
+> Do we need a government PM to send a formal request to Platform One in order
+to get started?
+
+No. Big Bang is Open Source, and you do not need our permission to use it.
+However, we always like to hear from our users, both to know how large an 
+impact this effort is making, and to make sure we are addressing our users'
+most pressing needs.
+
+<!--
+TODO: reach out link
+-->
+
+### Accreditation and Reciprocation
+
+> What accreditations does BigBang have? What Impact Levels can it run at?
+> Does it run on SIPR and JWICS?
+
+BigBang is compliant with the 
+[DevSecOps Reference Architecture](https://dodcio.defense.gov/Portals/0/Documents/Library/DoD%20Enterprise%20DevSecOps%20Reference%20Design%20-%20CNCF%20Kubernetes%20w-DD1910_cleared_20211022.pdf),
+and is used at all Impact Levels and Classifications. Each IL and classification is 
+deployed to a separate environment and separate cluster, which keeps them separated.
+
+Platform One has various ATO, cATO, and SIL ATO packages based on the environment and use 
+case. Our team is working to move these into eMASS. Current controls and eMASS information
+will be shared with DoD/Government users on requst.
+
+> If I use BigBang, will I automatically inherit your cATO?
+ 
+No, but using BigBang will likely make it easier to gain a cATO from your Authorizing 
+Official (AO). The Air Force is currently revamping and standardizing the cATO process, 
+as well, which should make reciprocity even easier.
+
+Since Big Bang is a platform that rides on top of a Kubernetes distribution and 
+Infrastructure (on-prem, cloud, etc), those areas are not covered specifically by 
+Big Bang, but as part of the complete environment need to be secured and considered in an 
+ATO package. 
+
+Theoretically, if a Big Bang deployment was configured the same as our deployment, on the s
+ame Kubernetes distribution, and on the same Infrastructure configuration, then it would 
+check all the boxes necessary for a cATO.
+
+Conversely, misconfiguration a deployment of BigBang, for example by turning off the 
+service mesh or runtime security, would "uncheck" the boxes necessary for a cATO.
+
+Because of these factors, any instance of BigBang must be evaluated individually. However,
+BigBang and Iron Bank are meant to do as much of the heavy lifting as possible.
+
+> Is Bang Bang considered a hardened DevSecOps Software Factory such that
+if you build a container or an application/service using Big Bang and its
+business processes and policies that then that container or
+application/service is automatically is ready for an CtF or C-ATO
+ 
+No; simply building an application on PartyBus does not automatically grant a CtF.
+In the cast of [Party Bus](https://p1.dso.mil/products/party-bus), a managed instance
+of BigBang, it is the robust pipelines that must be passed by an application and the 
+process, pipeline, and findings approved by Cyber provides a CTF. We are in the process
+of generalising these pipelines, so that they can be used by any BigBang customer,
+which will make it easier to obtain a CtF or cATO, even when running your own instance
+of BigBang.
+
+
+> Is BigBang secure? What about its plugins?
+
+BigBang performs automated scans of all components, and patches vulnerabilities as
+they are found. Hardened images are pulled from [Iron Bank](https://p1.dso.mil/products/iron-bank).
+
+### Deployment
+
+> Can we stand up our own instance of BigBang in AWS GovCloud? 
+
+Yes. BigBang strives to be vendor-agnostic, and will run on Cloud One,
+AWS GovCloud, Microsoft Azure, on-prem hardware, and in air-gapped 
+environments.
+
+> Do we have to set up a full Kubernetes distribution? Can we just deploy BigBang
+> to a VM?
+
+BigBang is, at its core, a Helm chart, which creates templates for Kubernetes
+resources. As such, BigBang requires a full K8S environment.
+
+If your organization is unable to support a full K8S environment, you may wish to
+consider [Party Bus](https://p1.dso.mil/products/party-bus), which is BigBang's
+managed Platform as a Service (PaaS) solution.
+
+### Change Control
+
+> How do you manage change control on BB? How can we be notified of changed?
+
+BigBang has a two-week release cadence. You can view our
+[release schedule](https://docs-bigbang.dso.mil/1.54.0/#Navigating-our-documentation),
+our [project milestones](https://repo1.dso.mil/groups/big-bang/-/milestones),
+and our [release notes](https://docs-bigbang.dso.mil/1.54.0/release-notes/)
+for more information.
+
+
+### Documentation and Briefings
+
+> Can you provide the latest documentation and briefings?
+
+The most up-to-date information on BigBang can be found here:
+[BigBang Docs](https://docs-bigbang.dso.mil/latest/docs). These docs
+are fully searchable.
