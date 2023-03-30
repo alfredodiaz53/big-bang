@@ -1,4 +1,4 @@
-{{- if and .Values.addons.sonarqube.enabled .Values.promtail.enabled }}
+{{- if  .Values.promtail.enabled }}
 apiVersion: v1
 kind: Namespace
 metadata:
