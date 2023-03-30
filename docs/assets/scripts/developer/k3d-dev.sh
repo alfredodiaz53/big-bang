@@ -291,6 +291,12 @@ PEM=~/.ssh/${KeyName}.pem
 # NOTE: t3a.2xlarge spot price is 0.35 m5a.4xlarge is 0.69
 echo "Running spot instance ..."
 
+# If we are using a Secondary IP, don't use an auto-assigned IP, and also generate a 2nd private address for EIPs allocation.
+additional_create_instance_options=""
+if [[ "${ATTACH_SECONDARY_IP}" == true ]]; then
+  additional_create_instance_options+=" --no-associate-public-ip-address --secondary-private-ip-address-count 1"
+fi
+
 InstId=`aws ec2 run-instances \
   --output json --no-paginate \
   --count 1 --image-id "${ImageId}" \
@@ -300,9 +306,7 @@ InstId=`aws ec2 run-instances \
   --instance-initiated-shutdown-behavior "terminate" \
   --user-data file://$HOME/aws/userdata.txt \
   --block-device-mappings file://$HOME/aws/device_mappings.json \
-  --no-associate-public-ip-address \
-  --secondary-private-ip-address-count 1 \
-  --instance-market-options file://$HOME/aws/spot_options.json \
+  --instance-market-options file://$HOME/aws/spot_options.json ${additional_create_instance_options} \
   | jq -r '.Instances[0].InstanceId'`
 
 # Check if spot instance request was not created
@@ -324,29 +328,37 @@ sleep 15
 ## IP Address Allocation and Attachment
 CURRENT_EPOCH=`date +'%s'`
 
-# Get the private IP address of our instance
-PrivateIP=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].PrivateIpAddress'`
-
-echo "Checking to see if an Elastic IP is already allocated and not attached..."
-PublicIP=`aws ec2 describe-addresses --filter "Name=tag:Name,Values=${AWSUSERNAME}-EIP1" --query 'Addresses[?AssociationId==null]' | jq -r '.[0].PublicIp // ""'`
-if [[ -z "${PublicIP}" ]]; then
-  echo "Allocating a new (another) primary elastic IP..."
-  PublicIP=`aws ec2 allocate-address --output json --no-cli-pager --tag-specifications="ResourceType=elastic-ip,Tags=[{Key=Name,Value=${AWSUSERNAME}-EIP1},{Key=Owner,Value=${AWSUSERNAME}}]" | jq -r '.PublicIp'`
-else
-  echo "Previously allocated primary Elastic IP ${PublicIP} found."
-fi
-echo -n "Associating IP ${PublicIP} address to instance ${InstId} ..."
-EIP1_ASSOCIATION_ID=`aws ec2 associate-address --output json --no-cli-pager --instance-id ${InstId} --private-ip ${PrivateIP} --public-ip $PublicIP | jq -r '.AssociationId'`
-echo "${EIP1_ASSOCIATION_ID}"
-EIP1_ID=`aws ec2 describe-addresses --public-ips ${PublicIP} | jq -r '.Addresses[].AllocationId'`
-aws ec2 create-tags --resources ${EIP1_ID} --tags Key="lastused",Value="${CURRENT_EPOCH}"
-
 echo
 echo "Instance ${InstId} is ready!"
-echo "Instance private IP is ${PrivateIP}"
-echo "Instance public IP is ${PublicIP}"
 
-if [[ "${ATTACH_SECONDARY_IP}" == true ]]; then
+# Get the private IP address of our instance
+PrivateIP=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].PrivateIpAddress'`
+echo "Instance private IP is ${PrivateIP}"
+
+# Use Elastic IPs if a Secondary IP is required, instead of the auto assigned one.
+if [[ "${ATTACH_SECONDARY_IP}" == false ]]; then
+  PublicIP=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].PublicIpAddress'`
+  echo "Instance public IP is ${PublicIP}"
+  echo
+else
+  echo "Checking to see if an Elastic IP is already allocated and not attached..."
+  PublicIP=`aws ec2 describe-addresses --filter "Name=tag:Name,Values=${AWSUSERNAME}-EIP1" --query 'Addresses[?AssociationId==null]' | jq -r '.[0].PublicIp // ""'`
+  if [[ -z "${PublicIP}" ]]; then
+    echo "Allocating a new/another primary elastic IP..."
+    PublicIP=`aws ec2 allocate-address --output json --no-cli-pager --tag-specifications="ResourceType=elastic-ip,Tags=[{Key=Name,Value=${AWSUSERNAME}-EIP1},{Key=Owner,Value=${AWSUSERNAME}}]" | jq -r '.PublicIp'`
+  else
+    echo "Previously allocated primary Elastic IP ${PublicIP} found."
+  fi
+
+  echo "Instance public IP is ${PublicIP}"
+  echo
+
+  echo -n "Associating IP ${PublicIP} address to instance ${InstId} ..."
+  EIP1_ASSOCIATION_ID=`aws ec2 associate-address --output json --no-cli-pager --instance-id ${InstId} --private-ip ${PrivateIP} --public-ip $PublicIP | jq -r '.AssociationId'`
+  echo "${EIP1_ASSOCIATION_ID}"
+  EIP1_ID=`aws ec2 describe-addresses --public-ips ${PublicIP} | jq -r '.Addresses[].AllocationId'`
+  aws ec2 create-tags --resources ${EIP1_ID} --tags Key="lastused",Value="${CURRENT_EPOCH}"
+
   PrivateIP2=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[] | select(.Primary==false) | .PrivateIpAddress'`
   echo "Checking to see if a Secondary Elastic IP is already allocated and not attached..."
   SecondaryIP=`aws ec2 describe-addresses --filter "Name=tag:Name,Values=${AWSUSERNAME}-EIP2" --query 'Addresses[?AssociationId==null]' | jq -r '.[0].PublicIp // ""'`
@@ -354,7 +366,7 @@ if [[ "${ATTACH_SECONDARY_IP}" == true ]]; then
     echo "Allocating a new/another secondary elastic IP..."
     SecondaryIP=`aws ec2 allocate-address --output json --no-cli-pager --tag-specifications="ResourceType=elastic-ip,Tags=[{Key=Name,Value=${AWSUSERNAME}-EIP2},{Key=Owner,Value=${AWSUSERNAME}}]" | jq -r '.PublicIp'`
   else
-    echo "Previously allocated secondary primary Elastic IP${SecondaryIP} found."
+    echo "Previously allocated secondary Elastic IP ${SecondaryIP} found."
   fi
   echo -n "Associating Secondary IP ${SecondaryIP} address to instance ${InstId}..."
   EIP2_ASSOCIATION_ID=`aws ec2 associate-address --output json --no-cli-pager --instance-id ${InstId} --private-ip ${PrivateIP2} --public-ip $SecondaryIP | jq -r '.AssociationId'`
@@ -363,8 +375,6 @@ if [[ "${ATTACH_SECONDARY_IP}" == true ]]; then
   aws ec2 create-tags --resources ${EIP2_ID} --tags Key="lastused",Value="${CURRENT_EPOCH}"
   echo "Secondary public IP is ${SecondaryIP}"
 fi
-
-echo
 
 # Remove previous keys related to this IP from your SSH known hosts so you don't end up with a conflict
 ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "${PublicIP}"
@@ -427,11 +437,11 @@ echo "creating k3d cluster"
 
 # Shared k3d settings across all options
 # 1 server, 3 agents
-k3d_command="k3d cluster create --servers 1  --agents 3"
+k3d_command="k3d cluster create --servers 1 --agents 3"
 # Volumes to support Twistlock defenders
 k3d_command+=" -v /etc:/etc@server:*\;agent:* -v /dev/log:/dev/log@server:*\;agent:* -v /run/systemd/private:/run/systemd/private@server:*\;agent:*"
 # Disable traefik and metrics-server
-k3d_command+=" --k3s-arg \"--disable=traefik@server:0\"  --k3s-arg \"--disable=metrics-server@server:0\""
+k3d_command+=" --k3s-arg \"--disable=traefik@server:0\" --k3s-arg \"--disable=metrics-server@server:0\""
 # Port mappings to support Istio ingress + API access
 
 if [[ "${ATTACH_SECONDARY_IP}" == false ]]; then
