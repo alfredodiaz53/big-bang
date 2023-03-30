@@ -229,7 +229,6 @@
       ]
     },
     "istio": {
-      "title": "The istio Schema",
       "allOf": [
         {
           "$ref": "#/$defs/basePackage"
@@ -237,7 +236,6 @@
       ]
     },
     "istiooperator": {
-      "title": "The istiooperator Schema",
       "allOf": [
         {
           "$ref": "#/$defs/basePackage"
@@ -245,7 +243,6 @@
       ]
     },
     "jaeger": {
-      "title": "The jaeger Schema",
       "required": [
         "sso",
         "ingress"
@@ -265,7 +262,6 @@
       ]
     },
     "kiali": {
-      "title": "The kiali Schema",
       "required": [
         "sso"
       ],
@@ -281,7 +277,6 @@
       ]
     },
     "clusterAuditor": {
-      "title": "The clusterAuditor Schema",
       "allOf": [
         {
           "$ref": "#/$defs/basePackage"
@@ -289,7 +284,6 @@
       ]
     },
     "gatekeeper": {
-      "title": "The gatekeeper Schema",
       "allOf": [
         {
           "$ref": "#/$defs/basePackage"
@@ -297,7 +291,6 @@
       ]
     },
     "kyverno": {
-      "title": "The istiooperator Schema",
       "allOf": [
         {
           "$ref": "#/$defs/basePackage"
@@ -305,7 +298,6 @@
       ]
     },
     "kyvernopolicies": {
-      "title": "The istiooperator Schema",
       "allOf": [
         {
           "$ref": "#/$defs/basePackage"
@@ -313,7 +305,6 @@
       ]
     },
     "kyvernoreporter": {
-      "title": "The kyvernoreporter Schema",
       "allOf": [
         {
           "$ref": "#/$defs/basePackage"
@@ -321,7 +312,6 @@
       ]
     },
     "logging": {
-      "title": "The logging Schema",
       "required": [
         "sso",
         "ingress"
@@ -352,7 +342,6 @@
       ]
     },
     "eckoperator": {
-      "title": "The eckoperator Schema",
       "type": "object",
       "required": [
         "enabled",
@@ -376,7 +365,6 @@
       }
     },
     "fluentbit": {
-      "title": "The fluentbit Schema",
       "allOf": [
         {
           "$ref": "#/$defs/basePackage"
@@ -384,7 +372,6 @@
       ]
     },
     "promtail": {
-      "title": "The promtail Schema",
       "allOf": [
         {
           "$ref": "#/$defs/basePackage"
@@ -392,7 +379,6 @@
       ]
     },
     "loki": {
-      "title": "The loki Schema",
       "required": [
         "strategy",
         "objectStorage"
@@ -405,17 +391,13 @@
       "properties": {
         "strategy": {
           "type": "string",
-          "default": "",
-          "title": "The strategy Schema",
-          "examples": [
+          "enum": [
             "monolith",
             "scalable"
           ]
         },
         "objectStorage": {
           "type": "object",
-          "default": {},
-          "title": "The objectStorage Schema",
           "required": [
             "endpoint",
             "region",
@@ -425,53 +407,25 @@
           ],
           "properties": {
             "endpoint": {
-              "type": "string",
-              "default": "",
-              "title": "The endpoint Schema",
-              "examples": [
-                ""
-              ]
+              "type": "string"
             },
             "region": {
-              "type": "string",
-              "default": "",
-              "title": "The region Schema",
-              "examples": [
-                ""
-              ]
+              "type": "string"
             },
             "accessKey": {
-              "type": "string",
-              "default": "",
-              "title": "The accessKey Schema",
-              "examples": [
-                ""
-              ]
+              "type": "string"
             },
             "accessSecret": {
-              "type": "string",
-              "default": "",
-              "title": "The accessSecret Schema",
-              "examples": [
-                ""
-              ]
+              "type": "string"
             },
             "bucketNames": {
-              "type": "object",
-              "default": {},
-              "title": "The bucketNames Schema",
-              "required": [],
-              "properties": {},
-              "examples": [
-                {}
-              ]
+              "type": "object"
             }
           }
         }
       }
     },
     "neuvector": {
-      "title": "The neuvector Schema",
       "allOf": [
         {
           "$ref": "#/$defs/basePackage"
@@ -479,21 +433,30 @@
       ],
       "properties": {
         "sso": {
+          "type": "object",
+          "required": [
+            "enabled",
+            "client_id",
+            "client_secret"
+          ],
           "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "client_id": {
+              "type": "string"
+            },
+            "client_secret": {
+              "type": "string"
+            },
             "default_role": {
               "type": "string"
             }
-          },
-          "allOf": [
-            {
-              "$ref": "#/$defs/sso"
-            }
-          ]
+          }
         }
       }
     },
     "tempo": {
-      "title": "The tempo Schema",
       "allOf": [
         {
           "$ref": "#/$defs/basePackage"
@@ -537,7 +500,6 @@
       }
     },
     "monitoring": {
-      "title": "The monitoring Schema",
       "allOf": [
         {
           "$ref": "#/$defs/basePackage"
@@ -600,7 +562,6 @@
       }
     },
     "twistlock": {
-      "title": "The twistlock Schema",
       "allOf": [
         {
           "$ref": "#/$defs/basePackage"
@@ -609,7 +570,6 @@
       "properties": {
         "sso": {
           "type": "object",
-          "title": "SSO Schema",
           "required": [
             "enabled",
             "client_id",
@@ -636,7 +596,6 @@
       "type": "object",
       "properties": {
         "argocd": {
-          "title": "The argocd Schema",
           "allOf": [
             {
               "$ref": "#/$defs/basePackage"
@@ -644,7 +603,6 @@
           ]
         },
         "authservice": {
-          "title": "The authservice Schema",
           "allOf": [
             {
               "$ref": "#/$defs/basePackage"
@@ -652,7 +610,6 @@
           ]
         },
         "minioOperator": {
-          "title": "The minioOperator Schema",
           "allOf": [
             {
               "$ref": "#/$defs/basePackage"
@@ -660,7 +617,6 @@
           ]
         },
         "minio": {
-          "title": "The minio Schema",
           "allOf": [
             {
               "$ref": "#/$defs/basePackage"
@@ -668,7 +624,6 @@
           ]
         },
         "gitlab": {
-          "title": "The gitlab Schema",
           "allOf": [
             {
               "$ref": "#/$defs/basePackage"
@@ -676,7 +631,6 @@
           ]
         },
         "gitlabRunner": {
-          "title": "The gitlabRunner Schema",
           "allOf": [
             {
               "$ref": "#/$defs/basePackage"
@@ -684,7 +638,6 @@
           ]
         },
         "nexusRepositoryManager": {
-          "title": "The nexusRepositoryManager Schema",
           "allOf": [
             {
               "$ref": "#/$defs/basePackage"
@@ -692,7 +645,6 @@
           ]
         },
         "sonarqube": {
-          "title": "The sonarqube Schema",
           "allOf": [
             {
               "$ref": "#/$defs/basePackage"
@@ -700,7 +652,6 @@
           ]
         },
         "haproxy": {
-          "title": "The haproxy Schema",
           "type": "object",
           "required": [
             "git",
@@ -723,7 +674,6 @@
           }
         },
         "anchore": {
-          "title": "The anchore Schema",
           "allOf": [
             {
               "$ref": "#/$defs/basePackage"
@@ -731,7 +681,6 @@
           ]
         },
         "mattermostOperator": {
-          "title": "The mattermostOperator Schema",
           "allOf": [
             {
               "$ref": "#/$defs/basePackage"
@@ -739,7 +688,6 @@
           ]
         },
         "mattermost": {
-          "title": "The mattermost Schema",
           "allOf": [
             {
               "$ref": "#/$defs/basePackage"
@@ -747,7 +695,6 @@
           ]
         },
         "velero": {
-          "title": "The velero Schema",
           "allOf": [
             {
               "$ref": "#/$defs/basePackage"
@@ -755,7 +702,6 @@
           ]
         },
         "keycloak": {
-          "title": "The keycloak Schema",
           "allOf": [
             {
               "$ref": "#/$defs/basePackage"
@@ -763,7 +709,6 @@
           ]
         },
         "vault": {
-          "title": "The vault Schema",
           "allOf": [
             {
               "$ref": "#/$defs/basePackage"
@@ -771,7 +716,6 @@
           ]
         },
         "metricsServer": {
-          "title": "The metricsServer Schema",
           "type": "object",
           "required": [
             "enabled",
@@ -785,7 +729,6 @@
                 "boolean",
                 "string"
               ],
-              "title": "The enabled Schema",
               "examples": [
                 true,
                 false,
@@ -860,12 +803,8 @@
     "values": {
       "type": "object",
       "default": {},
-      "title": "The values Schema",
       "required": [],
-      "properties": {},
-      "examples": [
-        {}
-      ]
+      "properties": {}
     },
     "flux": {
       "install": {
@@ -1149,7 +1088,6 @@
     },
     "git": {
       "type": "object",
-      "default": {},
       "title": "The git Schema",
       "required": [
         "repo",
@@ -1180,14 +1118,12 @@
       "properties": {
         "repo": {
           "type": "string",
-          "title": "The repo Schema",
           "examples": [
             "https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/loki.git"
           ]
         },
         "path": {
           "type": "string",
-          "title": "The path Schema",
           "examples": [
             "./chart"
           ]
@@ -1197,7 +1133,6 @@
             "string",
             "null"
           ],
-          "title": "The tag Schema",
           "nullable": false,
           "examples": [
             "4.8.0-bb.0"
@@ -1208,7 +1143,6 @@
             "string",
             "null"
           ],
-          "title": "The branch Schema",
           "nullable": false,
           "examples": [
             "feature-branch"
@@ -1412,14 +1346,12 @@
     "enabled": {
       "type": "boolean",
       "default": false,
-      "title": "The enabled Schema",
       "examples": [
         false
       ]
     },
     "sso": {
       "type": "object",
-      "title": "SSO Schema",
       "required": [
         "enabled",
         "client_id",
@@ -1435,7 +1367,8 @@
         "client_secret": {
           "type": "string"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "ingress": {
       "type": "object",
