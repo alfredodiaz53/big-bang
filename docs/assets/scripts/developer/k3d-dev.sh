@@ -325,10 +325,11 @@ if [[ -z "${PublicIP}" ]]; then
   echo "Allocating a new (another) primary elastic IP..."
   PublicIP=`aws ec2 allocate-address --output json --no-cli-pager --tag-specifications="ResourceType=elastic-ip,Tags=[{Key=Name,Value=${AWSUSERNAME}-EIP1},{Key=Owner,Value=${AWSUSERNAME}}]" | jq -r '.PublicIp'`
 else
-  echo "Previously allocated primary Elastic IP found ${PublicIP}!"
+  echo "Previously allocated primary Elastic IP ${PublicIP} found."
 fi
-echo "Associating IP ${PublicIP} address to instance ${InstId}..."
-aws ec2 associate-address --output json --no-cli-pager --instance-id ${InstId} --private-ip ${PrivateIP} --public-ip $PublicIP
+echo -n "Associating IP ${PublicIP} address to instance ${InstId} ..."
+EIP1_ASSOCIATION_ID=`aws ec2 associate-address --output json --no-cli-pager --instance-id ${InstId} --private-ip ${PrivateIP} --public-ip $PublicIP | jq -r '.AssociationId'`
+echo "${EIP1_ASSOCIATION_ID}"
 EIP1_ID=`aws ec2 describe-addresses --public-ips ${PublicIP} | jq -r '.Addresses[].AllocationId'`
 aws ec2 create-tags --resources ${EIP1_ID} --tags Key="lastused",Value="${CURRENT_EPOCH}"
 
@@ -345,10 +346,11 @@ if [[ "${ATTACH_SECONDARY_IP}" == true ]]; then
     echo "Allocating a new/another secondary elastic IP..."
     SecondaryIP=`aws ec2 allocate-address --output json --no-cli-pager --tag-specifications="ResourceType=elastic-ip,Tags=[{Key=Name,Value=${AWSUSERNAME}-EIP2},{Key=Owner,Value=${AWSUSERNAME}}]" | jq -r '.PublicIp'`
   else
-    echo "Previously allocated secondary primary Elastic IP found ${PublicIP}!"
+    echo "Previously allocated secondary primary Elastic IP${SecondaryIP} found."
   fi
-  echo "Associating Secondary IP ${SecondaryIP} address to instance ${InstId}..."
-  aws ec2 associate-address --output json --no-cli-pager --instance-id ${InstId} --private-ip ${PrivateIP2} --public-ip $SecondaryIP
+  echo -n "Associating Secondary IP ${SecondaryIP} address to instance ${InstId}..."
+  EIP2_ASSOCIATION_ID=`aws ec2 associate-address --output json --no-cli-pager --instance-id ${InstId} --private-ip ${PrivateIP2} --public-ip $SecondaryIP | jq -r '.AssociationId'`
+  echo "${EIP2_ASSOCIATION_ID}"
   EIP2_ID=`aws ec2 describe-addresses --public-ips ${SecondaryIP} | jq -r '.Addresses[].AllocationId'`
   aws ec2 create-tags --resources ${EIP2_ID} --tags Key="lastused",Value="${CURRENT_EPOCH}"
   echo "Secondary public IP is ${SecondaryIP}"
@@ -366,8 +368,6 @@ until run "hostname"; do
   echo "Retry ssh command.."
 done
 echo
-
-exit 100
 
 ##### Configure Instance
 ## TODO: replace these individual commands with userdata when the spot instance is created?
@@ -571,18 +571,16 @@ then	# Not using MetalLB and using private IP
   echo "  sshuttle --dns -vr ubuntu@${PublicIP} 172.31.0.0/16 --ssh-cmd 'ssh -i ~/.ssh/${KeyName}.pem'"
   echo
   echo "To access apps from a browser edit your /etc/hosts to add the private IP of your EC2 instance with application hostnames. Example:"
-  echo "  ${PrivateIP}	gitlab.bigbang.dev prometheus.bigbang.dev kibana.bigbang.dev"
+  echo "  ${PrivateIP}  gitlab.bigbang.dev prometheus.bigbang.dev kibana.bigbang.dev"
   echo 
 else   # Not using MetalLB and using pubilc IP. This is the default
   echo "To access apps from a browser edit your /etc/hosts to add the public IP of your EC2 instance with application hostnames."
   echo "Example:"
-  echo "  ${PublicIP}	gitlab.bigbang.dev prometheus.bigbang.dev kibana.bigbang.dev"
+  echo "  ${PublicIP} gitlab.bigbang.dev prometheus.bigbang.dev kibana.bigbang.dev"
   echo
 fi
 
 if [[ "${ATTACH_SECONDARY_IP}" == true ]]; then
   echo "A secondary IP is available for use if you wish to have a passthrough ingress for Istio along with a public Ingress Gateway, this maybe useful for Keycloak x509 mTLS authentication."
-  echo "  ${SecondaryIP} keycloak.bigbang.dev"
+  echo "  ${SecondaryIP}  keycloak.bigbang.dev"
 fi
-
-
