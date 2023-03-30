@@ -435,7 +435,7 @@ k3d_command+=" --k3s-arg \"--disable=traefik@server:0\"  --k3s-arg \"--disable=m
 # Port mappings to support Istio ingress + API access
 
 if [[ "${ATTACH_SECONDARY_IP}" == false ]]; then
-  k3d_command+=" --port 80:80@loadbalancer --port 443:443@loadbalancer --api-port 6443"
+  k3d_command+=" --port ${PrivateIP}:80:80@loadbalancer --port ${PrivateIP}:443:443@loadbalancer --api-port 6443"
 else
   k3d_command+=" --port ${PrivateIP}:80:80@loadbalancer --port ${PrivateIP}:443:443@loadbalancer --port ${PrivateIP2}:80:81@loadbalancer --port ${PrivateIP2}:443:444@loadbalancer --api-port 6443"
 fi
