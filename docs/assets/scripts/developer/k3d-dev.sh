@@ -328,7 +328,7 @@ CURRENT_EPOCH=`date +'%s'`
 PrivateIP=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].PrivateIpAddress'`
 
 echo "Checking to see if an Elastic IP is already allocated and not attached..."
-PublicIP=`aws ec2 describe-addresses --filter "Name=tag:Name,Values=${AWSUSERNAME}-EIP1" --query 'Addresses[?AssociationId==null]' | jq -r '.[0].PublicIp'`
+PublicIP=`aws ec2 describe-addresses --filter "Name=tag:Name,Values=${AWSUSERNAME}-EIP1" --query 'Addresses[?AssociationId==null]' | jq -r '.[0].PublicIp // ""'`
 if [[ -z "${PublicIP}" ]]; then
   echo "Allocating a new (another) primary elastic IP..."
   PublicIP=`aws ec2 allocate-address --output json --no-cli-pager --tag-specifications="ResourceType=elastic-ip,Tags=[{Key=Name,Value=${AWSUSERNAME}-EIP1},{Key=Owner,Value=${AWSUSERNAME}}]" | jq -r '.PublicIp'`
@@ -349,7 +349,7 @@ echo "Instance public IP is ${PublicIP}"
 if [[ "${ATTACH_SECONDARY_IP}" == true ]]; then
   PrivateIP2=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[] | select(.Primary==false) | .PrivateIpAddress'`
   echo "Checking to see if a Secondary Elastic IP is already allocated and not attached..."
-  SecondaryIP=`aws ec2 describe-addresses --filter "Name=tag:Name,Values=${AWSUSERNAME}-EIP2" --query 'Addresses[?AssociationId==null]' | jq -r '.[0].PublicIp'`
+  SecondaryIP=`aws ec2 describe-addresses --filter "Name=tag:Name,Values=${AWSUSERNAME}-EIP2" --query 'Addresses[?AssociationId==null]' | jq -r '.[0].PublicIp // ""'`
   if [[ -z "${SecondaryIP}" ]]; then
     echo "Allocating a new/another secondary elastic IP..."
     SecondaryIP=`aws ec2 allocate-address --output json --no-cli-pager --tag-specifications="ResourceType=elastic-ip,Tags=[{Key=Name,Value=${AWSUSERNAME}-EIP2},{Key=Owner,Value=${AWSUSERNAME}}]" | jq -r '.PublicIp'`
@@ -435,7 +435,7 @@ k3d_command+=" --k3s-arg \"--disable=traefik@server:0\"  --k3s-arg \"--disable=m
 # Port mappings to support Istio ingress + API access
 
 if [[ "${ATTACH_SECONDARY_IP}" == false ]]; then
-  k3d_command+=" --port ${PrivateIP}:80:80@loadbalancer --port ${PrivateIP}:443:443@loadbalancer --port --api-port 6443"
+  k3d_command+=" --port 80:80@loadbalancer --port 443:443@loadbalancer --api-port 6443"
 else
   k3d_command+=" --port ${PrivateIP}:80:80@loadbalancer --port ${PrivateIP}:443:443@loadbalancer --port ${PrivateIP2}:80:81@loadbalancer --port ${PrivateIP2}:443:444@loadbalancer --api-port 6443"
 fi
@@ -458,6 +458,7 @@ else
 fi
 
 # Create k3d cluster
+echo "Creating k3d cluster with command: ${k3d_command}"
 run "${k3d_command}"
 run "kubectl config use-context k3d-k3s-default"
 run "kubectl cluster-info"
