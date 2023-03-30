@@ -55,6 +55,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
       # Fluentbit pods need access to host to get log files
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - fluentbit/logging-fluent-bit-.*
 =======
       - logging-fluent-bit-.*
@@ -62,6 +63,9 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
 =======
       - fluentbit/logging-fluent-bit-.*
 >>>>>>> 1d2f8258 (update gate)
+=======
+      - logging-fluent-bit-.*
+>>>>>>> 7b17904f (update)
       {{- end }}
       {{- if .Values.neuvector.enabled }}
       # Neuvector needs access to host to inspect network traffic
@@ -119,6 +123,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
         # Fluentbit needs privileged to read and store the buffer for tailing logs from the nodes
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         - fluentbit/fluent-bit
 =======
         - fluent-bit
@@ -126,6 +131,9 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
 =======
         - fluentbit/fluent-bit
 >>>>>>> 1d2f8258 (update gate)
+=======
+        - fluent-bit
+>>>>>>> 7b17904f (update)
         {{- if .Values.neuvector.enabled }}
         # Neuvector needs privileged access for realtime scanning of files from the node / access to the container runtime
         - neuvector/neuvector-enforcer-pod.*
@@ -162,6 +170,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
       # FluentBit needs selinux option type spc_t
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - fluentbit/fluent-bit
 =======
       - fluent-bit
@@ -169,6 +178,9 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
 =======
       - fluentbit/fluent-bit
 >>>>>>> 1d2f8258 (update gate)
+=======
+      - fluent-bit
+>>>>>>> 7b17904f (update)
       {{- end }}
       {{- if .Values.twistlock.enabled }}
       # Twistlock Defenders need selinux option type spc_t
@@ -189,6 +201,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
         # https://docs.fluentbit.io/manual/pipeline/filters/kubernetes#workflow-of-tail-kubernetes-filter
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         - fluentbit/logging-fluent-bit-.*
 =======
         - logging-fluent-bit-.*
@@ -196,6 +209,9 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
 =======
         - fluentbit/logging-fluent-bit-.*
 >>>>>>> 1d2f8258 (update gate)
+=======
+        - logging-fluent-bit-.*
+>>>>>>> 7b17904f (update)
        {{- end }}
        {{- if .Values.twistlock.enabled }}
         # Twistlock requires /dev/log for its syslog daemon.
