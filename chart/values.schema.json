@@ -246,6 +246,18 @@
     },
     "jaeger": {
       "title": "The jaeger Schema",
+      "required": [
+        "sso",
+        "ingress"
+      ],
+      "properties": {
+        "sso": {
+          "$ref": "#/$defs/sso"
+        },
+        "ingress": {
+          "$ref": "#/$defs/ingress"
+        }
+      },
       "allOf": [
         {
           "$ref": "#/$defs/basePackage"
@@ -254,6 +266,14 @@
     },
     "kiali": {
       "title": "The kiali Schema",
+      "required": [
+        "sso"
+      ],
+      "properties": {
+        "sso": {
+          "$ref": "#/$defs/sso"
+        }
+      },
       "allOf": [
         {
           "$ref": "#/$defs/basePackage"
@@ -302,6 +322,29 @@
     },
     "logging": {
       "title": "The logging Schema",
+      "required": [
+        "sso",
+        "ingress"
+      ],
+      "properties": {
+        "sso": {
+          "$ref": "#/$defs/sso"
+        },
+        "ingress": {
+          "$ref": "#/$defs/ingress"
+        },
+        "license": {
+          "properties": {
+            "trial": {
+              "type": "boolean"
+            },
+            "keyJSON": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
       "allOf": [
         {
           "$ref": "#/$defs/basePackage"
@@ -433,7 +476,21 @@
         {
           "$ref": "#/$defs/basePackage"
         }
-      ]
+      ],
+      "properties": {
+        "sso": {
+          "properties": {
+            "default_role": {
+              "type": "string"
+            }
+          },
+          "allOf": [
+            {
+              "$ref": "#/$defs/sso"
+            }
+          ]
+        }
+      }
     },
     "tempo": {
       "title": "The tempo Schema",
@@ -441,7 +498,43 @@
         {
           "$ref": "#/$defs/basePackage"
         }
-      ]
+      ],
+      "properties": {
+        "sso": {
+          "$ref": "#/$defs/sso"
+        },
+        "objectStorage": {
+          "type": "object",
+          "required": [
+            "endpoint",
+            "region",
+            "accessKey",
+            "accessSecret",
+            "bucket",
+            "insecure"
+          ],
+          "properties": {
+            "endpoint": {
+              "type": "string"
+            },
+            "region": {
+              "type": "string"
+            },
+            "accessKey": {
+              "type": "string"
+            },
+            "accessSecret": {
+              "type": "string"
+            },
+            "bucket": {
+              "type": "string"
+            },
+            "insecure": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
     },
     "monitoring": {
       "title": "The monitoring Schema",
@@ -449,7 +542,62 @@
         {
           "$ref": "#/$defs/basePackage"
         }
-      ]
+      ],
+      "properties": {
+        "ingress": {
+          "$ref": "#/$defs/ingress"
+        },
+        "sso": {
+          "type": "object",
+          "properties": {
+            "prometheus": {
+              "type": "object",
+              "properties": {
+                "client_id": {
+                  "type": "string"
+                },
+                "client_secret": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "alertmanager": {
+              "type": "object",
+              "properties": {
+                "client_id": {
+                  "type": "string"
+                },
+                "client_secret": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "grafana": {
+              "type": "object",
+              "properties": {
+                "client_id": {
+                  "type": "string"
+                },
+                "client_secret": {
+                  "type": "string"
+                },
+                "scopes": {
+                  "type": "string"
+                },
+                "allow_sign_up": {
+                  "type": "string"
+                },
+                "role_attribute_path": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        }
+      }
     },
     "twistlock": {
       "title": "The twistlock Schema",
@@ -457,7 +605,32 @@
         {
           "$ref": "#/$defs/basePackage"
         }
-      ]
+      ],
+      "properties": {
+        "sso": {
+          "type": "object",
+          "title": "SSO Schema",
+          "required": [
+            "enabled",
+            "client_id",
+            "provider_type"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "client_id": {
+              "type": "string"
+            },
+            "provider_type": {
+              "type": "string"
+            },
+            "groups": {
+              "type": "string"
+            }
+          }
+        }
+      }
     },
     "addons": {
       "type": "object",
@@ -1243,6 +1416,35 @@
       "examples": [
         false
       ]
+    },
+    "sso": {
+      "type": "object",
+      "title": "SSO Schema",
+      "required": [
+        "enabled",
+        "client_id",
+        "client_secret"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "client_id": {
+          "type": "string"
+        },
+        "client_secret": {
+          "type": "string"
+        }
+      }
+    },
+    "ingress": {
+      "type": "object",
+      "properties": {
+        "gateway": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
     }
   }
 }
