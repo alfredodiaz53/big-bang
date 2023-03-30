@@ -114,6 +114,13 @@ while [ -n "$1" ]; do # while loop starts
       aws ec2 delete-security-group --group-name=${SGname} &> /dev/null
       echo "KeyPair to be deleted: ${KeyName}"
       aws ec2 delete-key-pair --key-name ${KeyName} &> /dev/null
+      ALLOCATIONIDs=(`aws ec2 describe-addresses --output text --filter "Name=tag:Owner,Values=${AWSUSERNAME}" --query "Addresses[].AllocationId"`)
+      for i in "${ALLOCATIONIDs[@]}"
+      do
+         echo -n "Releasing Elastic IP $i ..."
+         aws ec2 release-address --allocation-id $i
+         echo "done"
+      done
       exit 0 
   ;;
 
@@ -314,6 +321,7 @@ aws ec2 wait instance-running --output json --no-cli-pager --instance-ids ${Inst
 echo "Almost there, 15 seconds to go..."
 sleep 15
 
+## IP Address Allocation and Attachment
 CURRENT_EPOCH=`date +'%s'`
 
 # Get the private IP address of our instance
