@@ -154,6 +154,14 @@ else
   SpotPrice="0.35"
 fi
 
+#### Cleaning up unused Elastic IPs
+ALLOCATIONIDs=(`aws ec2 describe-addresses --filter "Name=tag:Owner,Values=${AWSUSERNAME}" --query "Addresses[?AssociationId==null]" | jq -r '.[].AllocationId'`)
+for i in "${ALLOCATIONIDs[@]}"
+do
+   echo -n "Releasing Elastic IP $i ..."
+   aws ec2 release-address --allocation-id $i
+   echo "done"
+done
 
 #### SSH Key Pair
 # Create SSH key if it doesn't exist
@@ -167,7 +175,6 @@ if [ "${keypair}" == "missing" ]; then
 else
   echo found
 fi
-
 
 #### Security Group
 # Create security group if it doesn't exist
@@ -188,7 +195,6 @@ echo done
 
 # Add name tag to security group
 aws ec2 create-tags --resources ${SecurityGroupId} --tags Key=Name,Value=${SGname} &> /dev/null
-
 
 # Add rule for IP based filtering
 WorkstationIP=`curl http://checkip.amazonaws.com/ 2> /dev/null`
