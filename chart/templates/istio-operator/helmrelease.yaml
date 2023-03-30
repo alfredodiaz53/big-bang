@@ -1,4 +1,4 @@
-{{- $fluxSettingsistioOperator := merge .Values.istioOperator.flux .Values.flux -}}
+{{- $fluxSettingsIstioOperator := merge .Values.istioOperator.flux .Values.flux -}}
 {{- if .Values.istioOperator.enabled }}
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
@@ -29,7 +29,7 @@ spec:
       {{- end }}
       interval: 5m
 
-  {{- toYaml $fluxSettingsistioOperator | nindent 2 }}
+  {{- toYaml $fluxSettingsIstioOperator | nindent 2 }}
 
   {{- if .Values.istioOperator.postRenderers }}
   postRenderers:
