@@ -545,7 +545,9 @@ loki:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/loki.git
     path: "./chart"
-    tag: "4.8.0-bb.0"
+    #tag: "4.8.0-bb.0"
+    tag: ""
+    branch: "helm-tests-np"
 
   # -- Flux reconciliation overrides specifically for the Loki Package
   flux: {}
