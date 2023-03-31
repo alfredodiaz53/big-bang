@@ -142,7 +142,6 @@ while [ -n "$1" ]; do # while loop starts
       echo " -m   create k3d cluster with metalLB"
       echo " -r   recreate K3D cluster from scratch"
       echo " -d   destroy related AWS resources"
-
       echo " -h   output help"
       exit 0
   ;;
