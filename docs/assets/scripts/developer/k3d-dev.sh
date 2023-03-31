@@ -65,6 +65,7 @@ KeyName="${AWSUSERNAME}-dev"
 SGname="${AWSUSERNAME}-dev"
 # Identify which VPC to create the spot instance in
 VPC="${VPC_ID}"  # default VPC
+
 ATTACH_SECONDARY_IP=${ATTACH_SECONDARY_IP:=false}
 
 while [ -n "$1" ]; do # while loop starts
@@ -154,6 +155,7 @@ else
   SpotPrice="0.35"
 fi
 
+
 #### Cleaning up unused Elastic IPs
 ALLOCATIONIDs=(`aws ec2 describe-addresses --filter "Name=tag:Owner,Values=${AWSUSERNAME}" --query "Addresses[?AssociationId==null]" | jq -r '.[].AllocationId'`)
 for i in "${ALLOCATIONIDs[@]}"
@@ -175,6 +177,7 @@ if [ "${keypair}" == "missing" ]; then
 else
   echo found
 fi
+
 
 #### Security Group
 # Create security group if it doesn't exist
