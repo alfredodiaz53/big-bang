@@ -116,6 +116,14 @@ packages:
             - public
           destination:
             port: 9898
+      peerAuthentications:
+        - name: "podinfo"
+          spec:
+            selector:
+              matchLabels:
+                app: "podinfo"
+            mtls:
+              mode: STRICT
 ```
 
 In this example we are primarily adding a virtual service for ingress to our application (leveraging defaults to select the proper service). By using the wrapper we are also getting several default options including istio sidecar injection and STRICT mTLS.
