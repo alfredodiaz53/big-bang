@@ -451,7 +451,8 @@
             "default_role": {
               "type": "string"
             }
-          }
+          },
+          "additionalProperties": false
         }
       }
     },
