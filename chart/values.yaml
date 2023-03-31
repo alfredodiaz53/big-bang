@@ -611,11 +611,16 @@ fluentbit:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/fluentbit.git
     path: "./chart"
+<<<<<<< HEAD
     tag: "0.25.0-bb.0"
   helmRepo:
     repoName: "registry1"
     chartName: "fluentbit"
     tag: "0.25.0-bb.0"
+=======
+    tag: null # "0.25.0-bb.0"
+    branch: secret-sync
+>>>>>>> 537387aa (secret syncupdate pullsec)
 
   # -- Flux reconciliation overrides specifically for the Fluent-Bit Package
   flux: {}
