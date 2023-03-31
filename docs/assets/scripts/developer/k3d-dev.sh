@@ -199,6 +199,7 @@ echo done
 # Add name tag to security group
 aws ec2 create-tags --resources ${SecurityGroupId} --tags Key=Name,Value=${SGname} &> /dev/null
 
+
 # Add rule for IP based filtering
 WorkstationIP=`curl http://checkip.amazonaws.com/ 2> /dev/null`
 echo -n Checking if ${WorkstationIP} is authorized in security group ...
