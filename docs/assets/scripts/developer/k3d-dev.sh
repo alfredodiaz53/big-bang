@@ -372,7 +372,7 @@ echo
 echo "Installing k3d on instance"
 run "wget -q -O - https://raw.githubusercontent.com/rancher/k3d/main/install.sh | TAG=v5.4.9 bash"
 echo
-echo "k3d version"
+echo "k3d default Kubernetes version"
 run "k3d version"
 echo
 
@@ -387,6 +387,12 @@ k3d_command+=" -v /etc:/etc@server:*\;agent:* -v /dev/log:/dev/log@server:*\;age
 k3d_command+=" --k3s-arg \"--disable=traefik@server:0\"  --k3s-arg \"--disable=metrics-server@server:0\""
 # Port mappings to support Istio ingress + API access
 k3d_command+=" --port 80:80@loadbalancer --port 443:443@loadbalancer --api-port 6443"
+
+K3S_IMAGE_TAG=${K3S_IMAGE_TAG:=""}
+if [[ ! -z "$K3S_IMAGE_TAG" ]]; then
+  echo "Using custom K3S image tag $K3S_IMAGE_TAG..."
+  k3d_command+=" --image docker.io/rancher/k3s:$K3S_IMAGE_TAG"
+fi
 
 # Add MetalLB specific k3d config
 if [[ "$METAL_LB" == true ]]; then
