@@ -1,5 +1,4 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "http://bigbang.dev/bigbang.json",
   "type": "object",
   "default": {},
@@ -744,6 +743,34 @@
             "values": {
               "$ref": "#/$defs/values"
             }
+          }
+        }
+      }
+    },
+    "wrapper": {
+      "type": "object",
+      "properties": {
+        "git": {
+          "$ref": "#/$defs/git"
+        },
+        "oci": {
+          "$ref": "#/$defs/oci"
+        }
+      },
+      "additionalProperties": false
+    },
+    "packages": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "default": true
+          },
+          "kustomize": {
+            "type": "boolean",
+            "default": false
           }
         }
       }
