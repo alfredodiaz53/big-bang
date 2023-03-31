@@ -65,7 +65,7 @@ KeyName="${AWSUSERNAME}-dev"
 SGname="${AWSUSERNAME}-dev"
 # Identify which VPC to create the spot instance in
 VPC="${VPC_ID}"  # default VPC
-
+RESET_K3D=false
 
 while [ -n "$1" ]; do # while loop starts
 
@@ -81,7 +81,13 @@ while [ -n "$1" ]; do # while loop starts
 
   -m) echo "-m option passed to install MetalLB" 
       METAL_LB=true
-  ;; 
+  ;;
+
+  -r) echo "-r option passed to re-install K3D from scratch"
+      RESET_K3D=true
+      PublicIP=`echo $(kubectl config view -o jsonpath='{$.clusters[0].cluster.server}') | awk -F/ '{print $3}' | sed 's/:.*//'`
+      run "k3d cluster delete"
+  ;;
 
   -d) echo "-d option passed to destroy the AWS resources"
       AWSINSTANCEIDs=$( aws ec2 describe-instances \
@@ -130,83 +136,83 @@ while [ -n "$1" ]; do # while loop starts
   shift
 done
 
+if [[ "${RESET_K3D}" == false ]]; then
+  if [[ "$BIG_INSTANCE" == true ]]
+  then
+    echo "Will use large m5a.4xlarge spot instance"
+    InstSize="m5a.4xlarge"
+    SpotPrice="0.69"
+  else
+    echo "Will use standard t3a.2xlarge spot instance"
+    InstSize="t3a.2xlarge"
+    SpotPrice="0.35"
+  fi
 
-if [[ "$BIG_INSTANCE" == true ]]
-then 
-  echo "Will use large m5a.4xlarge spot instance"
-  InstSize="m5a.4xlarge"
-  SpotPrice="0.69"
-else
-  echo "Will use standard t3a.2xlarge spot instance"
-  InstSize="t3a.2xlarge"
-  SpotPrice="0.35"
-fi
+
+  #### SSH Key Pair
+  # Create SSH key if it doesn't exist
+  echo -n Checking if key pair ${KeyName} exists ...
+  aws ec2 describe-key-pairs --output json --no-cli-pager --key-names ${KeyName} > /dev/null 2>&1 || keypair=missing
+  if [ "${keypair}" == "missing" ]; then
+    echo -n -e "missing\nCreating key pair ${KeyName} ... "
+    aws ec2 create-key-pair --output json --no-cli-pager --key-name ${KeyName} | jq -r '.KeyMaterial' > ~/.ssh/${KeyName}.pem
+    chmod 600 ~/.ssh/${KeyName}.pem
+    echo done
+  else
+    echo found
+  fi
 
 
-#### SSH Key Pair
-# Create SSH key if it doesn't exist
-echo -n Checking if key pair ${KeyName} exists ...
-aws ec2 describe-key-pairs --output json --no-cli-pager --key-names ${KeyName} > /dev/null 2>&1 || keypair=missing
-if [ "${keypair}" == "missing" ]; then
-  echo -n -e "missing\nCreating key pair ${KeyName} ... "
-  aws ec2 create-key-pair --output json --no-cli-pager --key-name ${KeyName} | jq -r '.KeyMaterial' > ~/.ssh/${KeyName}.pem
-  chmod 600 ~/.ssh/${KeyName}.pem
+  #### Security Group
+  # Create security group if it doesn't exist
+  echo -n "Checking if security group ${SGname} exists ..."
+  aws ec2 describe-security-groups --output json --no-cli-pager --group-names ${SGname} > /dev/null 2>&1 || secgrp=missing
+  if [ "${secgrp}" == "missing" ]; then
+    echo -e "missing\nCreating security group ${SGname} ... "
+    aws ec2 create-security-group --output json --no-cli-pager --description "IP based filtering for ${SGname}" --group-name ${SGname} --vpc-id ${VPC}
+    echo done
+  else
+    echo found
+  fi
+
+  # Lookup the security group created to get the ID
+  echo -n Retrieving ID for security group ${SGname} ...
+  SecurityGroupId=$(aws ec2 describe-security-groups --output json --no-cli-pager --group-names ${SGname} --query "SecurityGroups[0].GroupId" --output text)
   echo done
-else
-  echo found
-fi
+
+  # Add name tag to security group
+  aws ec2 create-tags --resources ${SecurityGroupId} --tags Key=Name,Value=${SGname} &> /dev/null
 
 
-#### Security Group
-# Create security group if it doesn't exist
-echo -n "Checking if security group ${SGname} exists ..."
-aws ec2 describe-security-groups --output json --no-cli-pager --group-names ${SGname} > /dev/null 2>&1 || secgrp=missing
-if [ "${secgrp}" == "missing" ]; then
-  echo -e "missing\nCreating security group ${SGname} ... "
-  aws ec2 create-security-group --output json --no-cli-pager --description "IP based filtering for ${SGname}" --group-name ${SGname} --vpc-id ${VPC}
-  echo done
-else
-  echo found
-fi
-
-# Lookup the security group created to get the ID
-echo -n Retrieving ID for security group ${SGname} ...
-SecurityGroupId=$(aws ec2 describe-security-groups --output json --no-cli-pager --group-names ${SGname} --query "SecurityGroups[0].GroupId" --output text)
-echo done
-
-# Add name tag to security group
-aws ec2 create-tags --resources ${SecurityGroupId} --tags Key=Name,Value=${SGname} &> /dev/null
+  # Add rule for IP based filtering
+  WorkstationIP=`curl http://checkip.amazonaws.com/ 2> /dev/null`
+  echo -n Checking if ${WorkstationIP} is authorized in security group ...
+  aws ec2 describe-security-groups --output json --no-cli-pager --group-names ${SGname} | grep ${WorkstationIP} > /dev/null || ipauth=missing
+  if [ "${ipauth}" == "missing" ]; then
+    echo -e "missing\nAdding ${WorkstationIP} to security group ${SGname} ..."
+    if [[ "$PRIVATE_IP" == true ]];
+    then
+        aws ec2 authorize-security-group-ingress --output json --no-cli-pager --group-name ${SGname} --protocol tcp --port 22 --cidr ${WorkstationIP}/32
+    else  # all protocols to all ports is the default
+      aws ec2 authorize-security-group-ingress --output json --no-cli-pager --group-name ${SGname} --protocol all --cidr ${WorkstationIP}/32
+    fi
+    echo done
+  else
+    echo found
+  fi
 
 
-# Add rule for IP based filtering
-WorkstationIP=`curl http://checkip.amazonaws.com/ 2> /dev/null`
-echo -n Checking if ${WorkstationIP} is authorized in security group ...
-aws ec2 describe-security-groups --output json --no-cli-pager --group-names ${SGname} | grep ${WorkstationIP} > /dev/null || ipauth=missing
-if [ "${ipauth}" == "missing" ]; then
-  echo -e "missing\nAdding ${WorkstationIP} to security group ${SGname} ..."
-  if [[ "$PRIVATE_IP" == true ]];
-	then
-	  	aws ec2 authorize-security-group-ingress --output json --no-cli-pager --group-name ${SGname} --protocol tcp --port 22 --cidr ${WorkstationIP}/32
-	else  # all protocols to all ports is the default
-		aws ec2 authorize-security-group-ingress --output json --no-cli-pager --group-name ${SGname} --protocol all --cidr ${WorkstationIP}/32
-	fi
-  echo done
-else
-  echo found
-fi
+  ##### Launch Specification
+  # Typical settings for Big Bang development
+  InstanceType="${InstSize}"
+  VolumeSize=120
 
+  echo "Using AMI image id ${AMI_ID}"
+  ImageId="${AMI_ID}"
 
-##### Launch Specification
-# Typical settings for Big Bang development
-InstanceType="${InstSize}"
-VolumeSize=120
-
-echo "Using AMI image id ${AMI_ID}"
-ImageId="${AMI_ID}"
-
-# Create userdata.txt
-mkdir -p ~/aws
-cat << EOF > ~/aws/userdata.txt
+  # Create userdata.txt
+  mkdir -p ~/aws
+  cat << EOF > ~/aws/userdata.txt
 MIME-Version: 1.0
 Content-Type: multipart/mixed; boundary="==MYBOUNDARY=="
 
@@ -215,39 +221,39 @@ Content-Type: text/x-shellscript; charset="us-ascii"
 
 #!/bin/bash
 sudo -- bash -c 'sysctl -w vm.max_map_count=524288; \
-  echo "vm.max_map_count=524288" > /etc/sysctl.d/vm-max_map_count.conf; \
-  sysctl -w fs.nr_open=13181252; \
-  echo "fs.nr_open=13181252" > /etc/sysctl.d/fs-nr_open.conf; \
-  sysctl -w fs.file-max=13181250; \
-  echo "fs.file-max=13181250" > /etc/sysctl.d/fs-file-max.conf; \
-  echo "fs.inotify.max_user_instances=1024" > /etc/sysctl.d/fs-inotify-max_user_instances.conf; \
-  sysctl -w fs.inotify.max_user_instances=1024; \
-  echo "fs.inotify.max_user_watches=1048576" > /etc/sysctl.d/fs-inotify-max_user_watches.conf; \
-  sysctl -w fs.inotify.max_user_watches=1048576; \
-  echo "fs.may_detach_mounts=1" >> /etc/sysctl.d/fs-may_detach_mounts.conf; \
-  sysctl -w fs.may_detach_mounts=1; \
-  sysctl -p; \
-  echo "* soft nofile 13181250" >> /etc/security/limits.d/ulimits.conf; \
-  echo "* hard nofile 13181250" >> /etc/security/limits.d/ulimits.conf; \
-  echo "* soft nproc  13181250" >> /etc/security/limits.d/ulimits.conf; \
-  echo "* hard nproc  13181250" >> /etc/security/limits.d/ulimits.conf; \
-  modprobe br_netfilter; \
-  modprobe nf_nat_redirect; \
-  modprobe xt_REDIRECT; \
-  modprobe xt_owner; \
-  modprobe xt_statistic; \
-  echo "br_netfilter" >> /etc/modules-load.d/istio-iptables.conf; \
-  echo "nf_nat_redirect" >> /etc/modules-load.d/istio-iptables.conf; \
-  echo "xt_REDIRECT" >> /etc/modules-load.d/istio-iptables.conf; \
-  echo "xt_owner" >> /etc/modules-load.d/istio-iptables.conf; \
-  echo "xt_statistic" >> /etc/modules-load.d/istio-iptables.conf'
+echo "vm.max_map_count=524288" > /etc/sysctl.d/vm-max_map_count.conf; \
+sysctl -w fs.nr_open=13181252; \
+echo "fs.nr_open=13181252" > /etc/sysctl.d/fs-nr_open.conf; \
+sysctl -w fs.file-max=13181250; \
+echo "fs.file-max=13181250" > /etc/sysctl.d/fs-file-max.conf; \
+echo "fs.inotify.max_user_instances=1024" > /etc/sysctl.d/fs-inotify-max_user_instances.conf; \
+sysctl -w fs.inotify.max_user_instances=1024; \
+echo "fs.inotify.max_user_watches=1048576" > /etc/sysctl.d/fs-inotify-max_user_watches.conf; \
+sysctl -w fs.inotify.max_user_watches=1048576; \
+echo "fs.may_detach_mounts=1" >> /etc/sysctl.d/fs-may_detach_mounts.conf; \
+sysctl -w fs.may_detach_mounts=1; \
+sysctl -p; \
+echo "* soft nofile 13181250" >> /etc/security/limits.d/ulimits.conf; \
+echo "* hard nofile 13181250" >> /etc/security/limits.d/ulimits.conf; \
+echo "* soft nproc  13181250" >> /etc/security/limits.d/ulimits.conf; \
+echo "* hard nproc  13181250" >> /etc/security/limits.d/ulimits.conf; \
+modprobe br_netfilter; \
+modprobe nf_nat_redirect; \
+modprobe xt_REDIRECT; \
+modprobe xt_owner; \
+modprobe xt_statistic; \
+echo "br_netfilter" >> /etc/modules-load.d/istio-iptables.conf; \
+echo "nf_nat_redirect" >> /etc/modules-load.d/istio-iptables.conf; \
+echo "xt_REDIRECT" >> /etc/modules-load.d/istio-iptables.conf; \
+echo "xt_owner" >> /etc/modules-load.d/istio-iptables.conf; \
+echo "xt_statistic" >> /etc/modules-load.d/istio-iptables.conf'
 EOF
 
-# Create the device mapping and spot options JSON files
-echo "Creating device_mappings.json ..."
-mkdir -p ~/aws
+  # Create the device mapping and spot options JSON files
+  echo "Creating device_mappings.json ..."
+  mkdir -p ~/aws
 
-cat << EOF > ~/aws/device_mappings.json
+  cat << EOF > ~/aws/device_mappings.json
 [
   {
     "DeviceName": "/dev/sda1",
@@ -260,8 +266,8 @@ cat << EOF > ~/aws/device_mappings.json
 ]
 EOF
 
-echo "Creating spot_options.json ..."
-cat << EOF > ~/aws/spot_options.json
+  echo "Creating spot_options.json ..."
+  cat << EOF > ~/aws/spot_options.json
 {
   "MarketType": "spot",
   "SpotOptions": {
@@ -271,44 +277,81 @@ cat << EOF > ~/aws/spot_options.json
 }
 EOF
 
-#### Request a Spot Instance
-# Location of your private SSH key created during setup
-PEM=~/.ssh/${KeyName}.pem
+  #### Request a Spot Instance
+  # Location of your private SSH key created during setup
+  PEM=~/.ssh/${KeyName}.pem
 
-# Run a spot instance with our launch spec for the max. of 6 hours
-# NOTE: t3a.2xlarge spot price is 0.35 m5a.4xlarge is 0.69
-echo "Running spot instance ..."
+  # Run a spot instance with our launch spec for the max. of 6 hours
+  # NOTE: t3a.2xlarge spot price is 0.35 m5a.4xlarge is 0.69
+  echo "Running spot instance ..."
 
-InstId=`aws ec2 run-instances \
-  --output json --no-paginate \
-  --count 1 --image-id "${ImageId}" \
-  --instance-type "${InstanceType}" \
-  --key-name "${KeyName}" \
-  --security-group-ids "${SecurityGroupId}" \
-  --instance-initiated-shutdown-behavior "terminate" \
-  --user-data file://$HOME/aws/userdata.txt \
-  --block-device-mappings file://$HOME/aws/device_mappings.json \
-  --instance-market-options file://$HOME/aws/spot_options.json \
-  | jq -r '.Instances[0].InstanceId'`
+  InstId=`aws ec2 run-instances \
+    --output json --no-paginate \
+    --count 1 --image-id "${ImageId}" \
+    --instance-type "${InstanceType}" \
+    --key-name "${KeyName}" \
+    --security-group-ids "${SecurityGroupId}" \
+    --instance-initiated-shutdown-behavior "terminate" \
+    --user-data file://$HOME/aws/userdata.txt \
+    --block-device-mappings file://$HOME/aws/device_mappings.json \
+    --instance-market-options file://$HOME/aws/spot_options.json \
+    | jq -r '.Instances[0].InstanceId'`
 
-# Check if spot instance request was not created
-if [ -z ${InstId} ]; then
-  exit 1;
+  # Check if spot instance request was not created
+  if [ -z ${InstId} ]; then
+    exit 1;
+  fi
+
+  # Add name tag to spot instance
+  aws ec2 create-tags --resources ${InstId} --tags Key=Name,Value=${AWSUSERNAME}-dev &> /dev/null
+
+  # Request was created, now you need to wait for it to be filled
+  echo "Waiting for instance ${InstId} to be ready ..."
+  aws ec2 wait instance-running --output json --no-cli-pager --instance-ids ${InstId} &> /dev/null
+
+  # allow some extra seconds for the instance to be fully initiallized
+  echo "Wait a little longer..."
+  sleep 15
+
+  # Get the public IP address of our instance
+  PublicIP=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].PublicIpAddress'`
+
+  ##### Configure Instance
+  ## TODO: replace these individual commands with userdata when the spot instance is created?
+  echo
+  echo
+  echo "starting instance config"
+
+  echo "Instance will automatically terminate 8 hours from now unless you alter the root crontab"
+  run "sudo bash -c 'echo \"\$(date -u -d \"+8 hours\" +\"%M %H\") * * * /usr/sbin/shutdown -h now\" | crontab -'"
+  echo
+
+  echo
+  echo "updating packages"
+  run "sudo apt-get -y update"
+
+  echo
+  echo "installing docker"
+  # install dependencies
+  run "sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release gnupg-agent software-properties-common"
+  # Add the Docker repository, we are installing from Docker and not the Ubuntu APT repo.
+  run 'sudo mkdir -m 0755 -p /etc/apt/keyrings'
+  run 'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg'
+  run 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null'
+  run "sudo apt-get update && sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
+
+  echo
+  echo
+  # Add your base user to the Docker group so that you do not need sudo to run docker commands
+  run "sudo usermod -aG docker ubuntu"
+  echo
+
+  # install kubectl
+  echo Installing kubectl...
+  run 'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"'
+  run 'sudo mv /home/ubuntu/kubectl /usr/local/bin/'
+  run 'sudo chmod +x /usr/local/bin/kubectl'
 fi
-
-# Add name tag to spot instance
-aws ec2 create-tags --resources ${InstId} --tags Key=Name,Value=${AWSUSERNAME}-dev &> /dev/null
-
-# Request was created, now you need to wait for it to be filled
-echo "Waiting for instance ${InstId} to be ready ..."
-aws ec2 wait instance-running --output json --no-cli-pager --instance-ids ${InstId} &> /dev/null
-
-# allow some extra seconds for the instance to be fully initiallized
-echo "Wait a little longer..."
-sleep 15
-
-# Get the public IP address of our instance
-PublicIP=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].PublicIpAddress'`
 
 # Get the private IP address of our instance
 PrivateIP=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].PrivateIpAddress'`
@@ -329,42 +372,6 @@ until run "hostname"; do
   echo "Retry ssh command.."
 done
 echo
-
-##### Configure Instance
-## TODO: replace these individual commands with userdata when the spot instance is created?
-echo
-echo
-echo "starting instance config"
-
-echo "Instance will automatically terminate 8 hours from now unless you alter the root crontab"
-run "sudo bash -c 'echo \"\$(date -u -d \"+8 hours\" +\"%M %H\") * * * /usr/sbin/shutdown -h now\" | crontab -'"
-echo
-
-echo
-echo "updating packages"
-run "sudo apt-get -y update"
-
-echo
-echo "installing docker"
-# install dependencies
-run "sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release gnupg-agent software-properties-common"
-# Add the Docker repository, we are installing from Docker and not the Ubuntu APT repo.
-run 'sudo mkdir -m 0755 -p /etc/apt/keyrings'
-run 'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg'
-run 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null'
-run "sudo apt-get update && sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
-
-echo
-echo
-# Add your base user to the Docker group so that you do not need sudo to run docker commands
-run "sudo usermod -aG docker ubuntu"
-echo
-
-# install kubectl
-echo Installing kubectl...
-run 'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"'
-run 'sudo mv /home/ubuntu/kubectl /usr/local/bin/'
-run 'sudo chmod +x /usr/local/bin/kubectl'
 
 echo
 echo
