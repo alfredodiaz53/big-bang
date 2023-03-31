@@ -773,6 +773,59 @@
       ],
       "additionalProperties": false
     },
+    "helmRepositories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "repository": {
+            "type": "string",
+            "format": "uri"
+          },
+          "existingSecret": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "oci",
+              "default"
+            ]
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        },
+        "oneOf": [
+          {
+            "required": [
+              "existingSecret"
+            ]
+          },
+          {
+            "required": [
+              "username",
+              "password"
+            ]
+          }
+        ],
+        "required": [
+          "name",
+          "repository",
+          "type"
+        ]
+      }
+    },
     "basePackage": {
       "type": "object",
       "required": [
@@ -788,6 +841,9 @@
         },
         "git": {
           "$ref": "#/$defs/git"
+        },
+        "oci": {
+          "$ref": "#/$defs/oci"
         },
         "flux": {
           "$ref": "#/$defs/flux"
@@ -1088,7 +1144,6 @@
     },
     "git": {
       "type": "object",
-      "title": "The git Schema",
       "required": [
         "repo",
         "path"
@@ -1377,6 +1432,26 @@
           "type": "string"
         }
       },
+      "additionalProperties": false
+    },
+    "oci": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "string"
+        },
+        "repo": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "tag",
+        "repo"
+      ],
       "additionalProperties": false
     }
   }
