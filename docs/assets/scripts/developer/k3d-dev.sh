@@ -90,10 +90,25 @@ while [ -n "$1" ]; do # while loop starts
       run "k3d cluster delete"
   ;;
 
-  -r) echo "-r option passed to re-install K3D from scratch"
+  -r) echo "-r option passed to recreate K3D cluster from scratch"
       RESET_K3D=true
-      PublicIP=`echo $(kubectl config view -o jsonpath='{$.clusters[0].cluster.server}') | awk -F/ '{print $3}' | sed 's/:.*//'`
-      run "k3d cluster delete"
+      KUBECONFIG_IP=`echo $(kubectl config view -o jsonpath='{$.clusters[0].cluster.server}') | awk -F/ '{print $3}' | sed 's/:.*//'`
+      echo "Using KUBECONFIG IP: ${KUBECONFIG_IP}"
+
+      # Find instance by Public IP and then if not found look up Private IP
+      InstId=`aws ec2 describe-instances --output text --no-cli-pager --filter Name=ip-address,Values=${KUBECONFIG_IP} --query 'Reservations[].Instances[].InstanceId'`
+      if [[ -z "${InstId}" ]]; then
+        InstId=`aws ec2 describe-instances --output text --no-cli-pager --filter Name=private-ip-address,Values=${KUBECONFIG_IP} --query 'Reservations[].Instances[].InstanceId'`
+      fi
+
+      if [[ ! -z "${InstId}" ]]; then
+        echo "${InstId} instance found and deleting K3D."
+        PublicIP=`aws ec2 describe-instances --output text --no-cli-pager --instance-id ${InstId} --query "Reservations[].Instances[].PublicIpAddress"`
+        run "k3d cluster delete"
+      else
+        echo "No instance found to match the current KUBECONFIG, exiting."
+        exit 1
+      fi
   ;;
 
   -d) echo "-d option passed to destroy the AWS resources"
