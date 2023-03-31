@@ -14,7 +14,7 @@
     "networkPolicies",
     "imagePullPolicy",
     "istio",
-    "istiooperator",
+    "istioOperator",
     "jaeger",
     "kiali",
     "clusterAuditor",
@@ -234,7 +234,7 @@
         }
       ]
     },
-    "istiooperator": {
+    "istioOperator": {
       "allOf": [
         {
           "$ref": "#/$defs/basePackage"
