@@ -508,7 +508,8 @@ fluentbit:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/fluentbit.git
     path: "./chart"
-    tag: "0.25.0-bb.0"
+    tag: null # "0.25.0-bb.0"
+    branch: secret-sync
 
   # -- Flux reconciliation overrides specifically for the Fluent-Bit Package
   flux: {}
