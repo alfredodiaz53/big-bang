@@ -147,6 +147,11 @@ podAnnotations:
 
 openshift: {{ .Values.openshift }}
 
+elasticsearchKibana:
+  enabled: {{ .Values.logging.enabled }}
+loki:
+  enabled: {{ .Values.loki.enabled }}
+
 {{- if .Values.openshift }}
 podSecurityContext:
   seLinuxOptions:
