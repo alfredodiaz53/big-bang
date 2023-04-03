@@ -3,7 +3,7 @@ To handle scheduling in the chart for a Renovate configuration, you can use a Ku
 
 The schedule option allows you to define times of week or month for Renovate updates. Running Renovate around the clock can be too "noisy" for some projects. To reduce the noise you can use the schedule config option to limit the time frame in which Renovate will perform actions on your repository. You can use the standard Cron syntax and Later syntax to define your schedule.
 
-The default value for schedule is "at any time", which is functionally the same as declaring a null schedule. i.e. Renovate will run on the repository around the clock.
+The default value for schedule is `0 1 * * *` for at `01:00 everyday`.
 
 The easiest way to define a schedule is to use a preset if one of them fits your requirements. See Schedule presets for details and feel free to request a new one in the source repository if you think others would benefit from it too.
 
