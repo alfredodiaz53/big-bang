@@ -90,27 +90,6 @@ while [ -n "$1" ]; do # while loop starts
       run "k3d cluster delete"
   ;;
 
-  -r) echo "-r option passed to recreate K3D cluster from scratch"
-      RESET_K3D=true
-      KUBECONFIG_IP=`echo $(kubectl config view -o jsonpath='{$.clusters[0].cluster.server}') | awk -F/ '{print $3}' | sed 's/:.*//'`
-      echo "Using KUBECONFIG IP: ${KUBECONFIG_IP}"
-
-      # Find instance by Public IP and then if not found look up Private IP
-      InstId=`aws ec2 describe-instances --output text --no-cli-pager --filter Name=ip-address,Values=${KUBECONFIG_IP} --query 'Reservations[].Instances[].InstanceId'`
-      if [[ -z "${InstId}" ]]; then
-        InstId=`aws ec2 describe-instances --output text --no-cli-pager --filter Name=private-ip-address,Values=${KUBECONFIG_IP} --query 'Reservations[].Instances[].InstanceId'`
-      fi
-
-      if [[ ! -z "${InstId}" ]]; then
-        echo "${InstId} instance found and deleting K3D."
-        PublicIP=`aws ec2 describe-instances --output text --no-cli-pager --instance-id ${InstId} --query "Reservations[].Instances[].PublicIpAddress"`
-        run "k3d cluster delete"
-      else
-        echo "No instance found to match the current KUBECONFIG, exiting."
-        exit 1
-      fi
-  ;;
-
   -d) echo "-d option passed to destroy the AWS resources"
       AWSINSTANCEIDs=$( aws ec2 describe-instances \
         --output text \
@@ -160,11 +139,56 @@ while [ -n "$1" ]; do # while loop starts
       exit 0
   ;;
 
-  *) echo "Option $1 not recognized" ;; # In case a non-existant option is submitted
+  *) echo "Option $1 not recognized" ;; # In case a non-existent option is submitted
 
   esac
   shift
 done
+
+echo "Checking for existing cluster for ${AWSUSERNAME}."
+InstId=`aws ec2 describe-instances \
+        --output text \
+        --query "Reservations[].Instances[].InstanceId" \
+        --filters "Name=tag:Name,Values=${AWSUSERNAME}-dev" "Name=instance-state-name,Values=running"`
+  if [[ ! -z "${InstId}" ]]; then
+    PublicIP=`aws ec2 describe-instances --output text --no-cli-pager --instance-id ${InstId} --query "Reservations[].Instances[].PublicIpAddress"`
+    echo "Existing cluster found running on instance ${InstId} on ${PublicIP}"
+    echo "💣 Big Bang Cluster Management 💣"
+    PS3="Please select an option: "
+    options=("Reinstall K3D" "Recreate the EC2 instance from scratch" "Quit")
+
+    select opt in "${options[@]}"
+    do
+      case $REPLY in
+        1)
+          read -p "Are you sure you want to re-install K3D on this instance (y/n)? " -r
+          if [[ ! $REPLY =~ ^[Yy]$ ]]
+          then
+            echo
+            exit 1
+          fi
+          RESET_K3D=true
+          run "k3d cluster delete"
+          break;;
+        2)
+          read -p "Are you sure you want to destroy this instance ${InstId}, and create a new one in its place (y/n)? " -r
+          if [[ ! $REPLY =~ ^[Yy]$ ]]
+          then
+            echo
+            exit 1
+          fi
+
+          aws ec2 terminate-instances --instance-ids ${InstId} &>/dev/null
+          echo -n "Instance is being terminated..."
+          break;;
+        3)
+          echo "Bye."
+          exit 0;;
+        *)
+          echo "Option $1 not recognized";;
+      esac
+    done
+fi
 
 if [[ "${RESET_K3D}" == false ]]; then
   if [[ "$BIG_INSTANCE" == true ]]
@@ -595,7 +619,7 @@ then
     echo "The IPs to use come from the istio-system services of type LOADBALANCER EXTERNAL-IP that are created when Istio is deployed."
     echo "You must use Firefox browser with with manual SOCKs v5 proxy configuration to localhost with port 12345."
     echo "Also ensure 'Proxy DNS when using SOCKS v5' is checked."
-    echo "Or, with other browsers like Chrome you could use a browser plugin like foxyproxy to do the same thing as Firefox."    
+    echo "Or, with other browsers like Chrome you could use a browser plugin like foxyproxy to do the same thing as Firefox."
   else  # using MetalLB and public IP
     echo "OPTION 1: ACCESS APPLICATIONS WITH WEB BROWSER ONLY"
     echo "To access apps from browser only start ssh with application-level port forwarding:"
@@ -611,7 +635,7 @@ then
     echo "OPTION 2: ACCESS APPLICATIONS WITH WEB BROWSER AND COMMAND LINE"
     echo "To access apps from browser and from the workstation command line start sshuttle in a separate terminal window."
     echo "  sshuttle --dns -vr ubuntu@${PublicIP} 172.20.1.0/24 --ssh-cmd 'ssh -i ~/.ssh/${KeyName}.pem'"
-    echo "Edit your workstation /etc/hosts to add the LOADBALANCER EXTERNAL-IPs from the istio-sytem servcies with application hostnames."
+    echo "Edit your workstation /etc/hosts to add the LOADBALANCER EXTERNAL-IPs from the istio-system servcies with application hostnames."
     echo "Here is an example. You might have to change this depending on the number of gateways you configure for k8s cluster."
     echo "  # METALLB ISTIO INGRESS IPs"
     echo "  172.20.1.240 keycloak.bigbang.dev vault.bigbang.dev"
