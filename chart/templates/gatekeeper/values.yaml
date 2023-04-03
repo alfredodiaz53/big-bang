@@ -56,6 +56,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - fluentbit/logging-fluent-bit-.*
 =======
       - logging-fluent-bit-.*
@@ -66,6 +67,9 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
 =======
       - logging-fluent-bit-.*
 >>>>>>> 7b17904f (update)
+=======
+      - logging/logging-fluent-bit-.*
+>>>>>>> dd9afd73 (update gate)
       {{- end }}
       {{- if .Values.neuvector.enabled }}
       # Neuvector needs access to host to inspect network traffic
@@ -78,7 +82,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
       {{- if .Values.promtail.enabled }}
       # promtail requires hostpath volume mounts
       # https://github.com/grafana/helm-charts/blob/main/charts/promtail/templates/daemonset.yaml#L120
-      - logging-promtail-.*
+      - logging/logging-promtail-.*
       {{- end }}
       {{- if and .Values.addons.velero.enabled .Values.addons.velero.values.deployNodeAgent }}
       # NodeAgent requires hostpath volume mount access in order to facilitate backing up cluster PV/C resources
@@ -124,6 +128,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         - fluentbit/fluent-bit
 =======
         - fluent-bit
@@ -134,6 +139,9 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
 =======
         - fluent-bit
 >>>>>>> 7b17904f (update)
+=======
+        - logging/fluent-bit
+>>>>>>> dd9afd73 (update gate)
         {{- if .Values.neuvector.enabled }}
         # Neuvector needs privileged access for realtime scanning of files from the node / access to the container runtime
         - neuvector/neuvector-enforcer-pod.*
@@ -171,6 +179,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       - fluentbit/fluent-bit
 =======
       - fluent-bit
@@ -181,6 +190,9 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
 =======
       - fluent-bit
 >>>>>>> 7b17904f (update)
+=======
+      - logging/fluent-bit
+>>>>>>> dd9afd73 (update gate)
       {{- end }}
       {{- if .Values.twistlock.enabled }}
       # Twistlock Defenders need selinux option type spc_t
