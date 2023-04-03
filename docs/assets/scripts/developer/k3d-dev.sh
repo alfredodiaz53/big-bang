@@ -86,8 +86,6 @@ while [ -n "$1" ]; do # while loop starts
 
   -a) echo "-a option passed to create secondary public IP"
       ATTACH_SECONDARY_IP=true
-      PublicIP=`echo $(kubectl config view -o jsonpath='{$.clusters[0].cluster.server}') | awk -F/ '{print $3}' | sed 's/:.*//'`
-      run "k3d cluster delete"
   ;;
 
   -d) echo "-d option passed to destroy the AWS resources"
@@ -179,7 +177,10 @@ InstId=`aws ec2 describe-instances \
           fi
 
           aws ec2 terminate-instances --instance-ids ${InstId} &>/dev/null
-          echo -n "Instance is being terminated..."
+          if [[ "${ATTACH_SECONDARY_IP}" == true ]]; then
+            echo -n "Waiting for instance termination..."
+            aws ec2 wait instance-stopped --instance-ids ${InstId} &> /dev/null
+          fi
           break;;
         3)
           echo "Bye."
@@ -362,7 +363,7 @@ EOF
     --instance-initiated-shutdown-behavior "terminate" \
     --user-data file://$HOME/aws/userdata.txt \
     --block-device-mappings file://$HOME/aws/device_mappings.json \
-  --instance-market-options file://$HOME/aws/spot_options.json ${additional_create_instance_options} \
+    --instance-market-options file://$HOME/aws/spot_options.json ${additional_create_instance_options} \
     | jq -r '.Instances[0].InstanceId'`
 
   # Check if spot instance request was not created
@@ -383,6 +384,65 @@ EOF
 
   # Get the public IP address of our instance
   CURRENT_EPOCH=`date +'%s'`
+
+  echo
+  echo "Instance ${InstId} is ready!"
+
+  # Get the private IP address of our instance
+  PrivateIP=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].PrivateIpAddress'`
+  echo "Instance private IP is ${PrivateIP}"
+
+  # Use Elastic IPs if a Secondary IP is required, instead of the auto assigned one.
+  if [[ "${ATTACH_SECONDARY_IP}" == false ]]; then
+    PublicIP=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].PublicIpAddress'`
+    echo "Instance public IP is ${PublicIP}"
+    echo
+  else
+    echo "Checking to see if an Elastic IP is already allocated and not attached..."
+    PublicIP=`aws ec2 describe-addresses --filter "Name=tag:Name,Values=${AWSUSERNAME}-EIP1" --query 'Addresses[?AssociationId==null]' | jq -r '.[0].PublicIp // ""'`
+    if [[ -z "${PublicIP}" ]]; then
+      echo "Allocating a new/another primary elastic IP..."
+      PublicIP=`aws ec2 allocate-address --output json --no-cli-pager --tag-specifications="ResourceType=elastic-ip,Tags=[{Key=Name,Value=${AWSUSERNAME}-EIP1},{Key=Owner,Value=${AWSUSERNAME}}]" | jq -r '.PublicIp'`
+    else
+      echo "Previously allocated primary Elastic IP ${PublicIP} found."
+    fi
+
+    echo "Instance public IP is ${PublicIP}"
+    echo
+
+    echo -n "Associating IP ${PublicIP} address to instance ${InstId} ..."
+    EIP1_ASSOCIATION_ID=`aws ec2 associate-address --output json --no-cli-pager --instance-id ${InstId} --private-ip ${PrivateIP} --public-ip $PublicIP | jq -r '.AssociationId'`
+    echo "${EIP1_ASSOCIATION_ID}"
+    EIP1_ID=`aws ec2 describe-addresses --public-ips ${PublicIP} | jq -r '.Addresses[].AllocationId'`
+    aws ec2 create-tags --resources ${EIP1_ID} --tags Key="lastused",Value="${CURRENT_EPOCH}"
+
+    PrivateIP2=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[] | select(.Primary==false) | .PrivateIpAddress'`
+    echo "Checking to see if a Secondary Elastic IP is already allocated and not attached..."
+    SecondaryIP=`aws ec2 describe-addresses --filter "Name=tag:Name,Values=${AWSUSERNAME}-EIP2" --query 'Addresses[?AssociationId==null]' | jq -r '.[0].PublicIp // ""'`
+    if [[ -z "${SecondaryIP}" ]]; then
+      echo "Allocating a new/another secondary elastic IP..."
+      SecondaryIP=`aws ec2 allocate-address --output json --no-cli-pager --tag-specifications="ResourceType=elastic-ip,Tags=[{Key=Name,Value=${AWSUSERNAME}-EIP2},{Key=Owner,Value=${AWSUSERNAME}}]" | jq -r '.PublicIp'`
+    else
+      echo "Previously allocated secondary Elastic IP ${SecondaryIP} found."
+    fi
+    echo -n "Associating Secondary IP ${SecondaryIP} address to instance ${InstId}..."
+    EIP2_ASSOCIATION_ID=`aws ec2 associate-address --output json --no-cli-pager --instance-id ${InstId} --private-ip ${PrivateIP2} --public-ip $SecondaryIP | jq -r '.AssociationId'`
+    echo "${EIP2_ASSOCIATION_ID}"
+    EIP2_ID=`aws ec2 describe-addresses --public-ips ${SecondaryIP} | jq -r '.Addresses[].AllocationId'`
+    aws ec2 create-tags --resources ${EIP2_ID} --tags Key="lastused",Value="${CURRENT_EPOCH}"
+    echo "Secondary public IP is ${SecondaryIP}"
+  fi
+
+  # Remove previous keys related to this IP from your SSH known hosts so you don't end up with a conflict
+  ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "${PublicIP}"
+
+  echo "ssh init"
+  # this is a do-nothing remote ssh command just to initialize ssh and make sure that the connection is working
+  until run "hostname"; do
+    sleep 5
+    echo "Retry ssh command.."
+  done
+  echo
 
   ##### Configure Instance
   ## TODO: replace these individual commands with userdata when the spot instance is created?
@@ -420,65 +480,6 @@ EOF
   run 'sudo mv /home/ubuntu/kubectl /usr/local/bin/'
   run 'sudo chmod +x /usr/local/bin/kubectl'
 fi
-
-echo
-echo "Instance ${InstId} is ready!"
-
-# Get the private IP address of our instance
-PrivateIP=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].PrivateIpAddress'`
-echo "Instance private IP is ${PrivateIP}"
-
-# Use Elastic IPs if a Secondary IP is required, instead of the auto assigned one.
-if [[ "${ATTACH_SECONDARY_IP}" == false ]]; then
-  PublicIP=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].PublicIpAddress'`
-  echo "Instance public IP is ${PublicIP}"
-  echo
-else
-  echo "Checking to see if an Elastic IP is already allocated and not attached..."
-  PublicIP=`aws ec2 describe-addresses --filter "Name=tag:Name,Values=${AWSUSERNAME}-EIP1" --query 'Addresses[?AssociationId==null]' | jq -r '.[0].PublicIp // ""'`
-  if [[ -z "${PublicIP}" ]]; then
-    echo "Allocating a new/another primary elastic IP..."
-    PublicIP=`aws ec2 allocate-address --output json --no-cli-pager --tag-specifications="ResourceType=elastic-ip,Tags=[{Key=Name,Value=${AWSUSERNAME}-EIP1},{Key=Owner,Value=${AWSUSERNAME}}]" | jq -r '.PublicIp'`
-  else
-    echo "Previously allocated primary Elastic IP ${PublicIP} found."
-  fi
-
-  echo "Instance public IP is ${PublicIP}"
-  echo
-
-  echo -n "Associating IP ${PublicIP} address to instance ${InstId} ..."
-  EIP1_ASSOCIATION_ID=`aws ec2 associate-address --output json --no-cli-pager --instance-id ${InstId} --private-ip ${PrivateIP} --public-ip $PublicIP | jq -r '.AssociationId'`
-  echo "${EIP1_ASSOCIATION_ID}"
-  EIP1_ID=`aws ec2 describe-addresses --public-ips ${PublicIP} | jq -r '.Addresses[].AllocationId'`
-  aws ec2 create-tags --resources ${EIP1_ID} --tags Key="lastused",Value="${CURRENT_EPOCH}"
-
-  PrivateIP2=`aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[] | select(.Primary==false) | .PrivateIpAddress'`
-  echo "Checking to see if a Secondary Elastic IP is already allocated and not attached..."
-  SecondaryIP=`aws ec2 describe-addresses --filter "Name=tag:Name,Values=${AWSUSERNAME}-EIP2" --query 'Addresses[?AssociationId==null]' | jq -r '.[0].PublicIp // ""'`
-  if [[ -z "${SecondaryIP}" ]]; then
-    echo "Allocating a new/another secondary elastic IP..."
-    SecondaryIP=`aws ec2 allocate-address --output json --no-cli-pager --tag-specifications="ResourceType=elastic-ip,Tags=[{Key=Name,Value=${AWSUSERNAME}-EIP2},{Key=Owner,Value=${AWSUSERNAME}}]" | jq -r '.PublicIp'`
-  else
-    echo "Previously allocated secondary Elastic IP ${SecondaryIP} found."
-  fi
-  echo -n "Associating Secondary IP ${SecondaryIP} address to instance ${InstId}..."
-  EIP2_ASSOCIATION_ID=`aws ec2 associate-address --output json --no-cli-pager --instance-id ${InstId} --private-ip ${PrivateIP2} --public-ip $SecondaryIP | jq -r '.AssociationId'`
-  echo "${EIP2_ASSOCIATION_ID}"
-  EIP2_ID=`aws ec2 describe-addresses --public-ips ${SecondaryIP} | jq -r '.Addresses[].AllocationId'`
-  aws ec2 create-tags --resources ${EIP2_ID} --tags Key="lastused",Value="${CURRENT_EPOCH}"
-  echo "Secondary public IP is ${SecondaryIP}"
-fi
-
-# Remove previous keys related to this IP from your SSH known hosts so you don't end up with a conflict
-ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "${PublicIP}"
-
-echo "ssh init"
-# this is a do-nothing remote ssh command just to initialize ssh and make sure that the connection is working
-until run "hostname"; do
-  sleep 5
-  echo "Retry ssh command.."
-done
-echo
 
 echo
 echo
