@@ -22,7 +22,7 @@ When utilizing the extra package values/logic there are two main pieces that are
 # Wrapper
 
 
-  The wrapper provides additional integrations with key Big Bang components and standards, as well as extensibility features for common use cases. All of these can be tailored to a given package's needs with a simple interface. Currently included are:
+  The [Wrapper](https://repo1.dso.mil/big-bang/product/packages/wrapper) is a helm chart that  provides additional integrations with key Big Bang components and standards, as well as extensibility features for common use cases. All of these can be tailored to a given package's needs with a simple interface. Currently included are:
   - Istio: injection/sidecars, `VirtualService` for ingress, and `PeerAuthentication` for mTLS
   - Monitoring: `ServiceMonitor` for metrics, alerts for alertmanager, dashboards for Grafana
   - NetworkPolicies: Default set of "best practice" network policies with opptions to extend
