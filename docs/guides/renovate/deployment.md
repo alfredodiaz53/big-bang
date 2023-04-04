@@ -18,7 +18,8 @@ packages:
       cronjob:
         schedule: '0 1 * * *'
       renovate:
-        config: '{
+        config: |
+        {
             "platform": "gitlab",
             "endpoint": "https://gitlab.example.com/api/v4",
             "token": "your-gitlab-renovate-user-token",
@@ -26,7 +27,7 @@ packages:
             "dryRun": true,
             "printConfig": true,
             "repositories": ["username/repo", "orgname/repo"]
-        }'
+        }
 ```
 
 #### Config
