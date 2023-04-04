@@ -14,7 +14,7 @@ When utilizing the extra package values/logic there are two main pieces that are
   - Flux `GitRepository` or `HelmRepository` depending on configuration
   - Flux `HelmRelease` or `Kustomization` depending on configuration
   - Control of flux settings for the above
-  - Control of `postRenderers` is using Flux `HelmRelease`
+  - Control of `postRenderers` if using Flux `HelmRelease`
   - Passthrough of values to configure your package chart
 
   The alternative is that customers would need to manage these things in a "sideloaded" fashion and not have these tied to the Big Bang deployment lifecycle/management.
