@@ -29,7 +29,7 @@ When utilizing the extra package values/logic there are two main pieces that are
   - NetworkPolicies: Default set of "best practice" network policies with options to extend
   - Secret creation (of arbitrary content)
   - Configmap creation (of arbitrary content)
-  - SSO configuration with Authservice (not fully automated, requires additional configuration of chains)
+  - SSO configuration with Authservice (not fully automated, requires additional configuration of chains and labeling of workload to route to authservice)
 
   These pieces can typically be complicated to get setup correctly and connected to components that are provided in Big Bang core, so we provide a simplified interface to add them.
 
