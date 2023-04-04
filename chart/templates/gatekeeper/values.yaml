@@ -214,6 +214,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         - fluentbit/logging-fluent-bit-.*
 =======
         - logging-fluent-bit-.*
@@ -224,6 +225,9 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
 =======
         - logging-fluent-bit-.*
 >>>>>>> 7b17904f (update)
+=======
+        - logging/logging-fluent-bit-.*
+>>>>>>> 140f4ea0 (uppdate)
        {{- end }}
        {{- if .Values.twistlock.enabled }}
         # Twistlock requires /dev/log for its syslog daemon.
