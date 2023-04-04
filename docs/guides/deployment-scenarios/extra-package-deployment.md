@@ -32,7 +32,7 @@ When utilizing the extra package values/logic there are two main pieces that are
 
   These pieces can typically be complicated to get setup correctly and connected to components that are provided in Big Bang core, so we provide a simplified interface to add them.
 
-  The difference between the OCI repository and git repositories is that the OCI repository artifact are OCI Spec compliant. The OCI repository schema contract allows a predictable, consitant and declarative deployment package.
+  The difference between the OCI repository and git repositories is that the OCI repository artifact are OCI Spec compliant. The OCI repository schema contract allows a predictable, consistant and declarative deployment.
 
   ## How to use it
 
