@@ -658,7 +658,7 @@ then
     echo "OPTION 2: ACCESS APPLICATIONS WITH WEB BROWSER AND COMMAND LINE"
     echo "To access apps from browser and from the workstation command line start sshuttle in a separate terminal window."
     echo "  sshuttle --dns -vr ubuntu@${PublicIP} 172.20.1.0/24 --ssh-cmd 'ssh -i ~/.ssh/${KeyName}.pem'"
-    echo "Edit your workstation /etc/hosts to add the LOADBALANCER EXTERNAL-IPs from the istio-system servcies with application hostnames."
+    echo "Edit your workstation /etc/hosts to add the LOADBALANCER EXTERNAL-IPs from the istio-system services with application hostnames."
     echo "Here is an example. You might have to change this depending on the number of gateways you configure for k8s cluster."
     echo "  # METALLB ISTIO INGRESS IPs"
     echo "  172.20.1.240 keycloak.bigbang.dev vault.bigbang.dev"
@@ -672,7 +672,7 @@ then	# Not using MetalLB and using private IP
   echo "To access apps from a browser edit your /etc/hosts to add the private IP of your EC2 instance with application hostnames. Example:"
   echo "  ${PrivateIP}  gitlab.bigbang.dev prometheus.bigbang.dev kibana.bigbang.dev"
   echo 
-else   # Not using MetalLB and using pubilc IP. This is the default
+else   # Not using MetalLB and using public IP. This is the default
   echo "To access apps from a browser edit your /etc/hosts to add the public IP of your EC2 instance with application hostnames."
   echo "Example:"
   echo "  ${PublicIP} gitlab.bigbang.dev prometheus.bigbang.dev kibana.bigbang.dev"
