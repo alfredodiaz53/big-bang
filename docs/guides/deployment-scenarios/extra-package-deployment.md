@@ -36,7 +36,126 @@ When utilizing the extra package values/logic there are two main pieces that are
 
   ## How to use it
 
-  The first piece you need in order to make use of this extensibility is the addition of `wrapper` in your Big Bang values. As of this documentation revision that should look like the below:
+```yaml
+packages:
+  podinfo:
+    enabled: true
+    wrapper:
+      enabled: true
+    git:
+      repo: https://github.com/stefanprodan/podinfo.git
+      tag: 6.3.4
+      path: charts/podinfo
+```
+NOTE: The wrapper is an opt-in feature.  Without enabling the wrapper, the `packages` will default to deploying flux object for your chart, without any wrapper-added configuration.
+
+The package also has OCI support for sourcing the artifacts; usage will be encouraged with the move to 2.0 and "first-class" support for `HelmRepository` resources.
+
+With these values added you should have a very basic deployment of `podinfo` added onto your Big Bang install with some basic default integrations. The rest of this guide will walk you through each section of Big Bang touchpoints and some example configurations you could use. Each of the configurations are compatible with each other (i.e. you can combine the examples below).
+
+### Basic Overrides
+
+There are some basic override values provided to modify your Helm chart installation. These do NOT require the `wrapper`. An example of these values is included below:
+
+```yaml
+packages:
+  podinfo:
+    git:
+      repo: https://github.com/stefanprodan/podinfo.git
+      tag: 6.3.4
+      path: charts/podinfo
+    flux:
+      timeout: 5m
+    postRenderers: [] 
+    values:
+      replicaCount: 3
+```
+
+In this example we are doing two things:
+- Overriding the Flux timeout on our `HelmRelease` to be 5 minutes
+- Passing a value directly to the Podinfo chart to create 3 replicas
+
+We could also specify a `postRenderers` value here, which is documented well in [this document](../../understanding-bigbang/configuration/postrenderers.md).
+
+If you would like to have values for your extra package deployment adapt based on your Big Bang configuration you could do something like the below:
+
+```yaml
+packages:
+  podinfo:
+    values:
+      istio:
+        enabled: "{{ .Values.istio.enabled }}"
+```
+
+In this example, Istio will only be configured for podinfo if Istio is enabled for BigBang.
+
+### Istio Configuration
+
+The wrapper chart provides a number of different ways to provide Istio configuration. The below is a basic example configuring some pieces for the `podinfo` application:
+
+```yaml
+packages:
+  podinfo:
+    git:
+      repo: https://github.com/stefanprodan/podinfo.git
+      tag: 6.3.4
+      path: charts/podinfo
+    wrapper:
+      enabled: true
+    istio:
+      hosts:
+        - names:
+            - podinfo
+          gateways:
+            - public
+          destination:
+            port: 9898
+```
+
+In this example we are primarily adding a virtual service for ingress to our application (leveraging defaults to select the proper service). By using the wrapper we are also getting several default options including istio sidecar injection and STRICT mTLS.
+
+There are more ways to modify the virtual service creation and mTLS config; additional values can be referenced in the [wrapper chart istio section](https://repo1.dso.mil/big-bang/product/packages/wrapper/-/blob/6536759fef016db8b5504ad6c237f2daffe22844/chart/values.yaml#L31-75).
+
+### Monitoring Configuration
+
+The wrapper chart also provides ways to integrate with the monitoring stack (Prometheus, Alertmanager, and Grafana). The example below is a basic way to configure monitoring for `podinfo`:
+
+```yaml
+packages:
+  podinfo:
+    git:
+      repo: https://github.com/stefanprodan/podinfo.git
+      tag: 6.3.4
+      path: charts/podinfo
+    wrapper:
+      enabled: true
+    monitor:
+      services:
+        - spec:
+            endpoints:
+              - port: http
+```
+
+In this example we are adding a service monitor that will target the port named `http`. We are leveraging a number of defaults here to select the proper service and metrics paths.
+
+There are other ways to further modify monitoring settings including more advanced service monitor config; additional values can be referenced in the [wrapper chart monitor section](https://repo1.dso.mil/big-bang/product/packages/wrapper/-/blob/6536759fef016db8b5504ad6c237f2daffe22844/chart/values.yaml#L77-91).
+
+### Network Policy Configuration
+
+The wrapper chart provides ways to configure network policies as needed for your application. The example below again provides a basic config for the `podinfo` application:
+
+```yaml
+packages:
+  podinfo:
+    git:
+      repo: https://github.com/stefanprodan/podinfo.git
+      tag: 6.3.4
+      path: charts/podinfo
+    wrapper:
+      enabled: true
+    network:
+      allowControlPlaneEgress: true
+```
 
   ```yaml
   ociRepositories:
