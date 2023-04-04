@@ -1,4 +1,4 @@
-{{- if and (or .Values.loki.enabled .Values.promtail.enabled) (not .Values.logging.enabled) }}
+{{- if and .Values.loki.enabled (not .Values.logging.enabled) (not .Values.fluentbit.enabled) }}
 apiVersion: v1
 kind: Namespace
 metadata:
