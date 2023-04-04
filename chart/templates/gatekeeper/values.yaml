@@ -163,7 +163,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
        {{- if .Values.fluentbit.enabled }}
         # fluent-bit container requires certain host level access to ship logs and for keep track of state
         # https://docs.fluentbit.io/manual/pipeline/filters/kubernetes#workflow-of-tail-kubernetes-filter
-        - logging-fluent-bit-.*
+        - logging/logging-fluent-bit-.*
        {{- end }}
        {{- if .Values.twistlock.enabled }}
         # Twistlock requires /dev/log for its syslog daemon.
