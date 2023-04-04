@@ -706,10 +706,6 @@ tempo:
 
 promtail:
   enabled: true
-  imagePullSecrets:
-  - name: private-registry
-  bbtests:
-      enabled: true
 
 monitoring:
   enabled: true
