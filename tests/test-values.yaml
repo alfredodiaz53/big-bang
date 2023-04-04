@@ -704,9 +704,6 @@ tempo:
           cpu: 200m
           memory: 128Mi
 
-promtail:
-  enabled: true
-
 monitoring:
   enabled: true
   sso:
@@ -1214,11 +1211,7 @@ addons:
       curlContainerImage: registry1.dso.mil/ironbank/big-bang/base:2.0.0
 
   minioOperator:
-<<<<<<< HEAD
     enabled: true # Minio Operator is required for Loki in default core
-=======
-    enabled: true
->>>>>>> 29b21367 (minioO enabled)
 
   minio:
     enabled: false
