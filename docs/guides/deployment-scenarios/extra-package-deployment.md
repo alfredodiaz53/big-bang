@@ -4,6 +4,7 @@ When using Big Bang you often find that you need or want to deploy an additional
 
 In order to ease the burden on end users and increase integration with Big Bang components we have provided a way to deploy these additional packages with extra "wrapping" to provide additional alignment with Big Bang standards.
 
+Please open an issue in the [Big Bang repository](https://repo1.dso.mil/big-bang/bigbang/-/issues) or in the [Wrapper repository ](https://repo1.dso.mil/big-bang/product/packages/wrapper/-/issues) for any bugs you discover or for any new features or functionality you would like the package/wrapper to support.
 ## What is provided
 
 When utilizing the extra package values/logic there are two main pieces that are deployed: your package and a wrapper. Each of these pieces provides certain things necessary for deploying.
