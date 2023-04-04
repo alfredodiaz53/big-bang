@@ -513,16 +513,6 @@ policies:
           namespaces:
           - logging
           names:
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-          {{- if .Values.promtail.enabled }}
->>>>>>> 8e32a7ad (update to meet standards)
-=======
->>>>>>> 5851933d (updates to conds)
-=======
->>>>>>> dc9a994a4273d35c4d6e63425747f4d9cdd04c76
           # NEEDS FURTHER JUSTIFICATION
           # Promtail needs selinux option type spc_t
           - logging-promtail*
@@ -571,16 +561,6 @@ policies:
           namespaces:
           - logging
           names:
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-          {{- if .Values.promtail.enabled }}
->>>>>>> 8e32a7ad (update to meet standards)
-=======
->>>>>>> 5851933d (updates to conds)
-=======
->>>>>>> dc9a994a4273d35c4d6e63425747f4d9cdd04c76
           # NEEDS FURTHER JUSTIFICATION
           # Promtail requires HostPath volume types
           # https://github.com/grafana/helm-charts/blob/main/charts/promtail/templates/daemonset.yaml#L120
