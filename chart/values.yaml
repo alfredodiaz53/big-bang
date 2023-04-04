@@ -613,6 +613,9 @@ fluentbit:
     path: "./chart"
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> dc9a994a4273d35c4d6e63425747f4d9cdd04c76
     tag: "0.25.0-bb.0"
   helmRepo:
     repoName: "registry1"
@@ -621,11 +624,15 @@ fluentbit:
 =======
     tag: null # "0.25.0-bb.0"
     branch: secret-sync
+<<<<<<< HEAD
 >>>>>>> 537387aa (secret syncupdate pullsec)
 =======
     tag: null # "0.25.0-bb.0"
     branch: secret-sync
 >>>>>>> dd77d32a (secret syncupdate pullsec)
+=======
+>>>>>>> 140f4ea073266fa868b03926d6ee4e40b5b60927
+>>>>>>> dc9a994a4273d35c4d6e63425747f4d9cdd04c76
 
   # -- Flux reconciliation overrides specifically for the Fluent-Bit Package
   flux: {}
@@ -754,6 +761,9 @@ neuvector:
   flux: {}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> dc9a994a4273d35c4d6e63425747f4d9cdd04c76
   # -- Values to passthrough to the Neuvector chart: https://repo1.dso.mil/big-bang/product/packages/neuvector.git
 =======
   # -- Values to passthrough to the Neuvector chart: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/neuvector.git
