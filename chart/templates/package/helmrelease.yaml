@@ -19,19 +19,21 @@ spec:
   releaseName: {{ $pkg }}
   chart:
     spec:
-      {{- if (not (eq $vals.sourceType "helmRepo")) }}
+      {{- if $vals.git }}
       chart: {{ dig "git" "path" "chart" $vals }}
       sourceRef:
         kind: GitRepository
         name: {{ $pkg }}
         namespace: {{ dig "namespace" "name" $pkg $vals }}
-      {{- else }}
+      {{- else if $vals.helmRepo }}
       chart: {{ dig "helmRepo" "chartName" $pkg $vals }}
       version: {{ dig "helmRepo" "tag" nil $vals }}
       sourceRef:
         kind: HelmRepository
         name: {{ dig "helmRepo" "repoName" "registry1" $vals }}
         namespace: {{ $.Release.Namespace }}
+      {{- else }}
+      {{- fail (printf "Values for source (git or helmRepo) are required for package %s" $pkg) }}
       {{- end }}
       interval: {{ default "5m" $fluxSettings.interval }}
       reconcileStrategy: Revision
@@ -46,23 +48,26 @@ spec:
 
   {{- /* Always wait on policy enforcement */ -}}
   {{- $gatekeeperDep := $.Values.gatekeeper.enabled -}}
-  {{- $kyvernoDep := $.Values.kyvernopolicies.enabled -}}
+  {{- $kyvernoDep := .Values.kyvernoPolicies.enabled -}}
   {{- /* Wait on istio if sidecar is enabled */ -}}
   {{- $istioDep := (and $.Values.istio.enabled (dig "istio" "injection" true $vals)) -}}
-  {{- if or $gatekeeperDep $kyvernoDep $istioDep }}
+  {{- if or $gatekeeperDep $kyvernoDep $istioDep $vals.dependsOn }}
   dependsOn:
     {{- if $gatekeeperDep }}
     - name: gatekeeper
       namespace: {{ default "bigbang" $.Values.namespace }}
     {{- end }}
     {{- if $kyvernoDep }}
-    - name: kyvernopolicies
+    - name: kyverno-policies
       namespace: {{ default "bigbang" $.Values.namespace }}
     {{- end }}
     {{- if $istioDep }}
     - name: istio
       namespace: {{ default "bigbang" $.Values.namespace }}
     {{- end -}}
+    {{- if $vals.dependsOn }}
+    {{- toYaml $vals.dependsOn | nindent 4 }}
+    {{- end }}
   {{- end }}
 ---
 {{ end -}}
