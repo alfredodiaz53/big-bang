@@ -48,6 +48,7 @@ packages:
       tag: 6.3.4
       path: charts/podinfo
 ```
+
 NOTE: The wrapper is an opt-in feature.  Without enabling the wrapper, the `packages` will default to deploying flux object for your chart, without any wrapper-added configuration.
 
 The package also has OCI support for sourcing the artifacts; usage will be encouraged with the move to 2.0 and "first-class" support for `HelmRepository` resources.
@@ -67,13 +68,17 @@ packages:
       path: charts/podinfo
     flux:
       timeout: 5m
-    postRenderers: [] 
+    postRenderers: []
+    dependsOn:
+      - name: monitoring
+        namespace: bigbang
     values:
       replicaCount: 3
 ```
 
-In this example we are doing two things:
+In this example we are doing three things:
 - Overriding the Flux timeout on our `HelmRelease` to be 5 minutes
+- Adding a dependency on the `monitoring` HelmRelease in the `bigbang` namespace, to ensure `podinfo` doesn't deploy until after `monitoring`
 - Passing a value directly to the Podinfo chart to create 3 replicas
 
 We could also specify a `postRenderers` value here, which is documented well in [this document](../../understanding-bigbang/configuration/postrenderers.md).
@@ -156,6 +161,18 @@ packages:
       enabled: true
     network:
       allowControlPlaneEgress: true
+      additionalPolicies: []
+      # example of additional egress network policy
+      # - name: egress-additional
+      #   spec: 
+      #     podSelector: {}
+      #     policyTypes:
+      #     - Egress
+      #     egress:
+      #     - to:
+      #       ports:
+      #       - protocol:
+      #         port: 9999
 ```
 
   ```yaml
