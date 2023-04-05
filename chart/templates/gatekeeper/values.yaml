@@ -152,7 +152,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
       {{- end }}
       {{- if .Values.promtail.enabled }}
       # Promtail needs selinux option type spc_t
-      - logging/promtail
+      - promtail/promtail
       {{- end }}
   {{- end }}
 
