@@ -743,7 +743,11 @@ neuvector:
   # -- Flux reconciliation overrides specifically for the Neuvector Package
   flux: {}
 
+<<<<<<< Updated upstream
   # -- Values to passthrough to the Neuvector chart: https://repo1.dso.mil/big-bang/product/packages/neuvector.git
+=======
+  # -- Values to passthrough to the Neuvector chart: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/neuvector.git
+>>>>>>> Stashed changes
   values: {}
 
   # -- Post Renderers.  See docs/postrenders.md
