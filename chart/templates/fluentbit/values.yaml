@@ -6,7 +6,7 @@
 {{- $disableDefault := dig "additionalOutputs" "disableDefault" false .Values.fluentbit.values }}
 
 {{- if (not $disableDefault) }}
-{{- if .Values.logging.enabled }}
+{{- if .Values.elasticsearchKibana.enabled }}
 env:
   - name: FLUENT_ELASTICSEARCH_PASSWORD
     valueFrom:
@@ -30,10 +30,10 @@ extraVolumeMounts:
   - mountPath: /etc/elasticsearch/certs/
     name: elasticsearch-certs
 {{- end }}
-{{- if or .Values.logging.enabled .Values.loki.enabled }}
+{{- if or .Values.elasticsearchKibana.enabled .Values.loki.enabled }}
 config:
   outputs: |
-    {{- if .Values.logging.enabled }}
+    {{- if .Values.elasticsearchKibana.enabled }}
     [OUTPUT]
         Name                     es
         Match                    kube.*
@@ -125,7 +125,7 @@ serviceMonitor:
   # - istio: enabled
   # - mTLS: SCRICT
   # - istio injection: enabled (for logging ns)
-  {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.fluentbit.values) "STRICT") (eq (dig "istio" "injection" "enabled" .Values.logging.values) "enabled") }}
+  {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.fluentbit.values) "STRICT") (eq (dig "istio" "injection" "enabled" .Values.elasticsearchKibana.values) "enabled") }}
   scheme: https
   tlsConfig:
     caFile: /etc/prom-certs/root-cert.pem
@@ -152,4 +152,11 @@ podSecurityContext:
   seLinuxOptions:
     type: "spc_t"
 {{- end }}
+
+loki:
+  enabled: {{ .Values.loki.enabled }}
+
+elasticsearchKibana:
+  enabled: {{.Values.elasticsearchKibana.enabled }}
+
 {{- end -}}
