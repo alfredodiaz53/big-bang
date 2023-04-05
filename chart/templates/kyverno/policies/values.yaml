@@ -379,7 +379,6 @@ policies:
           names:
           - promtail-promtail*
       {{- end }}
-      {{- end }}
       {{- if .Values.monitoring.enabled }}
       # Prometheus Node Exporter mounts the following hostPaths:
       # - `/`: monitor disk usage on filesystem mounts using e2fs call
