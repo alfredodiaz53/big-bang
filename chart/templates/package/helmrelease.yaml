@@ -33,7 +33,7 @@ spec:
         name: {{ dig "helmRepo" "repoName" "registry1" $vals }}
         namespace: {{ $.Release.Namespace }}
       {{- else }}
-      {{- fail (printf "Values for source (git or helmRepo) are required for %s" $pkg) }}
+      {{- fail (printf "Values for source (git or helmRepo) are required for package %s" $pkg) }}
       {{- end }}
       interval: {{ default "5m" $fluxSettings.interval }}
       reconcileStrategy: Revision
