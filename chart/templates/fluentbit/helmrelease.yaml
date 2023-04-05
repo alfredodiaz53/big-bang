@@ -11,6 +11,7 @@ metadata:
     {{- include "commonLabels" . | nindent 4}}
 spec:
   targetNamespace: fluentbit
+  releaseName: fluentbit
   chart:
     spec:
       {{- if eq .Values.fluentbit.sourceType "git" }}
