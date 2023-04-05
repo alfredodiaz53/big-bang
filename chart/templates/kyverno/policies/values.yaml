@@ -366,11 +366,11 @@ policies:
           # FluentBit from the policy than add the paths as allowable mounts
           - logging-fluent-bit*
           {{- end }}
-          {{- if .Values.promtail.enabled }}
-          - resources:
-              namespaces:
-              - logging
-              names:
+      {{- if .Values.promtail.enabled }}
+      - resources:
+          namespaces:
+          - logging
+          names:
           # Promtail mounts the following hostPaths:
           # - `/var/log/pods`: to tail pod logs
           # - `/var/lib/docker/containers`: to tail container logs
