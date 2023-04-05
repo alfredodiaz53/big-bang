@@ -74,7 +74,7 @@ The regex targets `- git::https://repo1.dso.mil/platform-one/big-bang/bigbang.gi
       "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
   }
 ```
-> The same concept can be applied to dev/kustomization.yaml
+> The same concept can be applied to dev/kustomization.yaml or the kustomization for any folder for a specific environment
 
 
 Targeting individual packages requires a more complex regex statement.  In this example we are targeting a kyverno version number based on the following yaml in dev/configmap.yaml:
@@ -127,10 +127,10 @@ See [Renovate Configuration](https://docs.renovatebot.com/configuration-options/
 
 ### Dashboard options
 #### dependencyDashboard
-When the Dependency Dashboard is enabled, Renovate will create a new issue in the repository. This issue has a "dashboard" where you can get an overview of the status of all updates. It can accept a boolean value.
+When the Dependency Dashboard is enabled, Renovate will create a new issue in the configured repository. This issue acts as a "dashboard" where you can get an overview of the status of all updates. It can accept a boolean value.
 
 #### dependencyDashboardHeader
-This key sets a header for the dependency dashboard which lists tasks to be completed by the user. The header will appear at the top of the dependency dashboard. In the given example, the header contains a checklist for updating helm chart versions and synker files. In gitlab this is the issue description. It can accept a string.
+This key sets a header for the dependency dashboard which lists tasks to be completed by the user in the form of the issue description on Gitlab. The header will appear at the top of the dependency dashboard. In the given example, the header contains a checklist for updating helm chart versions and synker files. It can accept a string.
 
 #### dependencyDashboardTitle
 This key is used to set the title for the dependency dashboard. In the example, it is set as "Renovate: Upgrade Gitlab Dependencies". It can accept a string.
