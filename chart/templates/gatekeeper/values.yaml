@@ -66,7 +66,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
       {{- if .Values.promtail.enabled }}
       # promtail requires hostpath volume mounts
       # https://github.com/grafana/helm-charts/blob/main/charts/promtail/templates/daemonset.yaml#L120
-      - logging/logging-promtail-.*
+      - promtail/promtail-promtail-.*
       {{- end }}
       {{- if and .Values.addons.velero.enabled .Values.addons.velero.values.deployNodeAgent }}
       # NodeAgent requires hostpath volume mount access in order to facilitate backing up cluster PV/C resources
@@ -178,7 +178,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
        {{- if .Values.promtail.enabled }}
         # Promtail requires hostpath volume types
         # https://github.com/grafana/helm-charts/blob/main/charts/promtail/templates/daemonset.yaml#L120
-        - logging/logging-promtail-.*
+        - promtail/promtail-promtail-.*
        {{- end }}
        {{- if .Values.neuvector.enabled }}
         # Neuvector requires hostpath volume types

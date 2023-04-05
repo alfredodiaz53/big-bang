@@ -224,9 +224,9 @@ policies:
       # promtail requires access to /run/promtail for its buffering and persistent state.
       - resources:
           namespaces:
-          - logging
+          - promtail
           names:
-          - logging-promtail*
+          - promtail-promtail*
       {{- end }}
       {{- if .Values.addons.gitlab.enabled }}
       # Gitlab Redis sub-chart does not have configurable securityContext values from upstream. An issue has been opened
@@ -286,9 +286,9 @@ policies:
       # promtail requires access to /run/promtail for its buffering and persistent state.
       - resources:
           namespaces:
-          - logging
+          - promtail
           names:
-          - logging-promtail*
+          - promtail-promtail*
       {{- end }}
       {{- if .Values.addons.gitlab.enabled }}
       # Gitlab Redis sub-chart does not have configurable securityContext values from upstream. An issue has been opened
@@ -559,12 +559,12 @@ policies:
       {{- if .Values.promtail.enabled }}
       - resources:
           namespaces:
-          - logging
+          - promtail
           names:
           # NEEDS FURTHER JUSTIFICATION
           # Promtail requires HostPath volume types
           # https://github.com/grafana/helm-charts/blob/main/charts/promtail/templates/daemonset.yaml#L120
-          - logging-promtail*
+          - promtail-promtail*
       {{- end }}
       {{- if .Values.monitoring.enabled }}
       # Prometheus node exporter requires a HostPath volume to monitor host metrics in /proc and /sys
