@@ -53,7 +53,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
       {{- end }}
       {{- if .Values.fluentbit.enabled }}
       # Fluentbit pods need access to host to get log files
-      - fluentbit/logging-fluent-bit-.*
+      - fluentbit/fluentbit-fluent-bit-.*
       {{- end }}
       {{- if .Values.neuvector.enabled }}
       # Neuvector needs access to host to inspect network traffic
@@ -163,7 +163,7 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
        {{- if .Values.fluentbit.enabled }}
         # fluent-bit container requires certain host level access to ship logs and for keep track of state
         # https://docs.fluentbit.io/manual/pipeline/filters/kubernetes#workflow-of-tail-kubernetes-filter
-        - fluentbit/logging-fluent-bit-.*
+        - fluentbit/fluentbit-fluent-bit-.*
        {{- end }}
        {{- if .Values.twistlock.enabled }}
         # Twistlock requires /dev/log for its syslog daemon.

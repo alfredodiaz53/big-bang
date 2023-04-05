@@ -101,7 +101,7 @@ policies:
           namespaces:
           - fluentbit
           names:
-          - logging-fluent-bit*
+          - fluentbit-fluent-bit*
       {{- end }}
       {{- if .Values.neuvector.enabled }}
       # Neuvector needs privileged access for realtime scanning of files from the node / access to the container runtime
@@ -124,7 +124,7 @@ policies:
           namespaces:
           - fluentbit
           names:
-          - logging-fluent-bit*
+          - fluentbit-fluent-bit*
       {{- end }}
       {{- if .Values.monitoring.enabled }}
       # Prometheus Node Exporter needs to be able to run on all nodes, regardless of taint, to gather node metrics
@@ -215,7 +215,7 @@ policies:
           namespaces:
           - fluentbit
           names:
-          - logging-fluent-bit*
+          - fluentbit-fluent-bit*
       {{- end }}
       {{- if .Values.promtail.enabled }}
       # promtail requires access to journalctl as well as /var/log.  This would require modifications
@@ -277,7 +277,7 @@ policies:
           namespaces:
           - fluentbit
           names:
-          - logging-fluent-bit*
+          - fluentbit-fluent-bit*
       {{- end }}
       {{- if .Values.promtail.enabled }}
       # promtail requires access to journalctl as well as /var/log.  This would require modifications
@@ -364,7 +364,7 @@ policies:
           # - `/var/log/flb-storage`: for Fluent Bit's buffering and persistent state
           # Since logs can have sensitive information, it is better to exclude
           # FluentBit from the policy than add the paths as allowable mounts
-          - logging-fluent-bit*
+          - fluentbit-fluent-bit*
       {{- end }}
       {{- if .Values.promtail.enabled }}
           # Promtail mounts the following hostPaths:
@@ -506,7 +506,7 @@ policies:
           names:
           # NEEDS FURTHER JUSTIFICATION
           # FluentBit needs selinux option type spc_t
-          - logging-fluent-bit*
+          - fluentbit-fluent-bit*
       {{- end }}
       {{- if .Values.promtail.enabled }}
       - resources:
@@ -554,7 +554,7 @@ policies:
           names:
           # Fluent bit containers requires HostPath volumes, to tail node and container logs.  It is also used for buffering
           # https://docs.fluentbit.io/manual/pipeline/filters/kubernetes#workflow-of-tail-+-kubernetes-filter
-          - logging-fluent-bit*
+          - fluentbit-fluent-bit*
           {{- end }}
       {{- if .Values.promtail.enabled }}
       - resources:
