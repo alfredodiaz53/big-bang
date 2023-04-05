@@ -367,17 +367,13 @@ policies:
           - logging-fluent-bit*
           {{- end }}
       {{- if .Values.promtail.enabled }}
-      - resources:
-          namespaces:
-          - logging
-          names:
           # Promtail mounts the following hostPaths:
           # - `/var/log/pods`: to tail pod logs
           # - `/var/lib/docker/containers`: to tail container logs
           # - `/run/promtail`: for Promtail's buffering and persistent state
           # Since logs can have sensitive information, it is better to exclude
           # Promtail from the policy than add the paths as allowable mounts
-          - logging-promtail*
+          - promtail-promtail*
       {{- end }}
       {{- if .Values.monitoring.enabled }}
       # Prometheus Node Exporter mounts the following hostPaths:
