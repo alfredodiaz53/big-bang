@@ -365,7 +365,7 @@ policies:
           # Since logs can have sensitive information, it is better to exclude
           # FluentBit from the policy than add the paths as allowable mounts
           - logging-fluent-bit*
-          {{- end }}
+      {{- end }}
       {{- if .Values.promtail.enabled }}
           # Promtail mounts the following hostPaths:
           # - `/var/log/pods`: to tail pod logs
@@ -373,7 +373,12 @@ policies:
           # - `/run/promtail`: for Promtail's buffering and persistent state
           # Since logs can have sensitive information, it is better to exclude
           # Promtail from the policy than add the paths as allowable mounts
+      - resources:
+          namespaces:
+          - promtail
+          names:
           - promtail-promtail*
+      {{- end }}
       {{- end }}
       {{- if .Values.monitoring.enabled }}
       # Prometheus Node Exporter mounts the following hostPaths:
@@ -503,15 +508,15 @@ policies:
           # NEEDS FURTHER JUSTIFICATION
           # FluentBit needs selinux option type spc_t
           - logging-fluent-bit*
-          {{- end }}
+      {{- end }}
       {{- if .Values.promtail.enabled }}
       - resources:
           namespaces:
-          - logging
+          - promtail
           names:
           # NEEDS FURTHER JUSTIFICATION
           # Promtail needs selinux option type spc_t
-          - logging-promtail*
+          - promtail-promtail*
       {{- end }}
       {{- if .Values.twistlock.enabled }}
       # NEEDS FURTHER JUSTIFICATION
