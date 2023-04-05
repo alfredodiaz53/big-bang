@@ -1,5 +1,5 @@
 {{- $fluxSettingsEckOperator := merge .Values.eckOperator.flux .Values.flux -}}
-{{- if or .Values.eckOperator.enabled .Values.elasticsearchKibana.enabled }}
+{{- if or .Values.eckOperator.enabled .Values.logging.enabled }}
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -13,18 +13,18 @@ spec:
   targetNamespace: eck-operator
   chart:
     spec:
-      {{- if eq (include "checkGitRef" .Values.eckOperator) "true" }}
+      {{- if eq .Values.eckOperator.sourceType "git" }}
       chart: {{ .Values.eckOperator.git.path }}
       sourceRef:
         kind: GitRepository
         name: eck-operator
         namespace: {{ .Release.Namespace }}
       {{- else }}
-      chart: {{ .Values.eckOperator.oci.name }}
-      version: {{ .Values.eckOperator.oci.tag }}
+      chart: {{ .Values.eckOperator.helmRepo.chartName }}
+      version: {{ .Values.eckOperator.helmRepo.tag }}
       sourceRef:
         kind: HelmRepository
-        name: {{ .Values.eckOperator.oci.repo }}
+        name: {{ .Values.eckOperator.helmRepo.repoName }}
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m

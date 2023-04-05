@@ -1,4 +1,4 @@
-.Values.elasticsearchKibana{{- if and (eq (include "checkGitRef" .Values.eckOperator) "true") (not .Values.offline) (or .Values.eckOperator.enabled .Values.elasticsearchKibana.enabled) }}
+{{- if and (eq .Values.eckOperator.sourceType "git") (not .Values.offline) (or .Values.eckOperator.enabled .Values.elasticsearchKibana.enabled) }}
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: GitRepository
 metadata:
