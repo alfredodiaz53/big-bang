@@ -1782,7 +1782,7 @@ packages:
     # -- Use a kustomize deployment rather than Helm
     kustomize: false
 
-    # -- HelmRepo source is supported and recommended for Helm deployments
+    # -- HelmRepo source is supported as an option for Helm deployments. If both `git` and `helmRepo` are provided `git` will take precedence.
     helmRepo:
       # -- Name of the HelmRepo specified in `helmRepositories`
       # @default -- Uses `registry1` Helm Repository if not specified
