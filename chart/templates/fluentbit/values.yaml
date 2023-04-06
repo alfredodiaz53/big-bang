@@ -6,6 +6,12 @@
 {{- $disableDefault := dig "additionalOutputs" "disableDefault" false .Values.fluentbit.values }}
 
 {{- if (not $disableDefault) }}
+loki:
+  enabled: {{ .Values.loki.enabled }}
+
+elasticsearchKibana:
+  enabled: {{.Values.elasticsearchKibana.enabled }}
+
 {{- if .Values.elasticsearchKibana.enabled }}
 env:
   - name: FLUENT_ELASTICSEARCH_PASSWORD
@@ -152,11 +158,4 @@ podSecurityContext:
   seLinuxOptions:
     type: "spc_t"
 {{- end }}
-
-loki:
-  enabled: {{ .Values.loki.enabled }}
-
-elasticsearchKibana:
-  enabled: {{.Values.elasticsearchKibana.enabled }}
-
 {{- end -}}
