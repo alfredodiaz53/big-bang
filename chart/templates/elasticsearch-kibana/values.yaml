@@ -30,6 +30,12 @@ mattermost:
   enabled: true
 {{- end }}
 
+{{- $disableDefaultFLB := dig "additionalOutputs" "disableDefault" false .Values.fluentbit.values }}
+{{- if and .Values.fluentbit.enabled (not $diableDefaultFLB) }}
+fluentbit:
+  enabled: true
+{{- end }}
+
 {{- with .Values.elasticsearchKibana.sso }}
 {{- if .enabled }}
 sso:
