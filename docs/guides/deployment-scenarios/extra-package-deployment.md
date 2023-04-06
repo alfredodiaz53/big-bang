@@ -7,7 +7,7 @@ In order to ease the burden on end users and increase integration with Big Bang 
 Please open an issue in the [Big Bang repository](https://repo1.dso.mil/big-bang/bigbang/-/issues) or in the [Wrapper repository ](https://repo1.dso.mil/big-bang/product/packages/wrapper/-/issues) for any bugs you discover or for any new features or functionality you would like the package/wrapper to support.
 ## What is provided
 
-When utilizing the extra package values/logic there are two main pieces that are deployed: your package and a wrapper. Each of these pieces provides certain things necessary for deploying. Only one method can be used. Package is used for a simple use case while using the wrapper is intended for complex environments.
+When utilizing the extra package values/logic there are two main pieces that are deployed: your package and a wrapper. Each of these pieces provides certain things necessary for deploying. Only one method can be used per deployment. Method, Package, is used for simple use cases. Wrapper method is intended for complex/robust deployments.
 
 # Package (Method 1 of 2)
 
