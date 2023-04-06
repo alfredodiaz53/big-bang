@@ -31,7 +31,7 @@ mattermost:
 {{- end }}
 
 {{- $disableDefaultFLB := dig "additionalOutputs" "disableDefault" false .Values.fluentbit.values }}
-{{- if and .Values.fluentbit.enabled (not $diableDefaultFLB) }}
+{{- if and .Values.fluentbit.enabled (not $disableDefaultFLB) }}
 fluentbit:
   enabled: true
 {{- end }}
