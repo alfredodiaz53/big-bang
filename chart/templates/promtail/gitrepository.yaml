@@ -1,18 +1,18 @@
-{{- if and (eq (include "checkGitRef" .Values.istiooperator) "true") (not .Values.offline) .Values.istiooperator.enabled }}
+{{- if and (eq .Values.promtail.sourceType "git") (not .Values.offline) .Values.promtail.enabled }}
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: GitRepository
 metadata:
-  name: istio-operator
+  name: promtail
   namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: istio-operator
+    app.kubernetes.io/name: promtail
     app.kubernetes.io/component: "core"
     {{- include "commonLabels" . | nindent 4}}
 spec:
   interval: {{ .Values.flux.interval }}
-  url: {{ .Values.istiooperator.git.repo }}
+  url: {{ .Values.promtail.git.repo }}
   ref:
-    {{- include "validRef" .Values.istiooperator.git | nindent 4 }}
+    {{- include "validRef" .Values.promtail.git | nindent 4 }}
   {{ include "gitIgnore" . }}
   {{- include "gitCreds" . | nindent 2 }}
 {{- end }}
