@@ -76,9 +76,9 @@ config:
         match                  kube.*
         labels                 job=fluentbit, container=$kubernetes['container_name'], pod=$kubernetes['pod_name'], namespace=$kubernetes['namespace_name'], node_name=$kubernetes['host']
         {{- if eq .Values.loki.strategy "monolith" }}
-        host                   logging-loki
+        host                   logging-loki.logging
         {{- else }}
-        host                   logging-loki-write
+        host                   logging-loki-write.logging
         {{- end }}
         port                   3100
         auto_kubernetes_labels on
@@ -90,9 +90,9 @@ config:
         match                  host.*
         labels                 job=fluentbit, container=$kubernetes['container_name'], pod=$kubernetes['pod_name'], namespace=$kubernetes['namespace_name'], node_name=$kubernetes['host']
         {{- if eq .Values.loki.strategy "monolith" }}
-        host                   logging-loki
+        host                   logging-loki.logging
         {{- else }}
-        host                   logging-loki-write
+        host                   logging-loki-write.logging
         {{- end }}
         port                   3100
         auto_kubernetes_labels on
