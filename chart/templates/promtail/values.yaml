@@ -14,7 +14,7 @@ istio:
   enabled: {{ .Values.istio.enabled }}
 
 loki:
-  enabled: {{ .Values.promtail.enabled }}
+  enabled: {{ .Values.loki.enabled }}
 
 serviceMonitor:
   enabled: {{ .Values.monitoring.enabled }}
