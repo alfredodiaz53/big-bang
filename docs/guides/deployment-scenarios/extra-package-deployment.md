@@ -7,9 +7,9 @@ In order to ease the burden on end users and increase integration with Big Bang 
 Please open an issue in the [Big Bang repository](https://repo1.dso.mil/big-bang/bigbang/-/issues) or in the [Wrapper repository ](https://repo1.dso.mil/big-bang/product/packages/wrapper/-/issues) for any bugs you discover or for any new features or functionality you would like the package/wrapper to support.
 ## What is provided
 
-When utilizing the extra package values/logic there are two main pieces that are deployed: your package and a wrapper. Each of these pieces provides certain things necessary for deploying.
+When utilizing the extra package values/logic there are two main pieces that are deployed: your package and a wrapper. Each of these pieces provides certain things necessary for deploying. Only one method can be used. Package is used for a simple use case while using the wrapper is intended for complex environments.
 
-# Package
+# Package (Method 1 of 2)
 
   By deploying your package with the Big Bang values you will get the below all through Big Bang values control:
   - Flux `GitRepository` or `HelmRepository` depending on configuration
@@ -20,7 +20,7 @@ When utilizing the extra package values/logic there are two main pieces that are
 
   The alternative is that customers would need to manage these things in a "sideloaded" fashion and not have these tied to the Big Bang deployment lifecycle/management.
 
-# Wrapper
+# Wrapper (Method 2 of 2)
 
 
   The [Wrapper](https://repo1.dso.mil/big-bang/product/packages/wrapper) is a helm chart that  provides additional integrations with key Big Bang components and standards, as well as extensibility features for common use cases. All of these can be tailored to a given package's needs with a simple interface. Currently included are:
