@@ -541,8 +541,7 @@ elasticsearchKibana:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/elasticsearch-kibana.git
     path: "./chart"
-    # tag: "1.2.0-bb.0"
-    branch: flb-ingress
+    tag: "1.2.0-bb.0"
   helmRepo:
     repoName: "registry1"
     chartName: "elasticsearch-kibana"
@@ -615,8 +614,7 @@ fluentbit:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/fluentbit.git
     path: "./chart"
-    # tag: "0.25.0-bb.2"
-    branch: "flb-ek-certs"
+    tag: "0.25.0-bb.2"
   helmRepo:
     repoName: "registry1"
     chartName: "fluentbit"
