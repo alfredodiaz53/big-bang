@@ -120,7 +120,7 @@ The `fileMatch` array is a list of files that you want to parse.  It uses a regu
 
 You can optionally capture `<currentDigest>` as the SHA256 digest for an image if you want renovate to replace this value.
 
-To capture a group, you simply use [regex named groups](https://www.regular-expressions.info/refext.html).  If you cannot capture the group in regex, you can use a `template` to hard code the value.  Here is an example with both capturing and a template:
+To capture a group, you simply use [regex named groups](https://www.regular-expressions.info/refext.html).
 
 See [Renovate Configuration](https://docs.renovatebot.com/configuration-options/#regexmanagers) for more details.
 
@@ -138,7 +138,7 @@ This key is used to set the title for the dependency dashboard. In the example, 
 
 
 ### packageRules
-This key provides an array of rules that define how packages are matched and grouped. In the example, any matching package with the datasource `docker` will be grouped under the name `Ironbank`. It can accept an array of objects see [Renovate Package Rules Docs](https://docs.renovatebot.com/configuration-options/#packagerules) for more info.
+This key provides an array of rules that define how packages are matched and grouped. In the example, any matching package with the datasource `git-tags` will be grouped under the name `Big Bang`. It can accept an array of objects see [Renovate Package Rules Docs](https://docs.renovatebot.com/configuration-options/#packagerules) for more info.
 
 ## Additional Package Configuration Options
 
@@ -152,13 +152,13 @@ This key specifies whether to reuse an existing pull request for updates, and wh
 This key specifies whether the generated pull requests should be marked as drafts. It can accept a boolean value.
 
 ### enabledManagers
-This key specifies which dependency managers to enable. In the example, Renovate will use `helm-values` and `regex`.  It can accept an array of strings.
+This key specifies which dependency managers to enable. In the example, Renovate will use `regex`.  It can accept an array of strings.
 
 ### ignorePaths
-This key lists the file paths for Renovate to ignore when checking dependencies. In the example, Renovate will ignore the files in the `chart/charts/`, `chart/examples/`, and `chart/scripts/` directories. It can accept an array of strings.
+This key lists the file paths for Renovate to ignore when checking dependencies. It can accept an array of strings.
 
 ### labels
-This key assigns labels to the created pull requests. In the example, the `gitlab` and `renovate` labels are applied. It can accept an array of strings.
+This key assigns labels to the created pull requests. In the example a `renovate` label is applied. It can accept an array of strings.
 
 ### commitMessagePrefix
 This key sets a prefix that will be added to commit messages. In the example, the prefix is set as `SKIP UPDATE CHECK`. It can accept a string.
