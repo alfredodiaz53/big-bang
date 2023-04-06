@@ -43,7 +43,7 @@ config:
     [OUTPUT]
         Name                     es
         Match                    kube.*
-        Host                     {{ dig "elasticsearch" "name" "logging-ek" .Values.fluentbit.values }}-es-http
+        Host                     {{ dig "elasticsearch" "name" "logging-ek" .Values.fluentbit.values }}-es-http.logging
         HTTP_User                elastic
         HTTP_Passwd              ${FLUENT_ELASTICSEARCH_PASSWORD}
         Logstash_Format          On
@@ -57,7 +57,7 @@ config:
     [OUTPUT]
         Name                     es
         Match                    host.*
-        Host                     {{ dig "elasticsearch" "name" "logging-ek" .Values.fluentbit.values }}-es-http
+        Host                     {{ dig "elasticsearch" "name" "logging-ek" .Values.fluentbit.values }}-es-http.logging
         HTTP_User                elastic
         HTTP_Passwd              ${FLUENT_ELASTICSEARCH_PASSWORD}
         Logstash_Format          On
