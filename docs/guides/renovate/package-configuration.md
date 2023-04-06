@@ -12,16 +12,16 @@ The first 10 lines set up the basics of what a Renovate ticket is expected to lo
     "baseBranches": ["main"],
     "configWarningReuseIssue": false,
     "dependencyDashboard": true,
-    "dependencyDashboardHeader": "- [ ] Sync upstream versions with updated dependencies.",
-    "dependencyDashboardTitle": "Renovate: Upgrade Package Dependencies",
+    "dependencyDashboardHeader": "- [ ] Review Big Bang changelog/release notes.",
+    "dependencyDashboardTitle": "Renovate: Upgrade Big Bang",
     "draftPR": true,
     "enabledManagers": ["regex"],
-    "ignorePaths": ["chart/charts/**"],
     "labels": ["renovate"],
     "commitMessagePrefix": "",
     "separateMajorMinor": false,
     "packageRules": [
           {
+            "groupName": "Big Bang",
             "matchDatasources": ["git-tags"]
           }
         ],
@@ -47,9 +47,8 @@ The first 10 lines set up the basics of what a Renovate ticket is expected to lo
         {
             "fileMatch": ["^dev/configmap\\.yaml$"],
             "matchStrings": [
-              "repo:\\s+(?<depName>.+)\\s+tag:\\s+\"(?<currentValue>.+)\""
+              "git:\\s+repo:\\s+(?<depName>.+)\\s+tag:\\s+\"(?<currentValue>.+)\""
             ],
-            "depName": "https://repo1.dso.mil/big-bang/product/packages/kyverno.git",
             "datasourceTemplate": "git-tags",
             "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-bb\\.(?<build>\\d+)$"
         }
@@ -57,7 +56,7 @@ The first 10 lines set up the basics of what a Renovate ticket is expected to lo
 }
 ```
 
-#### RexEx Managers
+#### RegEx Managers
 This is where regex-based rules for updating dependencies are defined. This is where the majority of the work is done for Renovate. 
 
 In this example the version of Big Bang tracked by the base/kustomization.yaml is the target of renovate. 
@@ -116,7 +115,7 @@ The `fileMatch` array is a list of files that you want to parse.  It uses a regu
 `matchString` is used to identify the current version, data source type, dependency name or current digest in a file.   You must use special capture groups in regex to identify these items, or create a template for Renovate to understand.  The following are required to be captured:
 
 - `<currentValue>`: This is the current version or tag of the dependency (e.g. v1.2.3)
-- `<datasource>`: This is the type of the dependency.  For Iron Bank, Big Bang uses `docker`.
+- `<datasource>`: This is the type of the dependency.  For Big Bang packages you will want to use `git-tags`.
 - `<depName>`: This is the name of the dependency and is uses as the repository for the dependency when looking it up in the registry
 
 You can optionally capture `<currentDigest>` as the SHA256 digest for an image if you want renovate to replace this value.

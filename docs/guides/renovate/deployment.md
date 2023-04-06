@@ -1,8 +1,8 @@
 ### Deployment of Renovate
 
-Follow the [Extra Package Deployment Guide](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/deployment-scenarios/extra-package-deployment.md)
+Follow the [Extra Package Deployment Guide](../deployment-scenarios/extra-package-deployment.md)
 
-#### Templated Wrapper Values
+#### Example Deployment Values
 ``` yaml
 packages:
   renovate:
@@ -42,7 +42,7 @@ The repositories key in this self-hosted renovate configuration specifies which 
 See [Self Hosted Configuration](https://docs.renovatebot.com/self-hosted-configuration/#self-hosted-configuration-options) for more details
 
 #### Cron Job
-See [Scheduling Renovate Guide](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/renovate/scheduling.md)
+See [Scheduling Renovate Guide](./scheduling.md)
 
 #### Individual Package Configuration
-The configuration file for Renovate is called `renovate.json` and is located in each project's root directory. See [Package Configuration](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/renovate/package-configuration.md) 
+The configuration file for Renovate is called `renovate.json` and is located in each project's root directory. See [Package Configuration](./package-configuration.md)
