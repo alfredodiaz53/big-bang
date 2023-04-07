@@ -76,7 +76,19 @@ The regex targets `- git::https://repo1.dso.mil/platform-one/big-bang/bigbang.gi
 > The same concept can be applied to dev/kustomization.yaml or the kustomization for any folder for a specific environment
 
 
-Targeting individual packages requires a more complex regex statement.  In this example we are targeting a kyverno version number based on the following yaml in dev/configmap.yaml:
+Targeting packages requires a more complex regex statement.  In this example we are asking renovate to update the version number of `git.tag` where `git.repository` matches the `depName`
+
+```json
+    {
+      "fileMatch": ["^dev/configmap\\.yaml$"],
+      "matchStrings": [
+        "git:\\s+repo:\\s+(?<depName>.+)\\s+tag:\\s+\"(?<currentValue>.+)\""
+      ],
+      "depNameTemplate": "https://repo1.dso.mil/big-bang/product/packages/kyverno.git",
+      "datasourceTemplate": "git-tags",
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-bb\\.(?<build>\\d+)$"
+   }
+```
 
 ```yaml
 kyverno:
@@ -85,20 +97,6 @@ kyverno:
     tag: "2.6.5-bb.2"
   values:
     replicaCount: 1
-```
-
-The regex walks down the keys using `\\s+` to include any whitespace.
-
-```json
-    {
-      "fileMatch": ["^dev/configmap\\.yaml$"],
-      "matchStrings": [
-        "kyverno:\\s+git:\\s+repo:\\s+(?<depName>.+)\\s+tag:\\s+\"(?<currentValue>.+)\""
-      ],
-      "depNameTemplate": "https://repo1.dso.mil/big-bang/product/packages/kyverno.git",
-      "datasourceTemplate": "git-tags",
-      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-bb\\.(?<build>\\d+)$"
-   }
 ```
 ## Package Configuration Options
 The following options are commonly used to configure the options of Renovate:
