@@ -1770,7 +1770,8 @@ wrapper:
     # -- Path inside of the git repo to find the helm chart, example: chart
     path: "chart"
     # -- Git tag to check out.  Takes precedence over branch. [More info](https://fluxcd.io/flux/components/source/gitrepositories/#reference), example: 0.0.2
-    tag: "0.2.1"
+    # tag: "0.3.0"
+    branch: "istio-injection"
 
 # -- Packages to deploy with Big Bang
 # @default - '{}'
