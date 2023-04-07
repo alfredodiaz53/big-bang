@@ -12,14 +12,14 @@ When utilizing the extra package values/logic there are two main pieces that are
 
 ## Package Deployment
 
-  By deploying your package with the Big Bang values you will get the below all through Big Bang values control:
-  - Flux `GitRepository` or `HelmRepository` depending on configuration
-  - Flux `HelmRelease` or `Kustomization` depending on configuration
-  - Control of flux settings for the above
-  - Control of `postRenderers` if using Flux `HelmRelease`
-  - Passthrough of values to configure your package chart
+By deploying your package with the Big Bang values you will get the below all through Big Bang values control:
+- Flux `GitRepository` or `HelmRepository` depending on configuration
+- Flux `HelmRelease` or `Kustomization` depending on configuration
+- Control of flux settings for the above
+- Control of `postRenderers` if using Flux `HelmRelease`
+- Passthrough of values to configure your package chart
 
-  The alternative is that customers would need to manage these things in a "sideloaded" fashion and not have these tied to the Big Bang deployment lifecycle/management.
+The alternative is that customers would need to manage these things in a "sideloaded" fashion and not have these tied to the Big Bang deployment lifecycle/management.
 
 ### Basic Overrides/Passthroughs
 
@@ -63,15 +63,15 @@ In this example, Istio will only be configured for podinfo if Istio is enabled f
 
 ## Wrapper Deployment
 
-  The [Wrapper](https://repo1.dso.mil/big-bang/product/packages/wrapper) is a helm chart that  provides additional integrations with key Big Bang components and standards, as well as extensibility features for common use cases. All of these can be tailored to a given package's needs with a simple interface. Currently included are:
-  - Istio: injection/sidecars, `VirtualService` for ingress, and `PeerAuthentication` for mTLS
-  - Monitoring: `ServiceMonitor` for metrics, alerts for alertmanager, dashboards for Grafana
-  - NetworkPolicies: Default set of "best practice" network policies with options to extend
-  - Secret creation (of arbitrary content)
-  - Configmap creation (of arbitrary content)
-  - SSO configuration with Authservice (not fully automated, requires additional configuration of chains and labeling of workload to route to authservice)
+The [Wrapper](https://repo1.dso.mil/big-bang/product/packages/wrapper) is a helm chart that  provides additional integrations with key Big Bang components and standards, as well as extensibility features for common use cases. All of these can be tailored to a given package's needs with a simple interface. Currently included are:
+- Istio: injection/sidecars, `VirtualService` for ingress, and `PeerAuthentication` for mTLS
+- Monitoring: `ServiceMonitor` for metrics, alerts for alertmanager, dashboards for Grafana
+- NetworkPolicies: Default set of "best practice" network policies with options to extend
+- Secret creation (of arbitrary content)
+- Configmap creation (of arbitrary content)
+- SSO configuration with Authservice (not fully automated, requires additional configuration of chains and labeling of workload to route to authservice)
 
-  These pieces can typically be complicated to get setup correctly and connected to components that are provided in Big Bang core, so we provide a simplified interface to add them.
+These pieces can typically be complicated to get setup correctly and connected to components that are provided in Big Bang core, so we provide a simplified interface to add them.
 
 ### How to use it
 
@@ -173,31 +173,31 @@ packages:
       #         port: 9999
 ```
 
-  In this example we are allowing the package to have egress to the Kubernetes control plane (aka API). This particular setting can be beneficial for operators that may need to create Kubernetes resources. 
+In this example we are allowing the package to have egress to the Kubernetes control plane (aka API). This particular setting can be beneficial for operators that may need to create Kubernetes resources.
 
-  There are a number of additional configurations including allowing egress to https or more custom needs; additional values can be referenced in the [wrapper chart network section](https://repo1.dso.mil/big-bang/product/packages/wrapper/-/blob/6536759fef016db8b5504ad6c237f2daffe22844/chart/values.yaml#L93-113).
+There are a number of additional configurations including allowing egress to https or more custom needs; additional values can be referenced in the [wrapper chart network section](https://repo1.dso.mil/big-bang/product/packages/wrapper/-/blob/6536759fef016db8b5504ad6c237f2daffe22844/chart/values.yaml#L93-113).
 
 ### Configmap / Secret Creation
 
-  Oftentimes when deploying a Helm chart you may be expected to point to an existing secret for credentials, a license, or external service configuration (S3/RDS). The below values can be helpful in creation of these items:
+Oftentimes when deploying a Helm chart you may be expected to point to an existing secret for credentials, a license, or external service configuration (S3/RDS). The below values can be helpful in creation of these items:
 
-  ```yaml
-  packages:
-    podinfo:
-      git:
-        repo: https://github.com/stefanprodan/podinfo.git
-        tag: 6.3.4
-        path: charts/podinfo
-      wrapper:
-        enabled: true
-      configMaps:
-        - name: config
-          data:
-            foo: bar
-      secrets:
-        - name: secret
-          data:
-            foo: YmFyCg==
-  ```
+```yaml
+packages:
+  podinfo:
+    git:
+      repo: https://github.com/stefanprodan/podinfo.git
+      tag: 6.3.4
+      path: charts/podinfo
+    wrapper:
+      enabled: true
+    configMaps:
+      - name: config
+        data:
+          foo: bar
+    secrets:
+      - name: secret
+        data:
+          foo: YmFyCg==
+```
 
-  These secrets/configmaps are created prior to installation of your package, so that they can be referenced in any values you use to configure your package.
+These secrets/configmaps are created prior to installation of your package, so that they can be referenced in any values you use to configure your package.
