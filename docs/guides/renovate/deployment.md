@@ -34,7 +34,7 @@ packages:
 The configuration sets up a self-hosted instance of Renovate that connects with a platform. In the example we connect to GitLab using the GitLab API v4 at a specified URL.
 
 ##### Auth
-Recommended to use a repository auth token.
+It is recommended to use a repository-scoped auth token with developer access for least privilege.
 
 ##### Repositories
 The repositories key in this self-hosted renovate configuration specifies which repositories should be included in the update checks performed by renovate Accepts an array of strings or objects.

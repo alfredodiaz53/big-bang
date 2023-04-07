@@ -129,10 +129,10 @@ See [Renovate Configuration](https://docs.renovatebot.com/configuration-options/
 When the Dependency Dashboard is enabled, Renovate will create a new issue in the configured repository. This issue acts as a "dashboard" where you can get an overview of the status of all updates. It can accept a boolean value.
 
 #### dependencyDashboardHeader
-This key sets a header for the dependency dashboard which lists tasks to be completed by the user in the form of the issue description on Gitlab. The header will appear at the top of the dependency dashboard. In the given example, the header contains a checklist for updating helm chart versions and synker files. It can accept a string.
+This key sets a header for the dependency dashboard which lists tasks to be completed by the user in the form of the issue description on Gitlab. The header will appear at the top of the dependency dashboard. In the given example, the header contains a checklist for reviewing the BB release notes/changelog. It can accept a string.
 
 #### dependencyDashboardTitle
-This key is used to set the title for the dependency dashboard. In the example, it is set as "Renovate: Upgrade Gitlab Dependencies". It can accept a string.
+This key is used to set the title for the dependency dashboard. In the example, it is set as "Renovate: Upgrade Big Bang". It can accept a string.
 
 > See [Renovate Configuration](https://docs.renovatebot.com/configuration-options/#dependencydashboard) for more info.
 
@@ -161,7 +161,7 @@ This key lists the file paths for Renovate to ignore when checking dependencies.
 This key assigns labels to the created pull requests. In the example a `renovate` label is applied. It can accept an array of strings.
 
 ### commitMessagePrefix
-This key sets a prefix that will be added to commit messages. In the example, the prefix is set as `SKIP UPDATE CHECK`. It can accept a string.
+This key sets a prefix that will be added to commit messages. It can accept a string.
 
 ### separateMajorMinor
 This key specifies whether to separate major/minor updates into separate pull requests. It can accept a boolean value.
