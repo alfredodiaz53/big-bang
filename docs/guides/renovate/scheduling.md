@@ -49,17 +49,25 @@ Once you have configured the schedule in the values.yaml file, you can deploy th
 
 ### Example Yaml
 ```yaml
-cronjob:
-  # At 01:00 every day
-  schedule: '0 1 * * *'
-  # -- If it is set to true, all subsequent executions are suspended. This setting does not apply to already started executions.
-  suspend: false
-  annotations: {}
-  labels: {}
-  concurrencyPolicy: ''
-  failedJobsHistoryLimit: ''
-  successfulJobsHistoryLimit: ''
-  jobRestartPolicy: Never
-  jobBackoffLimit: ''
-  startingDeadlineSeconds: ''
+packages:
+  renovate:
+    enabled: true
+    git:
+      repo: https://repo1.dso.mil/big-bang/product/packages/renovate.git
+      tag: 32.38.0-bb.1
+    values:
+      cronjob:
+        # At 01:00 every day
+        schedule: '0 1 * * *'
+        # -- If it is set to true, all subsequent executions are suspended. This setting does not apply to already started executions.
+        suspend: false
+        annotations: {}
+        labels: {}
+        concurrencyPolicy: ''
+        failedJobsHistoryLimit: ''
+        successfulJobsHistoryLimit: ''
+        jobRestartPolicy: Never
+        jobBackoffLimit: ''
+        startingDeadlineSeconds: ''
+
   ``` 
