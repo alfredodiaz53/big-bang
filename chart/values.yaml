@@ -642,8 +642,7 @@ promtail:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/promtail.git
     path: "./chart"
-    # tag: "6.8.1-bb.3"
-    branch: "np-fixes-things"
+    tag: "6.8.1-bb.3"
   helmRepo:
     repoName: "registry1"
     chartName: "promtail"
