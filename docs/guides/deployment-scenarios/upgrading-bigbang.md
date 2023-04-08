@@ -1,17 +1,28 @@
 # Upgrading Big Bang
 
+## Before Upgrading
+Before upgrading Big Bang please first check the Release Notes and the Changelog to look for any notes that apply to Big Bang Updates and Package Updates
+
+## Supported Upgrades
+Generally we expect upgrades to be done one minor release at a time.  If necessary, it is possible to jump past several versions provided there is careful review of the release notes in between the versions and there are no problems.
+
+NOTE: It is recommended that upgrades first be tested in a staging environment that mirrors the production environment so that errors are caught early.
+
 ## Upgrading a Single Package
 Packages in Big Bang can be updated one at a time
 Upgrading a single package in Big Bang is done by changing the tag in the values for that package.  This should be done in the overriding valus in the customer template.
 
 For a git repository:
+
 ```yaml
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/istio-controlplane.git
     path: "./chart"
     tag: "1.17.1-bb.0"
 ```
+
 For OCI:
+
 ```yaml
 istio:
   git: null
@@ -20,14 +31,9 @@ istio:
     tag: "1.15.3-bb.0"
     repo: "registry1"
 ```
+
 These values are in `chart/values.yaml` of the Big Bang helm chart.
 When using the [Customer Template](https://repo1.dso.mil/big-bang/customers/template) you can make these changes in either the `bigbang/base/values.yaml` or in each cluster's kustomizations (`bigbang/dev/values.yaml)`.
-
-
-
-*** release notes review for individual packages + upstream review for breaking changes.
-
-        
 
 ## Upgrading Big Bang umbrella deployment
 To upgrade your umbrella deployment of Big Bang when using the [Customer Template](https://repo1.dso.mil/big-bang/customers/template) :
@@ -38,16 +44,18 @@ namespace: bigbang
 resources:
   - git::https://repo1.dso.mil/platform-one/big-bang/bigbang.git//base?ref=release-1.56.x
 ```
+
 After this is pushed to your repo, `flux` will read the change and update all helm charts to the versions on the BB release version.
 
-***How to upgrade BB umbrella: Review of release notes for any upgrade notices, known issues, etc. What does an actual code change look like to upgrade (focus on customer template usage).
-
 ## Verifying the Upgrade
+After upgrading the cluster there are some places to look to verify that the upgrade was completed successfully
 
+Verify that the Helm releases 
+Verify that there are all pods are either `Running` or `Completed`
+Look for any pods that recently restarted (crashing recently)
+Check for specific package versions (image version on pods ) i.e. Istio, check proxy versions, Runners- check for runner versions. check for UI on each package
 
-***How to know your upgrade "worked": What to look for in cluster to validate that Big Bang has upgraded and is healthy
+## Upgrade Troubleshooting
+A few issues and possible fixes
 
-## Supported Upgrades
-Generally we expect upgrades to be done one minor release at a time.  If necessary, it is possible to jump past several versions provided there is careful review of the release notes in between the versions and there are no problems.
-
-NOTE: It is recommended that upgrades first be tested in a staging environment that mirrors the production environment so that errors are caught early.
+### Helm release upgrade failure
