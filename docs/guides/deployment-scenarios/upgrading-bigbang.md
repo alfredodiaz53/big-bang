@@ -56,6 +56,4 @@ Look for any pods that recently restarted (crashing recently)
 Check for specific package versions (image version on pods ) i.e. Istio, check proxy versions, Runners- check for runner versions. check for UI on each package
 
 ## Upgrade Troubleshooting
-A few issues and possible fixes
-
-### Helm release upgrade failure
+Troubleshooting for common issues will be added here.
