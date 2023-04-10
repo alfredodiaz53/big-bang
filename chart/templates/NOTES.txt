@@ -126,10 +126,15 @@ PLATFORM ONE LOGGING WARNING:
   {{- end }}
 {{- end }}
 
-{{- if and (or $.Values.promtail.enabled $.Values.loki.enabled) .Values.elasticsearchKibana.enabled }}
+{{- if and .Values.promtail.enabled .Values.fluentbit.enabled }}
 PLATFORM ONE LOGGING WARNING:
-  You have enabled both promtail/loki and efk logging.  This is permitted during beta testing of promtail/loki.
-  After the beta period, only one logging stack will be supported at one time, with the PLG stack becoming the default supported stack.
+  You have enabled both Promtail and Fluentbit (log forwarders). This is not a supported configuration and you may see conflicts as a result of both applications attempting to ship logs.
+{{- end }}
+
+{{- if and .Values.loki.enabled .Values.elasticsearchKibana.enabled }}
+PLATFORM ONE LOGGING WARNING:
+  You have enabled both Loki and Elastic (log storage). This is not a supported configuration and you may see issues as a result of running both applications.
+  If using Elastic for other functionality, deploying both applications is acceptable.
 {{- end }}
 
 {{- if and $.Values.loki.enabled (dig "values" "global" "createGlobalConfig" false $.Values.loki) }}
