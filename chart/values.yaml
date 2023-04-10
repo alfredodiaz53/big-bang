@@ -476,7 +476,7 @@ kyverno:
   postRenderers: []
 
 
-kyvernopolicies:
+kyvernoPolicies:
   # -- Toggle deployment of Kyverno policies
   enabled: true
 
@@ -501,7 +501,7 @@ kyvernopolicies:
   # -- Post Renderers.  See docs/postrenders.md
   postRenderers: []
 
-kyvernoreporter:
+kyvernoReporter:
   # -- Toggle deployment of Kyverno Reporter
   enabled: true
 
@@ -589,17 +589,20 @@ eckoperator:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/eck-operator.git
     path: "./chart"
-    tag: "2.6.1-bb.0"
+    tag: "2.7.0-bb.0"
   helmRepo:
     repoName: "registry1"
     chartName: "eck-operator"
-    tag: "2.6.1-bb.0"
+    tag: "2.7.0-bb.0"
 
   # -- Flux reconciliation overrides specifically for the ECK Operator Package
   flux: {}
 
   # -- Values to passthrough to the eck-operator chart: https://repo1.dso.mil/big-bang/product/packages/eck-operator.git
   values: {}
+
+  # -- Post Renderers.  See docs/postrenders.md
+  postRenderers: []
 
 fluentbit:
   # -- Toggle deployment of Fluent-Bit.
@@ -947,11 +950,11 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/argocd.git
       path: "./chart"
-      tag: "5.27.1-bb.1"
+      tag: "5.27.1-bb.2"
     helmRepo:
       repoName: "registry1"
       chartName: "argocd"
-      tag: "5.27.1-bb.1"
+      tag: "5.27.1-bb.2"
 
     # -- Flux reconciliation overrides specifically for the ArgoCD Package
     flux: {}
@@ -1201,11 +1204,11 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/gitlab-runner.git
       path: "./chart"
-      tag: "0.49.1-bb.3"
+      tag: "0.51.0-bb.0"
     helmRepo:
       repoName: "registry1"
       chartName: "gitlab-runner"
-      tag: "0.49.1-bb.3"
+      tag: "0.51.0-bb.0"
 
     # -- Flux reconciliation overrides specifically for the Gitlab Runner Package
     flux: {}
