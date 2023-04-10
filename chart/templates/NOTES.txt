@@ -239,7 +239,7 @@ DEPRECATION NOTICE:
       {{- end }}
     {{- end }}
     {{- if coalesce .elasticsearchKibana.sso.issuer .elasticsearchKibana.sso.auth_url .elasticsearchKibana.sso.token_url .elasticsearchKibana.sso.userinfo_url .elasticsearchKibana.sso.jwkset_url .elasticsearchKibana.sso.claims_principal .elasticsearchKibana.sso.endsession_url .elasticsearchKibana.sso.claims_group .elasticsearchKibana.sso.claims_mail }}
-    logging:
+    elasticsearchKibana:
       sso:
         {{- if .elasticsearchKibana.sso.issuer }}
         # "issuer" was moved to "sso.url"

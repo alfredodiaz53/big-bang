@@ -54,12 +54,12 @@ kyverno:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/kyverno.git
     path: "./chart"
     branch: "my-dev-branch"
-kyvernopolicies:
+kyvernoPolicies:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/kyverno-policies.git
     path: ./chart
     branch: "my-dev-branch"
-kyvernoreporter:
+kyvernoReporter:
   git:
     repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/kyverno-reporter
     path: ./chart
