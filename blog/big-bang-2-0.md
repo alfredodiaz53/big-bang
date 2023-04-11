@@ -1,3 +1,9 @@
+---
+revision_date: Last edited April 7, 2023
+tags:
+  - blog
+---
+
 # Big Bang 2.0
 
 What is Big Bang 2.0? Why are we doing it? 2.0 is the second major release since Big Bang 1.0 released in December 2020. This blog post should provide you with both the why behind what we're doing as well as what the changes involved are - and what that means for you as a user.
