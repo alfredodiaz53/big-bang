@@ -50,10 +50,51 @@ After this is pushed to your repo, `flux` will read the change and update all he
 ## Verifying the Upgrade
 After upgrading the cluster there are some places to look to verify that the upgrade was completed successfully
 
-Verify that the Helm releases 
-Verify that there are all pods are either `Running` or `Completed`
-Look for any pods that recently restarted (crashing recently)
-Check for specific package versions (image version on pods ) i.e. Istio, check proxy versions, Runners- check for runner versions. check for UI on each package
+### Verify Helm releases 
+ - Verify all the helm releases have succeeded
+```bash
+❯ k get hr -A
+NAMESPACE   NAME              AGE    READY   STATUS
+bigbang     kyverno           5h1m   True    Release reconciliation succeeded
+bigbang     kyvernopolicies   5h1m   True    Release reconciliation succeeded
+bigbang     istio-operator    5h1m   True    Release reconciliation succeeded
+bigbang     istio             5h1m   True    Release reconciliation succeeded
+```
+
+### Verify Pods
+ - Verify that there are all pods are either `Running` or `Completed`
+ - Look for any pods that recently restarted (crashing recently)
+   - Below see an example of a pod that has restarted multiple times in a short time
+```bash
+❯ k get pod -A
+NAMESPACE           NAME                                                        READY   STATUS    RESTARTS   AGE
+kube-system         local-path-provisioner-5ff76fc89d-xd85h                     1/1     Running   0          22m
+...
+monitoring          alertmanager-monitoring-monitoring-kube-alertmanager-0      3/3     Running   7          3m
+```
+
+### Verify Image Versions for Specific Packages
+ - Check for specific package versions (image version on pods ) 
+   - i.e. Istio, check proxy versions
+     - Below see an example of checking the image version of the running pod.
+   - Runners- check for runner versions
+```bash
+❯ k get pod -n istio-system istiod-78c5bf85fc-68xv6 -o yaml
+apiVersion: v1
+kind: Pod
+spec:
+  affinity: {}
+  containers:
+  - args:
+    image: registry1.dso.mil/ironbank/opensource/istio/pilot:1.17.1
+...
+status:
+  containerStatuses:
+  - containerID: containerd://451827d87a5209b4cb10ff074d986f00ec3bd7d36082cb49b8612e3a48eea9b7
+    image: registry1.dso.mil/ironbank/opensource/istio/pilot:1.17.1
+```
+### Check Package Usability
+ - Check for UI on each package
 
 ## Upgrade Troubleshooting
 Troubleshooting for common issues will be added here.
