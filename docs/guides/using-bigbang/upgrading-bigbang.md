@@ -1,7 +1,15 @@
 # Upgrading Big Bang
 
 ## Before Upgrading
-Before upgrading Big Bang please first check the Release Notes and the Changelog to look for any notes that apply to Big Bang Updates and Package Updates
+Before upgrading Big Bang please first check the Release Notes and the Changelog to look for any notes that apply to Big Bang Updates and Package Updates.
+
+Two important things to review when upgrading:
+- "Upgrade Notices" in the Big Bang release notes: 
+  - These capture any critical notes that the Big Bang development team identified during the release process. 
+    - This may be an update to Flux which requires a "manual" application, or a change to a specific package that we deem important to include.
+- Changelog entries for individual packages that you are deploying: 
+  - Oftentimes individual packages could have breaking changes depending on your configuration. 
+  - It is important to review the changes included with those packages and determine if your configuration needs to be adjusted as a result.
 
 ## Supported Upgrades
 Generally we expect upgrades to be done one minor release at a time.  If necessary, it is possible to jump past several versions provided there is careful review of the release notes in between the versions and there are no problems.
