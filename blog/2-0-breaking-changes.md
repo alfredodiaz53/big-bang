@@ -19,7 +19,7 @@ As mentioned in the first post, a number of values keys will be changing in orde
 - `mattermostoperator` -> `mattermostOperator`
 - `nexus` -> `nexusRepositoryManager`
 
-Note that your upgrade to 2.0 will fail if you do not modify your values as seen above. Big Bang is now maintaining a [values scheme](https://helm.sh/docs/topics/charts/#schema-files) to enforce strict adherence to the allowed/required keys within Big Bang.
+Note that your upgrade to 2.0 will fail if you do not modify your values as seen above. Big Bang is now maintaining a [values schema](https://helm.sh/docs/topics/charts/#schema-files) to enforce strict adherence to the allowed/required keys within Big Bang.
 
 ## Namespace Changes
 
