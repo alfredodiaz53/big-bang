@@ -57,7 +57,7 @@ resources:
 ```
 
 ## Verifying the Upgrade
-After upgrading the cluster there are some places to look to verify that the upgrade was completed successfully
+After upgrading the cluster there are some places to look to verify that the upgrade was completed successfully.
 
 ### Verify Helm releases 
  - Verify all the helm releases have succeeded
