@@ -24,7 +24,7 @@ istio:
 
 ```
 
-For OCI:
+For a helm repository:
 
 ```yaml
 istio:
