@@ -86,8 +86,8 @@ monitoring          alertmanager-monitoring-monitoring-kube-alertmanager-0      
 
 ### Verify Image Versions for Specific Packages
  - Check for specific package versions (image version on pods)
-   - i.e. Istio, check proxy versions
-     - Below see an example of checking the image version of the running pod.
+   - There may be cases where you are hoping to use new features in a new package version, as such it can be beneficial to validate that package did update to the new version as expected.
+   - It can also be important to validate Istio sidecar versions, especially for packages outside of Big Bang core/addons. See an example of checking the image version of the running pod below:
 ```bash
 ❯ k get pod -n istio-system istiod-78c5bf85fc-68xv6 -o yaml
 apiVersion: v1
