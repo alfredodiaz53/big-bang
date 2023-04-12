@@ -85,7 +85,7 @@ monitoring          alertmanager-monitoring-monitoring-kube-alertmanager-0      
 ```
 
 ### Verify Image Versions for Specific Packages
- - Check for specific package versions (image version on pods ) 
+ - Check for specific package versions (image version on pods)
    - i.e. Istio, check proxy versions
      - Below see an example of checking the image version of the running pod.
    - Runners- check for runner versions
