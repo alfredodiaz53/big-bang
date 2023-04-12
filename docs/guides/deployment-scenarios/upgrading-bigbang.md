@@ -15,43 +15,54 @@ Upgrading a single package in Big Bang is done by changing the tag in the values
 For a git repository:
 
 ```yaml
+istio:
+  sourceType: "git"
   git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/istio-controlplane.git
+    repo: https://repo1.dso.mil/big-bang/product/packages/istio-controlplane.git
     path: "./chart"
-    tag: "1.17.1-bb.0"
+    tag: "1.17.1-bb.1"
+
 ```
 
 For OCI:
 
 ```yaml
 istio:
-  git: null
-  oci:
-    name: "istio"
-    tag: "1.15.3-bb.0"
-    repo: "registry1"
+  sourceType: "helmRepo"
+  helmRepo:
+    repoName: "registry1"
+    chartName: "istio"
+    tag: "1.17.1-bb.1"
 ```
 
 These values are in `chart/values.yaml` of the Big Bang helm chart.
 When using the [Customer Template](https://repo1.dso.mil/big-bang/customers/template) you can make these changes in either the base values (`bigbang/base/values.yaml`) or in each environment's values file (ex: `bigbang/dev/configmap.yaml`).
 
 ## Upgrading Big Bang umbrella deployment
-To upgrade your umbrella deployment of Big Bang when using the [Customer Template](https://repo1.dso.mil/big-bang/customers/template) :
-* In the [Customer Template](https://repo1.dso.mil/big-bang/customers/template) repo in `base/kustomization.yaml` edit the value for `resources` to the next version up .
-
+To upgrade your umbrella deployment of Big Bang when using the [Customer Template](https://repo1.dso.mil/big-bang/customers/template) you have two options:
+- Edit `base/kustomization.yaml` and change the value for the [base `ref`](https://repo1.dso.mil/big-bang/customers/template/-/blob/main/base/kustomization.yaml#L4) to the new version. This will update all environments leveraging this base (dev, prod, etc).
 ```yaml
 namespace: bigbang
 resources:
-  - git::https://repo1.dso.mil/platform-one/big-bang/bigbang.git//base?ref=release-1.56.x
+  - git::https://repo1.dso.mil/platform-one/big-bang/bigbang.git//base?ref=1.57.1
 ```
 
-After this is pushed to your repo, `flux` will read the change and update all helm charts to the versions on the BB release version.
+- Edit the environment specific Kustomization (ex: `dev/kustomization.yaml`) to use the new version under the [ref/patch section](https://repo1.dso.mil/big-bang/customers/template/-/blob/main/dev/kustomization.yaml#L18-21).
+```yaml
+  spec:
+    interval: 1m
+    ref:
+      $patch: replace
+      tag: "1.57.1"
+```
 
 ## Verifying the Upgrade
 After upgrading the cluster there are some places to look to verify that the upgrade was completed successfully
 
 ### Verify Helm releases 
  - Verify all the helm releases have succeeded
+   
+   If everything has updated successfully you should see `Release reconciliation succeeded` as the status for each HelmRelease.
 ```bash
 ❯ k get hr -A
 NAMESPACE   NAME              AGE    READY   STATUS
