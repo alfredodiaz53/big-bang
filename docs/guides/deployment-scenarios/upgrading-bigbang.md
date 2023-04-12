@@ -33,7 +33,7 @@ istio:
 ```
 
 These values are in `chart/values.yaml` of the Big Bang helm chart.
-When using the [Customer Template](https://repo1.dso.mil/big-bang/customers/template) you can make these changes in either the `bigbang/base/values.yaml` or in each cluster's kustomizations (`bigbang/dev/values.yaml)`.
+When using the [Customer Template](https://repo1.dso.mil/big-bang/customers/template) you can make these changes in either the base values (`bigbang/base/values.yaml`) or in each environment's values file (ex: `bigbang/dev/configmap.yaml`).
 
 ## Upgrading Big Bang umbrella deployment
 To upgrade your umbrella deployment of Big Bang when using the [Customer Template](https://repo1.dso.mil/big-bang/customers/template) :
