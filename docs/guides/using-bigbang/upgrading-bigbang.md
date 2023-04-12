@@ -88,7 +88,6 @@ monitoring          alertmanager-monitoring-monitoring-kube-alertmanager-0      
  - Check for specific package versions (image version on pods)
    - i.e. Istio, check proxy versions
      - Below see an example of checking the image version of the running pod.
-   - Runners- check for runner versions
 ```bash
 ❯ k get pod -n istio-system istiod-78c5bf85fc-68xv6 -o yaml
 apiVersion: v1
