@@ -10,7 +10,7 @@ NOTE: It is recommended that upgrades first be tested in a staging environment t
 
 ## Upgrading a Single Package
 Packages in Big Bang can be updated one at a time.
-Upgrading a single package in Big Bang is done by changing the tag in the values for that package.  This should be done in the overriding valus in the customer template.
+Upgrading a single package in Big Bang is done by changing the tag in the values for that package.  This should be done in the overriding values in the customer template.
 
 For a git repository:
 
