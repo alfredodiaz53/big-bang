@@ -315,7 +315,7 @@ jaeger:
   helmRepo:
     repoName: "registry1"
     chartName: "jaeger"
-    tag: "2.41.0-bb.0"
+    tag: "2.42.0-bb.0"
 
   # -- Flux reconciliation overrides specifically for the Jaeger Package
   flux:
