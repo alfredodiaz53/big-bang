@@ -60,4 +60,6 @@ Beyond the above mentioned name changes you may also notice some `HelmRelease` a
 
 ## Is that it?
 
-That's it! This blog post lays out all of the breaking changes in 2.0, and hopefully also provides you with a clear path forward for what you need to change before upgrading. Hopefully this also gets you excited to look more into the new features in 2.0, which will be laid out in the following blog post! 
+That's it! This blog post lays out all of the breaking changes in 2.0, and hopefully also provides you with a clear path forward for what you need to change before upgrading.
+
+Continue reading about Big Bang 2.0 in [part 3 of this series](./2-0-new-features.md), which is focused specifically on the new features included in 2.0.
