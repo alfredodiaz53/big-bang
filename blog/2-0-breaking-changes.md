@@ -23,7 +23,7 @@ Note that your upgrade to 2.0 will fail if you do not modify your values as seen
 
 ## Namespace Changes
 
-Again connected with name standardization as well as package isolation, several packages will be moving to different namespaces in 2.0. These packages are all "state-less" with no persistent storage, so there is no requirement to backup anything from the previous version before upgrading. Specific packages moving:
+Connected with name standardization as well as package isolation, several packages will be moving to different namespaces in 2.0. These packages are all "state-less" with no persistent storage, so there is no requirement to backup anything from the previous version before upgrading. Specific packages moving:
 - Fluentbit: Moving from `logging` namespace to `fluentbit` namespace
 - Promtail: Moving from `logging` namespace to `promtail` namespace
 - Gitlab Runner: Moving from `gitlab` namespace to `gitlab-runner` namespace
