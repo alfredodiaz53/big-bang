@@ -19,7 +19,7 @@ As mentioned in the first post, a number of values keys will be changing in orde
 - `mattermostoperator` -> `mattermostOperator`
 - `nexus` -> `nexusRepositoryManager`
 
-Note that your upgrade to 2.0 will fail if you do not modify your values as seen above. Big Bang is now maintaining a [values schema](https://helm.sh/docs/topics/charts/#schema-files) to enforce strict adherence to the allowed/required keys within Big Bang. For reference Big Bang's values schema is located [here](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/chart/values.schema.json). You can also leverage the script in `/scripts/values-translate-2-0.sh <values file path>` to perform these translations for you (note that is is a relatively simple script and may not work for your use case).
+Note that your upgrade to 2.0 will fail if you do not modify your values as seen above. Big Bang is now maintaining a [values schema](https://helm.sh/docs/topics/charts/#schema-files) to enforce strict adherence to the allowed/required keys within Big Bang. For reference Big Bang's values schema is located [here](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/chart/values.schema.json). You can also leverage the script in `/scripts/values-translate-2-0.sh <values file path>` to perform these translations for you (note that this is a relatively simple script and may not work for your use case).
 
 ## Namespace Changes
 
