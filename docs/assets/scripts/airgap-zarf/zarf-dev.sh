@@ -1,13 +1,18 @@
 #!/usr/bin/env bash
 
-ZARF_VERSION=v0.25.0
+ZARF_VERSION=v0.25.2
+BIGBANG_VERSION=1.57.1
+
+# Choices: warn, info, debug, trace
+# Currently set only for zarf package deploy
+ZARF_LOG_LEVEL=${ZARF_LOG_LEVEL:=info}
 
 # Prerequisites: REGISTRY1_USERNAME and REGISTRY1_PASSWORD must be exported locally.
 # Configurable: ZARF_TEST_REPO, ZARF_TEST_REPO_BRANCH, ZARF_TEST_REPO_DIRECTORY all define where to pick up the zarf.yaml file.
 # Example with configuration: KeyName=<KeyName> PublicIP=<Ip> ZARF_TEST_REPO=https://repo1.dso.mil/some-repo.git ZARF_TEST_REPO_BRANCH=development docs/assets/scripts/airgap-zarf/zarf-dev.sh
 
 ZARF_TEST_REPO=${ZARF_TEST_REPO:=https://github.com/defenseunicorns/zarf}
-ZARF_TEST_REPO_BRANCH=${ZARF_TEST_REPO_BRANCH:=main}
+ZARF_TEST_REPO_BRANCH=${ZARF_TEST_REPO_BRANCH:=ZARF_VERSION}
 ZARF_TEST_REPO_DIRECTORY=${ZARF_TEST_REPO_DIRECTORY:=zarf/examples/big-bang}
 
 function run() {
@@ -26,7 +31,7 @@ run "wget -q https://github.com/defenseunicorns/zarf/releases/download/${ZARF_VE
 
 # zarf init, package and deploy
 run "set +o history && echo ${REGISTRY1_PASSWORD} | zarf tools registry login registry1.dso.mil --username ${REGISTRY1_USERNAME} --password-stdin || set -o history"
-run "zarf init --components=git-server --confirm"
-run "git clone --single-branch --branch ${ZARF_TEST_REPO_BRANCH} ${ZARF_TEST_REPO}"
+run "zarf init --components=git-server --confirm --log-level=${ZARF_LOG_LEVEL}"
+run "git clone --depth 1 --single-branch --branch ${ZARF_TEST_REPO_BRANCH} ${ZARF_TEST_REPO}"
 run "cd ${ZARF_TEST_REPO_DIRECTORY} && zarf package create --confirm --max-package-size=0"
-run "cd ${ZARF_TEST_REPO_DIRECTORY} && zarf package deploy zarf-package-big-bang-example-amd64-1.54.0.tar.zst --confirm --components=gitea-virtual-service"
+run "cd ${ZARF_TEST_REPO_DIRECTORY} && zarf package deploy zarf-package-big-bang-example-amd64-${BIGBANG_VERSION}.tar.zst --confirm --components=gitea-virtual-service --log-level=${ZARF_LOG_LEVEL}"

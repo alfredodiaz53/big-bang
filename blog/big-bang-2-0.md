@@ -1,3 +1,9 @@
+---
+revision_date: Last edited April 13, 2023
+tags:
+  - blog
+---
+
 # Big Bang 2.0
 
 What is Big Bang 2.0? Why are we doing it? 2.0 is the second major release since Big Bang 1.0 released in December 2020. This blog post should provide you with both the why behind what we're doing as well as what the changes involved are - and what that means for you as a user.
@@ -17,10 +23,10 @@ Beyond these pain points there are also changes we are making to enable future p
 ### Free and OpenSource Core by Default
 
 The default core packages in 1.x releases come with both licensing and closed source concerns, as well as some usability concerns in some cases. Several of the default packages will be changing in 2.0 as a result:
-    - Runtime Security: NeuVector will replace Twistlock as the default. NeuVector is opensourced and does not come with a license cost.
-    - Logging: The PLG (Promtail/Loki/Grafana) stack will become the new default stack, replacing EFK (Elasticsearch/Fluentbit/Kibana). PLG has lower resource costs for users, and does not have a license requirement for core features.
-    - Policy Enforcement: Kyverno will replace Gatekeeper as the default. Kyverno provides a better user experience for policy writing, and is more directly focused on the Kubernetes experience.
-    - Tracing: Tempo will replace Jaeger as the default. Jaeger has a dependency on Elasticsearch for persistence, and Tempo is better integrated with the PLG stack to tie traces to specific logs.
+- Runtime Security: NeuVector will replace Twistlock as the default. NeuVector is opensourced and does not come with a license cost.
+- Logging: The PLG (Promtail/Loki/Grafana) stack will become the new default stack, replacing EFK (Elasticsearch/Fluentbit/Kibana). PLG has lower resource costs for users, and does not have a license requirement for core features.
+- Policy Enforcement: Kyverno will replace Gatekeeper as the default. Kyverno provides a better user experience for policy writing, and is more directly focused on the Kubernetes experience.
+- Tracing: Tempo will replace Jaeger as the default. Jaeger has a dependency on Elasticsearch for persistence, and Tempo is better integrated with the PLG stack to tie traces to specific logs.
 
 These will be *small* breaking changes to user values. If you want to continue to deploy Twistlock for example, you will need to adjust your values to disable NeuVector and enable Twistlock before upgrading. It's also important to note that we will continue to support the alternative packages in all of these cases, we do not intend to lock users in to a single option.
 
@@ -53,3 +59,5 @@ This is a change in the underlying architecture of Big Bang, but it will be offe
 ## Where can I learn more?
 
 Big Bang's 2.0 epic is a great place to start [here](https://repo1.dso.mil/groups/big-bang/-/epics/217). Beyond this we encourage users to get involved via the [BBTOC](https://repo1.dso.mil/platform-one/bbtoc).
+
+Continue reading about Big Bang 2.0 in [part 2 of this series](./2-0-breaking-changes.md), which is focused specifically on the breaking changes included in 2.0.
