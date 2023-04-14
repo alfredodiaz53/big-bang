@@ -600,7 +600,7 @@ if [[ "$METAL_LB" == true ]]; then
   # run this command on remote
   # fix /etc/hosts for new cluster
   sudo sed -i '/bigbang.dev/d' /etc/hosts
-  sudo bash -c "echo '## begin bigbang.dev section' >> /etc/hosts"
+  sudo bash -c "echo '## begin bigbang.dev section (METAL_LB)' >> /etc/hosts"
   sudo bash -c "echo 172.20.1.240  keycloak.bigbang.dev vault.bigbang.dev >> /etc/hosts"
   sudo bash -c "echo 172.20.1.241 anchore-api.bigbang.dev anchore.bigbang.dev argocd.bigbang.dev gitlab.bigbang.dev registry.bigbang.dev tracing.bigbang.dev kiali.bigbang.dev kibana.bigbang.dev chat.bigbang.dev minio.bigbang.dev minio-api.bigbang.dev alertmanager.bigbang.dev grafana.bigbang.dev prometheus.bigbang.dev nexus.bigbang.dev sonarqube.bigbang.dev tempo.bigbang.dev twistlock.bigbang.dev >> /etc/hosts"
   sudo bash -c "echo '## end bigbang.dev section' >> /etc/hosts"
@@ -608,6 +608,19 @@ if [[ "$METAL_LB" == true ]]; then
   kubectl get configmap -n kube-system coredns -o yaml | sed '/^    172.20.0.1 host.k3d.internal$/a\ \ \ \ 172.20.1.240 keycloak.bigbang.dev vault.bigbang.dev' | kubectl apply -f -
   kubectl delete pod -n kube-system -l k8s-app=kube-dns
 	ENDSSH
+elif [[ "$ATTACH_SECONDARY_IP" == true ]]; then
+  run <<ENDSSH
+    # run this command on remote
+    # fix /etc/hosts for new cluster
+    sudo sed -i '/bigbang.dev/d' /etc/hosts
+    sudo bash -c "echo '## begin bigbang.dev section (ATTACH_SECONDARY_IP)' >> /etc/hosts"
+    sudo bash -c "echo $PrivateIP2  keycloak.bigbang.dev vault.bigbang.dev >> /etc/hosts"
+    sudo bash -c "echo $PrivateIP anchore-api.bigbang.dev anchore.bigbang.dev argocd.bigbang.dev gitlab.bigbang.dev registry.bigbang.dev tracing.bigbang.dev kiali.bigbang.dev kibana.bigbang.dev chat.bigbang.dev minio.bigbang.dev minio-api.bigbang.dev alertmanager.bigbang.dev grafana.bigbang.dev prometheus.bigbang.dev nexus.bigbang.dev sonarqube.bigbang.dev tempo.bigbang.dev twistlock.bigbang.dev >> /etc/hosts"
+    sudo bash -c "echo '## end bigbang.dev section' >> /etc/hosts"
+    # run kubectl to add keycloak and vault's hostname/IP to the configmap for coredns, restart coredns
+    kubectl get configmap -n kube-system coredns -o yaml | sed '/^    .* host.k3d.internal$/a\ \ \ \ $PrivateIP2 keycloak.bigbang.dev vault.bigbang.dev' | kubectl apply -f -
+    kubectl delete pod -n kube-system -l k8s-app=kube-dns
+ENDSSH
 fi
 
 echo
