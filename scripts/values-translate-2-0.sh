@@ -1,19 +1,19 @@
 values_file=$1
 
-if [[ -z $values_file ]]; then
+if [ -z $values_file ]; then
   echo "This script requires one parameter, the path to your values file. Rerun the script with that parameter, ex: './scripts/values-translate-2-0.sh my-values-file.yaml'."
   exit 1
 fi
 
-if [[ ! ( -f "$values_file" ) ]]; then
+if [ ! -f $values_file ]; then
   echo "Values file not found, verify that the correct path was provided for your values."
   exit 1
 fi
 
 sed_gsed="sed"
 # Verify sed version if on macOS
-if [[ "$(uname -s)" == "Darwin" ]]; then
-  if ! command -v gsed >/dev/null 2>&1; then
+if [ "$(uname -s)" == "Darwin" ]; then
+  if command -v gsed >/dev/null 2>&1; then
     sed_gsed="gsed"
   else
     echo "The 'gnu-sed' tool is not installed, but if required when running on macOS. 'gnu-sed' can be installed with 'brew install gnu-sed'."
