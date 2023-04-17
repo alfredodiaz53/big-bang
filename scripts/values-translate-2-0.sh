@@ -13,7 +13,7 @@ fi
 sed_gsed="sed"
 # Verify sed version if on macOS
 if [[ "$(uname -s)" == "Darwin" ]]; then
-  if [[ ! $(command -v gsed >/dev/null 2>&1) ]]; then
+  if ! command -v gsed >/dev/null 2>&1; then
     sed_gsed="gsed"
   else
     echo "The 'gnu-sed' tool is not installed, but if required when running on macOS. 'gnu-sed' can be installed with 'brew install gnu-sed'."
