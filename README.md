@@ -24,15 +24,15 @@ Additional information can be found at [Big Bang Docs](https://docs-bigbang.dso.
 
 ## Getting Started
 
-- You will need to instantiate a Big Bang environment tailored to your needs.  [The Big Bang customer template](https://repo1.dso.mil/platform-one/big-bang/customers/template/) is provided for you to copy into your own Git repository and begin modifications.
+- You will need to instantiate a Big Bang environment tailored to your needs. [The Big Bang customer template](https://repo1.dso.mil/big-bang/customers/template/) is provided for you to copy into your own Git repository and begin modifications.
 
 ## Contributing to Big Bang
 
 There are 3 main ways to contribute to Big Bang:
 
-- [Contribute to the Big Bang Team's Backlog](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/issues)
-- [Contribute to open-source projects under the Big Bang Technical Oversight Committee (BBTOC)](https://repo1.dso.mil/platform-one/bbtoc/-/blob/master/CONTRIBUTING.md)
-- [Submit new package proposals](https://repo1.dso.mil/platform-one/bbtoc/-/issues/new?issue%5Bmilestone_id%5D=)
+- [Contribute to the Big Bang Team's Backlog](https://repo1.dso.mil/big-bang/bigbang/-/issues)
+- [Contribute to open-source projects under the Big Bang Technical Oversight Committee (BBTOC)](https://repo1.dso.mil/big-bang/product/bbtoc/-/blob/master/CONTRIBUTING.md)
+- [Submit new package proposals](https://repo1.dso.mil/big-bang/product/bbtoc/-/issues/new?issue%5Bmilestone_id%5D=)
   - Please review the [package integration guide](./docs/developer/package-integration/README.md) if you are interested in submitting a new package
   - A shepherd will be assigned to the project to create a repo in the [BB sandbox](https://repo1.dso.mil/platform-one/big-bang/apps/sandbox)
 
@@ -40,8 +40,8 @@ Additional information can be found in the [contributing guide](./CONTRIBUTING.m
 
 ## Release Schedule
 
-- Big Bang releases every 2 weeks with a minor release number. In order to stay current with all features and security updates ensure you are no more than `n-2` releases behind.
-  - To see what is on the roadmap please see our [project milestones](https://repo1.dso.mil/groups/platform-one/big-bang/-/milestones)
+- Big Bang releases adopt a standardized versioning based on and loosely following the [Semantic Versioning 2.0.0 guidelines](https://semver.org/spec/v2.0.0.html) (major.minor.patch). These releases aren't based on a schedule and instead the specifics in the scheme are outlined [here in our team charter](https://repo1.dso.mil/big-bang/team/team-charter/-/blob/main/docs/adrs/0003-release-version-and-cadence.md)
+  - To see what is on the roadmap or included in a given release you can still review our [project milestones](https://repo1.dso.mil/groups/big-bang/-/milestones)
 
 ## Community
 
