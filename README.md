@@ -14,17 +14,17 @@ Big Bang's scope is to provide publicly available installation manifests for pac
 
 - Community: [Community packages](https://repo1.dso.mil/big-bang/product/community) are any packages that are maintained by the broader Big Bang community (users, vendors, etc). These packages could be alternatives to core or addon packages, or even entirely new packages to help extend usage/functionality of Big Bang.
 
-In order for an installation of Big Bang to be a valid installation/configuration you must install/deploy a core package of each category (for additional details on categories and options see [here](./docs/understanding-bigbang/package-architecture/README.md##Core)).
+To correctly install and configure Big Bang, you must deploy a core package from each category. For additional details on categories and options see [here](./docs/understanding-bigbang/package-architecture/README.md##Core).
 
-Big Bang also builds tooling around the testing and validation of Big Bang packages. These tools are provided as-is, without support.
+Big Bang also builds tools you can use to test and validate Big Bang packages. Some examples are listed here (*** add link here ***). These tools are provided as-is, without support.
 
-Big Bang is intended to be used for deploying and maintaining a DoD hardened and approved set of packages into a Kubernetes cluster.  Deployment and configuration of ingress/egress, load balancing, policy auditing, logging, monitoring, etc. are handled via Big Bang.  Additional packages (e.g. ArgoCD, GitLab) can also be enabled and customized to extend Big Bang's baseline.  Once deployed, the Kubernetes cluster can be used to add mission specific applications.
+Big Bang is designed to deploy and maintain a DoD hardened and approved set of packages in a Kubernetes cluster by managing ingress/egress, load balancing, policy auditing, logging, monitoring, and more. You can also enable additional packages beyond the core packages, such as ArgoCD and Gitlab, to further extend Big Bang. Once your Big Bang Kubernetes cluster is deployed, you can add mission-specific applications to it.
 
 Additional information can be found at [Big Bang Docs](https://docs-bigbang.dso.mil) and [here](./docs/README.md).
 
 ## Getting Started
 
-- You will need to instantiate a Big Bang environment tailored to your needs.  [The Big Bang customer template](https://repo1.dso.mil/big-bang/customers/template) is provided for you to copy into your own Git repository and begin modifications.
+- You will need to instantiate a Big Bang environment tailored to your needs. To do this, please copy the  [The Big Bang customer template](https://repo1.dso.mil/big-bang/customers/template) into your own Git repository and make your modifications. 
 
 ## Contributing to Big Bang
 
@@ -34,7 +34,7 @@ There are 3 main ways to contribute to Big Bang:
 - [Contribute to open-source projects under the Big Bang Technical Oversight Committee (BBTOC)](https://repo1.dso.mil/big-bang/product/bbtoc/-/blob/master/CONTRIBUTING.md)
 - [Submit new package proposals](https://repo1.dso.mil/big-bang/product/bbtoc/-/issues/new?issue%5Bmilestone_id%5D=)
   - Please review the [package integration guide](./docs/developer/package-integration/README.md) if you are interested in submitting a new package
-  - A shepherd will be assigned to the project to create a repo in the [Big Bang Community Packages](https://repo1.dso.mil/big-bang/product/community)
+  - A shepherd (*** Is the term "shepherd" still used? What does it mean?) will be assigned to the project to create a repo in the [Big Bang Community Packages](https://repo1.dso.mil/big-bang/product/community)
 
 Additional information can be found in the [contributing guide](./CONTRIBUTING.md).
 
