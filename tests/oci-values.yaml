@@ -47,9 +47,7 @@ addons:
   authservice:
     sourceType: "helmRepo"
 
-  ### Loki dependency
   minioOperator:
-    enabled: true
     sourceType: "helmRepo"
 
   minio:
