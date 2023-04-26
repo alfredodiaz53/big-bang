@@ -9,7 +9,7 @@ ZARF_LOG_LEVEL=${ZARF_LOG_LEVEL:=info}
 
 # Prerequisites: REGISTRY1_USERNAME and REGISTRY1_PASSWORD must be exported locally.
 # Configurable: ZARF_TEST_REPO, ZARF_TEST_REPO_BRANCH, ZARF_TEST_REPO_DIRECTORY all define where to pick up the zarf.yaml file.
-# Example with configuration: KeyName=<KeyName> PublicIP=<Ip> ZARF_TEST_REPO=https://repo1.dso.mil/some-repo.git ZARF_TEST_REPO_BRANCH=development docs/assets/scripts/airgap-zarf/zarf-dev.sh
+# Example with configuration: ZARF_TEST_REPO=https://repo1.dso.mil/some-repo.git ZARF_TEST_REPO_BRANCH=development docs/assets/scripts/airgap-zarf/zarf-dev.sh
 
 AWSUSERNAME=${AWSUSERNAME:=`aws sts get-caller-identity --query Arn --output text | cut -f 2 -d '/'`}
 echo "Username: $AWSUSERNAME"
