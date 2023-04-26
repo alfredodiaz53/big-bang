@@ -16,7 +16,7 @@ echo "Username: $AWSUSERNAME"
 KeyName=${AWSUSERNAME}-dev
 PublicIP=`aws ec2 describe-instances --output text \
               --query "Reservations[].Instances[].PublicIpAddress" \
-              --filters "Name=tag:Name,Values=Danny.Gershman-dev" "Name=instance-state-name,Values=running"`
+              --filters "Name=tag:Name,Values=${AWSUSERNAME}-dev" "Name=instance-state-name,Values=running"`
 echo "Public IP: ${PublicIP}"
 
 ZARF_TEST_REPO=${ZARF_TEST_REPO:=https://github.com/defenseunicorns/zarf}
