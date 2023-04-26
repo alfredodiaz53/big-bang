@@ -29,17 +29,17 @@ function run() {
 
 # install zarf
 echo "Installing Zarf ${ZARF_VERSION}"...
-#run "curl -LO https://github.com/defenseunicorns/zarf/releases/download/${ZARF_VERSION}/zarf_${ZARF_VERSION}_Linux_amd64"
-#run "sudo mv /home/ubuntu/zarf_${ZARF_VERSION}_Linux_amd64 /usr/local/bin/zarf"
-#run "sudo chmod +x /usr/local/bin/zarf"
+run "curl -LO https://github.com/defenseunicorns/zarf/releases/download/${ZARF_VERSION}/zarf_${ZARF_VERSION}_Linux_amd64"
+run "sudo mv /home/ubuntu/zarf_${ZARF_VERSION}_Linux_amd64 /usr/local/bin/zarf"
+run "sudo chmod +x /usr/local/bin/zarf"
 
 # get zarf init package
 echo "Retrieving zarf init package..."
-#run "wget -q https://github.com/defenseunicorns/zarf/releases/download/${ZARF_VERSION}/zarf-init-amd64-${ZARF_VERSION}.tar.zst"
+run "wget -q https://github.com/defenseunicorns/zarf/releases/download/${ZARF_VERSION}/zarf-init-amd64-${ZARF_VERSION}.tar.zst"
 
 # zarf init, package and deploy
-#run "set +o history && echo ${REGISTRY1_PASSWORD} | zarf tools registry login registry1.dso.mil --username ${REGISTRY1_USERNAME} --password-stdin || set -o history"
-#run "zarf init --components=git-server --confirm --log-level=${ZARF_LOG_LEVEL}"
-#run "git clone --depth 1 --single-branch --branch ${ZARF_TEST_REPO_BRANCH} ${ZARF_TEST_REPO}"
-#run "cd ${ZARF_TEST_REPO_DIRECTORY} && zarf package create --confirm --max-package-size=0"
+run "set +o history && echo ${REGISTRY1_PASSWORD} | zarf tools registry login registry1.dso.mil --username ${REGISTRY1_USERNAME} --password-stdin || set -o history"
+run "zarf init --components=git-server --confirm --log-level=${ZARF_LOG_LEVEL}"
+run "git clone --depth 1 --single-branch --branch ${ZARF_TEST_REPO_BRANCH} ${ZARF_TEST_REPO}"
+run "cd ${ZARF_TEST_REPO_DIRECTORY} && zarf package create --confirm --max-package-size=0"
 run "cd ${ZARF_TEST_REPO_DIRECTORY} && zarf package deploy zarf-package-big-bang-example-amd64-${BIGBANG_VERSION}.tar.zst --confirm --components=gitea-virtual-service --log-level=${ZARF_LOG_LEVEL}"
