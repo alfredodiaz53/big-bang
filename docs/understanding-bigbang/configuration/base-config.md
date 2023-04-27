@@ -1,6 +1,6 @@
 # bigbang
 
-![Version: 2.0.1](https://img.shields.io/badge/Version-2.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 Big Bang is a declarative, continuous delivery tool for core DoD hardened and approved packages into a Kubernetes cluster.
 
@@ -12,7 +12,7 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| Ryan Garcia | ryan.garcia@sigmadefense.com |  |
+| Ryan Garcia | garcia.ryan@solute.us |  |
 | Micah Nagel | micah.nagel@defenseunicorns.com |  |
 | Rob Ferguson | rob.ferguson@defenseunicorns.com |  |
 
@@ -221,10 +221,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | promtail.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | promtail.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/promtail.git"` |  |
 | promtail.git.path | string | `"./chart"` |  |
-| promtail.git.tag | string | `"6.10.0-bb.1"` |  |
+| promtail.git.tag | string | `"6.10.0-bb.0"` |  |
 | promtail.helmRepo.repoName | string | `"registry1"` |  |
 | promtail.helmRepo.chartName | string | `"promtail"` |  |
-| promtail.helmRepo.tag | string | `"6.10.0-bb.1"` |  |
+| promtail.helmRepo.tag | string | `"6.10.0-bb.0"` |  |
 | promtail.flux | object | `{}` | Flux reconciliation overrides specifically for the Promtail Package |
 | promtail.values | object | `{}` | Values to passthrough to the promtail chart: https://repo1.dso.mil/big-bang/product/packages/fluentbit.git |
 | promtail.postRenderers | list | `[]` | Post Renderers.  See docs/postrenders.md |
@@ -232,10 +232,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | loki.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | loki.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/loki.git"` |  |
 | loki.git.path | string | `"./chart"` |  |
-| loki.git.tag | string | `"5.0.0-bb.1"` |  |
+| loki.git.tag | string | `"5.0.0-bb.0"` |  |
 | loki.helmRepo.repoName | string | `"registry1"` |  |
 | loki.helmRepo.chartName | string | `"loki"` |  |
-| loki.helmRepo.tag | string | `"5.0.0-bb.1"` |  |
+| loki.helmRepo.tag | string | `"5.0.0-bb.0"` |  |
 | loki.flux | object | `{}` | Flux reconciliation overrides specifically for the Loki Package |
 | loki.strategy | string | `"monolith"` | Loki architecture.  Options are monolith and scalable |
 | loki.objectStorage.endpoint | string | `""` | S3 compatible endpoint to use for connection information. examples: "https://s3.amazonaws.com" "https://s3.us-gov-west-1.amazonaws.com" "http://minio.minio.svc.cluster.local:9000" |
@@ -547,10 +547,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | addons.velero.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | addons.velero.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/velero.git"` |  |
 | addons.velero.git.path | string | `"./chart"` |  |
-| addons.velero.git.tag | string | `"3.1.5-bb.1"` |  |
+| addons.velero.git.tag | string | `"3.1.5-bb.0"` |  |
 | addons.velero.helmRepo.repoName | string | `"registry1"` |  |
 | addons.velero.helmRepo.chartName | string | `"velero"` |  |
-| addons.velero.helmRepo.tag | string | `"3.1.5-bb.1"` |  |
+| addons.velero.helmRepo.tag | string | `"3.1.5-bb.0"` |  |
 | addons.velero.flux | object | `{}` | Flux reconciliation overrides specifically for the Velero Package |
 | addons.velero.plugins | list | `[]` | Plugin provider for Velero - requires at least one plugin installed. Current supported values: aws, azure, csi |
 | addons.velero.values | object | `{}` | Values to passthrough to the Velero chart: https://repo1.dso.mil/big-bang/product/packages/values.yaml |
