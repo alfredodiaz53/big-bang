@@ -822,7 +822,7 @@ twistlock:
 addons:
   argocd:
     git:
-      branch: "debug_metallb_memberlist"
+      ref: "debug_metallb_memberlist"
     enabled: true
     sso:
       enabled: false
