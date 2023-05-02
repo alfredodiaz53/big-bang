@@ -541,7 +541,7 @@ elasticsearchKibana:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/elasticsearch-kibana.git
     path: "./chart"
-    tag: "1.2.0-bb.0"
+    branch: "np-testing"
   helmRepo:
     repoName: "registry1"
     chartName: "elasticsearch-kibana"
