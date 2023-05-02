@@ -1,0 +1,8 @@
+nav:
+  - Home: README.md
+  - The Basics: basics.md
+  - Package Managers: package-managers.md
+  - Operators: operators.md
+  - GitOps w/ Flux: flux.md
+  - Service Mesh w/ Istio: service-mesh-with-istio.md
+  - Consolidated Logging: consolidated-logging.md
