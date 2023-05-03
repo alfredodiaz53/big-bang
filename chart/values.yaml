@@ -950,7 +950,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/argocd.git
       path: "./chart"
-      tag: "5.28.0-bb.0"
+      #tag: "5.28.0-bb.0"
+      branch: "argocd-redis-autoscale"
     helmRepo:
       repoName: "registry1"
       chartName: "argocd"
@@ -1007,7 +1008,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/authservice.git
       path: "./chart"
-      tag: "0.5.3-bb.7"
+      #tag: "0.5.3-bb.7"
+      branch: "redis-autoscale"
     helmRepo:
       repoName: "registry1"
       chartName: "authservice"
@@ -1397,7 +1399,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/anchore-enterprise.git
       path: "./chart"
-      tag: "1.24.1-bb.0"
+      #tag: "1.24.1-bb.0"
+      branch: "redis-autoscale"
     helmRepo:
       repoName: "registry1"
       chartName: "anchore"

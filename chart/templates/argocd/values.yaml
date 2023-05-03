@@ -93,8 +93,6 @@ redis-bb:
   replica:
     podAnnotations:
       {{ include "istioAnnotation" . }}
-    autoscaling:
-      enabled: true
 {{- end }}
 
 server:

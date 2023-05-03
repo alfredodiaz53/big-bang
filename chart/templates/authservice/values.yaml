@@ -62,9 +62,6 @@ redis-bb:
     prometheusRule:
       enabled: true 
       namespace: monitoring
-  replica:
-    autoscaling:
-      enabled: true
 {{- end }}
 
 {{- $legacy := and .Values.sso.oidc.realm .Values.sso.oidc.host -}}
