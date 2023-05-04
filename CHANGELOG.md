@@ -3,6 +3,49 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [2.0.1]
+
+- [!2713](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/2713): Bug fix for Gitlab chart backup job template
+- [!2712](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/2712): Bug fix for Gitlab Runner network policy ranging template
+- [!2707](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/2707): Bug fix for missing Monitoring SSO keys in schema
+- [!2703](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/2703): Bug fix for Mattermost and Nexus HelmRepos
+
+## [2.0.0]
+
+- [!2.0.0](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests?scope=all&utf8=%E2%9C%93&state=merged&milestone_title=2.0.0); List of merge requests in this release.
+
+#### Breaking Changes
+
+This major release contains breaking changes. Review the [release notes](https://repo1.dso.mil/big-bang/bigbang/-/releases/2.0.0) or the [blog post](https://docs-bigbang.dso.mil/latest/blog/2-0-breaking-changes/) for more details before upgrading.
+
+## [1.57.1]
+
+- [!2659](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/2659): Fix wrong ArgoCD image version
+
+## [1.57.0]
+
+- [!1.57.0](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests?scope=all&utf8=%E2%9C%93&state=merged&milestone_title=1.57.0); List of merge requests in this release.
+
+## [1.56.0]
+
+- [!1.56.0](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/merge_requests?scope=all&utf8=%E2%9C%93&state=merged&milestone_title=1.56.0); List of merge requests in this release.
+
+## [1.55.0]
+
+- [!1.55.0](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/merge_requests?scope=all&utf8=%E2%9C%93&state=merged&milestone_title=1.55.0); List of merge requests in this release.
+
+## [1.54.0]
+
+- [!1.54.0](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/merge_requests?scope=all&utf8=%E2%9C%93&state=merged&milestone_title=1.54.0); List of merge requests in this release.
+
+## [1.53.0]
+
+- [!1.53.0](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/merge_requests?scope=all&utf8=%E2%9C%93&state=merged&milestone_title=1.53.0); List of merge requests in this release.
+
+## [1.52.0]
+
+- [!1.52.0](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/merge_requests?scope=all&utf8=%E2%9C%93&state=merged&milestone_title=1.52.0); List of merge requests in this release.
+
 ## [1.51.0]
 
 - [!1.51.0](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/merge_requests?scope=all&utf8=%E2%9C%93&state=merged&milestone_title=1.51.0); List of merge requests in this release.

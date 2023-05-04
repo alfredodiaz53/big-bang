@@ -226,10 +226,12 @@ minio:
 {{- end }}
 
 global:
-  {{- if and .Values.addons.gitlab.sso.enabled .Values.sso.certificate_authority}}
+  {{- if and .Values.addons.gitlab.sso.enabled (or (dig "certificateAuthority" "secretName" false .Values.sso) .Values.sso.secretName) }}
   certificates:
     customCAs:
-      - secret: tls-ca-sso
+      {{- if and .Values.addons.gitlab.sso.enabled (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso)) }}
+      - secret: {{ default (dig "certificateAuthority" "secretName" "" .Values.sso) .Values.sso.secretName }}
+      {{- end }}
       - secret: ca-certs-australian-defence-organisation-cross-cert-chain
       - secret: ca-certs-australian-defence-organisation-direct-trust-chain
       - secret: ca-certs-boeing
@@ -449,6 +451,12 @@ global:
     password:
       secret: "gitlab-smtp-password"
   {{- end }}
+
+  {{- if .Values.addons.gitlab.railsSecret }}
+  railsSecrets:
+    secret: "gitlab-rails-secret-bb"
+  {{- end }}
+
 
 {{- if ne .Values.addons.gitlab.objectStorage.iamProfile "" }}
 use_iam_profile: true

@@ -172,7 +172,7 @@ monitoring:
 ## Single Sign on (SSO)
 
 SSO can be configured for monitoring through Authservice, more info is included in the following documentation:
-[Monitoring SSO Integration](https://repo1.dso.mil/platform-one/big-bang/apps/core/monitoring/-/blob/main/docs/KEYCLOAK.md)
+[Monitoring SSO Integration](https://repo1.dso.mil/big-bang/product/packages/monitoring/-/blob/main/docs/KEYCLOAK.md)
 
 ## Monitoring
 
@@ -213,7 +213,7 @@ monitoring:
 
 #### Prometheus
 
-High Availability can be accomplished by increasing the number of replicas for the deployment of Prometheus. [Thanos](https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/thanos/-/tree/main) must also be installed in the same namespace as the monitoring package in order for data to replicate across pods. An example of a Thanos object storage config using minIO [is located here](https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/thanos/-/blob/main/tests/test-values.yaml). Thanos also supports cloud object storage endpoints.
+High Availability can be accomplished by increasing the number of replicas for the deployment of Prometheus. [Thanos](https://repo1.dso.mil/big-bang/apps/sandbox/thanos/-/tree/main) must also be installed in the same namespace as the monitoring package in order for data to replicate across pods. An example of a Thanos object storage config using minIO [is located here](https://repo1.dso.mil/big-bang/apps/sandbox/thanos/-/blob/main/tests/test-values.yaml). Thanos also supports cloud object storage endpoints.
 ```yaml
 monitoring:
   values:
@@ -259,7 +259,7 @@ monitoring:
 When deploying BigBang, monitoring depends on gatekeeper/kyverno and istio being installed prior.
 
 ```yaml
-  {{- if or .Values.gatekeeper.enabled .Values.istio.enabled .Values.kyvernopolicies.enabled }}
+  {{- if or .Values.gatekeeper.enabled .Values.istio.enabled .Values.kyvernoPolicies.enabled }}
   dependsOn:
   {{- if .Values.istio.enabled }}
     - name: istio
@@ -269,8 +269,8 @@ When deploying BigBang, monitoring depends on gatekeeper/kyverno and istio being
     - name: gatekeeper
       namespace: {{ .Release.Namespace }}
   {{- end }}
-  {{- if .Values.kyvernopolicies.enabled }}
-    - name: kyvernopolicies
+  {{- if .Values.kyvernoPolicies.enabled }}
+    - name: kyverno-policies
       namespace: {{ .Release.Namespace }}
   {{- end }}
   {{- end }}

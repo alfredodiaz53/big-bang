@@ -1,6 +1,6 @@
 {{- /* Used for Helm chart deployment of Big Bang wrapper.  One per package. */ -}}
 {{- range $pkg, $vals := .Values.packages -}}
-{{- if (dig "enabled" true $vals) -}}
+{{- if and (dig "enabled" true $vals) (dig "wrapper" "enabled" false $vals) -}}
 {{- $pkg = include "resourceName" $pkg -}}
 {{- $fluxSettings := merge (dig "flux" dict $vals) $.Values.flux -}}
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
@@ -15,13 +15,22 @@ spec:
   releaseName: {{ $pkg }}-wrapper
   chart:
     spec:
-      chart: {{ default "wrapper" $.Values.wrapper.git.path }}
-      interval: {{ default "5m" $fluxSettings.interval }}
-      reconcileStrategy: Revision
+      {{- if (eq $.Values.wrapper.sourceType "git") }}
+      chart: {{ default "chart" $.Values.wrapper.git.path }}
       sourceRef:
         kind: GitRepository
         name: {{ $.Release.Name }}-wrapper
         namespace: {{ $.Release.Namespace }}
+      {{- else }}
+      chart: {{ $.Values.wrapper.helmRepo.chartName }}
+      version: {{ $.Values.wrapper.helmRepo.tag }}
+      sourceRef:
+        kind: HelmRepository
+        name: {{ $.Values.wrapper.helmRepo.repoName }}
+        namespace: {{ $.Release.Namespace }}
+      {{- end }}
+      interval: {{ default "5m" $fluxSettings.interval }}
+      reconcileStrategy: Revision
   {{- toYaml $fluxSettings | nindent 2 }}
   valuesFrom:
     - name: {{ $pkg }}-wrapper-values
@@ -29,7 +38,7 @@ spec:
 
   {{- /* Always wait on policy enforcement */ -}}
   {{- $gatekeeperDep := $.Values.gatekeeper.enabled -}}
-  {{- $kyvernoDep := $.Values.kyvernopolicies.enabled -}}
+  {{- $kyvernoDep := $.Values.kyvernoPolicies.enabled -}}
   {{- /* Wait on istio operator if creating a Virtual Service */ -}}
   {{- $istioOpDep := and $.Values.istio.enabled (dig "istio" "hosts" false $vals) -}}
   {{- /* Wait on monitoring if dashboard or metrics are enabled */ -}}
@@ -41,7 +50,7 @@ spec:
       namespace: {{ $.Release.Namespace }}
     {{- end }}
     {{- if $kyvernoDep }}
-    - name: kyvernopolicies
+    - name: kyverno-policies
       namespace: {{ $.Release.Namespace }}
     {{- end }}
     {{- if $istioOpDep }}

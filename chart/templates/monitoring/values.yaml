@@ -91,6 +91,10 @@ prometheus:
         imagePullPolicy: {{ .Values.imagePullPolicy }}
       - name: "config-reloader"
         imagePullPolicy: {{ .Values.imagePullPolicy }}
+    {{- if .Values.tempo.enabled }}
+    enableFeatures:
+      - remote-write-receiver
+    {{- end }}
     {{- if or $istioInjection .Values.monitoring.sso.enabled .Values.addons.vault.enabled }}
     podMetadata:
       {{- if or .Values.monitoring.sso.enabled (and .Values.networkPolicies.enabled .Values.addons.vault.enabled) }}
@@ -181,6 +185,11 @@ grafana:
 
   {{- if $gitlabRedis }}
   envFromSecret: grafana-env-secret
+  {{- end }}
+
+  {{- if .Values.tempo.enabled }}
+  env:
+    GF_FEATURE_TOGGLES_ENABLE: "traceqlEditor tempoSearch tempoServiceGraph"
   {{- end }}
 
   image:
@@ -279,6 +288,10 @@ grafana:
     url: http://tempo-tempo.tempo.svc:3100
     isDefault: false
     editable: true
+    jsonData:
+      httpMethod: GET
+      serviceMap:
+        datasourceUid: 'prometheus'
   {{- if .Values.loki.enabled }}
     jsonData:
       httpMethod: GET
@@ -311,12 +324,19 @@ grafana:
 
     auth.generic_oauth:
       enabled: {{ .Values.monitoring.sso.enabled }}
-      client_id: {{ .Values.monitoring.sso.grafana.client_id }}
-      client_secret: {{ .Values.monitoring.sso.grafana.client_secret }}
+      {{- if .Values.sso.name }}
+      name: {{ .Values.sso.name }}
+      {{- end }}
+      {{- if and .Values.monitoring.sso.enabled .Values.monitoring.sso.grafana.client_id }}
+      client_id: $__file{/etc/secrets/auth_generic_oauth/client_id}
+      {{- end }}
+      {{- if and .Values.monitoring.sso.enabled .Values.monitoring.sso.grafana.client_secret }}
+      client_secret: $__file{/etc/secrets/auth_generic_oauth/client_secret}
+      {{- end }}
       scopes: {{ .Values.monitoring.sso.grafana.scopes | default "openid profile email" }}
-      auth_url: {{ .Values.monitoring.sso.grafana.auth_url | default (tpl .Values.sso.auth_url .) }}
-      token_url: {{ .Values.monitoring.sso.grafana.token_url | default (tpl .Values.sso.token_url .) }}
-      api_url: {{ .Values.monitoring.sso.grafana.api_url | default (tpl "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/userinfo" .) }}
+      auth_url: {{ default (include "sso.oidc.auth" .) .Values.monitoring.sso.grafana.auth_url }}
+      token_url: {{ default (include "sso.oidc.token" .) .Values.monitoring.sso.grafana.token_url }}
+      api_url: {{ default (include "sso.oidc.userinfo" .) .Values.monitoring.sso.grafana.api_url }}
       allow_sign_up: {{ .Values.monitoring.sso.grafana.allow_sign_up | default "True" }}
       role_attribute_path: {{ .Values.monitoring.sso.grafana.role_attribute_path | default "Viewer" }}
     {{- with .Values.monitoring.sso.grafana }}
@@ -326,6 +346,24 @@ grafana:
       {{- list "tls_client_cert" .tls_client_cert | include "bigbang.addValueIfSet" | indent 6 }}
       {{- list "tls_client_key" .tls_client_key | include "bigbang.addValueIfSet" | indent 6 }}
     {{- end }}
+
+  {{- if and .Values.monitoring.sso.enabled (or .Values.monitoring.sso.grafana.client_id (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso))) }}
+  extraSecretMounts:
+    {{- if .Values.monitoring.sso.grafana.client_id }}
+    - name: auth-generic-oauth-secret
+      mountPath: /etc/secrets/auth_generic_oauth
+      secretName: grafana-sso
+      defaultMode: 0440    
+      readOnly: true
+    {{- end }}
+    {{- if (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso)) }}
+    - name: "oidc-ca-certificate"
+      mountPath: "/etc/oidc/ca.pem"
+      secretName: "tls-ca-sso"
+      readOnly: true
+      subPath: "ca.pem"
+    {{- end }}
+  {{- end }}
 
   {{- if $istioInjection }}
   serviceMonitor:
@@ -399,8 +437,8 @@ prometheusOperator:
 {{- end }}
 
 {{- /* This function merges defaults in lists from above into overlays */ -}}
-{{- /* The end user will not have to replicate additionalScrapeConfigs from above when providing an overlay */ -}}
-{{- /* There is a hidden flag `skipOverlayMerge` that can be added to any additionalScrapeConfigs to ignore the defaults */ -}}
+{{- /* The end user will not have to replicate `prometheus.prometheusSpec.additionalScrapeConfigs` or `grafana.extraSecretMounts` from above when providing an overlay */ -}}
+{{- /* There is a hidden flag `skipOverlayMerge` that can be added to `prometheus.prometheusSpec` or `grafana` overlays to ignore the defaults */ -}}
 {{- define "bigbang.overlays.monitoring" }}
 
   {{- $defaults := fromYaml (include "bigbang.defaults.monitoring" .) }}
@@ -409,14 +447,29 @@ prometheusOperator:
   {{- range $prometheusConfig, $default := $defaults.prometheus }}
     {{- $overlay := (dig "prometheus" $prometheusConfig dict $overlays) }}
     # Only continue if an overlay matches a default constriant and hidden "skipOverlayMerge" is not set
-    {{- if and $overlay (not $overlay.skipOverlayMerge) }}
+    {{- if and $overlay (kindIs "map" $overlay) (not $overlay.skipOverlayMerge) }}
 
       # Add any default additionalScrapeConfigs to overlay
       {{- if and (dig "additionalScrapeConfigs"  list $default) (dig "additionalScrapeConfigs"  list $overlay) }}
          {{ $_ := set $overlay "additionalScrapeConfigs" (concat $default.additionalScrapeConfigs $overlay.additionalScrapeConfigs) }}
       {{- end }}
-     
 
+    {{- end }}
+  {{- end }}
+  {{- range $monitoringConfig, $default := $defaults }}
+    {{- $overlay := (dig $monitoringConfig dict $overlays) }}
+    # Only continue if an overlay matches a default constriant and hidden "skipOverlayMerge" is not set
+    {{- if and $overlay (kindIs "map" $overlay) (not $overlay.skipOverlayMerge) }}
+
+      # Add any default extraSecretMounts to overlay
+      {{- if and (dig "extraSecretMounts" list $default) (dig "extraSecretMounts" list $overlay) }}
+         {{ $_ := set $overlay "extraSecretMounts" (concat $default.extraSecretMounts $overlay.extraSecretMounts) }}
+      {{- end }}
+
+      # Add any default additionalDataSources to overlay
+      {{- if and (dig "additionalDataSources" list $default) (dig "additionalDataSources" list $overlay) }}
+         {{ $_ := set $overlay "additionalDataSources" (concat $default.additionalDataSources $overlay.additionalDataSources) }}
+      {{- end }}
     {{- end }}
   {{- end }}
 {{ toYaml $overlays }}

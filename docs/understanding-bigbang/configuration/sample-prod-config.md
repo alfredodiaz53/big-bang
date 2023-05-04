@@ -115,7 +115,7 @@ addons:
 
 ### Kubernetes resource request/limit settings
 
-K8s resource requests/limits for webservice and gitaly workloads should be increased from the defaults. Gitlab engineers state predicting Gitaly's resource consumption is very difficult, and will require testing to find the applicable limits/requests for each individual installation. See this [Gitlab Epic](https://gitlab.com/groups/gitlab-org/-/epics/6127) for more information. See the [gitlab/docs/k8s-resources.md](https://repo1.dso.mil/platform-one/big-bang/apps/developer-tools/gitlab/-/blob/main/docs/k8s-resources.md) for a list of all possible configuration values. Use BigBang values overrides to change the Gitlab resource settings.  
+K8s resource requests/limits for webservice and gitaly workloads should be increased from the defaults. Gitlab engineers state predicting Gitaly's resource consumption is very difficult, and will require testing to find the applicable limits/requests for each individual installation. See this [Gitlab Epic](https://gitlab.com/groups/gitlab-org/-/epics/6127) for more information. See the [gitlab/docs/k8s-resources.md](https://repo1.dso.mil/big-bang/apps/developer-tools/gitlab/-/blob/main/docs/k8s-resources.md) for a list of all possible configuration values. Use BigBang values overrides to change the Gitlab resource settings.  
 Recommended starting point:
 
 ```yaml
@@ -144,7 +144,7 @@ addons:
 ### Backup and rename gitlab-rails-secret
 
 An operational deployment of Gitlab should backup and re-create the Gitlab Rails Encryption information as a secret with a different name as [documented here](https://docs.gitlab.com/charts/installation/secrets.html#gitlab-rails-secret). Using a custom secret name can help prevent accidental overwriting.
-To make the secret creation easier, the existing secret can be copied and modified with a different name.
+The existing secret can be copied and modified with a different name and is recommended to be stored in your environments GitOps configuration as a SOPS encrypted secret.
 
 ```bash
 kubectl get secret/gitlab-rails-secret -n gitlab -o yaml > gitlab-rails-custom-secret.yaml
@@ -159,8 +159,24 @@ metadata:
   name: gitlab-rails-custom-secret
 ```
 
-Use GitOps configuration as code (CaC) and commit the custom rails secret to your GitOps repository. You should encrypt the custom rails secret keys in the GitOps repository to preserve security.
-Then the following Gitlab helm chart value `global.railsSecrets.secret` can be overridden to point to the custom rails secret.
+Use GitOps configuration as code (CaC) and commit the custom rails secret to your GitOps repository. You should SOPs encrypt the custom rails secret keys in the GitOps repository to preserve security.
+
+To make the secret creation easier, BigBang has a value `addons.gitlab.railsSecret` where a chomp modifier can be used to have the data from the `gitlab-rails-secret` placed into a secret as part of the umbrella:
+
+```yaml
+addons:
+  gitlab:
+    ...
+    railsSecret: |
+      production:
+        secret_key_base: XXXXXX
+        otp_key_base: XXXXXX
+        ...
+```
+
+This `railsSecret` value should be committed to a SOPs encrypted values file as the data is very sensitive. 
+
+Once the secret is pushed up to GitOps, the following Gitlab helm chart value `global.railsSecrets.secret` can be overridden to point to the custom rails secret or if using the `railsSecret` value BigBang will auto point to the secret it controls via the value above.
 
 ```yaml
 addons:
@@ -191,7 +207,7 @@ kubectl get secret/gitlab-rails-secret -n gitlab -o yaml > cya.yaml
 
 ## Vault
 
-This section provides suggested settings for Vault operational/production environments. Vault is a large complicated application and has many options that cannot adequately be covered here. Vault has significant security risks if not properly configured and administrated. Please consult the upstream [Vault documentation](https://learn.hashicorp.com/tutorials/vault/kubernetes-raft-deployment-guide?in=vault/kubernetes#configure-vault-helm-chart) as the ultimate authority. The following is an example operational/production config using a passthrough istio ingress gateway, high availability, auto-unseal, and raft for distributed filesystem persistence. Consult the BigBang Vault Package helm repo [/docs/production-ha.md](https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/vault/-/blob/main/docs/production-ha.md) for more information.
+This section provides suggested settings for Vault operational/production environments. Vault is a large complicated application and has many options that cannot adequately be covered here. Vault has significant security risks if not properly configured and administrated. Please consult the upstream [Vault documentation](https://learn.hashicorp.com/tutorials/vault/kubernetes-raft-deployment-guide?in=vault/kubernetes#configure-vault-helm-chart) as the ultimate authority. The following is an example operational/production config using a passthrough istio ingress gateway, high availability, auto-unseal, and raft for distributed filesystem persistence. Consult the BigBang Vault Package helm repo [/docs/production.md](https://repo1.dso.mil/big-bang/product/packages/vault/-/blob/main/docs/production.md) for more information.
 
 ```yaml
 istio:

@@ -1,0 +1,82 @@
+{{- if .Values.loki.enabled }}
+{{- include "values-secret" (dict "root" $ "package" .Values.loki "name" "loki" "defaults" (include "bigbang.defaults.loki" .)) }}
+{{- end }}
+
+{{- define "bigbang.defaults.loki" -}}
+hostname: {{ .Values.hostname }}
+
+openshift: {{ .Values.openshift }}
+
+istio:
+  enabled: {{ .Values.istio.enabled }}
+
+imagePullSecrets:
+  - name: private-registry
+
+image:
+  pullPolicy: {{ .Values.imagePullPolicy }}
+
+networkPolicies:
+  enabled: {{ .Values.networkPolicies.enabled }}
+  controlPlaneCidr: {{ .Values.networkPolicies.controlPlaneCidr }}
+
+monitoring:
+  enabled: {{ .Values.monitoring.enabled }}
+  serviceMonitor:
+    enabled: {{ .Values.monitoring.enabled }}
+    # conditional passes only for default istio: enabled, mTLS: SCRICT
+    {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.loki.values) "STRICT") }}
+    scheme: https
+    tlsConfig:
+      caFile: /etc/prom-certs/root-cert.pem
+      certFile: /etc/prom-certs/cert-chain.pem
+      keyFile: /etc/prom-certs/key.pem
+      insecureSkipVerify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod certificate
+    {{- end }}
+
+loki:
+  storage:
+    {{- if (eq .Values.loki.strategy "monolith") }}
+    type: "filesystem"
+    {{- else }}
+    type: "s3"
+    bucketNames:
+      {{- toYaml .Values.loki.objectStorage.bucketNames | nindent 6 }}
+    s3:
+      endpoint: {{ .Values.loki.objectStorage.endpoint }}
+      region: {{ .Values.loki.objectStorage.region }}
+      accessKeyId: {{ .Values.loki.objectStorage.accessKey }}
+      secretAccessKey: {{ .Values.loki.objectStorage.accessSecret }}
+    {{- end }}
+  {{- if (eq .Values.loki.strategy "monolith") }}
+  rulerConfig:
+    storage:
+      type: local
+  storage_config:
+    boltdb_shipper:
+      active_index_directory: /var/loki/boltdb-shipper-active
+      cache_location: /var/loki/boltdb-shipper-cache
+      cache_ttl: 24h
+      shared_store: filesystem
+    filesystem:
+      directory: /var/loki/chunks
+  {{- end }}
+  {{- if .Values.istio.enabled }}
+  podAnnotations:
+    {{ include "istioAnnotation" . }}
+  {{- end }}
+
+{{- if (eq .Values.loki.strategy "scalable") }}
+singleBinary:
+  replicas: 0
+{{- end }}
+
+{{- with .Values.loki.objectStorage }}
+{{- if and (eq $.Values.loki.strategy "scalable") (not (and .endpoint .region)) }}
+minio:
+  enabled: true
+
+{{- end }}
+{{- end }}
+
+{{- end -}}

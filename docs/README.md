@@ -9,7 +9,7 @@
   1. Defines what input parameters will be passed through to the chosen helm charts.
 * You can see what applications are part of the platform by checking the following resources:
   * [packages.md](./packages.md) lists the packages and organizes them in categories.
-  * [Release Notes](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/releases) lists the packages and their versions.
+  * [Release Notes](https://repo1.dso.mil/big-bang/bigbang/-/releases) lists the packages and their versions.
   * For a code based source of truth, you can check [BigBang's default values.yaml](../chart/values.yaml), and `[CTRL] + [F]` "repo:", to quickly iterate through the list of applications supported by the BigBang team.
 
 
@@ -26,7 +26,7 @@
 
 ## Value add gained by using BigBang
 
-* Compliant with the [DoD DevSecOps Reference Architecture Design](https://dodcio.defense.gov/Portals/0/Documents/Library/DoDRefDesignCloudGithub.pdf?ver=zXJ_uO5LfouVaysHo5Ejsw%3D%3D)
+* Compliant with the [DoD DevSecOps Reference Architecture Design](https://dodcio.defense.gov/Portals/0/Documents/Library/DoD%20Enterprise%20DevSecOps%20Reference%20Design%20-%20CNCF%20Kubernetes%20w-DD1910_cleared_20211022.pdf)
 * Can be used to check some but not all of the boxes needed to achieve a cATO (Continuous Authority to Operate.)
 * Uses hardened IronBank Container Images. (left shifted security concern)
 * GitOps adds security benefits, and BigBang leverages GitOps, and can be further extended using GitOps.
@@ -56,7 +56,7 @@ The following is a general overview of the process, the [deployment guides](./gu
    * Configure Flux, the Cluster, and the Git Repo for GitOps Deployments that support deploying encrypted values.
    * Commit to the Git Repo BigBang's values.yaml and encrypted secrets that have been configured to match the desired state of the cluster (including HTTPS Certs and DNS names).  
 1. `kubectl apply --filename bigbang.yaml`
-   * [bigbang.yaml](https://repo1.dso.mil/platform-one/big-bang/customers/template/-/blob/main/dev/bigbang.yaml) will trigger a chain reaction of GitOps Custom Resources' that will deploy other GitOps CR's that will eventually deploy an instance of a DevSecOps Platform that's declaratively defined in your Git Repo.
+   * [bigbang.yaml](https://repo1.dso.mil/big-bang/customers/template/-/blob/main/umbrella-strategy/bigbang.yaml) will trigger a chain reaction of GitOps Custom Resources' that will deploy other GitOps CR's that will eventually deploy an instance of a DevSecOps Platform that's declaratively defined in your Git Repo.
    * To be specific, the chain reaction pattern we consider best practice is to have:
      * bigbang.yaml deploys a gitrepository and kustomization Custom Resource
      * Flux reads the declarative configuration stored in the kustomization CR to do a GitOps equivalent of `kustomize build . | kubectl apply  --filename -`, to deploy a helmrelease CR of the BigBang Helm Chart, that references input values.yaml files defined in the Git Repo.
@@ -65,3 +65,7 @@ The following is a general overview of the process, the [deployment guides](./gu
 ## New User Orientation
 
 * New users are encouraged to read through the Useful Background Contextual Information present in the [understanding-bigbang folder](./understanding-bigbang)
+
+## Frequently Asked Questions
+
+You can view answers to a number of frequently asked questions [here](FAQ.md).

@@ -42,13 +42,14 @@ You can override bigbang's helm values so istio will provision a service of type
 ## Kubernetes Distribution Specific Notes
 
 * Note: P1 has forks of various [Kubernetes Distribution Vendor Repos](https://repo1.dso.mil/platform-one/distros), there's nothing special about the P1 forks.
-* We recommend you leverage the Vendors upstream docs in addition to any docs found in P1 Repos; infact, the Vendor's upstream docs are far more likely to be up to date.
+* We recommend you leverage the Vendors upstream docs in addition to any docs found in P1 Repos; in fact, the Vendor's upstream docs are far more likely to be up to date.
 
 ### Kubernetes Version
 
-* While Big Bang does not require/mandate usage of a specific Kubernetes Version, we also do not do extensive testing on every version
-* Currently Big Bang tests on 1.23 and 1.24 clusters, with primary testing for each release on 1.24
-* The team provides support for any issues encountered due to Kubernetes version for any releases that are [supported/not end of life](https://kubernetes.io/releases/)
+It is important to note that while Big Bang does not require/mandate usage of a specific Kubernetes Version, we also do not do extensive testing on every version. The below is our general stance on Kubernetes versions:
+* Big Bang supports any non-EOL Kubernetes version listed under https://kubernetes.io/releases/
+* Big Bang release and CI testing will primarily be done on the `n-1` minor Kubernetes version (i.e. if 1.27.x is latest, we will test on 1.26.x). We will generally keep our testing environments on the latest patch for that minor version.
+* New features added by Kubernetes will be kept behind feature gates until all non-EOL versions support those features
 
 ### VMWare Tanzu Kubernetes Grid
 

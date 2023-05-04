@@ -6,14 +6,14 @@ BigBang developers use [k3d](https://k3d.io/), a lightweight wrapper to run [k3s
 
 It is not recommend to run k3d with Big Bang on your local workstation. Instead use a remote k3d cluster running on an EC2 instance to shift the compute and network bandwidth to the cloud. Big Bang can be quite resource intensive and it requires a huge download bandwidth for the images. If you do insist on running k3d locally you should disable certain packages before deploying. You can do this in the values.yaml file by setting the package deploy to false. One of the packages that is most resource-intensive is the logging package. And you should create a local image registry cache to minimize the amount of image downloading.
 
-There is a script that automates the creation and teardown of a remote k3d development environment. First, read the [script instructions](aws-k3d-script.md), understand what it does, and install required dependencies. Then, run the script [docs/assets/developer/scripts/k3d-dev.sh](../assets/scripts/developer/k3d-dev.sh) from your workstation. The console output at the end of the script will give you the information necessary to access and use the dev environment. Also, there is a video tutorial in Platform One IL2 Confluence. Search for "T3" and click the link to the page. Scroll down the page to the 57th video on 22-February-2022.
+There is a script that automates the creation and teardown of a remote k3d development environment. First, read the [script instructions](aws-k3d-script.md), understand what it does, and install required dependencies. Then, run the script [docs/assets/scripts/developer/k3d-dev.sh](../assets/scripts/developer/k3d-dev.sh) from your workstation. The console output at the end of the script will give you the information necessary to access and use the dev environment. Also, there is a video tutorial in Platform One IL2 Confluence. Search for "T3" and click the link to the page. Scroll down the page to the 57th video on 22-February-2022.
 
 ## Prerequisites
 
 ### Required Access
 
-- AWS GovCloud "coder" account - talk to your team lead for access
-- [BigBang repository](https://repo1.dso.mil/platform-one/big-bang/bigbang)
+- AWS GovCloud "Big Bang dev" account - talk to your team government lead for access
+- [BigBang repository](https://repo1.dso.mil/big-bang/bigbang)
 - [Iron Bank registry](https://registry1.dso.mil/)
 
 ### Local Utilities
@@ -23,5 +23,3 @@ There is a script that automates the creation and teardown of a remote k3d devel
 - [AWS cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 - [jq](https://stedolan.github.io/jq/download/)
 - optional: [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/)
-
-> For additional installation details, see [Software Installation and Verification Commands to run from Bash](https://repo1.dso.mil/platform-one/onboarding/big-bang/engineering-cohort/-/blob/master/lab_guides/01-Preflight-Access-Checks/A-software-check.md)

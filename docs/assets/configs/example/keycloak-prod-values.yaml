@@ -1,7 +1,7 @@
 comments: |
   Operational deployments use a different configuration including but not limited to:
   - a custom realm would not automatically be loaded. 
-  - needed secrets would be created independently through a GitOps process rather than using the keycolak chart to create secrets
+  - needed secrets would be created independently through a GitOps process rather than using the keycloak chart to create secrets
   - the certificate would not be inlined in the values.yaml but instead the keycloak-tlscert and keycloak-tlskey secrets are created independently through a GitOps process
   - an external database would be used
   - master realm would be disabled or restricted to prevent admin login
@@ -55,7 +55,11 @@ addons:
         -----END CERTIFICATE-----
 
     values:
-      replicas: 3
+      #replicas: 3
+      autoscaling:
+        enabled: true
+        minReplcias: 2
+        maxReplicas: 5
       command:
         - "/opt/keycloak/bin/kc.sh"
       args:
@@ -94,6 +98,9 @@ addons:
           value: ispn
         - name: KC_CACHE_STACK
           value: kubernetes
+        - name: KC_METRICS_ENABLED
+          value: "true"
+
 
       secrets:
         env:
@@ -119,12 +126,16 @@ addons:
           stringData:
             quarkus.properties: |-
               quarkus.http.non-application-root-path=/
-              quarkus.kc-routing-redirects.urls./=/auth/realms/YOUR-REALM-NAME/account
-              quarkus.kc-routing-redirects.urls./auth=/auth/realms/YOUR-REALM-NAME/account
-              quarkus.kc-routing-redirects.urls./register=/auth/realms/YOUR-REALM-NAME/protocol/openid-connect/registrations?client_id=account&response_type=code
-              quarkus.kc-routing-redirects.path-prefixes./oauth/authorize=/auth/realms/YOUR-REALM-NAME/protocol/openid-connect/auth
-              quarkus.kc-routing-redirects.path-filters./api/v4/user=/auth/realms/YOUR-REALM-NAME/protocol/openid-connect/userinfo
-              quarkus.kc-routing-redirects.path-filters./oauth/token=/auth/realms/YOUR-REALM-NAME/protocol/openid-connect/token
+              # custom redirects
+              quarkus.kc-routing.path-redirect./=/auth/realms/YOUR-REALM-NAME/account
+              quarkus.kc-routing.path-redirect./auth=/auth/realms/YOUR-REALM-NAME/account
+              quarkus.kc-routing.path-redirect./register=/auth/realms/YOUR-REALM-NAME/protocol/openid-connect/registrations?client_id=account&response_type=code
+              quarkus.kc-routing.path-prefix./oauth/authorize=/auth/realms/YOUR-REALM-NAME/protocol/openid-connect/auth
+              quarkus.kc-routing.path-filter./api/v4/user=/auth/realms/YOUR-REALM-NAME/protocol/openid-connect/userinfo
+              quarkus.kc-routing.path-filter./oauth/token=/auth/realms/YOUR-REALM-NAME/protocol/openid-connect/token
+              # block metrics and health enpoints from being exposed through the istio ingress
+              quarkus.kc-routing.path-recursive-block./metrics=8443
+              quarkus.kc-routing.path-recursive-block./health=8443
 
 
       # This config includes an example of injecting a custom theme jar on startup
