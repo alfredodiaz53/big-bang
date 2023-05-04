@@ -34,11 +34,15 @@ monitoring:
       insecureSkipVerify: true  # Prometheus does not support Istio security naming, thus skip verifying target pod certificate
     {{- end }}
 
+{{- if .Values.fluentbit.enabled }}
 fluentbit:
-  enabled: {{ .Values.promtail.enabled }}
+  enabled: true
+{{- end }}
 
+{{- if .Values.promtail.enabled }}
 promtail:
-  enabled: {{ .Values.promtail.enabled }}
+  enabled: true
+{{- end }}
 
 
 loki:
