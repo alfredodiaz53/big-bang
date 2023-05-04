@@ -35,7 +35,7 @@ monitoring:
     {{- end }}
 
 {{- $disableDefaultFLB := dig "additionalOutputs" "disableDefault" false .Values.fluentbit.values }}
-{{- if .Values.fluentbit.enabled }}
+{{- if and .Values.fluentbit.enabled (not $disableDefaultFLB) }}
 fluentbit:
   enabled: true
 {{- end }}
