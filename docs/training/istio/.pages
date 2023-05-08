@@ -1,0 +1,18 @@
+nav:
+  - 01-getting-started.md
+  - 02-environment.md
+  - 03-istio-architecture.md
+  - 04-the-app.md
+  - 05-ingress.md
+  - 06-ingress-lab.md
+  - 07-observability.md
+  - 08-observability-lab.md
+  - Security - mTLS: 09-1-security.md
+  - Security - Peer Authentication - Request Authentication: 09-2-security.md
+  - Security - Authorization Policy: 09-3-security.md
+  - 10-security-lab.md
+  - 11-traffic-shifting.md
+  - 12-traffic-shifting-lab.md
+  - 13-sidecar-resource.md
+  - 14-egress-policies.md
+  - Summary: summary.md

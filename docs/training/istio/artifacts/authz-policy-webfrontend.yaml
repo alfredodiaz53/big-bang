@@ -1,0 +1,15 @@
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: allowed-webfrontend-clients
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+        app: web-frontend
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/default/sa/istio-ingressgateway-service-account"]

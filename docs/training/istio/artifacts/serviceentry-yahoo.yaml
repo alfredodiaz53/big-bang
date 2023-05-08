@@ -1,0 +1,20 @@
+# in the namespace that your egress gateway is deployed in,
+# configure the mesh to route the host to a real destination
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: external-developer-yahoo-com
+spec:
+  hosts:
+  - developer.yahoo.com
+  exportTo:
+  - "."
+  location: MESH_EXTERNAL
+  resolution: DNS
+  ports:
+  - number: 443
+    name: https
+    protocol: HTTPS
+  - number: 80
+    name: http
+    protocol: HTTP
