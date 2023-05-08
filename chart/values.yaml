@@ -614,11 +614,11 @@ fluentbit:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/fluentbit.git
     path: "./chart"
-    tag: "0.27.0-bb.0"
+    tag: "0.28.0-bb.0"
   helmRepo:
     repoName: "registry1"
     chartName: "fluentbit"
-    tag: "0.27.0-bb.0"
+    tag: "0.28.0-bb.0"
 
   # -- Flux reconciliation overrides specifically for the Fluent-Bit Package
   flux: {}
@@ -1234,11 +1234,11 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/nexus.git
       path: "./chart"
-      tag: "47.1.0-bb.0"
+      tag: "52.0.0-bb.0"
     helmRepo:
       repoName: "registry1"
       chartName: "nexus-repository-manager"
-      tag: "47.1.0-bb.0"
+      tag: "52.0.0-bb.0"
 
     # -- Base64 encoded license file.
     license_key: ""
