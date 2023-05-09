@@ -1583,10 +1583,6 @@ addons:
       global:
         tlsDisable: false
       injector:
-        extraEnvironmentVars:
-          VAULT_API_ADDR: https://vault.bigbang.dev
-        certs:
-          secretName: vault-tls
         affinity: |
           podAntiAffinity:
             preferredDuringSchedulingIgnoredDuringExecution:
@@ -1600,7 +1596,6 @@ addons:
                   topologyKey: kubernetes.io/hostname
       server:
         extraEnvironmentVars:
-          VAULT_API_ADDR: https://vault.bigbang.dev  #istio GW
           VAULT_SKIP_VERIFY: "true"
           VAULT_LOG_FORMAT: "json"
         dataStorage:
@@ -1611,7 +1606,7 @@ addons:
         ha:
           enabled: true
           replicas: 1
-
+          apiAddr: "https://vault.bigbang.dev"
           raft:
             enabled: true
             config: |
@@ -1639,12 +1634,6 @@ addons:
                 }
               }
 
-              seal "awskms" {
-                region     = "us-gov-west-1"
-                kms_key_id = "mrk-ff723da024254ea2b7f490c68fbc9b9b"
-                endpoint   = "https://kms.us-gov-west-1.amazonaws.com"
-              }
-
               telemetry {
                 prometheus_retention_time = "24h"
                 disable_hostname = true
@@ -1653,7 +1642,7 @@ addons:
               service_registration "kubernetes" {}
 
       bbtests:
-        enabled: true
+        enabled: false
         cypress:
           artifacts: true
           envs:

@@ -1704,7 +1704,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/vault.git
       path: "./chart"
-      tag: "0.23.0-bb.5"
+      #tag: "0.23.0-bb.5"
+      branch: "renovate/ironbank"
     helmRepo:
       repoName: "registry1"
       chartName: "vault"
