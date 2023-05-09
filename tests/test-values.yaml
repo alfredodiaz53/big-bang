@@ -1648,7 +1648,7 @@ addons:
               service_registration "kubernetes" {}
 
       bbtests:
-        enabled: false
+        enabled: true
         cypress:
           artifacts: true
           envs:
