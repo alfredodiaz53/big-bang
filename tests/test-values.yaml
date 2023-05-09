@@ -1634,6 +1634,12 @@ addons:
                 }
               }
 
+              seal "awskms" {
+                region     = "us-gov-west-1"
+                kms_key_id = "mrk-ff723da024254ea2b7f490c68fbc9b9b"
+                endpoint   = "https://kms.us-gov-west-1.amazonaws.com"
+              }
+
               telemetry {
                 prometheus_retention_time = "24h"
                 disable_hostname = true
