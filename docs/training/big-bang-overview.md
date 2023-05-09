@@ -43,4 +43,4 @@ You can find more information about Big Bang at https://p1.dso.mil/products/big-
 ## Big Bang vs. Party Bus
 When you host your environment on Party Bus it uses PartyBus CICD pipelines and processes on underlying Platform One infrastructure. Because of this, your environment can leverage Party Bus's cATO, which P1's AO (Authorizing Official) has already approved.
 
-On the other hand, simply installing Big Bang in your environment does not guarantee a cATO or ATO. Big Bang users who host thier own environment must work with their AOs to get an ATO/cATO.
+On the other hand, simply installing Big Bang in your environment does not guarantee a cATO or ATO. Big Bang users who host their own environment must work with their AOs to get an ATO/cATO.
