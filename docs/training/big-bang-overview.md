@@ -13,9 +13,9 @@ Big Bang is a Helm chart you can use to build a DevSecOps platform from DoD hard
 Big Bang is:
 
 * An umbrella Helm chart that leverages Iron Bank container images to provide a DevSecOps Platform where you can build and host apps.
-* Installed on a Kubernetes Cluster that is hosted outside of Platform One.
-* Installed and managed using GitOps and Infrastructure as Code. Big Bang Core is installed using Flux(V2). Addons can be installed using Flux or ArgoCD.
-* Big Bang Core is Open Source Software (but you can also deploy COTS applications to your cluster through Big Bang).
+* Installed on a Kubernetes Cluster that you provide. 
+* Installed and managed using GitOps and Configuration as Code, and orchestrated using Flux V2.
+* Open source, but leverages a mixture of open source and COTS software for each of the core and addon components.
 
 
 You can find more information about Big Bang at https://p1.dso.mil/products/big-bang.
@@ -32,19 +32,15 @@ You can find more information about Big Bang at https://p1.dso.mil/products/big-
 
 ![CNCF Landscape](images/cncf-landscape.png)
 
+## How is Big Bang Offered?
 
-## BigBang Deployment
+1. Through the Big Bang Customer Integration Team. This is a paid service. The Integration Team helps you set up and maintain a Big Bang environment that you host in your own environment. As part of our tech-fit evaluation, our engineers will work with you to determine the level of support and services needed.
+2. Through the Party Bus team. Also a paid service. Party Bus is a multi-tenant environment hosted, managed, and supported by the Platform One Party Bus team.
+3. Big Bang Open Source. You deploy Big Bang on your own in your environment and contribute back code/documentation. See https://repo1.dso.mil/platform-one/big-bang/customers/template to get started. 
 
 ![Big Bang Visualization](images/big-bang-viz.png)
 
-* You deploy Big Bang on your own and contribute back code/documentation. See https://repo1.dso.mil/platform-one/big-bang/customers/template
-* Big Bang is designed to be deployed to an existing cluster in your environment.  
-* Platform One can work with a vendor or partner to bundle Infrastructure as code and automation to form a Kubernetes Cluster. 
-
-
 ## Big Bang vs. Party Bus
-A major difference between Big Bang and Party Bus is that with Party Bus you're using PartyBus CICD pipelines and processes. This means that apps can get a CTF (Certificate to Field) and leverage Party Bus's cATO, which inherit Platform One's ATOs of the underlying infrastructure, which P1's AO (Authorizing Official) has approved.
+When you host your environment on Party Bus it uses PartyBus CICD pipelines and processes on underlying Platform One infrastructure. Because of this, your environment can leverage Party Bus's cATO, which P1's AO (Authorizing Official) has already approved.
 
-Installing Big Bang does not mean that you automagically get a cATO or ATO. Consumers of Big Bang need to work with their AOs to get an ATO/cATO. Big Bang Customers are able to get support from Platform One's security team to help with this.
-
-![ATO Layers](images/big-bang-ato-layers.png)
+On the other hand, simply installing Big Bang in your environment does not guarantee a cATO or ATO. Big Bang users who host thier own environment must work with their AOs to get an ATO/cATO.
