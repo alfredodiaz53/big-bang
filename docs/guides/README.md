@@ -11,7 +11,7 @@ The guides included here are not all inclusive of every situation. Please open a
 [Chart Values Guide](./using-bigbang/values-guide.md) |
 [Default Credentials](./using-bigbang/default-credentials.md) |
 [Image Pull Policy](./using-bigbang/image-pull-policy.md) |
-[Pod Usage in Graphana](./using-bigbang/pod-usage-in-grafana.md) |
+[Pod Usage in Grafana](./using-bigbang/pod-usage-in-grafana.md) |
 [Migrating Logging from ELK to PLG](./using-bigbang/efk-plg-logging-migration.md)
 
 ## Deployment Scenarios
