@@ -16,7 +16,7 @@ Big Bang's scope is to provide publicly available installation manifests for pac
 
 To correctly install and configure Big Bang, you must deploy a core package from each category. For additional details on categories and options see [here](./docs/understanding-bigbang/package-architecture/README.md##Core).
 
-Big Bang also builds tools you can use to test and validate Big Bang packages. Some examples are listed here (*** add link here ***). These tools are provided as-is, without support.
+Big Bang also builds [tools](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-tests.md) you can use to test and validate Big Bang packages. These tools are provided as-is, without support.
 
 Big Bang is designed to deploy and maintain a DoD hardened and approved set of packages in a Kubernetes cluster by managing ingress/egress, load balancing, policy auditing, logging, monitoring, and more. You can also enable additional packages beyond the core packages, such as ArgoCD and Gitlab, to further extend Big Bang. Once your Big Bang Kubernetes cluster is deployed, you can add mission-specific applications to it.
 
