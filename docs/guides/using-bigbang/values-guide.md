@@ -1,6 +1,6 @@
 # Values Guide
 
-Big Bang uses [Helm](https://helm.sh/) to set configuration values. Therefore, understanding how Helm works is essential for understanding Big Bang. Helm is essentially a template rendering engine that defines template files in which variables are used as placeholders for values. It then interpolates these values into the template and outputs the rendered template file . For Kubernetes, this will be a YAML files. 
+Big Bang uses [Helm](https://helm.sh/) to set configuration values. Therefore, understanding how Helm works is essential for understanding Big Bang. Helm is essentially a template rendering engine that defines template files in which variables are used as placeholders for values. It then interpolates these values into the template and outputs the rendered template file . For Kubernetes, this will be a YAML file. 
 
 For reference, Helm is similar in function to Jinja for Ansible and ERB templates for Puppet and Chef.
 

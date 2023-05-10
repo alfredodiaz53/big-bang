@@ -24,7 +24,7 @@ Additional information can be found at [Big Bang Docs](https://docs-bigbang.dso.
 
 ## Getting Started
 
-- You will need to instantiate a Big Bang environment tailored to your needs. To do this, please copy the  [The Big Bang customer template](https://repo1.dso.mil/big-bang/customers/template) into your own Git repository and make your modifications. 
+- You will need to instantiate a Big Bang environment tailored to your needs. To do this, copy the  [The Big Bang customer template](https://repo1.dso.mil/big-bang/customers/template) into your own Git repository and make your modifications. 
 
 ## Contributing to Big Bang
 
