@@ -322,6 +322,12 @@ gatekeeper:
 kyverno:
   values:
     replicaCount: 3
+    extraArgs:
+      - --clientRateLimitQPS=100
+      - --clientRateLimitBurst=100
+      - --loggingFormat=text
+      - --backgroundScan=false
+      - --exceptionNamespace={{ include "kyverno.namespace" . }}
     bbtests:
       enabled: true
 
@@ -564,6 +570,7 @@ kyvernoPolicies:
               names:
               - gitlab-minio-*
       require-non-root-user:
+        enabled: false
         exclude:
           any:
           # Gitlab Minio sub-chart does not have configurable securityContext values from upstream. Minio installation
