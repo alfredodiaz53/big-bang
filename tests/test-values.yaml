@@ -321,7 +321,7 @@ gatekeeper:
 
 kyverno:
   values:
-    replicaCount: 3
+    replicaCount: 6
     extraArgs:
       - --clientRateLimitQPS=100
       - --clientRateLimitBurst=100
