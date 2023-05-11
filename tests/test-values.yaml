@@ -322,6 +322,9 @@ gatekeeper:
 kyverno:
   values:
     replicaCount: 6
+    envVarsInit:
+      - name: KYVERNO_SVC
+        value: kyverno-kyverno-svc
     extraArgs:
       - --clientRateLimitQPS=100
       - --clientRateLimitBurst=100
