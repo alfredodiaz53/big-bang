@@ -1,8 +1,7 @@
-
 include:
   - project: 'big-bang/pipeline-templates/pipeline-templates'
     ref: 'oscal-mr'
-    file: '/pipelines/bigbang-package.yaml' 
+    file: '/pipelines/bigbang.yaml' 
 variables:
   PIPELINE_REPO_BRANCH: 'oscal-mr'
   DEBUG_ENABLED: "true"
