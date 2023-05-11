@@ -327,7 +327,6 @@ kyverno:
       - --clientRateLimitBurst=100
       - --loggingFormat=text
       - --backgroundScan=false
-      - --exceptionNamespace={{ include "kyverno.namespace" . }}
     bbtests:
       enabled: true
 
