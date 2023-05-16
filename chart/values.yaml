@@ -668,7 +668,6 @@ loki:
     repo: https://repo1.dso.mil/big-bang/product/packages/loki.git
     path: "./chart"
     tag: "5.0.0-bb.4"
-
   helmRepo:
     repoName: "registry1"
     chartName: "loki"
@@ -768,7 +767,6 @@ tempo:
     repo: https://repo1.dso.mil/big-bang/product/packages/tempo.git
     path: "./chart"
     tag: "1.2.0-bb.1"
-
   helmRepo:
     repoName: "registry1"
     chartName: "tempo"
@@ -837,7 +835,6 @@ monitoring:
     repo: https://repo1.dso.mil/big-bang/product/packages/monitoring.git
     path: "./chart"
     tag: "45.27.2-bb.1"
-
   helmRepo:
     repoName: "registry1"
     chartName: "monitoring"
