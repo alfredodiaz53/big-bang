@@ -121,6 +121,11 @@ monitoring:
   values:
     prometheus:
       prometheusSpec:
+        podMetadata:
+          annotations:
+            vault.hashicorp.com/agent-inject: "false"
+            vault.hashicorp.com/agent-init-first: "false"
+            vault.hashicorp.com/agent-inject-token: "false"
         resources:
           requests:
             cpu: 300m
