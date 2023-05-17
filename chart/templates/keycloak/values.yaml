@@ -13,7 +13,6 @@ image:
 
 # hostname is deprecated and replaced with domain. But if hostname exists then use it.
 {{- $domainName := default .Values.domain .Values.hostname }}
-hostname: {{ $domainName }}
 domain: {{ $domainName }}
 
 openshift: {{ .Values.openshift }}
