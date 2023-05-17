@@ -98,6 +98,7 @@ monitoring:
   values:
     prometheus:
       prometheusSpec:
+        additionalScrapeConfigs: []
         podMetadata:
           annotations:
             vault.hashicorp.com/agent-inject: "false"
