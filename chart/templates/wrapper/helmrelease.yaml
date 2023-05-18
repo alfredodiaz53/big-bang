@@ -11,6 +11,11 @@ metadata:
   labels:
     app.kubernetes.io/name: {{ $pkg }}-wrapper
     {{- include "commonLabels" $ | nindent 4 }}
+  annotations:
+    {{- $defaults := ($.Files.Get (printf "defaults/%s.yaml" $pkg) | fromYaml) -}}
+    {{- $overlays := dict "bigbang" $.Values "package" $vals -}}
+    {{- $merged := merge $overlays $defaults }}
+    checksum/bigbang-values: {{ (toJson $merged) | sha256sum }}
 spec:
   releaseName: {{ $pkg }}-wrapper
   chart:
