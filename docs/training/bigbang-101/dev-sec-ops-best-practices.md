@@ -7,7 +7,7 @@ tags:
 ## Layered Archtiecure
 Every Layer of the Cluster Should be defined as IaC/CaC and automated.
 
-![IaC/CaC Layers](images/dev-sec-ops/0-layers.png)
+![IaC/CaC Layers](../images/dev-sec-ops/0-layers.png)
 
 
 ### VM Layer
@@ -21,7 +21,7 @@ Packer is used to automatically build VM Image types that match the deployment e
       * OpenSCAP: public ansible scripts to bring a VM to STIG compliance/C2S hardened.
       * Inspec: Tests & verifies infrastructure configuration
 
-![VM Layer](images/dev-sec-ops/1-vm-layer.png)
+![VM Layer](../images/dev-sec-ops/1-vm-layer.png)
 
 
 ### Infrastructure Provisioning Layer
@@ -31,7 +31,7 @@ Terraform can be used to define Networking, Supporting Services, and VMs as Code
 
 It works for AWS, Azure, VMware and others.
 
-![VM Layer](images/dev-sec-ops/2-infra-layer.png)
+![VM Layer](../images/dev-sec-ops/2-infra-layer.png)
 
 
 ### Kubernetes Layer
@@ -42,7 +42,7 @@ Kubernetes Distributions are like Linux Distributions Big Bang Clusters come in 
 * RedHat's OpenShift Container Platform (BOY*)
 * (and more)
 
-![Kubernetes Layer](images/dev-sec-ops/3-k8s-layer.png)
+![Kubernetes Layer](../images/dev-sec-ops/3-k8s-layer.png)
 
 
 ### Cluster Services Layer
@@ -53,13 +53,13 @@ Kubernetes Distributions are like Linux Distributions Big Bang Clusters come in 
   * Prometheus operator stack (Prometheus Grafana AlertManager)
   * Logging operator stack (Elastic FluentD Kibana)
 
-![Cluster Services Layer](images/dev-sec-ops/4-cluster-services-layer.png)
+![Cluster Services Layer](../images/dev-sec-ops/4-cluster-services-layer.png)
 
 
 ### Applications Layer
 Applications that can be added or removed based on the needs of a particular customer.  ArgoCD umbrella app will deploy applications defined in a git repo to the cluster.
  
-![Applications Layer](images/dev-sec-ops/5-apps-layer.png)
+![Applications Layer](../images/dev-sec-ops/5-apps-layer.png)
 
 
 ## GitOps Goals vs. Expectations

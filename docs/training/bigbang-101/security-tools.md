@@ -47,7 +47,7 @@ What makes Keycloak a non-standard addon is that usually running all the addons 
 * During image analysis, software library and files are inspecting and stored in the Anchore DB
 * Anchore will also watch the image repository for updates to a given container tag
 
-![Anchore Analysis](anchore-analysis.png)
+![Anchore Analysis](../images/anchore-analysis.png)
 
 
 ### Policy Management
@@ -121,4 +121,3 @@ Gatekeeper is a core package in BigBang
         * FirewallD
         * Open Ports
         * Container Syscalls on the host
-
