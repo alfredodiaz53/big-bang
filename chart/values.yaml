@@ -950,7 +950,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/argocd.git
       path: "./chart"
-      tag: "5.28.0-bb.3"
+      #tag: "5.28.0-bb.3"
+      branch: "fix-helm-cypress-test"
     helmRepo:
       repoName: "registry1"
       chartName: "argocd"
