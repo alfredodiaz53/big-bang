@@ -33,11 +33,11 @@ tags:
      * Onboarding, pen testing, and more.
 
 
-## Automateing Security
+## Automating Security
 
 * IronBank rebuilds & rescans their images every 12 hours. This ensures fixes to the upstream base image can be added.
 * BigBang's UHC Pattern and every 2 week release cycle makes it easy to pull in the latest version of images.
-  in `~/Desktop/bootstrap/dev/kustomization.yaml` there's a reference to the version of the BigBang helm Chart. When you update that it cases a cascading effect that updates the versions of all images maintained by BigBang.
+  In `~/Desktop/bootstrap/dev/kustomization.yaml` there's a reference to the version of the BigBang helm Chart. When you update that it cases a cascading effect that updates the versions of all images maintained by BigBang.
 
 
 ## ATO vs cATO
@@ -49,14 +49,14 @@ tags:
 * Works better with the traditional Waterfall/Spiral SDLC
 * Changes to the system might warrant a re-evaluation of the ATO cycle
 * Traditionally ATO is issued to the system as whole
-* Does not lend to easier Reciprocity across platforms
+* Does not lend to easier reciprocity across platforms
 
 ### cATO
-* Also based on RMF and Security Controls but focus on the process that spans multiple iterations
+* Also based on RMF and Security Controls but focuses on the process that spans multiple iterations
 * Places focus on the development process instead of the system
-* Better fit for the modern agile methodologies
+* Better fit for modern agile methodologies
 * Allows teams to develop and deploy continuously without having to re-evaluate ATO for each change
-* Swapping out the layers (Infra and Platform) with equivalent ATOs helps preserves cATO and CtF of the Application which lends to Easier Reciprocity across platforms (arguably)
+* Swapping out the layers (Infra and Platform) with equivalent ATOs helps preserves cATO and CtF of the Application which lends to easier reciprocity across platforms (arguably)
 
 ## Continuous Authorization
 
@@ -101,12 +101,8 @@ Security is core to P1’s Mission
 
 
 ## P1 and cATO
-BigBang clusters are capable of receiving a cATO.
+BigBang clusters are eligible to receive a cATO.
 
-IronBank, PartyBus, and other P1 services are hosted on top of BigBang Clusters. P1's AO was able to sign off on P1 services receiving a cATO, because of people, processes, and technology.
+IronBank, PartyBus, and other P1 services are hosted on BigBang Clusters. In addition to BigBang platform technology, trained and vetted people develop and maintain Big Bang services and follow processes that have been approved by the AO. Because of this, P1's AO was able to sign off on P1 services receiving a cATO.
 
-* In addition to the BigBang Platform Technology
-* Trained, approved, vetted people are developing and maintaining the services.
-* and are following processes that have been approved by the AO.
-
-EX: PartyBus has a process for developer built images to be blessed to run in production on the cATO'd environment, they call it the CTF (Certificate to Field).
+EX: PartyBus has a process for developer built images to be approved to run in production on the cATO'd environment, they call it the CTF (Certificate to Field).
