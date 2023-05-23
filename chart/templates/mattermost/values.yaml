@@ -31,8 +31,8 @@ updateJob:
 
 monitoring:
   enabled: {{ .Values.monitoring.enabled }}
-  serviceMonitor:
-    enabled: {{ .Values.monitoring.enabled }}
+  # serviceMonitor:
+  #   enabled: {{ .Values.monitoring.enabled }}
     # conditional passes only for default istio: enabled, mTLS: STRICT
     # {{- if and .Values.istio.enabled (eq (dig "istio" "mtls" "mode" "STRICT" .Values.addons.mattermost) "STRICT") }}
     # scheme: https
