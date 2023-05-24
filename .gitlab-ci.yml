@@ -4,6 +4,7 @@ include:
     file: '/pipelines/bigbang-package.yaml' 
 variables:
   PIPELINE_REPO_BRANCH: 'k3d-126'
-  DEBUG_ENABLED: "true"
+    #DEBUG_ENABLED: "true"
+  DEBUG_ENABLED: "false"
   MULTI_NODE: "true"
   CI_PROJECT_NAME: "bigbang"
