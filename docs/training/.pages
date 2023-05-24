@@ -1,6 +1,10 @@
 nav:
-  - Home: README.md
-  - Platform One Intro: p1-introduction.md
-  - Big Bang Overview: big-bang-overview.md
-  - DevSecOps Best Practices: dev-sec-ops-best-practices.md
-  - Kubernetes: k8s
+  - Home: Intro-To-Big-Bang.md
+  - Big Bang 101: bigbang-101
+  - Pre-Install Prep: pre-install-prep
+  - Installation: installation
+  - Packages: packages
+  - Istio Training: istio
+  - K8s Training: k8s
+  - Capabilities: capabilities
+  - User Guides and Further Reading: user-guides+further-reading
