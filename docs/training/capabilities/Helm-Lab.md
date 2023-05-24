@@ -1,7 +1,7 @@
 # Helm Lab
 
 ## Lab Overview
-> In this lab we will install Helm CLI tool, add helm repository, use `hlem` CLI tool to template kubernetes `.yaml` files.
+> In this lab we will install Helm CLI tool, add helm repository, use `helm` CLI tool to template kubernetes `.yaml` files.
 
 # Helm Templating
 

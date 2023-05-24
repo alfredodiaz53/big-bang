@@ -10,22 +10,21 @@ tags:
 * What is a keycloak ?
     * single sign-on solution
     * open source
-    * Compliant with standard protocols like OIDC and SAML so it can integrate with many
-        * Identity providers
-* P1's implementation allows SSO with CAC cards (a plugin is baked in that can federate against the x509 certs associated with CAC cards)
+    * Compliant with standard protocols like OIDC and SAML so it can integrate with many identity providers
+* P1's implementation allows SSO with CAC cards (a plugin is integrated that can federate against the x509 certs associated with CAC cards)
 
 
 ### AuthService (Authentication Proxy)
 
-Envoy, Istio's Proxy engine, has a feature to protect workloads with an Authentication Proxy, where you can force users to Authenticate with an SSO provider before they see the service behind the authentication proxy.
+Envoy, Istio's proxy engine, has a feature to protect workloads with an authentication proxy, where you can force users to authenticate with an SSO provider before they see the service behind the authentication proxy.
 
 AuthService is a BigBang supported Addon
 
 ### AuthService, KeyCloak, and BigBang
 
-* AuthService is a BigBang addon, when enabled it's default configuration will point to P1's SSO Solution [https://login.dso.mil](https://login.dso.mil), which is P1's hosted Keycloak.
-* BigBang's Authentication Proxy can interface with any OIDC/SAML id provider, it doesn't have to be KeyCloak.
-* If you want AuthService to point to your own instance of Keycloak instead of P1's hosted keycloak, then you can deploy the keycloak BigBang addon* (non-standard addon).
+* AuthService is a BigBang addon. When enabled its default configuration will point to [Keycloak](https://login.dso.mil), P1's hosted SSO solution. 
+* BigBang's Authentication Proxy can interface with any OIDC/SAML id provider, not just KeyCloak.
+* If you want AuthService to point to your own instance of Keycloak instead of P1's hosted keycloak, you can deploy the keycloak BigBang addon (a non-standard addon).
 
 What makes Keycloak a non-standard addon is that usually running all the addons you like in 1 big cluster would be considered supported. In the case of Keycloak it's recommended to deploy it into its own dedicated cluster.
 
@@ -33,9 +32,8 @@ What makes Keycloak a non-standard addon is that usually running all the addons 
 ## Anchore
 
 * [Anchore Engine](https://github.com/anchore/anchore-engine) is an open-sourced container security platform.  
-* Anchore is service that analyzes docker images and scans for vulnerabilities
-* It is an optional add-on to Big Bang
-* Features include
+* Anchore is a service that analyzes docker images and scans for vulnerabilities. It is an optional add-on to Big Bang. 
+* Anchore features include
     * Container Image analysis
     * Policy Management
     * Continuous monitoring
@@ -44,8 +42,8 @@ What makes Keycloak a non-standard addon is that usually running all the addons 
 
 ### Image Analysis
 
-* During image analysis, software library and files are inspecting and stored in the Anchore DB
-* Anchore will also watch the image repository for updates to a given container tag
+* During image analysis, software libraries and files are inspected and stored in the Anchore DB
+* Anchore also watches the image repository for updates to a given container tag
 
 ![Anchore Analysis](../images/anchore-analysis.png)
 
@@ -58,7 +56,7 @@ What makes Keycloak a non-standard addon is that usually running all the addons 
     * Image manifest changes
     * Presence of credentials in images
 * Each policy can be a Stop or Warn
-* When scanning, any stop actions will fail a pipeline
+* When scanning, any stop actions will cause a pipeline to fail
 
 
 ## Open Policy Agent
@@ -109,7 +107,7 @@ Gatekeeper is a core package in BigBang
 ## Prisma
 
 * Prisma can be used in two primary ways
-    * As build time image scan/analysis/reporting tool
+    * As a build time image scan/analysis/reporting tool
     * As a runtime monitoring tool
         * IDS
         * IPS

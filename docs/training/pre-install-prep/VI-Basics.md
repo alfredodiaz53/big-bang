@@ -89,15 +89,11 @@ vi ~/.aws/config
  ```
 > to check that the first few characters didn't get chopped off the top of the file.
 
-## (Not a task/extra info for the curious) You can add alias's to bash
+## (Not a task/extra info for the curious) You can add aliases to bash
 
 [Example_Laptop_Config.txt](../../Manually_Created_Prereqs/Example_Laptop_Config.txt)
-`Example_Laptop_Config.txt` covers what you can add to your `~/.bashrc` file to create some useful alias's
+`Example_Laptop_Config.txt` covers what you can add to your `~/.bashrc` file to create some useful aliases
 It also shows you the syntax you'd use to support multiple AWS Profiles
 This is a completely optional step. Ubuntu users would add it to the end of the file.
 In the case of Mac users the file is usually fairly empty.
-Note: the bash function and alias won't work until you close and reopen the terminal, type `source .`, or type `bash` to start a new session)
-
-## Next Lab
-
-[AWS Access](D-aws-access.md)
+Note: the bash function and alias won't work until you close and reopen the terminal, type `source .`, or type `bash` to start a new session. 

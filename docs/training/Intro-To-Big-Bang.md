@@ -8,7 +8,7 @@ tags:
 
 
 ## What does Big Bang provide?
-Big Bang is a Helm chart you can use to build a DevSecOps platform from DoD hardened and approved containers deployed to your Kubernetes cluster. Using Big Bang will help you build a custom software factory for your specific mission needs and develop and deploy your mission applications faster. By using Big Bang you canensure that your development environment follows the DoD DevSecOps reference design and will be more likely to receive a Continuous ATO.
+Big Bang is a Helm chart you can use to build a DevSecOps platform from DoD hardened and approved containers deployed to your Kubernetes cluster. Using Big Bang will help you build a custom software factory for your specific mission needs and develop and deploy your mission applications faster. By using Big Bang you can ensure that your development environment follows the DoD DevSecOps reference design and will be more likely to receive a Continuous ATO.
 
 Big Bang is:
 
@@ -22,18 +22,16 @@ You can find more information about Big Bang at https://p1.dso.mil/products/big-
 
 ## Why use Big Bang
 * Secure, stable, and efficient implementation of Kubernetes and DevSecOps. 
-* Compliant with the DoD DevSecOps Reference Arch Design
+* Compliant with the DoD DevSecOps Reference Arch Design.
 * Faster deployments because infrastructure is defined as code.
 * Decreases your security burden by using IronBank container images.
 * Reduces maintenance burden by receiving app updates from P1's Big Bang Team.
 * "SSO for free." Instead of building SSO into apps, developers can label their pods "protect=keycloak" to automatically integrate SSO with their application.
 * It allows groups to collaborate and reuse secure solutions. 
 
-
-![CNCF Landscape](../images/cncf-landscape.png)
-
 ## How is Big Bang Offered?
 
+In these ways:
 1. Through the Big Bang Customer Integration Team. This is a paid service. The Integration Team helps you set up and maintain a Big Bang environment that you host in your own environment. As part of our tech-fit evaluation, our engineers will work with you to determine the level of support and services that is best for you.
 2. Through Party Bus. This is also a paid service. Party Bus is a multi-tenant environment hosted, managed, and supported by the Platform One Party Bus team.
 3. Big Bang Open Source. You deploy Big Bang on your own in your environment and contribute back code/documentation. See https://repo1.dso.mil/platform-one/big-bang/customers/template to get started. 
