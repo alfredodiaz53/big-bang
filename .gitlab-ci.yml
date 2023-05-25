@@ -2,7 +2,7 @@ include:
   - project: 'big-bang/pipeline-templates/pipeline-templates'
     #ref: 'k3d-126'
     ref: '71_update_k3d_5.5.1'
-    file: '/pipelines/bigbang-package.yaml' 
+    file: '/pipelines/bigbang.yaml' 
 variables:
   #PIPELINE_REPO_BRANCH: 'k3d-126'
   #CI_DEFAULT_BRANCH: 'k3d-126'
