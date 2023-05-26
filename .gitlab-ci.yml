@@ -3,7 +3,8 @@ include:
     ref: '71_update_k3d_5.5.1'
     file: '/pipelines/bigbang.yaml'
 variables:
-  PIPELINE_REPO_BRANCH: '71_update_k3d_5.5.1'
   MULTI_NODE: "true"
   DEBUG_ENABLED: "true"
+  CI_DEFAULT_BRANCH: 'test-k3d-136'
+  PIPELINE_REPO_BRANCH: '71_update_k3d_5.5.1'
   CI_PROJECT_NAME: "bigbang"
