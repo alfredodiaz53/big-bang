@@ -667,12 +667,11 @@ loki:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/loki.git
     path: "./chart"
-    #tag: "5.5.0-bb.1"
-    branch: "cypress-updates-2"
+    tag: "5.5.0-bb.2"
   helmRepo:
     repoName: "registry1"
     chartName: "loki"
-    tag: "5.5.0-bb.1"
+    tag: "5.5.0-bb.2"
 
   # -- Flux reconciliation overrides specifically for the Loki Package
   flux: {}
