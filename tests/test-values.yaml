@@ -628,10 +628,10 @@ fluentbit:
       enabled: true
 
 loki:
+  objectStorage: 
+    type: "minio"
   strategy: scalable
   values:
-    minio:
-      enabled: true
     write:
       replicas: 1
       persistence:

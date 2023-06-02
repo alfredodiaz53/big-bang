@@ -57,8 +57,10 @@ loki:
     s3:
       endpoint: {{ .Values.loki.objectStorage.endpoint }}
       region: {{ .Values.loki.objectStorage.region }}
+      {{- if and (not (eq .Values.loki.objectStorage.accessKey "")) (not (eq .Values.loki.objectStorage.accessSecret "")) }}
       accessKeyId: {{ .Values.loki.objectStorage.accessKey }}
       secretAccessKey: {{ .Values.loki.objectStorage.accessSecret }}
+    {{- end }}
     {{- end }}
   {{- if (eq .Values.loki.strategy "monolith") }}
   rulerConfig:
@@ -73,6 +75,12 @@ loki:
     filesystem:
       directory: /var/loki/chunks
   {{- end }}
+  {{- if and (eq $.Values.loki.objectStorage.type "s3") }}
+  storage_config:
+    aws:
+      region: {{ $.Values.loki.objectStorage.region }}
+      s3forcepathstyle: false
+  {{- end }}
   {{- if .Values.istio.enabled }}
   podAnnotations:
     {{ include "istioAnnotation" . }}
@@ -84,9 +92,16 @@ singleBinary:
 {{- end }}
 
 {{- with .Values.loki.objectStorage }}
-{{- if and (eq $.Values.loki.strategy "scalable") (not (and .endpoint .region)) }}
+{{- if and (eq $.Values.loki.strategy "scalable") (eq .type "minio") }}
 minio:
   enabled: true
+
+{{- end }}
+{{- if and (eq $.Values.loki.strategy "scalable") (eq .type "s3") (not (eq $.Values.loki.objectStorage.iamProfile "")) }}
+serviceAccount:
+  create: true
+  annotations:
+    eks.amazonaws.com/role-arn: {{ $.Values.loki.objectStorage.iamProfile }}
 
 {{- end }}
 {{- end }}
