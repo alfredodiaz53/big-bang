@@ -5,16 +5,16 @@ tags:
 ---
 
 ## What is Platform One?
-Platform One (P1) is a security-first approach to modern software development for military weapon systems that leverages industry best-practices. P1 enables the DoD to operate using DevSecOps managed internally. P1 is comprised of huge team that was formed from merging top talent across the U.S. Air Force and other innovation hubs. Platform One allows users to deploy a DevSecOps Software Factory and start solving software problems with a 90% solution day 1, instead of starting from nothing.
+Platform One (P1) is a security-first approach to developing secure software for military weapon systems. It follows industry best practices and enables the Department of Defense (DoD) to manage DevSecOps internally. P1 is a large team of highly talented individuals from the U.S. Air Force and other innovation hubs. With Platform One, users can establish a DevSecOps Software Factory and start solving software issues with a 90% solution from day one, eliminating the need to start from scratch.
 
 ![Platform One Organization](../images/p1.png)
 
 
-More informatio on Platform One can be found at https://p1.dso.mil/
+More information on Platform One can be found at https://p1.dso.mil/
 
 
-## How the P1 Services Fit Together
-Big Bang turns Iron Bank Container Images into Deployable Apps Repo One, Iron Bank, Party Bus, SSO, and more are all hosted on instances of Big Bang
+## How P1 Services Fit Together
+Big Bang transforms Iron Bank Container Images into deployable application repositories. Instances of Big Bang host Repo One, Iron Bank, Party Bus, SSO, and other components.
 
 ![Platform One Services](../images/p1-services.png)
 
