@@ -1,9 +1,9 @@
 include:
   - project: 'big-bang/pipeline-templates/pipeline-templates'
-    ref: '71-update-k3d'
+    ref: 'mmartin-test'
     file: '/pipelines/bigbang.yaml'
 variables:
   MULTI_NODE: "true"
   DEBUG_ENABLED: "true"
   CI_DEFAULT_BRANCH: 'mmartin-test'
-  PIPELINE_REPO_BRANCH: '71-update-k3d'
+  PIPELINE_REPO_BRANCH: 'mmartin-test'
