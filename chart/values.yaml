@@ -311,7 +311,8 @@ jaeger:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/jaeger.git
     path: "./chart"
-    tag: "2.45.0-bb.1"
+    #tag: "2.45.0-bb.1"
+    branch: "increase-wait"
   helmRepo:
     repoName: "registry1"
     chartName: "jaeger"
