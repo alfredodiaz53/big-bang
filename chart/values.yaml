@@ -303,7 +303,7 @@ istioOperator:
 
 jaeger:
   # -- Toggle deployment of Jaeger.
-  enabled: true
+  enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -311,8 +311,7 @@ jaeger:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/jaeger.git
     path: "./chart"
-    #tag: "2.45.0-bb.1"
-    branch: "increase-wait"
+    tag: "2.45.0-bb.1"
   helmRepo:
     repoName: "registry1"
     chartName: "jaeger"
@@ -425,14 +424,14 @@ gatekeeper:
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
 
-  git:
-    repo: https://repo1.dso.mil/big-bang/product/packages/policy.git
-    path: "./chart"
-    tag: "3.12.0-bb.3"
-  helmRepo:
-    repoName: "registry1"
-    chartName: "gatekeeper"
-    tag: "3.12.0-bb.3"
+#  git:
+#    repo: https://repo1.dso.mil/big-bang/product/packages/policy.git
+#    path: "./chart"
+#    tag: "3.12.0-bb.3"
+#  helmRepo:
+#    repoName: "registry1"
+#    chartName: "gatekeeper"
+#    tag: "3.12.0-bb.3"
 
   # -- Flux reconciliation overrides specifically for the OPA Gatekeeper Package
   flux:
