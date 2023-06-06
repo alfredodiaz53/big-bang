@@ -8,6 +8,8 @@
 hostname: {{ $domainName }}
 domain: {{ $domainName }}
 
+openshift: {{ .Values.openshift }}
+
 createNamespace: false
 
 global:
