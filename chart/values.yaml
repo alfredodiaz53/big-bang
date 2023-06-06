@@ -1030,7 +1030,7 @@ addons:
   #
   minioOperator:
     # -- Toggle deployment of minio operator and instance.
-    enabled: false
+    enabled: true
 
     # -- Choose source type of "git" or "helmRepo"
     sourceType: "git"
@@ -1055,7 +1055,7 @@ addons:
 
   minio:
     # -- Toggle deployment of minio.
-    enabled: false
+    enabled: true
 
     # -- Choose source type of "git" or "helmRepo"
     sourceType: "git"
