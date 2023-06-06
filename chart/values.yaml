@@ -424,14 +424,14 @@ gatekeeper:
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
 
-#  git:
-#    repo: https://repo1.dso.mil/big-bang/product/packages/policy.git
-#    path: "./chart"
-#    tag: "3.12.0-bb.3"
-#  helmRepo:
-#    repoName: "registry1"
-#    chartName: "gatekeeper"
-#    tag: "3.12.0-bb.3"
+  git:
+    repo: https://repo1.dso.mil/big-bang/product/packages/policy.git
+    path: "./chart"
+    tag: "3.12.0-bb.3"
+  helmRepo:
+    repoName: "registry1"
+    chartName: "gatekeeper"
+    tag: "3.12.0-bb.3"
 
   # -- Flux reconciliation overrides specifically for the OPA Gatekeeper Package
   flux:
@@ -942,7 +942,7 @@ twistlock:
 addons:
   argocd:
     # -- Toggle deployment of ArgoCD.
-    enabled: false
+    enabled: true
 
     # -- Choose source type of "git" or "helmRepo"
     sourceType: "git"
@@ -1226,7 +1226,7 @@ addons:
 
   nexusRepositoryManager:
     # -- Toggle deployment of Nexus Repository Manager.
-    enabled: false
+    enabled: true
 
     # -- Choose source type of "git" or "helmRepo"
     sourceType: "git"
@@ -1484,7 +1484,7 @@ addons:
   #
   mattermostOperator:
     # -- Toggle deployment of Mattermost Operator.
-    enabled: false
+    enabled: true
 
     # -- Choose source type of "git" or "helmRepo"
     sourceType: "git"
@@ -1509,7 +1509,7 @@ addons:
 
   mattermost:
     # -- Toggle deployment of Mattermost.
-    enabled: false
+    enabled: true
 
     # -- Choose source type of "git" or "helmRepo"
     sourceType: "git"
