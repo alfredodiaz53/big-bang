@@ -5,5 +5,6 @@ include:
 variables:
   MULTI_NODE: "true"
   DEBUG_ENABLED: "true"
-  CI_DEFAULT_BRANCH: 'test-k3d-136'
+  CI_DEFAULT_BRANCH: 'np-test-values'
   PIPELINE_REPO_BRANCH: '71-update-k3d'
+  DUMMY: 'dummy'
