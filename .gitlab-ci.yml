@@ -1,0 +1,9 @@
+include:
+  - project: 'big-bang/pipeline-templates/pipeline-templates'
+    ref: '71-update-k3d'
+    file: '/pipelines/bigbang.yaml'
+variables:
+  MULTI_NODE: "true"
+  DEBUG_ENABLED: "true"
+  CI_DEFAULT_BRANCH: 'test-k3d-136'
+  PIPELINE_REPO_BRANCH: '71-update-k3d'
