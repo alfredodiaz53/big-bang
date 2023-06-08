@@ -10,17 +10,14 @@ Since log forwarder pods like fluentbit & promtail are designed to have 1 pod pe
 Run the following command to install the VPA components:
 
 ```shell
-
 helm repo add cowboysysop https://cowboysysop.github.io/charts/
 helm install my-release cowboysysop/vertical-pod-autoscaler
-
 ```
 
 # 3.Configure Fluent Bit Deployment
 For Fluentbit, make sure the following settings are added to the packages Helm Chart [values.yaml](https://repo1.dso.mil/big-bang/product/packages/fluentbit/-/blob/main/chart/values.yaml_) file:
 
 ```yaml
-
     ## only available if kind is Deployment
     autoscaling:
         vpa:
@@ -39,14 +36,12 @@ For Fluentbit, make sure the following settings are added to the packages Helm C
             minAllowed: {}
                 cpu: 200m
                 memory: 100Mi
-
 ```
 
 # 4.Configure Promtail Deployment
 For Promtail, make sure the following settings are added to the Packages Helm Chart [values.yaml](https://repo1.dso.mil/big-bang/product/packages/promtail/-/blob/main/chart/values.yaml) file:
 
 ```yaml
-
 # -- config for VerticalPodAutoscaler
 vpa:
 enabled: false
@@ -70,7 +65,6 @@ updatePolicy:
     # Specifies whether recommended updates are applied when a Pod is started and whether recommended updates
     # are applied during the life of a Pod. Possible values are "Off", "Initial", "Recreate", and "Auto".
     updateMode: Auto
-
 ```
 
 # 5.Verify VPA Status
@@ -78,11 +72,9 @@ Check the VPA status to ensure it is functioning correctly and providing recomme
 
 Run the following command:
 
-    ```shell
-
-        kubectl describe vpa -A 
-
-    ```
+```shell
+    kubectl describe vpa -A 
+```
 
 Look for the Conditions section and verify that the status is Healthy.
 
