@@ -7,11 +7,12 @@ Since log forwarder pods like fluentbit & promtail are designed to have 1 pod pe
 - kubectl command-line tool configured to access the cluster
 
 # 2.Install the Vertical Pod Autoscaler
-Run the following command to install the VPA components:
+Run the following commands to install the VPA components from the bigbang package repo:
 
 ```shell
-helm repo add cowboysysop https://cowboysysop.github.io/charts/
-helm install my-release cowboysysop/vertical-pod-autoscaler
+git clone https://repo1.dso.mil/big-bang/apps/sandbox/vpa.git
+cd vpa
+helm install vertical-pod-autoscaler chart/
 ```
 
 # 3.Configure Fluent Bit Deployment
