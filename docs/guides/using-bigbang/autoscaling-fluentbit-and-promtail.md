@@ -30,11 +30,11 @@ For Fluentbit, make sure the following settings are added to the packages Helm C
             controlledResources: []
 
             # Define the max allowed resources for the pod
-            maxAllowed: {}
+            maxAllowed:
                 cpu: 200m
                 memory: 100Mi
             # Define the min allowed resources for the pod
-            minAllowed: {}
+            minAllowed:
                 cpu: 200m
                 memory: 100Mi
 ```
