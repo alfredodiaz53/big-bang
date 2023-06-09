@@ -7,3 +7,4 @@ variables:
   DEBUG_ENABLED: "true"
   CI_DEFAULT_BRANCH: 'np-test-values'
   PIPELINE_REPO_BRANCH: '71-update-k3d'
+  DUMMY: "dummy"
