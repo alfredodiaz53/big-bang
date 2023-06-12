@@ -206,6 +206,7 @@ istio:
       tls:
         key: ""
         cert: ""
+        minProtocolVersion: ""
     # private:
     #   ingressGateway: "private-ingressgateway"
     #   hosts:
@@ -223,6 +224,7 @@ istio:
     #   tls:
     #     key: ""
     #     cert: ""
+    #     minProtocolVersion: ""
     # passthrough:
     #   ingressGateway: "passthrough-ingressgateway"
     #   hosts:
@@ -245,6 +247,7 @@ istio:
     #     tls:
     #       key: ""
     #       cert: ""
+    #       minProtocolVersion: ""
     #   - hosts:
     #     - "example.bigbang.dev"
     #     port:
@@ -257,6 +260,7 @@ istio:
     #     tls:
     #       key: ""
     #       cert: ""
+    #       minProtocolVersion: ""
     # passthrough:
     #   ingressGateway: "passthrough-ingressgateway"
     #   hosts:
@@ -316,7 +320,7 @@ jaeger:
   helmRepo:
     repoName: "registry1"
     chartName: "jaeger"
-    tag: "2.45.0-bb.1"
+    tag: "2.45.0-bb.2"
 
   # -- Flux reconciliation overrides specifically for the Jaeger Package
   flux:
@@ -590,11 +594,11 @@ eckOperator:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/eck-operator.git
     path: "./chart"
-    tag: "2.7.0-bb.0"
+    tag: "2.7.0-bb.1"
   helmRepo:
     repoName: "registry1"
     chartName: "eck-operator"
-    tag: "2.7.0-bb.0"
+    tag: "2.7.0-bb.1"
 
   # -- Flux reconciliation overrides specifically for the ECK Operator Package
   flux: {}
@@ -643,11 +647,11 @@ promtail:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/promtail.git
     path: "./chart"
-    tag: "6.11.0-bb.0"
+    tag: "6.11.0-bb.1"
   helmRepo:
     repoName: "registry1"
     chartName: "promtail"
-    tag: "6.11.0-bb.0"
+    tag: "6.11.0-bb.1"
 
   # -- Flux reconciliation overrides specifically for the Promtail Package
   flux: {}
@@ -835,11 +839,11 @@ monitoring:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/monitoring.git
     path: "./chart"
-    tag: "45.27.2-bb.3"
+    tag: "45.27.2-bb.4"
   helmRepo:
     repoName: "registry1"
     chartName: "monitoring"
-    tag: "45.27.2-bb.3"
+    tag: "45.27.2-bb.4"
 
   # -- Flux reconciliation overrides specifically for the Monitoring Package
   flux:
@@ -1304,11 +1308,11 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/sonarqube.git
       path: "./chart"
-      tag: "8.0.1-bb.0"
+      tag: "8.0.1-bb.1"
     helmRepo:
       repoName: "registry1"
       chartName: "sonarqube"
-      tag: "8.0.1-bb.0"
+      tag: "8.0.1-bb.1"
 
     # -- Flux reconciliation overrides specifically for the Sonarqube Package
     flux: {}
