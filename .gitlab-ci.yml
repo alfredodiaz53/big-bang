@@ -1,8 +1,0 @@
-include:
-  - project: 'big-bang/pipeline-templates/pipeline-templates'
-    ref: 'build-zarf-package'
-    file: '/pipelines/bigbang.yaml'
-variables:
-  PIPELINE_REPO_BRANCH: 'build-zarf-package'
-  DEBUG_ENABLED: "true"
-  BUMP: "4"
