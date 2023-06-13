@@ -1739,7 +1739,7 @@ addons:
     # -- Toggle deployment of metrics server
     # Acceptable options are enabled: true, enabled: false, enabled: auto
     # true = enabled / false = disabled / auto = automatic (Installs only if metrics API endpoint is not present)
-    enabled: auto
+    enabled: true
 
     # -- Choose source type of "git" or "helmRepo"
     sourceType: "git"
