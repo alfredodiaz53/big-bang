@@ -158,7 +158,7 @@ istio:
   
   values:
     networkPolicies:
-    enabled: false
+      enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
