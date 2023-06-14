@@ -18,6 +18,8 @@ istiod:
 # Change default hpaSpec to ensure generated HPA uses autoscaling/v2
 {{- if .Capabilities.APIVersions.Has "autoscaling/v2" }}
   hpaSpec:
+    maxReplicas: 10
+    minReplicas: 10
     metrics:
       - type: Resource
         resource:
@@ -27,6 +29,8 @@ istiod:
             averageUtilization: 60
 {{- else }}
   hpaSpec:
+    maxReplicas: 10
+    minReplicas: 10
     metrics:
       - type: Resource
         resource:
