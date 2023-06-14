@@ -955,7 +955,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/argocd.git
       path: "./chart"
-      tag: "5.33.1-bb.2"
+      #tag: "5.33.1-bb.2"
+      branch: "remove-sidecar-wait" 
     helmRepo:
       repoName: "registry1"
       chartName: "argocd"
