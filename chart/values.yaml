@@ -155,10 +155,6 @@ imagePullPolicy: IfNotPresent
 istio:
   # -- Toggle deployment of Istio.
   enabled: true
-  
-  values:
-    networkPolicies:
-      enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
