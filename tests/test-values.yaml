@@ -790,8 +790,8 @@ monitoring:
 
 neuvector:
   values:
-    # k3s:
-    #   enabled: true
+    k3s:
+      enabled: true
     bbtests:
       enabled: true
       cypress:
