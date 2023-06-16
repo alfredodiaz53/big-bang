@@ -1,7 +1,10 @@
 include:
-  - project: 'platform-one/big-bang/pipeline-templates/pipeline-templates'
+  - project: 'big-bang/pipeline-templates/pipeline-templates'
     ref: eks-support
     file: '/pipelines/bigbang.yaml'
 variables:
   PIPELINE_REPO_BRANCH: 'eks-support'
   DEBUG_ENABLED: "true"
+  CI_DEBUG_TRACE: "true"
+  CI_DEFAULT_BRANCH: "chris-bb-master"
+
