@@ -716,6 +716,7 @@ loki:
 
 neuvector:
    # -- Toggle deployment of Neuvector.
+   # Test CI commit
   enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
