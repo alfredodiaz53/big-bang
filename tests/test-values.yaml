@@ -789,6 +789,7 @@ monitoring:
           cypress_check_istio_dashboards: 'true'
 
 neuvector:
+  enabled: false
   values:
     k3s:
       enabled: true
