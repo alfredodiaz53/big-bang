@@ -15,7 +15,12 @@ istio:
             limits: null
 
 neuvector:
-  enabled: false
+  enabled: true
+  values:
+    k3s:
+      enabled: false
+    containerd:
+      enabled: true
 
 clusterAuditor:
   values:
