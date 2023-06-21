@@ -7,4 +7,3 @@ variables:
   DEBUG_ENABLED: "true"
   CI_DEBUG_TRACE: "true"
   # CI_DEFAULT_BRANCH: "chris-bb-master"
-
