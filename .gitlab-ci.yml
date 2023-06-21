@@ -1,0 +1,11 @@
+include:
+  - project: 'big-bang/pipeline-templates/pipeline-templates'
+    ref: '121-fail-pipeline-oscal'
+    file: '/pipelines/bigbang-package.yaml' 
+variables:
+  PIPELINE_REPO_BRANCH: '121-fail-pipeline-oscal'
+  DEBUG_ENABLED: "true"
+  MULTI_NODE: "true"
+  BB_PROJECT_ID: 12985
+  CI_PROJECT_NAME: "istio"
+
