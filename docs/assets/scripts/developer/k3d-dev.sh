@@ -347,7 +347,7 @@ echo "br_netfilter" >> /etc/modules-load.d/istio-iptables.conf; \
 echo "nf_nat_redirect" >> /etc/modules-load.d/istio-iptables.conf; \
 echo "xt_REDIRECT" >> /etc/modules-load.d/istio-iptables.conf; \
 echo "xt_owner" >> /etc/modules-load.d/istio-iptables.conf; \
-echo "xt_statistic" >> /etc/modules-load.d/istio-iptables.conf' 
+echo "xt_statistic" >> /etc/modules-load.d/istio-iptables.conf'
 EOF
 
   # Create the device mapping and spot options JSON files
