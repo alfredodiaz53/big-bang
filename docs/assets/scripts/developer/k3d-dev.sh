@@ -493,7 +493,7 @@ EOF
 
   echo
   echo "updating packages"
-  run "sudo apt-get update && sudo apt-get upgrade -y"
+  run "sudo apt-get -y update"
 
   echo
   echo "installing docker"
