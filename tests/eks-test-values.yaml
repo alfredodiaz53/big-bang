@@ -15,7 +15,6 @@ istio:
             limits: null
 
 neuvector:
-  enabled: true
   values:
     k3s:
       enabled: false
