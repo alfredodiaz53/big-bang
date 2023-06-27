@@ -5,4 +5,4 @@ include:
 variables:
   PIPELINE_REPO_BRANCH: 'build-zarf-package'
   DEBUG_ENABLED: "true"
-  BUMP: "1"
+  BUMP: "2"
