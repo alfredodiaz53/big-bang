@@ -42,7 +42,6 @@ violations:  # Try to keep this in alpha order to make it easier to find keys
       repos:
         - registry1.dso.mil
         - registry.dso.mil
-        - k8s.gcr.io
 
   {{- if or .Values.monitoring.enabled .Values.fluentbit.enabled .Values.twistlock.enabled .Values.promtail.enabled .Values.neuvector.enabled (and .Values.addons.velero.enabled .Values.addons.velero.values.deployNodeAgent)}}
   allowedHostFilesystem:

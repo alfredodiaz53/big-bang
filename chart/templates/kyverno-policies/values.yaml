@@ -494,7 +494,6 @@ policies:
       allow:
       - registry1.dso.mil
       - registry.dso.mil
-      - k8s.gcr.io
 
   {{- if or .Values.fluentbit.enabled .Values.promtail.enabled .Values.twistlock.enabled }}
   restrict-selinux-type:
