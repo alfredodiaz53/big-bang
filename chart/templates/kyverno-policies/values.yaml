@@ -352,6 +352,16 @@ policies:
     {{- if or .Values.fluentbit.enabled .Values.monitoring.enabled .Values.promtail.enabled .Values.twistlock.enabled .Values.neuvector.enabled $deployNodeAgent }}
     exclude:
       any:
+      {{- if or .Values.harbor.enabled }}
+      - resources:
+          namespaces:
+          - harbor
+          names:
+          # Harbor containers requires HostPath volumes.
+          - harbor-harbor-*
+          - redis-data-harbor-harbor-redis-bb-*
+          - data-harbor-harbor-*
+          {{- end }}
       {{- if .Values.fluentbit.enabled }}
       - resources:
           namespaces:
@@ -454,6 +464,16 @@ policies:
       # - `/var/log/audit`: Audit logs
       # Because the mounts are dynamically created for defenders at runtime, we cannot
       # anticipate all of the paths it may mount and must exclude it from the policy
+      {{- if or .Values.harbor.enabled }}
+      - resources:
+          namespaces:
+          - harbor
+          names:
+          # Harbor containers requires HostPath volumes.
+          - harbor-harbor-*
+          - redis-data-harbor-harbor-redis-bb-*
+          - data-harbor-harbor-*
+          {{- end }}
       {{- if .Values.twistlock.enabled }}
       - resources:
           namespaces:
@@ -485,6 +505,9 @@ policies:
       {{- if .Values.promtail.enabled }}
       # Promtail - `/run/promtail`: promtail buffering and persistent state
       - /run/promtail
+      {{- end }}
+      {{- if .Values.harbor.enabled }}
+      - /spec/hostPath/path
       {{- end }}
     {{- end }}
 
@@ -547,6 +570,16 @@ policies:
   restrict-volume-types:
     exclude:
       any:
+      {{- if or .Values.harbor.enabled }}
+      - resources:
+          namespaces:
+          - harbor
+          names:
+          # Harbor containers requires HostPath volumes.
+          - harbor-harbor-*
+          - redis-data-harbor-harbor-redis-bb-*
+          - data-harbor-harbor-*
+          {{- end }}
       {{- if or .Values.fluentbit.enabled }}
       - resources:
           namespaces:
