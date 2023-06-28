@@ -448,11 +448,73 @@ policies:
   # To override either disable this policy (not ideal) or add an allowed wildcard matching where local paths are provisioned.
   # See `docs/assets/configs/example/policy-overrides-k3d.yaml` for an example of how to do this for k3d.
   restrict-host-path-mount-pv:
-    validationFailureAction: enforce
+    validationFailureAction: audit
+    {{- if or .Values.harbor.enabled }}
+    exclude:
+      any:
+      {{- if or .Values.harbor.enabled }}
+      - resources:
+          namespaces:
+          - harbor
+          names:
+          # Harbor containers requires HostPath volumes.
+          - harbor-harbor-*
+          - redis-data-harbor-harbor-redis-bb-*
+          - data-harbor-harbor-*
+          {{- end }}
+    {{- end }}
+    {{- if or .Values.harbor.enabled }}
+    parameters:
+      allow:
+      {{- if .Values.harbor.enabled }}
+      - /var/lib/postgresql
+      - /data/
+      - /dev/shm
+      - /tmp/certs
+      - /opt/bitnami/postgresql/certs
+      - /opt/bitnami/postgresql/secrets/
+      - /bitnami/postgresql/conf/conf.d/
+      - /bitnami/postgresql/conf
+      - /docker-entrypoint-initdb.d/
+      - /docker-entrypoint-initdb.d/secret
+      - /conf
+      - /harbor_cust_cert/custom-ca.crt
+      - /etc/core/app.conf
+      - /etc/core/key
+      - /etc/core/private_key.pem
+      - /etc/core/ca
+      - /etc/coreauth-ca/auth-ca.crt
+      - /etc/harbor/ssl/core
+      - /etc/core/token
+      - /etc/observice/config.yml
+      - /var/log/jobs
+      - /etc/harbor/ssl/observice
+      - /etc/nginx/nginx.conf
+      - /etc/nginx/cert
+      - /etc/notary/server-config.postgres.json
+      - /root.crt
+      - /etc/ssl/notarty/ca.crt
+      - /etc/notary/signer-config.postgres.json
+      - /etc/ssl/notary/tls.crt
+      - /etc/ssl/notary/tls.key
+      - /etc/harbor/ssl/portal
+      - /var/lib/redis
+      - /etc/registry/passwd
+      - /etc/registry/config.yml
+      - /etc/harbor/ssl/registry
+      - /etc/registry/gcs-key.json
+      - /harbor_cust_cert/custom-ca-bundle.crt
+      - /etc/registry/pk.pem
+      - /etc/registry/config.yml
+      - /etc/registryctl/config.yml
+      - /home/scanner/.cache
+      - /etc/harbor/ssl/trivy
+      {{- end }}
+    {{- end }}
 
   restrict-host-path-write:
     validationFailureAction: enforce
-    {{- if or .Values.neuvector.enabled .Values.twistlock.enabled }}
+    {{- if or .Values.neuvector.enabled .Values.twistlock.enabled .Values.harbor.enabled }}
     exclude:
       any:
       # NEEDS FURTHER JUSTIFICATION
@@ -491,7 +553,7 @@ policies:
           - neuvector-controller-pod*
       {{- end }}
     {{- end }}
-    {{- if or .Values.fluentbit.enabled .Values.promtail.enabled }}
+    {{- if or .Values.neuvector.enabled .Values.twistlock.enabled .Values.harbor.enabled }}
     parameters:
       allow:
       {{- if .Values.fluentbit.enabled }}
@@ -507,7 +569,48 @@ policies:
       - /run/promtail
       {{- end }}
       {{- if .Values.harbor.enabled }}
-      - /spec/hostPath/path
+      - /var/lib/postgresql
+      - /data/
+      - /dev/shm
+      - /tmp/certs
+      - /opt/bitnami/postgresql/certs
+      - /opt/bitnami/postgresql/secrets/
+      - /bitnami/postgresql/conf/conf.d/
+      - /bitnami/postgresql/conf
+      - /docker-entrypoint-initdb.d/
+      - /docker-entrypoint-initdb.d/secret
+      - /conf
+      - /harbor_cust_cert/custom-ca.crt
+      - /etc/core/app.conf
+      - /etc/core/key
+      - /etc/core/private_key.pem
+      - /etc/core/ca
+      - /etc/coreauth-ca/auth-ca.crt
+      - /etc/harbor/ssl/core
+      - /etc/core/token
+      - /etc/observice/config.yml
+      - /var/log/jobs
+      - /etc/harbor/ssl/observice
+      - /etc/nginx/nginx.conf
+      - /etc/nginx/cert
+      - /etc/notary/server-config.postgres.json
+      - /root.crt
+      - /etc/ssl/notarty/ca.crt
+      - /etc/notary/signer-config.postgres.json
+      - /etc/ssl/notary/tls.crt
+      - /etc/ssl/notary/tls.key
+      - /etc/harbor/ssl/portal
+      - /var/lib/redis
+      - /etc/registry/passwd
+      - /etc/registry/config.yml
+      - /etc/harbor/ssl/registry
+      - /etc/registry/gcs-key.json
+      - /harbor_cust_cert/custom-ca-bundle.crt
+      - /etc/registry/pk.pem
+      - /etc/registry/config.yml
+      - /etc/registryctl/config.yml
+      - /home/scanner/.cache
+      - /etc/harbor/ssl/trivy
       {{- end }}
     {{- end }}
 
