@@ -63,8 +63,8 @@ alertmanager:
   alertmanagerSpec:
     # The operator performs a strategic merge to add our imagePullPolicy definition to the default containers
     # NOTE: This functionality is not actively maintained upstream and may not work in a future monitoring upgrade
-    {{- if .Values.istio.alertmanager.enabled .Values.istio.alertmanager.hosts }}
-      externalUrl: "http://{{ tpl (index .Values.istio.alertmanager.hosts 0) . }}{{ .Values.alertmanager.alertmanagerSpec.routePrefix }}"
+    {{ if and (dig "istio" "alertmanager" "enabled" true .Values.monitoring.values) (dig "istio" "alertmanager" "hosts" nil .Values.monitoring.values) }}
+      externalUrl: 'http://{{ tpl (dig "istio" "alertmanager" "hosts" 0) . }}{{ (dig "istio" "alertmanager" "alertmanagerSpec" "routePrefix") }}'
     {{- end }}
     containers:
       - name: "alertmanager"
