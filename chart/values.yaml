@@ -315,11 +315,11 @@ jaeger:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/jaeger.git
     path: "./chart"
-    tag: "2.45.0-bb.2"
+    tag: "2.46.0-bb.0"
   helmRepo:
     repoName: "registry1"
     chartName: "jaeger"
-    tag: "2.45.0-bb.2"
+    tag: "2.46.0-bb.0"
 
   # -- Flux reconciliation overrides specifically for the Jaeger Package
   flux:
@@ -431,11 +431,11 @@ gatekeeper:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/policy.git
     path: "./chart"
-    tag: "3.12.0-bb.3"
+    tag: "3.12.0-bb.4"
   helmRepo:
     repoName: "registry1"
     chartName: "gatekeeper"
-    tag: "3.12.0-bb.3"
+    tag: "3.12.0-bb.4"
 
   # -- Flux reconciliation overrides specifically for the OPA Gatekeeper Package
   flux:
@@ -838,11 +838,11 @@ monitoring:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/monitoring.git
     path: "./chart"
-    tag: "45.27.2-bb.4"
+    tag: "47.1.0-bb.0"
   helmRepo:
     repoName: "registry1"
     chartName: "monitoring"
-    tag: "45.27.2-bb.4"
+    tag: "47.1.0-bb.0"
 
   # -- Flux reconciliation overrides specifically for the Monitoring Package
   flux:
@@ -1011,11 +1011,11 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/authservice.git
       path: "./chart"
-      tag: "0.5.3-bb.9"
+      tag: "0.5.3-bb.10"
     helmRepo:
       repoName: "registry1"
       chartName: "authservice"
-      tag: "0.5.3-bb.9"
+      tag: "0.5.3-bb.10"
 
     # -- Flux reconciliation overrides specifically for the Authservice Package
     flux: {}
@@ -1213,11 +1213,11 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/gitlab-runner.git
       path: "./chart"
-      tag: "0.51.0-bb.2"
+      tag: "0.52.0-bb.0"
     helmRepo:
       repoName: "registry1"
       chartName: "gitlab-runner"
-      tag: "0.51.0-bb.2"
+      tag: "0.52.0-bb.0"
 
     # -- Flux reconciliation overrides specifically for the Gitlab Runner Package
     flux: {}
