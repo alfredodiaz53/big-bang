@@ -483,3 +483,7 @@ addons:
           cpu: 100m
           memory: 256Mi
         limits: null
+  
+  ## Disable vault until we determine what's causing failure on EKS
+  vault:
+    enabled: false
