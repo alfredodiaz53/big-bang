@@ -61,11 +61,15 @@ istio:
 
 alertmanager:
   alertmanagerSpec:
+    {{ if and (dig "istio" "alertmanager" "enabled" true .Values.monitoring.values) .Values.istio.enabled }}
+        {{ if (dig "istio" "alertmanager" "hosts" nil .Values.monitoring.values) }}
+          externalUrl: "https://{{ tpl (index (dig "istio" "alertmanager" "hosts" nil .Values.monitoring.values) 0) . }}"
+        {{- else }}
+          externalUrl: "https://alertmanager.{{ tpl .Values.domain . }}"
+        {{- end }}
+    {{- end }}
     # The operator performs a strategic merge to add our imagePullPolicy definition to the default containers
     # NOTE: This functionality is not actively maintained upstream and may not work in a future monitoring upgrade
-    {{ if and (dig "istio" "alertmanager" "enabled" true .Values.monitoring.values) (dig "istio" "alertmanager" "hosts" nil .Values.monitoring.values) }}
-      externalUrl: 'http://alertmanager.{{ tpl (dig "istio" "alertmanager" "hosts" 0) . }}{{ (dig "istio" "alertmanager" "alertmanagerSpec" "routePrefix") }}'
-    {{- end }}
     containers:
       - name: "alertmanager"
         imagePullPolicy: {{ .Values.imagePullPolicy }}
@@ -87,11 +91,16 @@ alertmanager:
 
 prometheus:
   prometheusSpec:
+    {{ if and (dig "istio" "prometheus" "enabled" true .Values.monitoring.values) .Values.istio.enabled }}
+        {{ if (dig "istio" "prometheus" "hosts" nil .Values.monitoring.values) }}
+          externalUrl: "https://{{ tpl (index (dig "istio" "prometheus" "hosts" nil .Values.monitoring.values) 0) . }}"
+        {{- else }}
+          externalUrl: "https://alertmanager.{{ tpl .Values.domain . }}"
+        {{- end }}
+    {{- end }}
     # The operator performs a strategic merge to add our imagePullPolicy definition to the default containers
     # NOTE: This functionality is not actively maintained upstream and may not work in a future monitoring upgrade
-    {{ if and (dig "istio" "prometheus" "enabled" true .Values.monitoring.values) (dig "istio" "prometheus" "hosts" nil .Values.monitoring.values) }}
-      externalUrl: 'http://prometheus.{{ tpl (dig "istio" "prometheus" "hosts" 0) . }}{{ (dig "istio" "prometheus" "prometheusSpec" "routePrefix") }}'
-    {{- end }}
+   
     containers:
       - name: "prometheus"
         imagePullPolicy: {{ .Values.imagePullPolicy }}
