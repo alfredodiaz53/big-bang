@@ -510,7 +510,7 @@ echo "creating rke2 cluster"
 
 run "sudo rke2 server --tls-san ${PublicIP} --kubelet-arg \"--max-pods=512\" >& /tmp/server.out &"
 sleep 20
-run "sudo ln -s /var/lib/rancher/rke2/data/v1.25.10-rke2r1-9fb0a523172b/bin/kubectl /usr/local/bin/ && sudo chmod 644 /etc/rancher/rke2/rke2.yaml"
+run "sudo cp /var/lib/rancher/rke2/data/*/bin/kubectl /usr/local/bin/ && sudo chmod 644 /etc/rancher/rke2/rke2.yaml"
 
 run "mkdir ~/.kube && cat /etc/rancher/rke2/rke2.yaml > ~/.kube/config" 
 run "until kubectl get nodes | grep Ready; do echo \"Waiting for RKE2 cluster...\"; sleep 10; done;"
