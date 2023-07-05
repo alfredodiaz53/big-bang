@@ -95,7 +95,7 @@ prometheus:
         {{ if (dig "istio" "prometheus" "hosts" nil .Values.monitoring.values) }}
           externalUrl: "https://{{ tpl (index (dig "istio" "prometheus" "hosts" nil .Values.monitoring.values) 0) . }}"
         {{- else }}
-          externalUrl: "https://alertmanager.{{ tpl .Values.domain . }}"
+          externalUrl: "https://prometheus.{{ tpl .Values.domain . }}"
         {{- end }}
     {{- end }}
     # The operator performs a strategic merge to add our imagePullPolicy definition to the default containers
