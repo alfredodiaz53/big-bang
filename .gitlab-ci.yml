@@ -1,7 +1,7 @@
 include:
   - project: 'big-bang/pipeline-templates/pipeline-templates'
     ref: 'mmartin-test'
-    file: '/pipelines/bigbang-rke2.yaml'
+    file: '/pipelines/bigbang.yaml'
 variables:
   MULTI_NODE: "true"
   DEBUG_ENABLED: "true"
