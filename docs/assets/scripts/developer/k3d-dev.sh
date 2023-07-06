@@ -155,6 +155,10 @@ while [ -n "$1" ]; do # while loop starts
       exit 0 
   ;;
 
+  -c) echo "-c option passed to use calico CNI" 
+      USE_CALICO=true
+  ;;
+
   -h) echo "Usage:"
       echo "k3d-dev.sh -b -p -m -a -d -h"
       echo ""
@@ -163,6 +167,7 @@ while [ -n "$1" ]; do # while loop starts
       echo " -m   create k3d cluster with metalLB"
       echo " -a   attach secondary Public IP (overrides -p and -m flags)"
       echo " -d   destroy related AWS resources"
+      echo " -c   install the calico CNI instead of the default flannel CNI"
       echo " -h   output help"
       exit 0
   ;;
@@ -563,6 +568,15 @@ if [[ "$PRIVATE_IP" == true ]]; then
 else
   echo "using public ip for k3d"
   k3d_command+=" --k3s-arg \"--tls-san=${PublicIP}@server:0\""
+fi
+
+# use calico instead of flannel
+if [[ "$USE_CALICO" == true ]]; then
+  scp -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes k3d/calico.yaml ubuntu@${PublicIP}:/tmp/calico.yaml
+  k3d_command+=" --volume \"/tmp/calico.yaml:/var/lib/rancher/k3s/server/manifests/calico.yaml@server:*\""
+  k3d_command+=" --k3s-arg \"--flannel-backend=none@server:*\""
+  k3d_command+=" --k3s-arg \"--disable-network-policy@server:*\""
+  k3d_command+=" --k3s-arg \"--cluster-cidr=172.21.0.0/16@server:*\""
 fi
 
 # Create k3d cluster
