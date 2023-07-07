@@ -373,10 +373,10 @@ kiali:
 
   sso:
     # -- Toggle SSO for Kiali on and off
-    enabled: false
+    enabled: true
 
     # -- OIDC Client ID to use for Kiali
-    client_id: ""
+    client_id: "platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-kiali"
 
     # -- OIDC Client Secret to use for Kiali
     client_secret: ""
@@ -585,7 +585,7 @@ elasticsearchKibana:
 
 eckOperator:
   # -- Toggle deployment of ECK Operator.
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
