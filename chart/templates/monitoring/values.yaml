@@ -53,10 +53,6 @@ istio:
     {{- end }}
     gateways:
     - istio-system/{{ default "public" .Values.monitoring.ingress.gateway }}
-  grafana:
-    enabled: true
-    gateways:
-    - istio-system/{{ default "public" .Values.monitoring.ingress.gateway }}
   injection: {{ dig "istio" "injection" "enabled" .Values.monitoring }}
 
 alertmanager:
@@ -185,7 +181,9 @@ sso:
   enabled: {{ .Values.monitoring.sso.enabled }}
 
 grafana:
-
+  {{- if .Values.grafana.enabled }}
+  enabled: false
+  {{- end }}
   {{- if $gitlabRedis }}
   envFromSecret: grafana-env-secret
   {{- end }}
@@ -318,37 +316,6 @@ grafana:
   {{- end }}
   {{- end }}
   {{- end }}
-
-  grafana.ini:
-    {{- if .Values.istio.enabled }}
-    server:
-      root_url: https://grafana.{{ $domainName }}/
-    {{- end }}
-
-    auth.generic_oauth:
-      enabled: {{ .Values.monitoring.sso.enabled }}
-      {{- if .Values.sso.name }}
-      name: {{ .Values.sso.name }}
-      {{- end }}
-      {{- if and .Values.monitoring.sso.enabled .Values.monitoring.sso.grafana.client_id }}
-      client_id: $__file{/etc/secrets/auth_generic_oauth/client_id}
-      {{- end }}
-      {{- if and .Values.monitoring.sso.enabled .Values.monitoring.sso.grafana.client_secret }}
-      client_secret: $__file{/etc/secrets/auth_generic_oauth/client_secret}
-      {{- end }}
-      scopes: {{ .Values.monitoring.sso.grafana.scopes | default "openid profile email" }}
-      auth_url: {{ default (include "sso.oidc.auth" .) .Values.monitoring.sso.grafana.auth_url }}
-      token_url: {{ default (include "sso.oidc.token" .) .Values.monitoring.sso.grafana.token_url }}
-      api_url: {{ default (include "sso.oidc.userinfo" .) .Values.monitoring.sso.grafana.api_url }}
-      allow_sign_up: {{ .Values.monitoring.sso.grafana.allow_sign_up | default "True" }}
-      role_attribute_path: {{ .Values.monitoring.sso.grafana.role_attribute_path | default "Viewer" }}
-    {{- with .Values.monitoring.sso.grafana }}
-      {{- list "allowed_domains" .allowed_domains | include "bigbang.addValueIfSet" | indent 6 }}
-      {{- list "tls_client_ca" .tls_client_ca | include "bigbang.addValueIfSet" | indent 6 }}
-      {{- list "tls_skip_verify_insecure" .tls_skip_verify_insecure | include "bigbang.addValueIfSet" | indent 6 }}
-      {{- list "tls_client_cert" .tls_client_cert | include "bigbang.addValueIfSet" | indent 6 }}
-      {{- list "tls_client_key" .tls_client_key | include "bigbang.addValueIfSet" | indent 6 }}
-    {{- end }}
 
   {{- if and .Values.monitoring.sso.enabled (or .Values.monitoring.sso.grafana.client_id (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso))) }}
   extraSecretMounts:

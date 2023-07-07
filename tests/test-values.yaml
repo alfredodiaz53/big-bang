@@ -788,6 +788,42 @@ monitoring:
           cypress_alertmanager_url: 'https://alertmanager.bigbang.dev'
           cypress_check_istio_dashboards: 'true'
 
+grafana:
+  enabled: true
+  values:
+    dashboards:
+      default:
+        k8s-deployment:
+          gnetId: 741
+          revision: 1
+          datasource: Prometheus
+    downloadDashboards:
+      resources:
+        limits:
+          cpu: 20m
+          memory: 20Mi
+        requests:
+          cpu: 20m
+          memory: 20Mi
+    dashboardProviders:
+      dashboardproviders.yaml:
+        apiVersion: 1
+        providers:
+        - name: 'default'
+          orgId: 1
+          folder: ''
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards
+    bbtests:
+      enabled: true
+      cypress:
+        image: registry1.dso.mil/bigbang-ci/cypress-kubectl:8.3.1
+        envs:
+          cypress_grafana_url: 'https://grafana.bigbang.dev'
+
 neuvector:
   values:
     k3s:
@@ -907,7 +943,7 @@ addons:
             size: 256Mi
 
   gitlab:
-    enabled: false
+    enabled: true
     sso:
       enabled: false
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_gitlab
@@ -1045,7 +1081,7 @@ addons:
                   key: password
 
   anchore:
-    enabled: false
+    enabled: true
     sso:
       enabled: false
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_anchore
@@ -1269,10 +1305,10 @@ addons:
             MINIO_HOST: 'https://minio-api.bigbang.dev'
 
   mattermostOperator:
-    enabled: false
+    enabled: true
 
   mattermost:
-    enabled: false
+    enabled: true
     sso:
       enabled: false
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_mattermost
@@ -1416,7 +1452,7 @@ addons:
           envs:
             docker_host: "containers.bigbang.dev"
   velero:
-    enabled: false
+    enabled: true
     plugins:
     - aws
     values:
@@ -1450,7 +1486,7 @@ addons:
             MINIO_HOST: https://minio-api.bigbang.dev
 
   keycloak:
-    enabled: false
+    enabled: true
     ingress:
       gateway: "passthrough"
       key: "" # Gets added via chart/ingress-certs.yaml
@@ -1566,7 +1602,7 @@ addons:
           subPath: quarkus.properties
 
   vault:
-    enabled: false
+    enabled: true
     ingress:
       gateway: "passthrough"
       key: "" # Gets added via chart/ingress-certs.yaml
@@ -1638,11 +1674,11 @@ addons:
                 }
               }
 
-              seal "awskms" {
-                region     = "us-gov-west-1"
-                kms_key_id = "mrk-ff723da024254ea2b7f490c68fbc9b9b"
-                endpoint   = "https://kms.us-gov-west-1.amazonaws.com"
-              }
+              #seal "awskms" {
+              #  region     = "us-gov-west-1"
+              #  kms_key_id = "mrk-ff723da024254ea2b7f490c68fbc9b9b"
+              #  endpoint   = "https://kms.us-gov-west-1.amazonaws.com"
+              #}
 
               telemetry {
                 prometheus_retention_time = "24h"
