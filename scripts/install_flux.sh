@@ -24,7 +24,7 @@ usage: $(basename "$0") <arguments>
 -r|--registry-url        - (optional, default: registry1.dso.mil) registry url to use for flux installation
 -s|--use-existing-secret - (optional) use existing private-registry secret 
 -u|--registry-username   - (required) registry username to use for flux installation
--p|--registry-password   - (required) registry password to use for flux installation
+-p|--registry-password   - (optional) registry password to use for flux installation
 -w|--wait-timeout        - (optional, default: 120) how long to wait; in seconds, for each key flux resource component
 EOF
 }
@@ -40,6 +40,15 @@ function check_secrets {
   fi
 }
 
+# prompt for the registry password
+function get_password {
+  echo "Please enter your registry password: "
+  stty_orig=$(stty -g) # save original terminal setting.
+  stty -echo           # turn-off echoing.
+  IFS= read -r passwd  # read the password
+  stty "$stty_orig"    # restore terminal setting.
+}
+
 #
 # cli parsing
 #
@@ -53,9 +62,9 @@ while (("$#")); do
       REGISTRY_USERNAME=$2
       shift 2
     else
-      echo "Error: Argument for $1 is missing" >&2
-      help
-      exit 1
+      read -p "Please enter your Registry1 username: " uname
+      REGISTRY_USERNAME=$uname
+      shift 1
     fi
     ;;
   # registry password required argument
@@ -64,10 +73,10 @@ while (("$#")); do
       REGISTRY_PASSWORD=$2
       shift 2
     else
-      echo "Error: Argument for $1 is missing" >&2
-      help
-      exit 1
-    fi
+      read -s -p "Please enter your Registry1 password: " passwd
+      REGISTRY_PASSWORD=$passwd
+      shift 1
+   fi
     ;;
   # registry email required argument
   -e | --registry-email)
@@ -130,7 +139,7 @@ done
 if [ -z "$FLUX_SECRET_EXISTS" ] || [ "$FLUX_SECRET_EXISTS" -eq 1 ]; then
 
   # check required arguments
-  if [ -z "$REGISTRY_USERNAME" ] || [ -z "$REGISTRY_PASSWORD" ]; then
+  if [ -z "$REGISTRY_USERNAME" ]; then
     help
     exit 1
   fi
