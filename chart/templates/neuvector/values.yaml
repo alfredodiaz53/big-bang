@@ -46,6 +46,8 @@ controller:
         client_id: {{ .Values.neuvector.sso.client_id }}
         client_secret: {{ .Values.neuvector.sso.client_secret }}
         default_role: {{ .Values.neuvector.sso.default_role }}
+        group_claim: {{ .Values.neuvector.sso.group_claim }}
+        group_mapped_roles: {{ .Values.neuvector.sso.group_mapped_roles }}
       {{- end }}
   {{- end }}
 {{- end }}

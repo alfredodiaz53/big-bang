@@ -597,6 +597,12 @@
             },
             "issuer": {
               "type": "string"
+            },
+            "group_claim": {
+              "type": "string"
+            },
+            "group_mapped_roles": {
+              "type": "object"
             }
           },
           "additionalProperties": false
