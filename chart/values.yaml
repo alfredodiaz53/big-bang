@@ -373,10 +373,10 @@ kiali:
 
   sso:
     # -- Toggle SSO for Kiali on and off
-    enabled: false
+    enabled: true
 
     # -- OIDC Client ID to use for Kiali
-    client_id: ""
+    client_id: "platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-kiali"
 
     # -- OIDC Client Secret to use for Kiali
     client_secret: ""
@@ -585,7 +585,7 @@ elasticsearchKibana:
 
 eckOperator:
   # -- Toggle deployment of ECK Operator.
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -872,6 +872,49 @@ monitoring:
       # -- Alertmanager OIDC client secret
       client_secret: ""
 
+  # -- Values to passthrough to the monitoring chart: https://repo1.dso.mil/big-bang/product/packages/monitoring.git
+  values:
+    grafana:
+      enabled: false
+    istio:
+      grafana:
+        enabled: false
+
+  # -- Post Renderers.  See docs/postrenders.md
+  postRenderers: []
+# ----------------------------------------------------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+# Grafana
+#
+grafana:
+  # -- Toggle deployment of Grafana
+  enabled: true
+
+  # -- Choose source type of "git" or "helmRepo"
+  sourceType: "git"
+
+  git:
+    repo: https://repo1.dso.mil/big-bang/apps/sandbox/grafana.git
+    path: "./chart"
+    #tag: "6.57.4-bb.0"
+    branch: "initial"
+  helmRepo:
+    repoName: "registry1"
+    chartName: "grafana"
+    tag: "6.57.4-bb.0"
+
+  # -- Flux reconciliation overrides specifically for the Monitoring Package
+  flux: {}
+
+  # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
+  ingress:
+    gateway: ""
+
+  sso:
+    # -- Toggle SSO for grafana components on and off
+    enabled: false
     grafana:
       # -- Grafana OIDC client ID
       client_id: ""
@@ -887,7 +930,7 @@ monitoring:
       role_attribute_path: "Viewer"
       # -- Other options available, see package Documentation.
 
-  # -- Values to passthrough to the monitoring chart: https://repo1.dso.mil/big-bang/product/packages/monitoring.git
+  # -- Values to passthrough to the grafana chart: https://repo1.dso.mil/big-bang/product/packages/grafana.git
   values: {}
 
   # -- Post Renderers.  See docs/postrenders.md
@@ -1853,3 +1896,4 @@ packages:
 
     # -- Values to pass through to package Helm chart
     values: {}
+
