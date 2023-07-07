@@ -943,7 +943,7 @@ addons:
             size: 256Mi
 
   gitlab:
-    enabled: true
+    enabled: false
     sso:
       enabled: false
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_gitlab
@@ -1081,7 +1081,7 @@ addons:
                   key: password
 
   anchore:
-    enabled: true
+    enabled: false
     sso:
       enabled: false
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_anchore
@@ -1305,10 +1305,10 @@ addons:
             MINIO_HOST: 'https://minio-api.bigbang.dev'
 
   mattermostOperator:
-    enabled: true
+    enabled: false
 
   mattermost:
-    enabled: true
+    enabled: false
     sso:
       enabled: false
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_mattermost
@@ -1452,7 +1452,7 @@ addons:
           envs:
             docker_host: "containers.bigbang.dev"
   velero:
-    enabled: true
+    enabled: false
     plugins:
     - aws
     values:
@@ -1486,7 +1486,7 @@ addons:
             MINIO_HOST: https://minio-api.bigbang.dev
 
   keycloak:
-    enabled: true
+    enabled: false
     ingress:
       gateway: "passthrough"
       key: "" # Gets added via chart/ingress-certs.yaml
@@ -1602,7 +1602,7 @@ addons:
           subPath: quarkus.properties
 
   vault:
-    enabled: true
+    enabled: false
     ingress:
       gateway: "passthrough"
       key: "" # Gets added via chart/ingress-certs.yaml
@@ -1674,11 +1674,11 @@ addons:
                 }
               }
 
-              #seal "awskms" {
-              #  region     = "us-gov-west-1"
-              #  kms_key_id = "mrk-ff723da024254ea2b7f490c68fbc9b9b"
-              #  endpoint   = "https://kms.us-gov-west-1.amazonaws.com"
-              #}
+              seal "awskms" {
+                region     = "us-gov-west-1"
+                kms_key_id = "mrk-ff723da024254ea2b7f490c68fbc9b9b"
+                endpoint   = "https://kms.us-gov-west-1.amazonaws.com"
+              }
 
               telemetry {
                 prometheus_retention_time = "24h"
