@@ -40,100 +40,106 @@ function check_secrets {
   fi
 }
 
-# prompt for the registry password
+# securely prompt for the Registry1 password
 function get_password {
-  echo "Please enter your registry password: "
-  stty_orig=$(stty -g) # save original terminal setting.
-  stty -echo           # turn-off echoing.
-  IFS= read -r passwd  # read the password
-  stty "$stty_orig"    # restore terminal setting.
+  read -s -p "Please enter your Registry1 password: " passwd
+  REGISTRY_PASSWORD=$passwd
 }
 
+# prompt for the Registry1 username
+function get_username {
+  read -p "Please enter your Registry1 username: " uname
+  REGISTRY_USERNAME=$uname
+}
 #
 # cli parsing
 #
 
 PARAMS=""
-while (("$#")); do
-  case "$1" in
-  # registry username required argument
-  -u | --registry-username)
-    if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
-      REGISTRY_USERNAME=$2
-      shift 2
-    else
-      read -p "Please enter your Registry1 username: " uname
-      REGISTRY_USERNAME=$uname
-      shift 1
-    fi
-    ;;
-  # registry password required argument
-  -p | --registry-password)
-    if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
-      REGISTRY_PASSWORD=$2
-      shift 2
-    else
-      read -s -p "Please enter your Registry1 password: " passwd
-      REGISTRY_PASSWORD=$passwd
-      shift 1
-   fi
-    ;;
-  # registry email required argument
-  -e | --registry-email)
-    if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
-      REGISTRY_EMAIL=$2
-      shift 2
-    else
-      echo "Error: Argument for $1 is missing" >&2
+if (("$#")); then
+  while (("$#")); do
+    case "$1" in
+    # registry username required argument
+    -u | --registry-username)
+      if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+        REGISTRY_USERNAME=$2
+        shift 2
+      else
+        get_username
+        shift 1
+      fi
+      ;;
+    # registry password required argument
+    -p | --registry-password)
+      if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+        REGISTRY_PASSWORD=$2
+        shift 2
+      else
+        get_password
+        shift 1
+      fi
+      ;;
+    # registry email required argument
+    -e | --registry-email)
+      if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+        REGISTRY_EMAIL=$2
+        shift 2
+      else
+        echo "Error: Argument for $1 is missing" >&2
+        help
+        exit 1
+      fi
+      ;;
+    # registry url optional argument
+    -r | --registry-url)
+      if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+        REGISTRY_URL=$2
+        shift 2
+      else
+        echo "Error: Argument for $1 is missing" >&2
+        help
+        exit 1
+      fi
+      ;;
+    # wait timeout optional argument
+    -w | --wait-timeout)
+      if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
+        WAIT_TIMEOUT=$2
+        shift 2
+      else
+        echo "Error: Argument for $1 is missing" >&2
+        help
+        exit 1
+      fi
+      ;;
+    # help flag
+    -h | --help)
+      help
+      exit 0
+      ;;
+    # Check if private-registry secret exists
+    -s | --use-existing-secret)
+      check_secrets
+      shift
+      ;;
+    # unsupported flags
+    -* | --*=)
+      echo "Error: Unsupported flag $1" >&2
       help
       exit 1
-    fi
-    ;;
-  # registry url optional argument
-  -r | --registry-url)
-    if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
-      REGISTRY_URL=$2
-      shift 2
-    else
-      echo "Error: Argument for $1 is missing" >&2
-      help
-      exit 1
-    fi
-    ;;
-  # wait timeout optional argument
-  -w | --wait-timeout)
-    if [ -n "$2" ] && [ "${2:0:1}" != "-" ]; then
-      WAIT_TIMEOUT=$2
-      shift 2
-    else
-      echo "Error: Argument for $1 is missing" >&2
-      help
-      exit 1
-    fi
-    ;;
-  # help flag
-  -h | --help)
-    help
-    exit 0
-    ;;
-  # Check if private-registry secret exists
-  -s | --use-existing-secret)
-    check_secrets
-    shift
-    ;;
-  # unsupported flags
-  -* | --*=)
-    echo "Error: Unsupported flag $1" >&2
-    help
-    exit 1
-    ;;
-  # preserve positional arguments
-  *)
-    PARAMS="$PARAMS $1"
-    shift
-    ;;
-  esac
-done
+      ;;
+    # preserve positional arguments
+    *)
+      PARAMS="$PARAMS $1"
+      shift
+      ;;
+    esac
+  done
+else
+  # No arguments have been supplied. Prompt for username and password.
+  get_username;
+  get_password;
+fi
 
 # check if secret exists
 if [ -z "$FLUX_SECRET_EXISTS" ] || [ "$FLUX_SECRET_EXISTS" -eq 1 ]; then
