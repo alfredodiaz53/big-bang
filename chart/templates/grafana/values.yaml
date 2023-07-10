@@ -253,9 +253,11 @@ extraSecretMounts:
     subPath: "ca.pem"
   {{- end }}
 {{- end }}
-
-{{- if $istioInjection }}
+{{- if .Values.monitoring.enabled }}
 serviceMonitor:
+  enabled: true
+{{- end }}
+{{- if $istioInjection }}
   scheme: https
   tlsConfig:
     caFile: /etc/prom-certs/root-cert.pem
