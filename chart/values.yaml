@@ -843,7 +843,7 @@ monitoring:
   helmRepo:
     repoName: "registry1"
     chartName: "monitoring"
-    tag: "45.27.2-bb.4"
+    tag: "47.1.0-bb.0"
 
   # -- Flux reconciliation overrides specifically for the Monitoring Package
   flux:
