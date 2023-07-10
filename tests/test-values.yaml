@@ -729,12 +729,12 @@ monitoring:
   enabled: true
   flux:
     timeout: 20m
-  install:
-    disableOpenAPIValidation: true
-    crds: CreateReplace
-  upgrade:
-    disableOpenAPIValidation: true
-    crds: CreateReplace
+    install:
+      disableOpenAPIValidation: true
+      crds: CreateReplace
+    upgrade:
+      disableOpenAPIValidation: true
+      crds: CreateReplace
   sso:
     enabled: false
     prometheus:
