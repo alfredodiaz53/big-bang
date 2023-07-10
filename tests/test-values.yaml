@@ -322,6 +322,13 @@ gatekeeper:
 kyverno:
   values:
     replicaCount: 3
+    resources:
+      limits:
+        cpu: 768m
+        memory: 768Mi
+      requests:
+        cpu: 768m
+        memory: 768Mi
     bbtests:
       enabled: true
 
