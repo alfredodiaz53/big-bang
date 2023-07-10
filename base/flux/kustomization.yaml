@@ -68,10 +68,10 @@ patches:
             - name: manager
               resources:
                 limits:
-                  cpu: 900m
+                  cpu: 1
                   memory: 1Gi
                 requests:
-                  cpu: 900m
+                  cpu: 1
                   memory: 1Gi
   - target:
       kind: Deployment
@@ -88,10 +88,10 @@ patches:
             - name: manager
               resources:
                 limits:
-                  cpu: 300m
+                  cpu: 200m
                   memory: 600Mi
                 requests:
-                  cpu: 300m
+                  cpu: 200m
                   memory: 600Mi
   - target:
       kind: Deployment
