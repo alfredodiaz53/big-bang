@@ -1,0 +1,14 @@
+{{- if and (eq .Values.addons.harbor.sourceType "git") (not .Values.offline) .Values.addons.harbor.enabled }}
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: harbor
+  namespace: {{ .Release.Namespace }}
+spec:
+  interval: {{ .Values.flux.interval }}
+  url: {{ .Values.addons.harbor.git.repo }}
+  ref:
+    {{- include "validRef" .Values.addons.harbor.git | nindent 4 }}
+  {{ include "gitIgnore" . }}
+  {{- include "gitCreds" . | nindent 2 }}
+{{- end }}
