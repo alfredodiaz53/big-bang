@@ -1,6 +1,6 @@
-{{- $fluxSettingsHarbor := merge .Values.addons.harbor.flux .Values.flux -}}
-{{- if .Values.addons.harbor.enabled }}
 {{- $pkg := "harbor" }}
+{{- $fluxSettingsHarbor := merge (get .Values.addons $pkg).flux .Values.flux -}}
+{{- if (get .Values.addons $pkg).enabled }}
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -16,27 +16,27 @@ spec:
   targetNamespace: {{ $pkg }}
   chart:
     spec:
-      {{- if eq .Values.addons.harbor.sourceType "git" }}
-      chart: {{ .Values.addons.harbor.git.path }}
+      {{- if eq (get .Values.addons $pkg).sourceType "git" }}
+      chart: {{ (get .Values.addons $pkg).git.path }}
       sourceRef:
         kind: GitRepository
         name: harbor
         namespace: {{ .Release.Namespace }}
       {{- else }}
-      chart: {{ .Values.addons.harbor.helmRepo.chartName }}
-      version: {{ .Values.addons.harbor.helmRepo.tag }}
+      chart: {{ (get .Values.addons $pkg).helmRepo.chartName }}
+      version: {{ (get .Values.addons $pkg).helmRepo.tag }}
       sourceRef:
         kind: HelmRepository
-        name: {{ .Values.addons.harbor.helmRepo.repoName }}
+        name: {{ (get .Values.addons $pkg).helmRepo.repoName }}
         namespace: {{ .Release.Namespace }}
       {{- end }}
       interval: 5m
 
   {{- toYaml $fluxSettingsHarbor | nindent 2 }}
 
-  {{- if (get .Values $pkg).postRenderers }}
+  {{- if (get .Values.addons $pkg).postRenderers }}
   postRenderers:
-  {{ toYaml (get .Values $pkg).postRenderers | nindent 4 }}
+  {{ toYaml (get .Values.addons $pkg).postRenderers | nindent 4 }}
   {{- end }}
   valuesFrom:
     - name: {{ .Release.Name }}-{{ $pkg }}-values

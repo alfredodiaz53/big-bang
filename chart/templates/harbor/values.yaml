@@ -1,4 +1,10 @@
 {{- $pkg := "harbor" }}
+
+{{- /* Create secret */ -}}
+{{- if (get .Values.addons $pkg).enabled }}
+{{- include "values-secret" (dict "root" $ "package" (get .Values.addons $pkg) "name" $pkg "defaults" (include (printf "bigbang.defaults.%s" $pkg) .)) }}
+{{- end }}
+
 {{- define "bigbang.defaults.harbor" -}}
 
 imagePullSecrets:
@@ -13,13 +19,13 @@ istio:
   enabled: {{ .Values.istio.enabled }}
   harbor:
     gateways:
-    - istio-system/{{ default "public" .Values.harbor.ingress.gateway }}
+    - istio-system/{{ default "public" .Values.addons.harbor.ingress.gateway }}
 
 networkPolicies:
   enabled: {{ .Values.networkPolicies.enabled }}
   controlPlaneCidr: {{ .Values.networkPolicies.controlPlaneCidr }}
   ingressLabels:
-    {{- $gateway := default "public" .Values.harbor.ingress.gateway }}
+    {{- $gateway := default "public" .Values.addons.harbor.ingress.gateway }}
     {{- $default := dict "app" (dig "gateways" $gateway "ingressGateway" nil .Values.istio) "istio" nil }}
     {{- toYaml (dig "values" "gateways" $gateway "selector" $default .Values.istio) | nindent 4 }}
 
@@ -27,11 +33,6 @@ monitoring:
   enabled: {{ .Values.monitoring.enabled }}
 
 sso:
-  enabled: {{ .Values.harbor.sso.enabled }}
+  enabled: {{ .Values.addons.harbor.sso.enabled }}
 
-{{- end }}
-
-{{- /* Create secret */ -}}
-{{- if (get .Values $pkg).enabled }}
-{{- include "values-secret" (dict "root" $ "package" (get .Values $pkg) "name" $pkg "defaults" (include (printf "bigbang.defaults.%s" $pkg) .)) }}
 {{- end }}
