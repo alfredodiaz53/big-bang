@@ -967,6 +967,13 @@
               "$ref": "#/$defs/values"
             }
           }
+        },
+        "harbor": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/basePackage"
+            }
+          ]
         }
       }
     },
