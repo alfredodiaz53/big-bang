@@ -111,7 +111,7 @@ Why 2 VMs? 2 reasons:
     # (Note: 1.30.1 was the last version this guide was tested against)
     #
     # The following will load the latest tagger version of BigBang into an environment variable
-    BIG_BANG_VERSION=$(curl -s https://repo1.dso.mil/platform-one/big-bang/bigbang/-/raw/master/base/gitrepository.yaml | grep 'tag:' | awk '{print $2}')
+    BIG_BANG_VERSION=$(curl -s https://repo1.dso.mil/big-bang/bigbang/-/raw/master/base/gitrepository.yaml | grep 'tag:' | awk '{print $2}')
     echo "This script will install Big Bang version: $BIG_BANG_VERSION"
     REGISTRY1_USERNAME="REPLACE_ME"
     REGISTRY1_PASSWORD="REPLACE_ME"
@@ -124,10 +124,10 @@ Why 2 VMs? 2 reasons:
     echo $REGISTRY1_PASSWORD | docker login https://registry1.dso.mil --username=$REGISTRY1_USERNAME --password-stdin | grep "Succeeded" ; echo $? | grep 0 && echo "This validation check shows your registry1 credentials are valid, please continue." || for i in {1..10}; do echo "Validation check shows error, fix your registry1 credentials before moving on."; done
 
     export KEYCLOAK_IP=$(cat ~/.ssh/config | grep keycloak-cluster -A 1 | grep Hostname | awk '{print $2}')
-    echo "\n\n\n$KEYCLOAK_IP is the IP of the k3d node that will host Keycloak on Big Bang"
+    printf "\n\n$KEYCLOAK_IP is the IP of the k3d node that will host Keycloak on Big Bang\n"
 
     export WORKLOAD_IP=$(cat ~/.ssh/config | grep workload-cluster -A 1 | grep Hostname | awk '{print $2}')
-    echo "$WORKLOAD_IP is the IP of the k3d node that will host Workloads on Big Bang"
+    printf "$WORKLOAD_IP is the IP of the k3d node that will host Workloads on Big Bang\n\n"
     echo "Please manually verify that the IPs of your keycloak and workload k3d VMs look correct before moving on."
     ```
 
