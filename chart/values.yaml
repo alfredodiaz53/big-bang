@@ -1802,8 +1802,6 @@ addons:
       redis:
         external: 
           addr: "harbor-harbor-redis-bb-headless:6379"
-      core:
-        secretName: "ci-only"
       notary:
         enabled: false
       expose:
