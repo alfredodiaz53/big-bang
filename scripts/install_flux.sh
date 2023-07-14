@@ -44,7 +44,6 @@ function check_secrets {
 function get_password {
   until [[ $REGISTRY_PASSWORD ]]; do
     read -s -p "Please enter your Registry1 password: " REGISTRY_PASSWORD
-    echo $'\n'   # Add a linebreak to the output for readability
   done
 }
 
