@@ -874,12 +874,7 @@ monitoring:
       client_secret: ""
 
   # -- Values to passthrough to the monitoring chart: https://repo1.dso.mil/big-bang/product/packages/monitoring.git
-  values:
-    grafana:
-      enabled: false
-    istio:
-      grafana:
-        enabled: false
+  values: {}
 
   # -- Post Renderers.  See docs/postrenders.md
   postRenderers: []
