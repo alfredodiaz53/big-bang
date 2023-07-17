@@ -217,23 +217,23 @@ grafana.ini:
   {{- end }}
 
   auth.generic_oauth:
-    enabled: {{ or .Values.grafana.sso.enabled (and (dig "grafana" "client_id" "" .Values.monitoring.sso) .Values.monitoring.sso.enabled) }}
+    enabled: {{ or .Values.grafana.sso.enabled (and (dig "grafana" "client_id" false .Values.monitoring.sso) .Values.monitoring.sso.enabled) }}
     {{- if .Values.sso.name }}
     name: {{ .Values.sso.name }}
     {{- end }}
-    {{- if or (and .Values.grafana.sso.enabled .Values.grafana.sso.grafana.client_id) (dig "client_id" "grafan" false .Values.monitoring.sso) }}
+    {{- if or (and .Values.grafana.sso.enabled .Values.grafana.sso.grafana.client_id) (dig "client_id" "grafana" false .Values.monitoring.sso) }}
     client_id: $__file{/etc/secrets/auth_generic_oauth/client_id}
     {{- end }}
-    {{- if or (and .Values.grafana.sso.enabled .Values.grafana.sso.grafana.client_secret) (dig "client_secret" "grafana" .Values.monitoring.sso) }}
+    {{- if or (and .Values.grafana.sso.enabled .Values.grafana.sso.grafana.client_secret) (dig "client_secret" "grafana" false .Values.monitoring.sso) }}
     client_secret: $__file{/etc/secrets/auth_generic_oauth/client_secret}
     {{- end }}
-    {{- if (and (dig "grafana" "client_id" "" .Values.monitoring.sso) .Values.monitoring.sso.enabled) }}
-    scopes: {{ ( dig "grafana" "scopes" "" .Values.monitoring.sso) | default "openid profile email" }}
-    auth_url: {{ default (include "sso.oidc.auth" .) (dig "grafana" "auth_url" "" .Values.monitoring.sso) }}
-    token_url: {{ default (include "sso.oidc.token" .) (dig "grafana" "token_url" "" .Values.monitoring.sso) }}
-    api_url: {{ default (include "sso.oidc.userinfo" .) (dig "grafana" "api_url" "" .Values.monitoring.sso) }}
-    allow_sign_up: {{ (dig "grafana" "allow_sign_up" "" .Values.monitoring.sso) | default "True" }}
-    role_attribute_path: {{ (dig "grafana" "role_attribute_path" "" .Values.monitoring.sso) | default "Viewer" }}
+    {{- if (and (dig "grafana" "client_id" false .Values.monitoring.sso) .Values.monitoring.sso.enabled) }}
+    scopes: {{ ( dig "grafana" "scopes" false .Values.monitoring.sso) | default "openid profile email" }}
+    auth_url: {{ default (include "sso.oidc.auth" .) (dig "grafana" "auth_url" false .Values.monitoring.sso) }}
+    token_url: {{ default (include "sso.oidc.token" .) (dig "grafana" "token_url" false .Values.monitoring.sso) }}
+    api_url: {{ default (include "sso.oidc.userinfo" .) (dig "grafana" "api_url" false .Values.monitoring.sso) }}
+    allow_sign_up: {{ (dig "grafana" "allow_sign_up" false .Values.monitoring.sso) | default "True" }}
+    role_attribute_path: {{ (dig "grafana" "role_attribute_path" false .Values.monitoring.sso) | default "Viewer" }}
     {{- else if .Values.grafana.sso.enabled }}
     scopes: {{ .Values.grafana.sso.grafana.scopes | default "openid profile email" }}
     auth_url: {{ default (include "sso.oidc.auth" .) .Values.grafana.sso.grafana.auth_url }}
@@ -257,9 +257,9 @@ grafana.ini:
     {{- list "tls_client_key" .tls_client_key | include "bigbang.addValueIfSet" | indent 6 }}
   {{- end }}
 
-{{- if and .Values.grafana.sso.enabled (or .Values.grafana.sso.grafana.client_id (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso)) (dig "grafana" "client_id" "" .Values.monitoring.sso)) }}
+{{- if and .Values.grafana.sso.enabled (or .Values.grafana.sso.grafana.client_id (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso)) (dig "grafana" "client_id" false .Values.monitoring.sso)) }}
 extraSecretMounts:
-  {{- if or .Values.grafana.sso.grafana.client_id (dig "grafana" "client_id" "" .Values.monitoring.sso) }}
+  {{- if or .Values.grafana.sso.grafana.client_id (dig "grafana" "client_id" false .Values.monitoring.sso) }}
   - name: auth-generic-oauth-secret
     mountPath: /etc/secrets/auth_generic_oauth
     secretName: grafana-sso
