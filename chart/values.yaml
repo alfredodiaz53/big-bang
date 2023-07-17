@@ -1708,7 +1708,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/vault.git
       path: "./chart"
-      tag: "0.24.1-bb.1"
+      #tag: "0.24.1-bb.1"
+      branch: "eks-support"
     helmRepo:
       repoName: "registry1"
       chartName: "vault"
