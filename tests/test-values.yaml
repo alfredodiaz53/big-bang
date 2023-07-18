@@ -741,9 +741,6 @@ monitoring:
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_prometheus
     alertmanager:
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_alertmanager
-    grafana:
-      client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_grafana
-      scopes: "Grafana"
   values:
     prometheus:
       prometheusSpec:
@@ -805,6 +802,10 @@ monitoring:
 
 grafana:
   enabled: true
+  sso:
+    grafana:
+      client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_grafana
+      scopes: "openid Grafana"
   values:
     dashboards:
       default:
