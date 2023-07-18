@@ -1708,12 +1708,6 @@ addons:
 
     # -- Values to pass through to Habor chart: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/harbor.git
     values: 
-      # The initial password of Harbor admin. Change it from portal after launching Harbor
-      # or give an existing secret for it
-      # key in secret is given via (default to HARBOR_ADMIN_PASSWORD)
-      # existingSecretAdminPassword:
-      existingSecretAdminPasswordKey: HARBOR_ADMIN_PASSWORD
-      harborAdminPassword: "Harbor12345"
       redis:
         external: 
           addr: "harbor-redis-bb-headless:6379"
