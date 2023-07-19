@@ -1679,6 +1679,8 @@ addons:
 
     # -- Values to pass through to Habor chart: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/harbor.git
     values: 
+      existingSecretAdminPasswordKey: HARBOR_ADMIN_PASSWORD
+      harborAdminPassword: "Harbor12345"
       expose:
         type: clusterIP
         tls:
