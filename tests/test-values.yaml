@@ -1676,6 +1676,7 @@ addons:
   harbor:
     # -- Toggle deployment of harbor
     enabled: true
+
     # -- Flux reconciliation overrides specifically for the Jaeger Package
     flux: {}
 
@@ -1692,8 +1693,10 @@ addons:
 
       # -- OIDC Client Secret to use for Harbor
       client_secret: ""
-    # -- Values to pass through to Habor chart: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/harbor.git
-    values:
-      bbtests:
-        enabled: true
 
+    # -- Values to pass through to Habor chart: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/harbor.git
+    values: 
+     bbtests:
+        enabled: true
+    # -- Post Renderers.  See docs/postrenders.md
+    postRenderers: []
