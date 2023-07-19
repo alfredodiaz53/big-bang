@@ -1798,42 +1798,7 @@ addons:
       client_secret: ""
 
     # -- Values to pass through to Habor chart: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/harbor.git
-    values: 
-      existingSecretAdminPasswordKey: HARBOR_ADMIN_PASSWORD
-      harborAdminPassword: "Harbor12345"
-      redis:
-        external: 
-          addr: "harbor-redis-bb-headless:6379"
-      notary:
-        enabled: false
-      expose:
-        type: "clusterIP"
-        tls:
-          enabled: false
-          certSource: secret
-        #secret:
-        #  secretName: "harbor-tls-is-annoying"
-      externalURL: http://harbor
-      internalTLS:
-        enabled: false
-      postgresql:
-        resources:
-          requests:
-            cpu: "200m"
-            memory: "200Mi"
-          limits:
-            cpu: "200m"
-            memory: "200Mi"
-      redis-bb:
-        master:
-          persistence:
-            size: 256Mi
-        replicas:
-          replicaCount: 0
-          autoscaling:
-            enabled: false
-
-    # -- Post Renderers.  See docs/postrenders.md
+    values: {}
     postRenderers: []
 
 
