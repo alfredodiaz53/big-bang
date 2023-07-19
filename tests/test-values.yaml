@@ -1676,21 +1676,24 @@ addons:
   harbor:
     # -- Toggle deployment of harbor
     enabled: true
+    # -- Flux reconciliation overrides specifically for the Jaeger Package
+    flux: {}
+
+    # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
+    ingress:
+      gateway: ""
+
+    sso:
+      # -- Toggle SSO for Harbor on and off
+      enabled: false
+
+      # -- OIDC Client ID to use for Harbor
+      client_id: ""
+
+      # -- OIDC Client Secret to use for Harbor
+      client_secret: ""
     # -- Values to pass through to Habor chart: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/harbor.git
     values:
       bbtests:
         enabled: true
-        cypress:
-          artifacts: true
-          envs:
-            cypress_url: "http://harbor.bigbang.dev:80"
-            cypress_user: "admin"
-            cypress_harbor_password: "Harbor12345"
-            cypress_project: "bbcypress-test"
-        scripts:
-          image: "registry1.dso.mil/bigbang-ci/gitlab-tester:0.0.4"
-          envs:
-            HARBOR_USER: "admin"
-            HARBOR_PASS: "Harbor12345"
-            HARBOR_REGISTRY: "harbor:80"
-            HARBOR_PROJECT: "library"
+
