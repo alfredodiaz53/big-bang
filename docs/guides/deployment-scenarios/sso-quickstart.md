@@ -124,10 +124,10 @@ Why 2 VMs? 2 reasons:
     echo $REGISTRY1_PASSWORD | docker login https://registry1.dso.mil --username=$REGISTRY1_USERNAME --password-stdin | grep "Succeeded" ; echo $? | grep 0 && echo "This validation check shows your registry1 credentials are valid, please continue." || for i in {1..10}; do echo "Validation check shows error, fix your registry1 credentials before moving on."; done
 
     export KEYCLOAK_IP=$(cat ~/.ssh/config | grep keycloak-cluster -A 1 | grep Hostname | awk '{print $2}')
-    echo "\n\n\n$KEYCLOAK_IP is the IP of the k3d node that will host Keycloak on Big Bang"
+    printf "$(tput bold)$KEYCLOAK_IP$(tput sgr0) is the IP of the k3d node that will host Keycloak on Big Bang\n"
 
     export WORKLOAD_IP=$(cat ~/.ssh/config | grep workload-cluster -A 1 | grep Hostname | awk '{print $2}')
-    echo "$WORKLOAD_IP is the IP of the k3d node that will host Workloads on Big Bang"
+    printf "$(tput bold)$WORKLOAD_IP$(tput sgr0) is the IP of the k3d node that will host Workloads on Big Bang\n\n"
     echo "Please manually verify that the IPs of your keycloak and workload k3d VMs look correct before moving on."
     ```
 
@@ -257,25 +257,28 @@ Why 2 VMs? 2 reasons:
     sudo apt update -y && sudo apt install docker-ce docker-ce-cli containerd.io -y && sudo usermod --append --groups docker \$USER
 
     # Install k3d
-    wget -q -O - https://github.com/k3d-io/k3d/releases/download/v5.4.1/k3d-linux-amd64 > k3d
-    echo 50f64747989dc1fcde5db5cb82f8ac132a174b607ca7dfdb13da2f0e509fda11 k3d | sha256sum -c | grep OK
-    if [ \$? == 0 ]; then chmod +x k3d && sudo mv k3d /usr/local/bin/k3d ; fi
+    wget -q -O - https://github.com/k3d-io/k3d/releases/download/v5.5.1/k3d-linux-amd64 > k3d
+    echo 4849027dc5e835bcce49070af3f4eeeaada81d96bce49a8b89904832a0c3c2c0 k3d | sha256sum -c | grep OK
+    if [ $? == 0 ]; then chmod +x k3d && sudo mv k3d /usr/local/bin/k3d ; fi
+
 
     # Install kubectl
-    wget -q -O - https://dl.k8s.io/release/v1.23.5/bin/linux/amd64/kubectl > kubectl
-    echo 715da05c56aa4f8df09cb1f9d96a2aa2c33a1232f6fd195e3ffce6e98a50a879 kubectl | sha256sum -c | grep OK
-    if [ \$? == 0 ]; then chmod +x kubectl && sudo mv kubectl /usr/local/bin/kubectl; fi
+    wget -q -O - https://dl.k8s.io/release/v1.27.3/bin/linux/amd64/kubectl > kubectl
+    echo fba6c062e754a120bc8105cde1344de200452fe014a8759e06e4eec7ed258a09 kubectl | sha256sum -c | grep OK
+    if [ $? == 0 ]; then chmod +x kubectl && sudo mv kubectl /usr/local/bin/kubectl; fi
     sudo ln -s /usr/local/bin/kubectl /usr/local/bin/k || true
 
     # Install kustomize
-    wget -q -O - https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.5.4/kustomize_v4.5.4_linux_amd64.tar.gz > kustomize.tar.gz
-    echo 1159c5c17c964257123b10e7d8864e9fe7f9a580d4124a388e746e4003added3 kustomize.tar.gz | sha256sum -c | grep OK
-    if [ \$? == 0 ]; then tar -xvf kustomize.tar.gz && chmod +x kustomize && sudo mv kustomize /usr/local/bin/kustomize && rm kustomize.tar.gz ; fi
+    wget -q -O - https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.1.0/kustomize_v5.1.0_linux_amd64.tar.gz > kustomize.tar.gz
+    echo 52f4cf1ba34d38fd55a9bef819e329c9a4561f5f57f8f539346038ab5026dda8 kustomize.tar.gz | sha256sum -c | grep OK
+    if [ $? == 0 ]; then tar -xvf kustomize.tar.gz && chmod +x kustomize && sudo mv kustomize /usr/local/bin/kustomize && rm kustomize.tar.gz ; fi
+
 
     # Install helm
-    wget -q -O - https://get.helm.sh/helm-v3.8.1-linux-amd64.tar.gz > helm.tar.gz
-    echo d643f48fe28eeb47ff68a1a7a26fc5142f348d02c8bc38d699674016716f61cd helm.tar.gz | sha256sum -c | grep OK
-    if [ \$? == 0 ]; then tar -xvf helm.tar.gz && chmod +x linux-amd64/helm && sudo mv linux-amd64/helm /usr/local/bin/helm && rm -rf linux-amd64 && rm helm.tar.gz ; fi
+    wget -q -O - https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz > helm.tar.gz
+    echo 1a7074f58ef7190f74ce6db5db0b70e355a655e2013c4d5db2317e63fa9e3dea helm.tar.gz | sha256sum -c | grep OK
+    if [ $? == 0 ]; then tar -xvf helm.tar.gz && chmod +x linux-amd64/helm && sudo mv linux-amd64/helm /usr/local/bin/helm && rm -rf linux-amd64 && rm helm.tar.gz ; fi
+
     EOFshared-k3d-prepwork-commandsEOF
     ```
 
@@ -417,125 +420,6 @@ registryCredentials:
 EOF
 
 cat << EOF > ~/demo_values.yaml
-elasticsearchKibana:
-  values:
-    kibana:
-      count: 1
-      resources:
-        requests:
-          cpu: 1m
-          memory: 1Mi
-        limits:
-          cpu: null  # nonexistent cpu limit results in faster spin up
-          memory: null
-    elasticsearch:
-      master:
-        count: 1
-        resources:
-          requests:
-            cpu: 1m
-            memory: 1Mi
-          limits:
-            cpu: null
-            memory: null
-      data:
-        count: 1
-        resources:
-          requests:
-            cpu: 1m
-            memory: 1Mi
-          limits:
-            cpu: null
-            memory: null
-
-clusterAuditor:
-  values:
-    resources:
-      requests:
-        cpu: 1m
-        memory: 1Mi
-      limits:
-        cpu: null
-        memory: null
-
-gatekeeper:
-  enabled: true
-  values:
-    replicas: 1
-    controllerManager:
-      resources:
-        requests:
-          cpu: 1m
-          memory: 1Mi
-        limits:
-          cpu: null
-          memory: null
-    audit:
-      resources:
-        requests:
-          cpu: 1m
-          memory: 1Mi
-        limits:
-          cpu: null
-          memory: null
-    violations:
-      allowedCapabilities:
-        parameters:
-          excludedResources:
-          # Allows k3d load balancer containers to not drop capabilities
-          - istio-system/lb-port-.*
-      allowedDockerRegistries:
-        enforcementAction: dryrun
-        parameters:
-          excludedResources:
-          # Allows k3d load balancer containers to pull from public repos
-          - istio-system/lb-port-.*
-      allowedSecCompProfiles:
-        parameters:
-          excludedResources:
-          # Allows k3d load balancer containers to have an undefined defined seccomp
-          - istio-system/lb-port-.*
-      allowedUsers:
-        parameters:
-          excludedResources:
-          # Allows k3d load balancer containers to run as any user/group
-          - istio-system/lb-port-.*
-      containerRatio:
-        parameters:
-          excludedResources:
-          # Allows k3d load balancer containers to have undefined limits/requests
-          - istio-system/lb-port-.*
-      hostNetworking:
-        parameters:
-          excludedResources:
-          # Allows k3d load balancer containers to mount host ports
-          - istio-system/lb-port-.*
-      noBigContainers:
-        parameters:
-          excludedResources:
-          # Allows k3d load balancer containers to have undefined limits/requests
-          - istio-system/lb-port-.*
-      noPrivilegedEscalation:
-        parameters:
-          excludedResources:
-          # Allows k3d load balancer containers to have undefined security context
-          - istio-system/lb-port-.*
-      readOnlyRoot:
-        parameters:
-          excludedResources:
-          # Allows k3d load balancer containers to mount filesystems read/write
-          - istio-system/lb-port-.*
-      requiredLabels:
-        parameters:
-          excludedResources:
-          # Allows k3d load balancer pods to not have required labels
-          - istio-system/svclb-.*
-      requiredProbes:
-        parameters:
-          excludedResources:
-          # Allows k3d load balancer containers to not have readiness/liveness probes
-          - istio-system/lb-port-.*
-
 istio:
   values:
     values:
@@ -549,8 +433,30 @@ istio:
               cpu: 0m
               memory: 0Mi
 
+kyvernoPolicies:
+  values:
+    exclude:
+      any:
+      # Allows k3d load balancer to bypass policies.
+      - resources:
+          namespaces:
+          - istio-system
+          names:
+          - svclb-*
+    policies:
+      restrict-host-path-mount-pv:
+        parameters:
+          allow:
+          - /var/lib/rancher/k3s/storage/pvc-*
+
 twistlock:
   enabled: false
+
+neuvector:
+  enabled: true
+  values:
+    k3s:
+      enabled: true
 EOF
 
 helm upgrade --install bigbang \$HOME/bigbang/chart \
@@ -620,6 +526,28 @@ istio:
               memory: 0Mi
 twistlock:
   enabled: false
+
+kyvernoPolicies:
+  values:
+    exclude:
+      any:
+      # Allows k3d load balancer to bypass policies.
+      - resources:
+          namespaces:
+          - istio-system
+          names:
+          - svclb-*
+    policies:
+      restrict-host-path-mount-pv:
+        parameters:
+          allow:
+          - /var/lib/rancher/k3s/storage/pvc-*
+
+neuvector:
+  enabled: true
+  values:
+    k3s:
+      enabled: true 
 EOF
 
 helm upgrade --install bigbang \$HOME/bigbang/chart \
