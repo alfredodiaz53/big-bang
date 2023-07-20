@@ -221,10 +221,10 @@ grafana.ini:
     {{- if .Values.sso.name }}
     name: {{ .Values.sso.name }}
     {{- end }}
-    {{- if or (and .Values.grafana.sso.enabled .Values.grafana.sso.grafana.client_id) (dig "client_id" "grafana" false .Values.monitoring.sso) }}
+    {{- if or (and .Values.grafana.sso.enabled .Values.grafana.sso.grafana.client_id) (and (dig "grafana" "client_id" false .Values.monitoring.sso) .Values.monitoring.sso.enabled) }}
     client_id: $__file{/etc/secrets/auth_generic_oauth/client_id}
     {{- end }}
-    {{- if or (and .Values.grafana.sso.enabled .Values.grafana.sso.grafana.client_secret) (dig "client_secret" "grafana" false .Values.monitoring.sso) }}
+    {{- if or (and .Values.grafana.sso.enabled .Values.grafana.sso.grafana.client_secret) (and (dig "grafana" "client_secret" false .Values.monitoring.sso) .Values.monitoring.sso.enabled) }}
     client_secret: $__file{/etc/secrets/auth_generic_oauth/client_secret}
     {{- end }}
     {{- if (and (dig "grafana" "client_id" false .Values.monitoring.sso) .Values.monitoring.sso.enabled) }}
@@ -257,7 +257,7 @@ grafana.ini:
     {{- list "tls_client_key" .tls_client_key | include "bigbang.addValueIfSet" | indent 6 }}
   {{- end }}
 
-{{- if and .Values.grafana.sso.enabled (or .Values.grafana.sso.grafana.client_id (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso)) (dig "grafana" "client_id" false .Values.monitoring.sso)) }}
+{{- if and (or .Values.grafana.sso.grafana.client_id (dig "grafana" "client_id" false .Values.monitoring.sso)) (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso)) }}
 extraSecretMounts:
   {{- if or .Values.grafana.sso.grafana.client_id (dig "grafana" "client_id" false .Values.monitoring.sso) }}
   - name: auth-generic-oauth-secret
