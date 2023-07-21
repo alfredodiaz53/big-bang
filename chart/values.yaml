@@ -1813,7 +1813,7 @@ addons:
           certSource: secret
         #secret:
         #  secretName: "harbor-tls-is-annoying"
-      externalURL: http://harbor
+      externalURL: http://harbor:80
       internalTLS:
         enabled: false
       postgresql:
