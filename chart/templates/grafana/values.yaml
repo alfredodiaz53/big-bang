@@ -259,17 +259,17 @@ grafana.ini:
 
 {{- if and (or .Values.grafana.sso.grafana.client_id (dig "grafana" "client_id" false .Values.monitoring.sso)) (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso)) }}
 extraSecretMounts:
-  {{- if or .Values.grafana.sso.grafana.client_id (dig "grafana" "client_id" false .Values.monitoring.sso) }}
+  {{- if or (and .Values.grafana.sso.enabled .Values.grafana.sso.grafana.client_id) (and (dig "grafana" "client_id" false .Values.monitoring.sso) .Values.monitoring.sso.enabled) }}
   - name: auth-generic-oauth-secret
     mountPath: /etc/secrets/auth_generic_oauth
     secretName: grafana-sso
     defaultMode: 0440    
     readOnly: true
   {{- end }}
-  {{- if (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso)) }}
+  {{- if and (or .Values.grafana.sso.enabled .Values.monitoring.sso.enabled) (or .Values.sso.certificate_authority (dig "certificateAuthority" "cert" false .Values.sso)) }}
   - name: "oidc-ca-certificate"
     mountPath: "/etc/oidc/ca.pem"
-    secretName: "tls-ca-sso"
+    secretName: "tls-ca-sso-grafana"
     readOnly: true
     subPath: "ca.pem"
   {{- end }}
