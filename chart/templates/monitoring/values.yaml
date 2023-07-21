@@ -180,11 +180,6 @@ global:
 sso:
   enabled: {{ .Values.monitoring.sso.enabled }}
 
-grafana:
-  {{- if .Values.grafana.enabled }}
-  enabled: false
-  {{- end }}
-
 prometheus-node-exporter:
   image:
     pullPolicy: {{ .Values.imagePullPolicy }}
