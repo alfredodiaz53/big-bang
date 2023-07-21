@@ -1687,7 +1687,7 @@ addons:
           enabled: false
       internalTLS:
         enabled: false
-      externalURL: http://harbor:80
+      externalURL: https://harbor.bigbang.dev
       nginx:
         resources:
           requests:
@@ -1827,7 +1827,7 @@ addons:
         cypress:
           artifacts: true
           envs:
-            cypress_url: "http://harbor.bigbang.dev"
+            cypress_url: "https://harbor.bigbang.dev"
             cypress_user: "admin"
             cypress_harbor_password: "Harbor12345"
             cypress_project: "bbcypress-test"
