@@ -1681,13 +1681,16 @@ addons:
     values: 
       existingSecretAdminPasswordKey: HARBOR_ADMIN_PASSWORD
       harborAdminPassword: "Harbor12345"
+      redis:
+        external: 
+          addr: "harbor-redis-bb-headless:6379"
       expose:
         type: clusterIP
         tls:
           enabled: false
       internalTLS:
         enabled: false
-      externalURL: http://harbor:80
+      externalURL: http://harbor-core:80
       nginx:
         resources:
           requests:
