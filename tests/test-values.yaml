@@ -1837,5 +1837,5 @@ addons:
           envs:
             HARBOR_USER: "admin"
             HARBOR_PASS: "Harbor12345"
-            HARBOR_REGISTRY: "harbor-core:80"
+            HARBOR_REGISTRY: "harbor.bigbang.dev"
             HARBOR_PROJECT: "library"
