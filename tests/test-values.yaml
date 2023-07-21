@@ -1679,8 +1679,6 @@ addons:
 
     # -- Values to pass through to Habor chart: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/harbor.git
     values: 
-      existingSecretAdminPasswordKey: HARBOR_ADMIN_PASSWORD
-      harborAdminPassword: "Harbor12345"
       redis:
         external: 
           addr: "harbor-redis-bb-headless:6379"
@@ -1839,5 +1837,5 @@ addons:
           envs:
             HARBOR_USER: "admin"
             HARBOR_PASS: "Harbor12345"
-            HARBOR_REGISTRY: "harbor:80"
+            HARBOR_REGISTRY: "harbor-core:80"
             HARBOR_PROJECT: "library"
