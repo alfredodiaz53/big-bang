@@ -1771,9 +1771,11 @@ addons:
     # -- Choose source type of "git" or "helmRepo"
     sourceType: "git"
 
+
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/harbor.git
-      tag: "1.12.2-bb.3"
+      branch: 27-helm-tests-egress
+      # tag: "1.12.2-bb.3"
       path: "./chart"
     helmRepo:
       repoName: "registry1"
