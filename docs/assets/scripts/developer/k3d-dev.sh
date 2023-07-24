@@ -161,7 +161,7 @@ while [ -n "$1" ]; do # while loop starts
   -h) echo "Usage:"
       echo "k3d-dev.sh -b -p -m -a -d -h"
       echo ""
-      echo " -b   use BIG M5 instance. Default is m5a.8xlarge"
+      echo " -b   use BIG M5 instance. Default is m5a.4xlarge"
       echo " -p   use private IP for security group and k3d cluster"
       echo " -m   create k3d cluster with metalLB"
       echo " -a   attach secondary Public IP (overrides -p and -m flags)"
