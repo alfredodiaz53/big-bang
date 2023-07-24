@@ -1811,7 +1811,8 @@ addons:
 
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/harbor.git
-      tag: "1.12.2-bb.5"
+      # tag: "1.12.2-bb.5"
+      branch: "27-helm-tests-egress"
       path: "./chart"
     helmRepo:
       repoName: "registry1"
