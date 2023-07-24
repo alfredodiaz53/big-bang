@@ -992,8 +992,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/argocd.git
       path: "./chart"
-      tag: ""
-      branch: "remove-sidecar-wait" 
+      tag: "5.36.1-bb.0"
     helmRepo:
       repoName: "registry1"
       chartName: "argocd"
@@ -1560,8 +1559,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/mattermost.git
       path: "./chart"
-      tag: ""
-      branch: "remove-sidecar-wait"
+      tag: "7.10.3-bb.1"
     helmRepo:
       repoName: "registry1"
       chartName: "mattermost"
