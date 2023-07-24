@@ -556,12 +556,15 @@ if [[ $K3S_IMAGE_TAG ]]; then
   k3d_command+=" --image docker.io/rancher/k3s:$K3S_IMAGE_TAG"
 fi
 
+# let's always attach to the 172.20.0.0/16 bridge for consistent ips
+echo "creating docker network for k3d cluster"
+run "docker network create k3d-network --driver=bridge --subnet=172.20.0.0/16 --gateway 172.20.0.1"
+k3d_command+=" --network k3d-network"
+
 # Add MetalLB specific k3d config
 if [[ "$METAL_LB" == true || "$ATTACH_SECONDARY_IP" == true ]]; then
   # create docker network for k3d cluster
-  echo "creating docker network for k3d cluster"
-  run "docker network create k3d-network --driver=bridge --subnet=172.20.0.0/16 --gateway 172.20.0.1"
-  k3d_command+=" --k3s-arg \"--disable=servicelb@server:0\" --network k3d-network"
+  k3d_command+=" --k3s-arg \"--disable=servicelb@server:0\""
 fi
 
 # Add Public/Private IP specific k3d config
@@ -577,7 +580,9 @@ fi
 # we match the 172.x subnets used by CI
 if [[ "$USE_WEAVE" == true ]]; then
 
-  run "sudo mkdir -p /opt/cni/bin && sudo curl -s -L https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni-plugins-linux-amd64-v1.3.0.tgz  | sudo tar xvz -C /opt/cni/bin" 
+  if [[ ! -f /opt/cni/bin/loopback ]]; then
+    run "sudo mkdir -p /opt/cni/bin && sudo curl -s -L https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni-plugins-linux-amd64-v1.3.0.tgz  | sudo tar xvz -C /opt/cni/bin"
+  fi 
 
   scp -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ${SCRIPT_DIR}/weave/* ubuntu@${PublicIP}:/tmp/
   k3d_command+=" --volume \"/tmp/weave.yaml:/var/lib/rancher/k3s/server/manifests/weave.yaml@server:*\""
