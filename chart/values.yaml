@@ -316,7 +316,7 @@ jaeger:
     repo: https://repo1.dso.mil/big-bang/product/packages/jaeger.git
     path: "./chart"
     tag: ""
-    branch: "sleep-before-shutdown"    
+    branch: "sleep-before-shutdown"
   helmRepo:
     repoName: "registry1"
     chartName: "jaeger"
