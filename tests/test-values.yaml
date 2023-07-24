@@ -118,7 +118,7 @@ clusterAuditor:
       requests:
         cpu: 100m
         memory: 256Mi
-      limits: null
+      limits: {}
     bbtests:
       enabled: true
       cypress:
@@ -133,7 +133,7 @@ gatekeeper:
     replicas: 1
     controllerManager:
       resources:
-        limits: null
+        limits: {}
         requests:
           cpu: 100m
           memory: 256Mi
@@ -601,7 +601,7 @@ elasticsearchKibana:
         resources:
           requests:
             cpu: .5
-          limits: null
+          limits: {}
         heap:
           min: 1g
           max: 1g
@@ -612,7 +612,7 @@ elasticsearchKibana:
         resources:
           requests:
             cpu: .5
-          limits: null
+          limits: {}
         heap:
           min: 1g
           max: 1g
@@ -748,19 +748,19 @@ monitoring:
           requests:
             cpu: 100m
             memory: 200Mi
-          limits: null
+          limits: {}
     kube-state-metrics:
       resources:
         requests:
           cpu: 10m
           memory: 32Mi
-        limits: null
+        limits: {}
     prometheus-node-exporter:
       resources:
         requests:
           cpu: 100m
           memory: 30Mi
-        limits: null
+        limits: {}
     bbtests:
       enabled: true
       cypress:
@@ -861,13 +861,13 @@ addons:
           requests:
             cpu: 500m
             memory: 2Gi
-          limits: null
+          limits: {}
       dex:
         resources:
           requests:
             cpu: 10m
             memory: 128Mi
-          limits: null
+          limits: {}
       redis-bb:
         master:
           persistence:
@@ -880,7 +880,7 @@ addons:
           requests:
             cpu: 50m
             memory: 256Mi
-          limits: null
+          limits: {}
       server:
         autoscaling:
           enabled: false
@@ -888,7 +888,7 @@ addons:
           requests:
             cpu: 20m
             memory: 128Mi
-          limits: null
+          limits: {}
       repoServer:
         autoscaling:
           enabled: false
@@ -896,7 +896,7 @@ addons:
           requests:
             cpu: 50m
             memory: 128Mi
-          limits: null
+          limits: {}
       configs:
         secret:
           argocdServerAdminPassword: '$2a$10$rUDZDckdDZ2TEwk9PDs3QuqjkL58qR1IHE1Kj4MwDx.7/m5dytZJm'
@@ -916,7 +916,7 @@ addons:
         requests:
           cpu: 100m
           memory: 100Mi
-        limits: null
+        limits: {}
       redis:
         enabled: true
       redis-bb:
@@ -946,7 +946,7 @@ addons:
         resources:
           requests:
             cpu: 10m
-          limits: null
+          limits: {}
       gitlab:
         webservice:
           minReplicas: 1
@@ -966,7 +966,7 @@ addons:
             ## values raised to help pass CI after default values for gitaly are fixed then can revert to original request.
             #requests:
             #  cpu: 50m
-            #limits: null
+            #limits: {}
             requests:
               cpu: 400m
               memory: 600Mi
@@ -977,19 +977,19 @@ addons:
           resources:
             requests:
               cpu: 10m
-            limits: null
+            limits: {}
         migrations:
           resources:
             requests:
               cpu: 10m
-            limits: null
+            limits: {}
         toolbox:
           persistence:
             size: 256Mi
           resources:
             requests:
               cpu: 10m
-            limits: null
+            limits: {}
       registry:
         hpa:
           minReplicas: 1
@@ -1001,14 +1001,14 @@ addons:
           resources:
             requests:
               cpu: 10m
-            limits: null
+            limits: {}
       minio:
         persistence:
           size: 256Mi
         resources:
           requests:
             cpu: 50m
-          limits: null
+          limits: {}
       redis:
         master:
           persistence:
@@ -1035,7 +1035,7 @@ addons:
         requests:
           memory: 64Mi
           cpu: 50m
-        limits: null
+        limits: {}
       runners:
         protected: false
       networkPolicies:
@@ -1083,13 +1083,13 @@ addons:
           requests:
             cpu: 100m
             memory: 200Mi
-          limits: null
+          limits: {}
       sso:
         resources:
           requests:
             cpu: 100m
             memory: 200Mi
-          limits: null
+          limits: {}
       postgresql:
         persistence:
           size: 256Mi
@@ -1097,109 +1097,109 @@ addons:
           requests:
             cpu: 200m
             memory: 1024Mi
-          limits: null
+          limits: {}
         metrics:
           resources:
             requests:
               cpu: 100m
               memory: 200Mi
-            limits: null
+            limits: {}
       anchoreAnalyzer:
         replicaCount: 1
         resources:
           requests:
             cpu: 100m
             memory: 200Mi
-          limits: null
+          limits: {}
       anchoreApi:
         resources:
           requests:
             cpu: 100m
             memory: 200Mi
-          limits: null
+          limits: {}
       anchoreCatalog:
         resources:
           requests:
             cpu: 100m
             memory: 200Mi
-          limits: null
+          limits: {}
       anchorePolicyEngine:
         resources:
           requests:
             cpu: 100m
             memory: 200Mi
-          limits: null
+          limits: {}
       anchoreSimpleQueue:
         resources:
           requests:
             cpu: 100m
             memory: 200Mi
-          limits: null
+          limits: {}
       anchoreEngineUpgradeJob:
         resources:
           requests:
             cpu: 100m
             memory: 200Mi
-          limits: null
+          limits: {}
       anchore-feeds-db:
         resources:
           requests:
             cpu: 100m
             memory: 200Mi
-          limits: null
+          limits: {}
         metrics:
           resources:
             requests:
               cpu: 100m
               memory: 200Mi
-            limits: null
+            limits: {}
       anchoreEnterpriseFeeds:
         resources:
           requests:
             cpu: 100m
             memory: 200Mi
-          limits: null
+          limits: {}
       anchoreEnterpriseFeedsUpgradeJob:
         resources:
           requests:
             cpu: 100m
             memory: 200Mi
-          limits: null
+          limits: {}
       anchoreEnterpriseRbac:
         authResources:
           requests:
             cpu: 100m
             memory: 200Mi
-          limits: null
+          limits: {}
         managerResources:
           requests:
             cpu: 100m
             memory: 200Mi
-          limits: null
+          limits: {}
       anchoreEnterpriseReports:
         resources:
           requests:
             cpu: 100m
             memory: 200Mi
-          limits: null
+          limits: {}
       anchoreEnterpriseNotifications:
         resources:
           requests:
             cpu: 100m
             memory: 200Mi
-          limits: null
+          limits: {}
       anchoreEntperpiseUi:
         resources:
           requests:
             cpu: 100m
             memory: 200Mi
-          limits: null
+          limits: {}
       anchoreEnterpriseEngineUpgradeJob:
         resources:
           requests:
             cpu: 100m
             memory: 200Mi
-          limits: null
+          limits: {}
       anchore-ui-redis:
         enabled: true
         replica:
@@ -1227,7 +1227,7 @@ addons:
         requests:
           cpu: 100m
           memory: 200Mi
-        limits: null
+        limits: {}
       persistence:
         enabled: false
         size: 5Gi
@@ -1238,7 +1238,7 @@ addons:
           requests:
             cpu: 100m
             memory: 200Mi
-          limits: null
+          limits: {}
       tests:
         enabled: false
       bbtests:
@@ -1312,7 +1312,7 @@ addons:
         requests:
           cpu: 100m
           memory: 128Mi
-        limits: null
+        limits: {}
       minio:
         tenant:
           pools:
@@ -1485,7 +1485,7 @@ addons:
         requests:
           cpu: 250m
           memory: 250Mi
-        limits: null
+        limits: {}
       bbtests:
         enabled: true
         cypress:
