@@ -2,6 +2,9 @@
 
 K3D_VERSION="5.5.1"
 
+# get the current script dir
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
 function run() {
   ssh -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ubuntu@${PublicIP} "$@"
 }
@@ -155,14 +158,10 @@ while [ -n "$1" ]; do # while loop starts
       exit 0 
   ;;
 
-  -c) echo "-c option passed to use calico CNI" 
-      USE_CALICO=true
-  ;;
-
   -h) echo "Usage:"
       echo "k3d-dev.sh -b -p -m -a -d -h"
       echo ""
-      echo " -b   use BIG M5 instance. Default is t3.2xlarge"
+      echo " -b   use BIG M5 instance. Default is m5a.8xlarge"
       echo " -p   use private IP for security group and k3d cluster"
       echo " -m   create k3d cluster with metalLB"
       echo " -a   attach secondary Public IP (overrides -p and -m flags)"
@@ -170,6 +169,10 @@ while [ -n "$1" ]; do # while loop starts
       echo " -c   install the calico CNI instead of the default flannel CNI"
       echo " -h   output help"
       exit 0
+  ;;
+
+  -w) echo "-w option passed to use Weave CNI" 
+      USE_WEAVE=true
   ;;
 
   *) echo "Option $1 not recognized" ;; # In case a non-existent option is submitted
@@ -570,13 +573,26 @@ else
   k3d_command+=" --k3s-arg \"--tls-san=${PublicIP}@server:0\""
 fi
 
-# use calico instead of flannel
-if [[ "$USE_CALICO" == true ]]; then
-  scp -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes k3d/calico.yaml ubuntu@${PublicIP}:/tmp/calico.yaml
-  k3d_command+=" --volume \"/tmp/calico.yaml:/var/lib/rancher/k3s/server/manifests/calico.yaml@server:*\""
+# use weave instead of flannel -- helps with large installs
+# we match the 172.x subnets used by CI
+if [[ "$USE_WEAVE" == true ]]; then
+
+  run "sudo mkdir -p /opt/cni/bin && sudo curl -s -L https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni-plugins-linux-amd64-v1.3.0.tgz  | sudo tar xvz -C /opt/cni/bin" 
+
+  scp -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ${SCRIPT_DIR}/weave/* ubuntu@${PublicIP}:/tmp/
+  k3d_command+=" --volume \"/tmp/weave.yaml:/var/lib/rancher/k3s/server/manifests/weave.yaml@server:*\""
+  
   k3d_command+=" --k3s-arg \"--flannel-backend=none@server:*\""
   k3d_command+=" --k3s-arg \"--disable-network-policy@server:*\""
   k3d_command+=" --k3s-arg \"--cluster-cidr=172.21.0.0/16@server:*\""
+  k3d_command+=" --k3s-arg \"--service-cidr=172.20.0.0/16@server:*\""
+  k3d_command+=" --k3s-arg \"--cluster-dns=172.20.0.10@server:*\""
+  k3d_command+=" --k3s-arg \"--flannel-backend=host-gw@server:*\""
+  k3d_command+=" --volume /tmp/machine-id-server-0:/etc/machine-id@server:0"
+  k3d_command+=" --volume /tmp/machine-id-agent-0:/etc/machine-id@agent:0"
+  k3d_command+=" --volume /tmp/machine-id-agent-1:/etc/machine-id@agent:1"
+  k3d_command+=" --volume /tmp/machine-id-agent-2:/etc/machine-id@agent:2"
+  k3d_command+=" --volume /opt/cni/bin:/opt/cni/bin@all:*"
 fi
 
 # Create k3d cluster
