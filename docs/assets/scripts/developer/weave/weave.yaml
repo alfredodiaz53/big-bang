@@ -144,6 +144,8 @@ items:
               command:
                 - /home/weave/launch.sh
               env:
+                - name: IPALLOC_RANGE
+                  value: "172.21.0.0/16"
                 - name: INIT_CONTAINER
                   value: "true"
                 - name: HOSTNAME
