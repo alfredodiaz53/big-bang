@@ -590,7 +590,6 @@ if [[ "$USE_WEAVE" == true ]]; then
   k3d_command+=" --k3s-arg \"--cluster-cidr=172.21.0.0/16@server:*\""
   k3d_command+=" --k3s-arg \"--service-cidr=172.20.0.0/16@server:*\""
   k3d_command+=" --k3s-arg \"--cluster-dns=172.20.0.10@server:*\""
-  k3d_command+=" --k3s-arg \"--flannel-backend=host-gw@server:*\""
   k3d_command+=" --volume /tmp/machine-id-server-0:/etc/machine-id@server:0"
   k3d_command+=" --volume /tmp/machine-id-agent-0:/etc/machine-id@agent:0"
   k3d_command+=" --volume /tmp/machine-id-agent-1:/etc/machine-id@agent:1"
