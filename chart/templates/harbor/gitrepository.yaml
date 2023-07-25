@@ -1,6 +1,6 @@
 {{- $pkg := "harbor" }}
 {{- if and (eq (get .Values.addons $pkg).sourceType "git") (not .Values.offline) (get .Values.addons $pkg).enabled }}
-apiVersion: source.toolkit.fluxcd.io/v1beta1
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
   name: {{ $pkg }}
