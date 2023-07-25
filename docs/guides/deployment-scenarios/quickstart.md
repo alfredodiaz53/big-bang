@@ -1,14 +1,10 @@
 # Quick Start
 
 [[_TOC_]]
-
-## Video Walkthrough
-A 36min speed run video walkthrough of this quickstart can be found on the following 2 mirrored locations:
-* [Google Drive - Video Mirror](https://drive.google.com/file/d/1m1pR0a-lrWr_Wed4EsI8-vimkYfb06GQ/view)
-* [Repo1 - Video Mirror](https://repo1.dso.mil/platform-one/bullhorn-delivery-static-assets/-/blob/master/big_bang/bigbang_quickstart.mp4)
-
 ## Overview
 
+### <span style="color: red"> All Developer and Quick Start Guides in this repo are intended to deploy environments for development, demo, and learning purposes. </span>
+ 
 This quick start guide explains in beginner-friendly terminology how to complete the following tasks in under an hour:
 
 1. Turn a virtual machine (VM) into a k3d single-node Kubernetes cluster.
@@ -20,7 +16,7 @@ This quick start guide explains in beginner-friendly terminology how to complete
 
 ## Important Security Notice
 
-All Developer and Quick Start Guides in this repo are intended to deploy environments for development, demo, and learning purposes. There are practices that are bad for security, but make perfect sense for these use cases: using of default values, minimal configuration, tinkering with new functionality that could introduce a security misconfiguration, and even purposefully using insecure passwords and disabling security measures like Open Policy Agent Gatekeeper for convenience. Many applications have default username and passwords combinations stored in the public git repo, these insecure default credentials and configurations are intended to be overridden during production deployments.
+There are practices that are bad for security, but make perfect sense for these use cases: using of default values, minimal configuration, tinkering with new functionality that could introduce a security misconfiguration, and even purposefully using insecure passwords and disabling security measures like Open Policy Agent Gatekeeper for convenience. Many applications have default username and passwords combinations stored in the public git repo, these insecure default credentials and configurations are intended to be overridden during production deployments.
 
 When deploying a dev / demo environment there is a high chance of deploying Big Bang in an insecure configuration. Such deployments should be treated as if they could become easily compromised if made publicly accessible.
 
@@ -126,7 +122,7 @@ The following requirements are recommended for Demonstration Purposes:
 
 ## Step 3: Install Prerequisite Software
 
-Note: This guide follows the DevOps best practice of left-shifting feedback on mistakes and surfacing errors as early in the process as possible. This is done by leveraging tests and verification commands.
+### Note: This guide follows the DevOps best practice of left-shifting feedback on mistakes and surfacing errors as early in the process as possible. This is done by leveraging tests and verification commands.
 
 1. Install Git
 
@@ -137,22 +133,20 @@ Note: This guide follows the DevOps best practice of left-shifting feedback on m
 1. Install Docker and add $USER to Docker group.
 
     ```shell
-    # [ubuntu@Ubuntu_VM:~]
     sudo apt update -y && sudo apt install apt-transport-https ca-certificates curl gnupg lsb-release -y && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && sudo apt update -y && sudo apt install docker-ce docker-ce-cli containerd.io -y && sudo usermod --append --groups docker $USER
-
-
-    # Alternative command (less safe due to curl | bash, but more generic):
-    # curl -fsSL https://get.docker.com | bash && sudo usermod --append --groups docker $USER
     ```
+
+    a. Alternative command (less safe due to curl | bash, but more generic):
+    ````
+    curl -fsSL https://get.docker.com | bash && sudo usermod --append --groups docker $USER
+    ````
 
 1. Logout and login to allow the `usermod` change to take effect.
 
     ```shell
     # [ubuntu@Ubuntu_VM:~]
     exit
-    ```
 
-    ```shell
     # [admin@Laptop:~]
     ssh k3d
     ```
@@ -160,176 +154,155 @@ Note: This guide follows the DevOps best practice of left-shifting feedback on m
 1. Verify Docker Installation
 
     ```shell
-    # [ubuntu@Ubuntu_VM:~]
     docker run hello-world
-    ```
 
-    ```console
+    ...
     Hello from Docker!
+    ...
     ```
 
 1. Install k3d
+    ### The latest stable version of k3d can be obtained here: https://github.com/k3d-io/k3d/releases
+    ### Installation can be done as follows
+    ````shell
+    wget -q -O - https://github.com/k3d-io/k3d/releases/download/v5.5.1/k3d-linux-amd64 > k3d
+    wget -q -O - https://github.com/k3d-io/k3d/releases/download/v5.5.1/checksums.txt > k3d-checksum
+    k3dsha256=$(grep linux-amd64 k3d-checksum | awk '{ print $1 }')
+    echo $k3dsha256 k3d | sha256sum -c | grep OK
+    ````
 
-    ```shell
-    # [ubuntu@Ubuntu_VM:~]
-    # The following downloads the 64 bit linux version of k3d v5.4.1, checks it
-    # against a copy of the sha256 checksum, if they match k3d gets installed
-    wget -q -O - https://github.com/k3d-io/k3d/releases/download/v5.4.1/k3d-linux-amd64 > k3d
-
-    echo 50f64747989dc1fcde5db5cb82f8ac132a174b607ca7dfdb13da2f0e509fda11 k3d | sha256sum -c | grep OK
-    # 50f64747989dc1fcde5db5cb82f8ac132a174b607ca7dfdb13da2f0e509fda11 came from running the following against a trusted internet connection.
-    # wget -q -O - https://github.com/k3d-io/k3d/releases/download/v5.4.1/k3d-linux-amd64 | sha256sum | cut -d ' ' -f 1
-
+    ### Run the following to make k3d executable and in path
+    ````shell
     if [ $? == 0 ]; then chmod +x k3d && sudo mv k3d /usr/local/bin/k3d; fi
-
-
-    # Alternative command (less safe due to curl | bash, but more generic):
-    # wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | TAG=v5.4.1 bash
-    ```
+      ````
 
 1. Verify k3d installation
 
     ```shell
-    # [ubuntu@Ubuntu_VM:~]
     k3d --version
-    ```
 
-    ```console
-    k3d version v5.4.1
-    k3s version v1.22.7-k3s1 (default)
+    k3d version v5.4.7
+    k3s version v1.25.6-k3s1 (default)
     ```
 
 1. Install kubectl
 
-    ```shell
-    # [ubuntu@Ubuntu_VM:~]
-    # The following downloads the 64 bit linux version of kubectl v1.23.5, checks it
-    # against a copy of the sha256 checksum, if they match kubectl gets installed
-    wget -q -O - https://dl.k8s.io/release/v1.23.5/bin/linux/amd64/kubectl > kubectl
-
-    echo 715da05c56aa4f8df09cb1f9d96a2aa2c33a1232f6fd195e3ffce6e98a50a879 kubectl | sha256sum -c | grep OK
-    # 715da05c56aa4f8df09cb1f9d96a2aa2c33a1232f6fd195e3ffce6e98a50a879 came from
-    # wget -q -O - https://dl.k8s.io/release/v1.23.5/bin/linux/amd64/kubectl.sha256
-
+    ### Grab the latest tag, download the binary, and perform a checksum using the following commands:
+    ````shell
+    wget -qO- https://dl.k8s.io/release/$(wget -qO- https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl > kubectl
+    echo "$(wget -qO- "https://dl.k8s.io/$(wget -qO- https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256")  kubectl" | sha256sum --check
+    ````
+    
+    Move the binary, ensure it is executable, and create a symlink:
+    ````
     if [ $? == 0 ]; then chmod +x kubectl && sudo mv kubectl /usr/local/bin/kubectl; fi
-
-    # Create a symbolic link from k to kubectl
     sudo ln -s /usr/local/bin/kubectl /usr/local/bin/k
-    ```
+    ````
 
 1. Verify kubectl installation
 
-    ```shell
-    # [ubuntu@Ubuntu_VM:~]
-    kubectl version --client
-    ```
+    ````shell
+      kubectl version --short
 
-    ```console
-    Client Version: version.Info{Major:"1", Minor:"23", GitVersion:"v1.23.5", GitCommit:"c285e781331a3785a7f436042c65c5641ce8a9e9", GitTreeState:"clean", BuildDate:"2022-03-16T15:58:47Z", GoVersion:"go1.17.8", Compiler:"gc", Platform:"linux/amd64"}
-    ```
+      Client Version: v1.27.3
+    ````
 
 1. Install Kustomize
 
-    ```shell
-    # [ubuntu@Ubuntu_VM:~]
-    # The following downloads the 64 bit linux version of kustomize v4.5.4, checks it
-    # against a copy of the sha256 checksum, if they match kustomize gets installed
-    wget -q -O - https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.5.4/kustomize_v4.5.4_linux_amd64.tar.gz > kustomize.tar.gz
+    ### The latest version of kustomize can be found here: https://github.com/kubernetes-sigs/kustomize/releases/
+    
+    ### Download the archive and compaare the sha256:
 
-    echo 1159c5c17c964257123b10e7d8864e9fe7f9a580d4124a388e746e4003added3 kustomize.tar.gz | sha256sum -c | grep OK
-    # 1159c5c17c964257123b10e7d8864e9fe7f9a580d4124a388e746e4003added3
-    # came from https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.5.4/checksums.txt
+      ````shell
+      wget -qO- https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.1.0/kustomize_v5.1.0_linux_amd64.tar.gz > kustomize.tar.gz
+      echo "$(wget -qO- https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.1.0/checksums.txt | grep linux_amd64 | awk '{print $1}') kustomize.tar.gz" | sha256sum -c
+      ````
+      Extract the archive, ensure it is executable, and move it to path:
 
-    if [ $? == 0 ]; then tar -xvf kustomize.tar.gz && chmod +x kustomize && sudo mv kustomize /usr/local/bin/kustomize && rm kustomize.tar.gz ; fi  
-
-
-    # Alternative commands (less safe due to curl | bash, but more generic):
-    # curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
-    # chmod +x kustomize
-    # sudo mv kustomize /usr/bin/kustomize
-    ```
+      ````shell
+        if [ $? == 0 ]; then tar -xvf kustomize.tar.gz && chmod +x kustomize && sudo mv kustomize /usr/local/bin/kustomize && rm kustomize.tar.gz ; fi  
+      ````
 
 1. Verify Kustomize installation
 
-    ```shell
-    # [ubuntu@Ubuntu_VM:~]
+    ````shell
     kustomize version
-    ```
 
-    ```console
     {Version:kustomize/v4.5.4 GitCommit:cf3a452ddd6f83945d39d582243b8592ec627ae3 BuildDate:2022-03-28T23:12:45Z GoOs:linux GoArch:amd64}
-    ```
+    ````
 
 1. Install Helm
 
+    ### Retrieve the latest binary and checksum from here https://github.com/helm/helm/releases/
+
+    ### The following downloads Helm, checks it against a copy of the sha256 checksum, if they match helm gets installed. for the version of helm you want simply replace with the asset name found on the release page minus the *.asc* extension
     ```shell
-    # [ubuntu@Ubuntu_VM:~]
-    # The following downloads the 64 bit linux version of helm v3.8.1, checks it
-    # against a copy of the sha256 checksum, if they match helm gets installed
-    wget -q -O - https://get.helm.sh/helm-v3.8.1-linux-amd64.tar.gz > helm.tar.gz
-
-    echo d643f48fe28eeb47ff68a1a7a26fc5142f348d02c8bc38d699674016716f61cd helm.tar.gz | sha256sum -c | grep OK
-    # d643f48fe28eeb47ff68a1a7a26fc5142f348d02c8bc38d699674016716f61cd
-    # came from https://github.com/helm/helm/releases/tag/v3.8.1
-
-    if [ $? == 0 ]; then tar -xvf helm.tar.gz && chmod +x linux-amd64/helm && sudo mv linux-amd64/helm /usr/local/bin/helm && rm -rf linux-amd64 && rm helm.tar.gz ; fi  
-
-
-    # Alternative command (less safe due to curl | bash, but more generic):
-    # curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+    wget -qO- https://get.helm.sh/helm-v3.12.2-linux-amd64.tar.gz > helm.tar.gz
     ```
+
+    ### Retreive the sha256 checksum from the same releases page (https://github.com/helm/helm/releases/tag/v3.12.2 in the example) and perform the following:
+    ```shell
+    echo 2b6efaa009891d3703869f4be80ab86faa33fa83d9d5ff2f6492a8aebe97b219 helm.tar.gz | sha256sum -c
+    helm.tar.gz: OK
+    ```
+    ### Extract the archive and move it into path:
+    ```shell
+    if [ $? == 0 ]; then tar -xvf helm.tar.gz && chmod +x linux-amd64/helm && sudo mv linux-amd64/helm /usr/local/bin/helm && rm -rf linux-amd64 && rm helm.tar.gz ; fi  
+    ```
+          
 
 1. Verify Helm installation
 
     ```shell
-    # [ubuntu@Ubuntu_VM:~]
     helm version
-    ```
-
-    ```console
+    
     version.BuildInfo{Version:"v3.8.1", GitCommit:"5cb9af4b1b271d11d7a97a71df3ac337dd94ad37", GitTreeState:"clean", GoVersion:"go1.17.5"}
     ```
 
 ## Step 4: Configure Host Operating System Prerequisites
 
-* Run Operating System Pre-configuration
-
-  ```shell
-  # [ubuntu@Ubuntu_VM:~]
-  # Needed for ECK to run correctly without OOM errors
-  echo 'vm.max_map_count=524288' | sudo tee -a /etc/sysctl.d/vm-max_map_count.conf
-  # Alternatively can use (not persistent after restart):
-  # sudo sysctl -w vm.max_map_count=524288
-
-
-  # Needed by Sonarqube
-  echo 'fs.file-max=131072' | sudo tee -a /etc/sysctl.d/fs-file-max.conf
-  # Alternatively can use (not persistent after restart):  
-  # sudo sysctl -w fs.file-max=131072
-
-  # Also Needed by Sonarqube
-  ulimit -n 131072
-  ulimit -u 8192
-
-  # Load updated configuration
-  sudo sysctl --load --system
-
-  # Preload kernel modules, required by istio-init running on SELinux enforcing instances
-  sudo modprobe xt_REDIRECT
-  sudo modprobe xt_owner
-  sudo modprobe xt_statistic
-
-  # Persist kernel modules settings after reboots
-  printf "xt_REDIRECT\nxt_owner\nxt_statistic\n" | sudo tee -a /etc/modules
-
-  # Kubernetes requires swap disabled
-  # Turn off all swap devices and files (won't last reboot)
-  sudo swapoff -a
-
-  # For swap to stay off, you can remove any references found via
-  # cat /proc/swaps
-  # cat /etc/fstab
-  ```
+1. Run Operating System Pre-configuration (needed for ECK to run correctly without OOM errors)
+    ```shell
+    echo 'vm.max_map_count=524288' | sudo tee -a /etc/sysctl.d/vm-max_map_count.conf
+    ```
+1. Alternatively can use (not persistent after restart):
+    ```shell
+    sudo sysctl -w vm.max_map_count=524288
+    ```
+1. Needed by Sonarqube
+    ```shell
+    echo 'fs.file-max=131072' | sudo tee -a /etc/sysctl.d/fs-file-max.conf
+    ulimit -n 131072
+    ulimit -u 8192
+    ```
+1. A non-persistent alternative:
+    ```shell
+    sudo sysctl -w fs.file-max=131072
+    ```
+1. Load updated configuration
+    ```shell
+    sudo sysctl --load --system
+    ```
+1. Preload kernel modules, required by istio-init running on SELinux enforcing instances:
+    ```shell
+    sudo modprobe xt_REDIRECT
+    sudo modprobe xt_owner
+    sudo modprobe xt_statistic
+    ```
+1. Persist kernel modules settings after reboot:
+    ```shell
+    printf "xt_REDIRECT\nxt_owner\nxt_statistic\n" | sudo tee -a /etc/modules
+    ```
+1. Kubernetes requires swap disabled. Turn off all swap devices and files (won't last reboot).
+    ```shell
+    sudo swapoff -a
+    ```
+1. For swap to stay off, you can remove any references found via:
+    ```shell
+    cat /proc/swaps
+    cat /etc/fstab
+    ```
+    * If `/proc/swaps` is empty and you see default listings in `/etc/fstab` then you are fine to proceed.
 
 ## Step 5:  Create a k3d Cluster
 
@@ -371,13 +344,13 @@ These map the virtual machine's port 80 and 443 to port 80 and 443 of a Dockeriz
 * `--k3s-arg "--disable=traefik@server:0"`:  
 This flag prevents the traefik ingress controller from being deployed. Without this flag traefik would provision a service of type LoadBalancer, and claim k3d's only LoadBalancer that works with ports 80 and 443. Disabling this makes it so the Istio Ingress Gateway will be able to claim the service of type LoadBalancer.
 
-### k3d Cluster Creation Commands
+### k3d Cluster Creation Commands - (Change the IP address in quotes below to the public or addresible IP if you need remote kubectl access)
 
 ```shell
-# [ubuntu@Ubuntu_VM:~]
-SERVER_IP="10.10.16.11" #(Change this value, if you need remote kubectl access)
-
-# Create image cache directory
+SERVER_IP="10.10.16.11"
+```
+### Create image cache directory
+```
 IMAGE_CACHE=${HOME}/.k3d-container-image-cache
 
 mkdir -p ${IMAGE_CACHE}
@@ -395,7 +368,6 @@ k3d cluster create \
 ### k3d Cluster Verification Command
 
 ```shell
-# [ubuntu@Ubuntu_VM:~]
 kubectl config use-context k3d-k3s-default
 kubectl get node
 ```
@@ -422,9 +394,8 @@ k3d-k3s-default-server-0   Ready    control-plane,master   11m   v1.22.7+k3s1
 
 1. Verify your credentials work
 
+   ### Turn off bash history
     ```shell
-    # [ubuntu@Ubuntu_VM:~]
-    # Turn off bash history
     set +o history
 
     export REGISTRY1_USERNAME=<REPLACE_ME>
@@ -839,4 +810,3 @@ If the NeuVector pods fail to open, and you look at the K8s logs only to find th
 sudo sysctl fs.inotify.max_queued_events=616384
 sudo sysctl fs.inotify.max_user_instances=512
 sudo sysctl fs.inotify.max_user_watches=501208
-```
