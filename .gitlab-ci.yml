@@ -6,4 +6,3 @@ variables:
   MULTI_NODE: "true"
   CI_DEFAULT_BRANCH: 'mmartin-test'
   PIPELINE_REPO_BRANCH: '2.9.5-beta.0'
-  USE_WEAVE: "true"
