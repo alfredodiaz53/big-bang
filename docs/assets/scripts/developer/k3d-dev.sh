@@ -577,19 +577,22 @@ else
 fi
 
 # use weave instead of flannel -- helps with large installs
-# we match the 172.x subnets used by CI
+# we match the 172.x subnets used by CI for consistency
 if [[ "$USE_WEAVE" == true ]]; then
 
   run "if [[ ! -f /opt/cni/bin/loopback ]]; then sudo mkdir -p /opt/cni/bin && sudo curl -s -L https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni-plugins-linux-amd64-v1.3.0.tgz  | sudo tar xvz -C /opt/cni/bin; fi"
 
   scp -i ~/.ssh/${KeyName}.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ${SCRIPT_DIR}/weave/* ubuntu@${PublicIP}:/tmp/
-  k3d_command+=" --volume \"/tmp/weave.yaml:/var/lib/rancher/k3s/server/manifests/weave.yaml@server:*\""
-  
+
+  # network settings  
   k3d_command+=" --k3s-arg \"--flannel-backend=none@server:*\""
   k3d_command+=" --k3s-arg \"--disable-network-policy@server:*\""
   k3d_command+=" --k3s-arg \"--cluster-cidr=172.21.0.0/16@server:*\""
   k3d_command+=" --k3s-arg \"--service-cidr=172.20.0.0/16@server:*\""
   k3d_command+=" --k3s-arg \"--cluster-dns=172.20.0.10@server:*\""
+
+  # volume mounts
+  k3d_command+=" --volume \"/tmp/weave.yaml:/var/lib/rancher/k3s/server/manifests/weave.yaml@server:*\""
   k3d_command+=" --volume /tmp/machine-id-server-0:/etc/machine-id@server:0"
   k3d_command+=" --volume /tmp/machine-id-agent-0:/etc/machine-id@agent:0"
   k3d_command+=" --volume /tmp/machine-id-agent-1:/etc/machine-id@agent:1"
