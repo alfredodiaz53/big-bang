@@ -556,14 +556,14 @@ if [[ $K3S_IMAGE_TAG ]]; then
   k3d_command+=" --image docker.io/rancher/k3s:$K3S_IMAGE_TAG"
 fi
 
-# let's always attach to the 172.20.0.0/16 bridge for consistent ips
+# create docker network for k3d cluster
 echo "creating docker network for k3d cluster"
+run "docker network remove k3d-network"
 run "docker network create k3d-network --driver=bridge --subnet=172.20.0.0/16 --gateway 172.20.0.1"
 k3d_command+=" --network k3d-network"
 
 # Add MetalLB specific k3d config
 if [[ "$METAL_LB" == true || "$ATTACH_SECONDARY_IP" == true ]]; then
-  # create docker network for k3d cluster
   k3d_command+=" --k3s-arg \"--disable=servicelb@server:0\""
 fi
 
