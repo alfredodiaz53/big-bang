@@ -166,7 +166,7 @@ while [ -n "$1" ]; do # while loop starts
       echo " -m   create k3d cluster with metalLB"
       echo " -a   attach secondary Public IP (overrides -p and -m flags)"
       echo " -d   destroy related AWS resources"
-      echo " -c   install the calico CNI instead of the default flannel CNI"
+      echo " -w   install the weave CNI instead of the default flannel CNI"
       echo " -h   output help"
       exit 0
   ;;
