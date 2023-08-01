@@ -1447,8 +1447,7 @@ addons:
   velero:
     enabled: false
     plugins:
-      aws: 
-        enabled: true
+    - aws
     values:
       serviceAccount:
         server:
