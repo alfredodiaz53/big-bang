@@ -1447,20 +1447,23 @@ addons:
   velero:
     enabled: false
     plugins:
-    - aws
+      aws: 
+        enabled: true
     values:
       serviceAccount:
         server:
           name: velero
       configuration:
-        provider: aws
         backupStorageLocation:
-          bucket: velero
+        - bucket: velero
+          provider: aws
+          default: true
           config:
             region: velero
             s3ForcePathStyle: "true"
             s3Url: https://minio-api.bigbang.dev
         volumeSnapshotLocation:
+        - name: default
           provider: aws
           config:
             region: velero
