@@ -1508,6 +1508,13 @@ addons:
             cypress_keycloak_test_enable: 'true'
             cypress_tnr_username: "cypress"
             cypress_tnr_password: "tnr_w!G33ZyAt@C8"
+            cypress_username: "admin"
+            cypress_password: "password"
+            tnr_username: "cypress"
+            tnr_password: "tnr_w!G33ZyAt@C8"
+            tnr_firstName: "Cypress"
+            tnr_lastName: "TNR"
+            tnr_email: "cypress@tnr.mil"
 
       command:
         - "/opt/keycloak/bin/kc.sh"
