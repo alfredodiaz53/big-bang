@@ -89,7 +89,7 @@ jaeger:
           cypress_url: "https://tracing.bigbang.dev"
 
 kiali:
-  enabled: true
+  enabled: false
   sso:
     enabled: false
     client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_kiali
@@ -640,6 +640,7 @@ fluentbit:
       enabled: true
 
 loki:
+  enabled: false
   strategy: scalable
   values:
     minio:
@@ -688,6 +689,7 @@ loki:
           LOKI_URL: 'http://logging-loki-write.logging.svc:3100'
 
 tempo:
+  enabled: false
   values:
     istio:
       tempoQuery:
@@ -728,10 +730,10 @@ tempo:
           memory: 128Mi
 
 promtail:
-  enabled: true
+  enabled: false
 
 monitoring:
-  enabled: true
+  enabled: false
   flux:
     timeout: 20m
     install:
@@ -777,7 +779,7 @@ monitoring:
           cypress_check_istio_dashboards: 'true'
 
 grafana:
-  enabled: true
+  enabled: false
   sso:
     enabled: false
     grafana:
@@ -818,6 +820,7 @@ grafana:
           cypress_grafana_url: 'https://grafana.bigbang.dev'
 
 neuvector:
+  enabled: false
   values:
     k3s:
       enabled: true
