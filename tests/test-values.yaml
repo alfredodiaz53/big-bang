@@ -1501,7 +1501,6 @@ addons:
         limits: {}
       bbtests:
         enabled: true
-        artifacts: true
         cypress:
           envs:
             cypress_url: "https://keycloak.bigbang.dev"
