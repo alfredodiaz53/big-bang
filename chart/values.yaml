@@ -1144,8 +1144,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/gitlab.git
       path: "./chart"
- #     tag: "7.1.2-bb.0"
-      branch: "cypress_sso_gitlab"
+      tag: "7.1.2-bb.0"
+
     helmRepo:
       repoName: "registry1"
       chartName: "gitlab"
