@@ -145,7 +145,7 @@ policies:
   {{- end }}
 
   require-drop-all-capabilities:
-    validationFailureAction: enforce
+    validationFailureAction: audit
     {{- if or .Values.addons.gitlab.enabled .Values.neuvector.enabled }}
     exclude:
       any:
