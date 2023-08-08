@@ -780,7 +780,7 @@ monitoring:
           cypress_keycloak_test_enable: "keycloak_test_enable"
 
 grafana:
-  enabled: true
+  enabled: false
   sso:
     enabled: false
     grafana:
