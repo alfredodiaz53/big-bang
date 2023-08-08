@@ -838,7 +838,8 @@ monitoring:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/monitoring.git
     path: "./chart"
-    tag: "47.1.0-bb.1"
+    #tag: "47.1.0-bb.1"
+    branch: "monitoring-sso-cypress"
   helmRepo:
     repoName: "registry1"
     chartName: "monitoring"
@@ -1688,7 +1689,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/keycloak.git
       path: "./chart"
-      tag: "18.4.3-bb.2"
+      #tag: "18.4.3-bb.2"
+      branch: "cypress_keycloak_test"
     helmRepo:
       repoName: "registry1"
       chartName: "keycloak"

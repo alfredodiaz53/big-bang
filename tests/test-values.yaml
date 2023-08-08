@@ -743,7 +743,7 @@ monitoring:
       disableOpenAPIValidation: true
       crds: CreateReplace
   sso:
-    enabled: false
+    enabled: true
     prometheus:
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_prometheus
     alertmanager:
@@ -777,6 +777,7 @@ monitoring:
           cypress_grafana_url: 'https://grafana.bigbang.dev'
           cypress_alertmanager_url: 'https://alertmanager.bigbang.dev'
           cypress_check_istio_dashboards: 'true'
+          cypress_keycloak_test_enable: "keycloak_test_enable"
 
 grafana:
   enabled: true
@@ -1543,7 +1544,7 @@ addons:
             CUSTOM_REGISTRATION_CONFIG: /opt/keycloak/conf/customreg.yaml
         customreg:
           stringData:
-            customreg.yaml: '{{ .Files.Get "resources/dev/baby-yoda-ci.yaml" }}'
+            customreg.yaml: '{{ .Files.Get "resources/dev/baby-yoda.yaml" }}'
         realm:
           stringData:
             realm.json: '{{ .Files.Get "resources/dev/baby-yoda.json" }}'
@@ -1556,7 +1557,7 @@ addons:
             quarkus.properties: '{{ .Files.Get "resources/dev/quarkus.properties" }}'
       extraInitContainers: |-
         - name: plugin
-          image: registry1.dso.mil/ironbank/big-bang/p1-keycloak-plugin:3.2.0
+          image: registry1.dso.mil/ironbank/big-bang/p1-keycloak-plugin:3.2.1
           imagePullPolicy: Always
           command:
           - sh
