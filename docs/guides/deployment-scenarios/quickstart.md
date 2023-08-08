@@ -775,71 +775,7 @@ kubectl get po -n=argocd
 
 BigBang by itself serves as a jumping off point, but many users will want to implement their own mission specific applications in to the cluster. BigBang has implemented a `packages:` and `wrapper:`  section to enable and support this in a way that ensures connectivity between your mission specific requirements and existing BigBang utilities, such as istio, the monitoring stack, and network policy management. [Here](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/deployment-scenarios/extra-package-deployment.md) is the documentation for the `packages` utility.
 
-We will implement a simple additional utility as a proof of concept, starting with a basic podinfo client.
-
-
-```shell
-# [ubuntu@Ubuntu_VM:~]
-
-cat << EOF > ~/podinfo.yaml
-packages:
-  # -- Package name.  Each package will be independently wrapped for Big Bang integration.
-  # @default -- Uses `defaults/<package name>.yaml` for defaults.  See `package` Helm chart for additional values that can be set.
-  missionapp:
-    # -- Toggle deployment of this package
-    # @default -- true
-    enabled: true
-    # -- Toggle wrapper functionality. See https://docs-bigbang.dso.mil/latest/docs/guides/deployment-scenarios/extra-package-deployment/#Wrapper-Deployment for more details.
-    # @default -- false
-    wrapper:
-      enabled: false
-    # -- Git source is supported for both Helm and Kustomize deployments. If both `git` and `helmRepo` are provided `git` will take precedence.
-    git:
-      repo: "https://repo1.dso.mil/big-bang/apps/sandbox/podinfo.git"
-      branch: "main"
-      # -- Path inside of the git repo to find the helm chart or kustomize
-      # @default -- For Helm charts `chart`.  For Kustomize `/`.
-      path: "chart"
-    # -- Values to pass through to package Helm chart
-    values:
-      istio:
-        enabled: "{{ .Values.istio.enabled }}"
-        podinfo:
-          enabled: true
-          hosts:
-            - podinfo.{{ .Values.domain }}
-          gateways:
-            - istio-system/public
-          destination:
-            service: missionapp-podinfo
-            port: 9898
-      ui:
-        color: "#ca58db" #pink
-        #color: "#fcba03" #yellow
-EOF
-
-helm upgrade --install bigbang $HOME/bigbang/chart \
---values https://repo1.dso.mil/platform-one/big-bang/bigbang/-/raw/master/chart/ingress-certs.yaml \
---values $HOME/ib_creds.yaml \
---values $HOME/demo_values.yaml \
---values $HOME/podinfo.yaml \
---namespace=bigbang --create-namespace
-
-# NOTE: There may be a ~1 minute delay for the change to apply
-
-kubectl get vs -A
-# Now missionapp should show up, if it doesn't wait a minute and rerun the command
-
-kubectl get po -n=missionapp
-# Once these are all Running you can visit missionapp's webpage
-```
-
-This Mission App should be reachable at `missionapp.bigbang.dev`. It will open a simple podinfo web UI, using a virtual service created using podinfo's existing istio configuration within BigBang. The UI should display with a pink-ish background color, which is due to passing the ui.color key to the Podinfo values. You can change this hex color to anything you wish. Once you do, re-run the helm upgrade using your modified file to ensure that new values are passing through.
-
-This istio configuration is relatively simple to implement, due to the Podinfo project already containing chart data for BigBang integration. In the case of a Mission Application which is not preconfigured for Bigbang, the `wrapper` tag can be implemented. 
-
-
-This is an example of a deployment using the wrapper to abstract out the connections between your mission application and BigBang.
+We will implement a simple additional utility as a proof of concept, starting with a basic podinfo client. This will use the `wrapper` key to provide integration between bigbang and the Mission Application, without requiring the full Istio configuration to be placed inside BigBang specific keys of the dependent chart.
 
 
 ```shell
@@ -945,7 +881,7 @@ kubectl get po -n=missionapp
 # Once these are all Running you can visit missionapp's webpage
 ```
 
-This will be functionally very similar, but the background color should change (just so you can be sure that the application *actually* updated). Wrappers also allow you to abstract out Monitoring, Secrets, Network Policies, and ConfigMaps. Additional Configuration information can be found [here](./extra-package-deployment.md)
+Wrappers also allow you to abstract out Monitoring, Secrets, Network Policies, and ConfigMaps. Additional Configuration information can be found [here](./extra-package-deployment.md)
 
 ## Troubleshooting
 This section will provide guidance for troubleshooting problems that may occur during your Big Bang installation and instructions for additional configuration changes that may be required in restricted networks. 
