@@ -733,7 +733,7 @@ promtail:
   enabled: false
 
 monitoring:
-  enabled: true
+  enabled: false
   flux:
     timeout: 20m
     install:
