@@ -1408,7 +1408,7 @@ addons:
       nexus:
       # https://help.sonatype.com/repomanager3/installation/system-requirements#SystemRequirements-JVMDirectMemory
         env:
-          - name: INSTALL4J_ADD_VM_PARAMS
+          - name: INSTALL4J_ADD_VM_PARAMSp1-keycloak-plugin
             value: "-Dcom.redhat.fips=false -Xms1024M -Xmx1024M -XX:MaxDirectMemorySize=1024M -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Djava.util.prefs.userRoot=/nexus-data/javaprefs"
           - name: NEXUS_SECURITY_RANDOMPASSWORD
             value: "true"
@@ -1489,7 +1489,7 @@ addons:
             MINIO_HOST: https://minio-api.bigbang.dev
 
   keycloak:
-    enabled: false
+    enabled: true
     ingress:
       gateway: "passthrough"
       key: "" # Gets added via chart/ingress-certs.yaml
@@ -1546,10 +1546,10 @@ addons:
             CUSTOM_REGISTRATION_CONFIG: /opt/keycloak/conf/customreg.yaml
         customreg:
           stringData:
-            customreg.yaml: '{{ .Files.Get "resources/dev/baby-yoda-bb-ci.yaml" }}'
+            customreg.yaml: '{{ .Files.Get "resources/dev/baby-yoda.yaml" }}'
         realm:
           stringData:
-            realm.json: '{{ .Files.Get "resources/dev/baby-yoda.json" }}'
+            realm.json: '{{ .Files.Get "resources/dev/baby-yoda-bb-ci.json" }}'
         truststore:
           data:
             truststore.jks: |-
