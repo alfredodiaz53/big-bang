@@ -1225,7 +1225,7 @@ addons:
   sonarqube:
     enabled: false
     sso:
-      enabled: false
+      enabled: true
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_saml-sonarqube
       login: login
       name: name
@@ -1257,6 +1257,7 @@ addons:
           envs:
             cypress_url: "https://sonarqube.bigbang.dev"
             cypress_url_setup: "https://sonarqube.bigbang.dev/setup"
+            cypress_keycloak_test_enable: 'true'
       account:
         adminPassword: new_admin_password
         currentAdminPassword: admin
