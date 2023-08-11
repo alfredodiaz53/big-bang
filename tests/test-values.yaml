@@ -690,6 +690,7 @@ loki:
           LOKI_URL: 'http://logging-loki-write.logging.svc:3100'
 
 tempo:
+  enabled: false
   values:
     istio:
       tempoQuery:
@@ -730,10 +731,10 @@ tempo:
           memory: 128Mi
 
 promtail:
-  enabled: true
+  enabled: false
 
 monitoring:
-  enabled: true
+  enabled: false
   flux:
     timeout: 20m
     install:
@@ -779,7 +780,7 @@ monitoring:
           cypress_check_istio_dashboards: 'true'
 
 grafana:
-  enabled: true
+  enabled: false
   sso:
     enabled: false
     grafana:
