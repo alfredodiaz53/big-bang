@@ -1312,6 +1312,9 @@ addons:
       enabled: true
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_mattermost
       client_secret: "no-secret"
+      auth_endpoint: http://keycloak.bigbang.dev/auth/realms/baby-yoda/protocol/openid-connect/auth
+      token_endpoint: http://keycloak.bigbang.dev/auth/realms/baby-yoda/protocol/openid-connect/token
+      user_api_endpoint: http://keycloak.bigbang.dev/auth/realms/baby-yoda/protocol/openid-connect/userinfo
     elasticsearch:
       enabled: true
     values:
