@@ -1355,6 +1355,7 @@ addons:
           image: registry1.dso.mil/bigbang-ci/cypress-kubectl:8.3.1
           envs:
             cypress_url: https://chat.bigbang.dev
+            cypress_keycloak_test_enable: 'true'
 
   nexusRepositoryManager:
     enabled: false
