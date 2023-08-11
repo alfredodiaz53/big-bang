@@ -13,8 +13,6 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | Name | Email | Url |
 | ---- | ------ | --- |
 | Ryan Garcia | ryan.garcia@sigmadefense.com |  |
-| Micah Nagel | micah.nagel@defenseunicorns.com |  |
-| Rob Ferguson | rob.ferguson@defenseunicorns.com |  |
 | Chris O'Connell | coconnell@bridgephase.com |  |
 
 ## Source Code
@@ -68,10 +66,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | istio.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | istio.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/istio-controlplane.git"` |  |
 | istio.git.path | string | `"./chart"` |  |
-| istio.git.tag | string | `"1.18.1-bb.0"` |  |
+| istio.git.tag | string | `"1.18.2-bb.0"` |  |
 | istio.helmRepo.repoName | string | `"registry1"` |  |
 | istio.helmRepo.chartName | string | `"istio"` |  |
-| istio.helmRepo.tag | string | `"1.18.1-bb.0"` |  |
+| istio.helmRepo.tag | string | `"1.18.2-bb.0"` |  |
 | istio.enterprise | bool | `false` | Tetrate Istio Distribution - Tetrate provides FIPs verified Istio and Envoy software and support, validated through the FIPs Boring Crypto module. Find out more from Tetrate - https://www.tetrate.io/tetrate-istio-subscription |
 | istio.ingressGateways.public-ingressgateway.type | string | `"LoadBalancer"` |  |
 | istio.ingressGateways.public-ingressgateway.kubernetesResourceSpec | object | `{}` |  |
@@ -88,10 +86,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | istioOperator.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | istioOperator.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/istio-operator.git"` |  |
 | istioOperator.git.path | string | `"./chart"` |  |
-| istioOperator.git.tag | string | `"1.18.1-bb.0"` |  |
+| istioOperator.git.tag | string | `"1.18.2-bb.0"` |  |
 | istioOperator.helmRepo.repoName | string | `"registry1"` |  |
 | istioOperator.helmRepo.chartName | string | `"istio-operator"` |  |
-| istioOperator.helmRepo.tag | string | `"1.18.1-bb.0"` |  |
+| istioOperator.helmRepo.tag | string | `"1.18.2-bb.0"` |  |
 | istioOperator.flux | object | `{}` | Flux reconciliation overrides specifically for the Istio Operator Package |
 | istioOperator.values | object | `{}` | Values to passthrough to the istio-operator chart: https://repo1.dso.mil/big-bang/product/packages/istio-operator.git |
 | istioOperator.postRenderers | list | `[]` | Post Renderers.  See docs/postrenders.md |
@@ -223,10 +221,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | promtail.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | promtail.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/promtail.git"` |  |
 | promtail.git.path | string | `"./chart"` |  |
-| promtail.git.tag | string | `"6.11.3-bb.0"` |  |
+| promtail.git.tag | string | `"6.13.1-bb.0"` |  |
 | promtail.helmRepo.repoName | string | `"registry1"` |  |
 | promtail.helmRepo.chartName | string | `"promtail"` |  |
-| promtail.helmRepo.tag | string | `"6.11.3-bb.0"` |  |
+| promtail.helmRepo.tag | string | `"6.13.1-bb.0"` |  |
 | promtail.flux | object | `{}` | Flux reconciliation overrides specifically for the Promtail Package |
 | promtail.values | object | `{}` | Values to passthrough to the promtail chart: https://repo1.dso.mil/big-bang/product/packages/fluentbit.git |
 | promtail.postRenderers | list | `[]` | Post Renderers.  See docs/postrenders.md |
@@ -288,10 +286,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | monitoring.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | monitoring.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/monitoring.git"` |  |
 | monitoring.git.path | string | `"./chart"` |  |
-| monitoring.git.tag | string | `"47.1.0-bb.1"` |  |
+| monitoring.git.tag | string | `"47.1.0-bb.2"` |  |
 | monitoring.helmRepo.repoName | string | `"registry1"` |  |
 | monitoring.helmRepo.chartName | string | `"monitoring"` |  |
-| monitoring.helmRepo.tag | string | `"47.1.0-bb.1"` |  |
+| monitoring.helmRepo.tag | string | `"47.1.0-bb.2"` |  |
 | monitoring.flux | object | `{"install":{"crds":"CreateReplace"},"upgrade":{"crds":"CreateReplace"}}` | Flux reconciliation overrides specifically for the Monitoring Package |
 | monitoring.ingress | object | `{"gateway":""}` | Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public". |
 | monitoring.sso.enabled | bool | `false` | Toggle SSO for monitoring components on and off |
@@ -357,10 +355,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | addons.authservice.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | addons.authservice.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/authservice.git"` |  |
 | addons.authservice.git.path | string | `"./chart"` |  |
-| addons.authservice.git.tag | string | `"0.5.3-bb.11"` |  |
+| addons.authservice.git.tag | string | `"0.5.3-bb.12"` |  |
 | addons.authservice.helmRepo.repoName | string | `"registry1"` |  |
 | addons.authservice.helmRepo.chartName | string | `"authservice"` |  |
-| addons.authservice.helmRepo.tag | string | `"0.5.3-bb.11"` |  |
+| addons.authservice.helmRepo.tag | string | `"0.5.3-bb.12"` |  |
 | addons.authservice.flux | object | `{}` | Flux reconciliation overrides specifically for the Authservice Package |
 | addons.authservice.values | object | `{}` | Values to passthrough to the authservice chart: https://repo1.dso.mil/big-bang/product/packages/authservice.git |
 | addons.authservice.postRenderers | list | `[]` | Post Renderers.  See docs/postrenders.md |
