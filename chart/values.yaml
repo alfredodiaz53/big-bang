@@ -1345,6 +1345,7 @@ addons:
       repo: https://repo1.dso.mil/big-bang/product/packages/sonarqube.git
       path: "./chart"
       tag: "8.0.1-bb.2"
+      branch: "sonarqube-sso-cypress"
     helmRepo:
       repoName: "registry1"
       chartName: "sonarqube"
@@ -1688,7 +1689,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/keycloak.git
       path: "./chart"
-      tag: "18.4.3-bb.2"
+#      tag: "18.4.3-bb.2"
+      branch: "cypress_keycloak_test"
     helmRepo:
       repoName: "registry1"
       chartName: "keycloak"
