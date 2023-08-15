@@ -270,6 +270,18 @@ istio:
     #     enabled: true
     #   tls:
     #     mode: "PASSTHROUGH"
+    # mutual:
+    #   ingressGateway: "mutual-ingressgateway"
+    #   hosts:
+    #   - "*.{{ .Values.domain }}"
+    #   # -- Controls default HTTP/8080 server entry with HTTP to HTTPS Redirect.
+    #   autoHttpRedirect:
+    #     enabled: true
+    #   tls:
+    #     mode: MUTUAL
+    #     cert: ""
+    #     key: ""
+    #     ca: ""
 
   # -- Flux reconciliation overrides specifically for the Istio Package
   flux: {}
@@ -618,11 +630,11 @@ fluentbit:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/fluentbit.git
     path: "./chart"
-    tag: "0.30.4-bb.0"
+    tag: "0.37.0-bb.0"
   helmRepo:
     repoName: "registry1"
     chartName: "fluentbit"
-    tag: "0.30.4-bb.0"
+    tag: "0.37.0-bb.0"
 
   # -- Flux reconciliation overrides specifically for the Fluent-Bit Package
   flux: {}
