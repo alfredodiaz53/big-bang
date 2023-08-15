@@ -1543,7 +1543,7 @@ addons:
             CUSTOM_REGISTRATION_CONFIG: /opt/keycloak/conf/customreg.yaml
         customreg:
           stringData:
-            customreg.yaml: '{{ .Files.Get "resources/dev/baby-yoda-ci.yaml" }}'
+            customreg.yaml: '{{ .Files.Get "resources/dev/baby-yoda.yaml" }}'
         realm:
           stringData:
             realm.json: '{{ .Files.Get "resources/dev/baby-yoda.json" }}'
