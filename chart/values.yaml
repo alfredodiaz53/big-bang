@@ -838,7 +838,8 @@ monitoring:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/monitoring.git
     path: "./chart"
-    tag: "48.2.3-bb.0"
+    #tag: "48.2.3-bb.0"
+    branch: "reno"
   helmRepo:
     repoName: "registry1"
     chartName: "monitoring"
