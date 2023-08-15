@@ -358,7 +358,9 @@ kiali:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/kiali.git
     path: "./chart"
-    tag: "1.71.0-bb.1"
+    #tag: "1.71.0-bb.1"
+    branch: "56-add-keycloak-cypress-test-to-kiali"
+
   helmRepo:
     repoName: "registry1"
     chartName: "kiali"
@@ -1688,7 +1690,9 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/keycloak.git
       path: "./chart"
-      tag: "18.4.3-bb.2"
+      # tag: "18.4.3-bb.2"
+      branch: "cypress_keycloak_test"
+
     helmRepo:
       repoName: "registry1"
       chartName: "keycloak"
