@@ -1055,6 +1055,13 @@
               "$ref": "#/$defs/basePackage"
             }
           ]
+        },
+        "holocron": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/basePackage"
+            }
+          ]
         }
       }
     },
