@@ -1559,7 +1559,7 @@ addons:
       repo: https://repo1.dso.mil/big-bang/product/packages/mattermost.git
       path: "./chart"
       #tag: "7.10.5-bb.0"
-      branch: "mattermost-cypress-sso-test"
+      branch: "mm-cypress-sso"
     helmRepo:
       repoName: "registry1"
       chartName: "mattermost"
