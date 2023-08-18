@@ -650,7 +650,7 @@ fluentbit:
 #
 promtail:
   # -- Toggle deployment of Promtail.
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -675,7 +675,7 @@ promtail:
 
 loki:
   # -- Toggle deployment of Loki.
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
