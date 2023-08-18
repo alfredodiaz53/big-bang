@@ -1058,6 +1058,13 @@
         }
       }
     },
+    "thanos": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/basePackage"
+        }
+      ]
+    }, 
     "wrapper": {
       "type": "object",
       "properties": {
