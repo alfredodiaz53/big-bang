@@ -1700,7 +1700,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/keycloak.git
       path: "./chart"
-      tag: "18.4.3-bb.2"
+      branch: "cypress_keycloak_test"
     helmRepo:
       repoName: "registry1"
       chartName: "keycloak"
