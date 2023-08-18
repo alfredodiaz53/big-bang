@@ -87,6 +87,7 @@ jaeger:
       cypress:
         envs:
           cypress_url: "https://tracing.bigbang.dev"
+          cypress_keycloak_test_enable: true
 
 kiali:
   enabled: true
