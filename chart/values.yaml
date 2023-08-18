@@ -327,7 +327,8 @@ jaeger:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/jaeger.git
     path: "./chart"
-    tag: "2.46.0-bb.0"
+    tag: "null"
+    branch: "Add_sso_to_cypress_test"
   helmRepo:
     repoName: "registry1"
     chartName: "jaeger"
