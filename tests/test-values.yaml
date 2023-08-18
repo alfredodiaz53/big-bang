@@ -1503,6 +1503,15 @@ addons:
         cypress:
           envs:
             cypress_url: "https://keycloak.bigbang.dev"
+            cypress_username: "admin"
+            cypress_password: "password"
+            cypress_tnr_username: "cypress"
+            cypress_tnr_password: "tnr_w!G33ZyAt@C8"
+            tnr_username: "cypress"
+            tnr_password: "tnr_w!G33ZyAt@C8"
+            tnr_firstName: "Cypress"
+            tnr_lastName: "TNR"
+            tnr_email: "cypress@tnr.mil"
       command:
         - "/opt/keycloak/bin/kc.sh"
       args:
