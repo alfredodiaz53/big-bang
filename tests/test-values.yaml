@@ -943,6 +943,15 @@ addons:
           persistence:
             size: 256Mi
 
+  fortify:
+    enabled: false
+    flux:
+      timeout: 5m
+    ingress:
+      gateway: ""
+    sso:
+      enabled: false
+
   gitlab:
     enabled: false
     sso:
@@ -1452,6 +1461,7 @@ addons:
         scripts:
           envs:
             docker_host: "containers.bigbang.dev"
+
   velero:
     enabled: false
     plugins:

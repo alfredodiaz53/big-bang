@@ -33,6 +33,6 @@ monitoring:
   enabled: {{ .Values.monitoring.enabled }}
 
 sso:
-  enabled: {{ .Values.addons.fortify.sso.enabled }}
+  enabled: {{ default "false" .Values.addons.fortify.sso.enabled }}
 
 {{- end }}
