@@ -1,0 +1,46 @@
+{{- $pkg := "holocron" }}
+
+{{- /* Create secret */ -}}
+{{- if (get .Values.addons $pkg).enabled }}
+{{- include "values-secret" (dict "root" $ "package" (get .Values.addons $pkg) "name" $pkg "defaults" (include (printf "bigbang.defaults.%s" $pkg) .)) }}
+{{- end }}
+
+{{- define "bigbang.defaults.holocron" -}}
+
+imagePullSecrets:
+- name: private-registry
+imagePullPolicy: {{ .Values.imagePullPolicy }}
+
+externalURL: https://holocron.{{ .Values.domain }}
+
+domain: {{ .Values.domain }}
+
+postgresql:
+  tls:
+    certificatesSecret: "tls"
+    certFilename: "tls.crt"
+    certKeyFilename: "tls.key"
+
+istio:
+  enabled: {{ .Values.istio.enabled }}
+  injection: enabled
+  holocron:
+    gateways:
+    - istio-system/main
+    - istio-system/public
+# export KUBECONFIG=~/.kube/Mark.Howard-dev
+networkPolicies:
+  enabled: false
+  controlPlaneCidr: {{ .Values.networkPolicies.controlPlaneCidr }}
+  ingressLabels:
+    {{- $gateway := default "public" .Values.addons.holocron.ingress.gateway }}
+    {{- $default := dict "app" (dig "gateways" $gateway "ingressGateway" nil .Values.istio) "istio" nil }}
+    {{- toYaml (dig "values" "gateways" $gateway "selector" $default .Values.istio) | nindent 4 }}
+
+monitoring:
+  enabled: {{ .Values.monitoring.enabled }}
+
+sso:
+  enabled: {{ .Values.addons.holocron.sso.enabled }}
+
+{{- end }}

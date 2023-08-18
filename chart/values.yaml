@@ -362,7 +362,7 @@ jaeger:
 
 kiali:
   # -- Toggle deployment of Kiali.
-  enabled: true
+  enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -468,7 +468,7 @@ gatekeeper:
 #
 kyverno:
   # -- Toggle deployment of Kyverno.
-  enabled: true
+  enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -494,7 +494,7 @@ kyverno:
 
 kyvernoPolicies:
   # -- Toggle deployment of Kyverno policies
-  enabled: true
+  enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -519,7 +519,7 @@ kyvernoPolicies:
 
 kyvernoReporter:
   # -- Toggle deployment of Kyverno Reporter
-  enabled: true
+  enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -650,7 +650,7 @@ fluentbit:
 #
 promtail:
   # -- Toggle deployment of Promtail.
-  enabled: true
+  enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -675,7 +675,7 @@ promtail:
 
 loki:
   # -- Toggle deployment of Loki.
-  enabled: true
+  enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -728,7 +728,7 @@ loki:
 
 neuvector:
    # -- Toggle deployment of Neuvector.
-  enabled: true
+  enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -774,7 +774,7 @@ neuvector:
 
 tempo:
   # -- Toggle deployment of Tempo.
-  enabled: true
+  enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -842,7 +842,7 @@ tempo:
 #
 monitoring:
   # -- Toggle deployment of Monitoring (Prometheus, Grafana, and Alertmanager).
-  enabled: true
+  enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -897,7 +897,7 @@ monitoring:
 #
 grafana:
   # -- Toggle deployment of Grafana
-  enabled: true
+  enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -993,6 +993,27 @@ twistlock:
 # ----------------------------------------------------------------------------------------------------------------------
 #
 addons:
+  holocron:
+    enabled: true
+    sourceType: "git"
+    git:
+      repo: https://repo1.dso.mil/big-bang/product/packages/holocron.git
+      branch: initial-chart
+      path: "./chart"
+    helmRepo:
+      repoName: "registry1"
+      chartName: "holocron"
+
+    flux: {}
+    ingress:
+      gateway: ""
+    sso:
+      enabled: false
+      client_id: ""
+      client_secret: ""
+    values: {}
+    postRenderers: []
+
   argocd:
     # -- Toggle deployment of ArgoCD.
     enabled: false
