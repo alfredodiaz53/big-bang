@@ -1502,6 +1502,7 @@ addons:
         enabled: true
         cypress:
           envs:
+            cypress_keycloak_test_enable: "true"
             cypress_url: "https://keycloak.bigbang.dev"
             cypress_username: "admin"
             cypress_password: "password"
