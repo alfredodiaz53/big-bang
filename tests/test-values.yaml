@@ -1506,7 +1506,8 @@ addons:
         cypress:
           #image: "registry1.dso.mil/bigbang-ci/cypress-kubectl:9.7.0"
           #image: "registry1.dso.mil/ironbank/cypress/included:9.5.4"
-          image: "registry1.dso.mil/ironbank/cypress/included:12.10.0"
+          #image: "registry1.dso.mil/ironbank/cypress/included:12.10.0"
+          image: "registry1.dso.mil/ironbank/cypress/included:12.0.1"
           envs:
             cypress_keycloak_test_enable: "true"
             cypress_url: "https://keycloak.bigbang.dev"
