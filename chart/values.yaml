@@ -1003,7 +1003,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/argocd.git
       path: "./chart"
-      tag: "5.39.0-bb.0"
+      #tag: "5.39.0-bb.0"
+      branch: "argocd-cypress-test"
     helmRepo:
       repoName: "registry1"
       chartName: "argocd"
@@ -1700,7 +1701,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/keycloak.git
       path: "./chart"
-      tag: "18.4.3-bb.2"
+      #tag: "18.4.3-bb.2"
+      branch: "argocd-cypress-test"
     helmRepo:
       repoName: "registry1"
       chartName: "keycloak"
