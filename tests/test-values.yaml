@@ -784,7 +784,7 @@ monitoring:
 grafana:
   enabled: true
   sso:
-    enabled: false
+    enabled: true
     grafana:
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_grafana
       scopes: "openid Grafana"
@@ -1034,6 +1034,7 @@ addons:
         cypress:
           artifacts: true
           envs:
+            cypress_keycloak_test_enable: 'true'
             cypress_baseUrl: https://gitlab.bigbang.dev
         scripts:
           envs:
@@ -1549,7 +1550,7 @@ addons:
             customreg.yaml: '{{ .Files.Get "resources/dev/baby-yoda.yaml" }}'
         realm:
           stringData:
-            realm.json: '{{ .Files.Get "resources/dev/baby-yoda.json" }}'
+            realm.json: '{{ .Files.Get "resources/dev/baby-yoda-bb-ci.json" }}'
         truststore:
           data:
             truststore.jks: |-
@@ -1559,7 +1560,7 @@ addons:
             quarkus.properties: '{{ .Files.Get "resources/dev/quarkus.properties" }}'
       extraInitContainers: |-
         - name: plugin
-          image: registry1.dso.mil/ironbank/big-bang/p1-keycloak-plugin:3.2.0
+          image: registry1.dso.mil/ironbank/big-bang/p1-keycloak-plugin:3.2.1
           imagePullPolicy: Always
           command:
           - sh
