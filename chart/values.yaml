@@ -1852,6 +1852,27 @@ addons:
     # -- Post Renderers.  See docs/postrenders.md
     postRenderers: []
 
+  jira:
+    # -- Choose source type of "git" or "helmRepo"
+    sourceType: "git"
+
+    git:
+      repo: https://repo1.dso.mil/big-bang/product/community/jira.git
+      path: "./chart"
+      tag: "1.10.0-bb.1"
+    helmRepo:
+      repoName: "registry1"
+      chartName: "jira"
+      tag: "1.10.0-bb.1"
+
+    # -- Flux reconciliation overrides specifically for the HAProxy Package
+    flux: {}
+
+    # -- Values to passthrough to the haproxy chart: https://repo1.dso.mil/big-bang/product/packages/haproxy.git
+    values: {}
+
+    # -- Post Renderers.  See docs/postrenders.md
+    postRenderers: []
 
 # -- Wrapper chart for integrating Big Bang components alongside a package
 wrapper:
