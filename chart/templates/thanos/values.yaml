@@ -7,6 +7,12 @@
 
 {{- define "bigbang.defaults.thanos" -}}
 
+imagePullSecrets:
+- name: private-registry
+imagePullPolicy: {{ .Values.imagePullPolicy }}
+
+externalURL: https://thanos.{{ .Values.domain }}
+
 domain: {{ .Values.domain }}
 
 istio:
@@ -17,9 +23,17 @@ istio:
 
 networkPolicies:
   enabled: {{ .Values.networkPolicies.enabled }}
+  controlPlaneCidr: {{ .Values.networkPolicies.controlPlaneCidr }}
   ingressLabels:
     {{- $gateway := default "public" .Values.addons.thanos.ingress.gateway }}
     {{- $default := dict "app" (dig "gateways" $gateway "ingressGateway" nil .Values.istio) "istio" nil }}
     {{- toYaml (dig "values" "gateways" $gateway "selector" $default .Values.istio) | nindent 4 }}
+
+{{- end }}
+monitoring:
+  enabled: {{ .Values.monitoring.enabled }}
+
+sso:
+  enabled: {{ .Values.addons.thanos.sso.enabled }}
 
 {{- end }}
