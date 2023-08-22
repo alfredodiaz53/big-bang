@@ -1055,9 +1055,17 @@
               "$ref": "#/$defs/basePackage"
             }
           ]
-        }
+        },
+        "thanos": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/basePackage"
+            }
+          ]
+        }   
       }
     },
+        
     "wrapper": {
       "type": "object",
       "properties": {

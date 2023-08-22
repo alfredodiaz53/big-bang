@@ -311,6 +311,7 @@ gatekeeper:
           - twistlock/twistlock-cypress-test
           - sonarqube/sonarqube-cypress-test
           - harbor/harbor-cypress-test
+          - thanos/thanos-cypress-test
           - logging/elasticsearch-kibana-cypress-test
           - tempo/tempo-cypress-test
           - argocd/argocd-cypress-test
@@ -468,6 +469,7 @@ kyvernoPolicies:
               - minio
               - neuvector
               - harbor
+              - thanos
               names:
               - "*-cypress-test*"
         parameters:
@@ -502,6 +504,7 @@ kyvernoPolicies:
               - minio
               - neuvector
               - harbor
+              - thanos
               names:
               - "*-cypress-test*"
         parameters:
@@ -546,6 +549,7 @@ kyvernoPolicies:
               - minio
               - neuvector
               - harbor
+              - thanos
               names:
               - "*-cypress-test*"
       update-image-pull-policy:
@@ -1867,3 +1871,167 @@ addons:
           image: "registry1.dso.mil/bigbang-ci/gitlab-tester:0.0.4"
           envs:
             HARBOR_REGISTRY: "harbor.bigbang.dev"
+
+# ----------------------------------------------------------------------------------------------------------------------
+  # Thanos
+  #
+  thanos:
+    # -- Toggle deployment of thanos
+    enabled: false
+
+    # -- Values to pass through to Thanos chart: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/thanos.git  
+    values: 
+      redis:
+        external: 
+          addr: "thanos-redis-bb-headless:6379"
+      expose:
+        type: clusterIP
+        tls:
+          enabled: false
+      internalTLS:
+        enabled: false
+      externalURL: https://thanos.bigbang.dev
+      nginx:
+        resources:
+          requests:
+            memory: 200Mi
+            cpu: 80m
+          limits:
+            cpu: 80m
+            memory: 200Mi
+      portal:
+        resources:
+          requests:
+            memory: 200Mi
+            cpu: 80m
+          limits:
+            cpu: 80m
+            memory: 200Mi
+      core:
+        secretName: "ci-only"
+        resources:
+          requests:
+            memory: 200Mi
+            cpu: 80m
+          limits:
+            cpu: 80m
+            memory: 200Mi
+      jobservice:
+        resources:
+          requests:
+            memory: 200Mi
+            cpu: 80m
+          limits:
+            cpu: 80m
+            memory: 200Mi
+      registry:
+        registry:
+          resources:
+          requests:
+            memory: 200Mi
+            cpu: 80m
+          limits:
+            cpu: 80m
+            memory: 200Mi
+        controller:
+          resources:
+          requests:
+            memory: 200Mi
+            cpu: 80m
+          limits:
+            cpu: 80m
+            memory: 200Mi
+      chartmuseum:
+        resources:
+        requests:
+          memory: 200Mi
+          cpu: 80m
+        limits:
+          cpu: 80m
+          memory: 200Mi
+      trivy:
+        resources:
+          requests:
+            cpu: 80m
+            memory: 200Mi
+          limits:
+            cpu: 80m
+            memory: 200Mi
+      notary:
+        server:
+          resources:
+          requests:
+            memory: 200Mi
+            cpu: 80m
+          limits:
+            cpu: 80m
+            memory: 200Mi
+        signer:
+          resources:
+          requests:
+            memory: 200Mi
+            cpu: 80m
+          limits:
+            cpu: 80m
+            memory: 200Mi
+      database:
+        type: external
+        internal:
+          resources:
+          requests:
+            memory: 200Mi
+            cpu: 80m
+          limits:
+            cpu: 80m
+            memory: 200Mi
+          initContainer:
+            migrator: {}
+            resources:
+            requests:
+              memory: 100Mi
+              cpu: 80m
+            limits:
+              cpu: 80m
+              memory: 100Mi
+            permissions: {}
+            resources:
+            requests:
+              memory: 100Mi
+              cpu: 80m
+            limits:
+              cpu: 80m
+              memory: 100Mi
+      postgresql:
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "200Mi"
+          limits:
+            cpu: "200m"
+            memory: "200Mi"
+      redis:
+        resources:
+          requests:
+            memory: 200Mi
+            cpu: 80m
+          limits:
+            memory: 200Mi
+            cpu: 80m
+      exporter:
+        resources:
+        requests:
+          memory: 200Mi
+          cpu: 80m
+        limits:
+          cpu: 80m
+          memory: 200Mi
+      bbtests:
+        enabled: true
+        cypress:
+          artifacts: true
+          envs:
+            cypress_url: "https://thanos.bigbang.dev"
+        scripts:
+          image: "registry1.dso.mil/bigbang-ci/gitlab-tester:0.0.4"
+          envs:
+            THANOS_REGISTRY: "thanos.bigbang.dev"
