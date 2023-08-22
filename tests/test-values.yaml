@@ -74,7 +74,7 @@ istio:
           strategy: "anonymous"
 
 jaeger:
-  enabled: true
+  enabled: false
   sso:
     enabled: true
     client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_jaeger
