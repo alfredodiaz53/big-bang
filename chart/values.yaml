@@ -1907,23 +1907,7 @@ addons:
       externalURL: http://thanos
       internalTLS:
         enabled: false
-      postgresql:
-        resources:
-          requests:
-            cpu: "200m"
-            memory: "200Mi"
-          limits:
-            cpu: "200m"
-            memory: "200Mi"
-      redis-bb:
-        master:
-          persistence:
-            size: 256Mi
-        replicas:
-          replicaCount: 0
-          autoscaling:
-            enabled: false
-
+      
     # -- Post Renderers.  See docs/postrenders.md
     postRenderers: []
 
