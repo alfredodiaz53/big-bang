@@ -918,7 +918,7 @@ addons:
         cypress:
           envs:
             cypress_url: "https://argocd.bigbang.dev"
-
+            cypress_keycloak_test_enable: 'true'
   authservice:
     enabled: false
     chains:
