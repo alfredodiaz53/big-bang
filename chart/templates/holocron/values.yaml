@@ -19,7 +19,7 @@ istio:
   enabled: {{ .Values.istio.enabled }}
   holocron:
     gateways:
-    - istio-system/main
+    - istio-system/{{ default "public" .Values.addons.holocron.ingress.gateway }}
 
 networkPolicies:
   enabled: {{ .Values.networkPolicies.enabled }}
