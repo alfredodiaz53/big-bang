@@ -1892,6 +1892,81 @@ addons:
     postRenderers: []
 
 
+# ----------------------------------------------------------------------------------------------------------------------
+  # thanos
+  #
+  thanos:
+    # -- Toggle deployment of thanos
+    enabled: false
+
+    # -- Choose source type of "git" or "helmRepo"
+    sourceType: "git"
+
+    git:
+      repo: https://repo1.dso.mil/big-bang/apps/sandbox/thanos.git
+      tag: "12.11.0-bb.5"
+      path: "./chart"
+    helmRepo:
+      repoName: "registry1"
+      chartName: "thanos"
+      tag: "12.11.0-bb.5"
+# -- Flux reconciliation overrides specifically for the Jaeger Package
+    flux: {}
+
+    # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
+    ingress:
+      gateway: ""
+
+    sso:
+      # -- Toggle SSO for Thanos on and off
+      enabled: false
+
+      # -- OIDC Client ID to use for Thanos
+      client_id: ""
+
+      # -- OIDC Client Secret to use for Thanos
+      client_secret: ""
+
+    # -- Values to pass through to Habor chart: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/thanos.git
+    values: 
+      existingSecretAdminPasswordKey: THANOS_ADMIN_PASSWORD
+      thanosAdminPassword: "Thanos12345"
+      redis:
+        external: 
+          addr: "thanos-redis-bb-headless:6379"
+      notary:
+        enabled: false
+      expose:
+        type: "clusterIP"
+        tls:
+          enabled: false
+          certSource: secret
+        #secret:
+        #  secretName: "thanos-tls-is-annoying"
+      externalURL: http://thanos
+      internalTLS:
+        enabled: false
+      postgresql:
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "200Mi"
+          limits:
+            cpu: "200m"
+            memory: "200Mi"
+      redis-bb:
+        master:
+          persistence:
+            size: 256Mi
+        replicas:
+          replicaCount: 0
+          autoscaling:
+            enabled: false
+
+    # -- Post Renderers.  See docs/postrenders.md
+    postRenderers: []
+
+
 # -- Wrapper chart for integrating Big Bang components alongside a package
 wrapper:
   # -- Choose source type of "git" or "helmRepo"
