@@ -834,12 +834,22 @@ neuvector:
           cypress_url: https://neuvector.bigbang.dev
 
 twistlock:
+  init:
+    enabled : true
   enabled: false
   sso:
-    enabled: false
+    enabled: true
     client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_twistlock-saml
   values:
     console:
+      credentials:
+        username: "test"
+        password: "thisisatest123!!"
+      additionalUsers:
+        - username: "cypress"
+          role: "devOps"
+          authType: "saml"
+
       persistence:
         size: 256Mi
       localVolumeUpgrade: true
@@ -1549,7 +1559,7 @@ addons:
             customreg.yaml: '{{ .Files.Get "resources/dev/baby-yoda.yaml" }}'
         realm:
           stringData:
-            realm.json: '{{ .Files.Get "resources/dev/baby-yoda.json" }}'
+            realm.json: '{{ .Files.Get "resources/dev/baby-yoda-bb-ci.json" }}'
         truststore:
           data:
             truststore.jks: |-
@@ -1559,7 +1569,7 @@ addons:
             quarkus.properties: '{{ .Files.Get "resources/dev/quarkus.properties" }}'
       extraInitContainers: |-
         - name: plugin
-          image: registry1.dso.mil/ironbank/big-bang/p1-keycloak-plugin:3.2.0
+          image: registry1.dso.mil/ironbank/big-bang/p1-keycloak-plugin:3.2.1
           imagePullPolicy: Always
           command:
           - sh
