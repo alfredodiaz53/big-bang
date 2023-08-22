@@ -8,6 +8,8 @@ istio:
 monitoring:
   enabled: {{ .Values.monitoring.enabled }}
 {{- end }}
+bbtests:
+  enabled: {{ .Values.addons.jira.bbtests.enabled }}
 
 {{- /* Create secret */ -}}
 {{- if .Values.addons.jira.enabled }}
