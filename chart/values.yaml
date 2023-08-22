@@ -1004,7 +1004,7 @@ addons:
       repo: https://repo1.dso.mil/big-bang/product/packages/argocd.git
       path: "./chart"
       #tag: "5.39.0-bb.0"
-      branch: "argocd-cypress-test"
+      branch: "argocd-cypress-test-2"
     helmRepo:
       repoName: "registry1"
       chartName: "argocd"
