@@ -1008,7 +1008,7 @@ addons:
     helmRepo:
       repoName: "registry1"
       chartName: "argocd"
-      tag: "5.39.0-bb.0"
+      tag: "5.39.0-bb.2"
 
     # -- Flux reconciliation overrides specifically for the ArgoCD Package
     flux: {}
