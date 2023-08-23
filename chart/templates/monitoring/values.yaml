@@ -139,7 +139,7 @@ prometheus:
       static_configs:
       - targets: [vault.{{ .Values.domain }}]
       {{- end }}
-    {{- end }}
+    {{- end }}    
     {{- if $istioInjection }}
     # Add volume/mount for Istio certs for mTLS scraping
     volumes:

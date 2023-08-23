@@ -885,7 +885,95 @@ monitoring:
       client_secret: ""
 
   # -- Values to passthrough to the monitoring chart: https://repo1.dso.mil/big-bang/product/packages/monitoring.git
-  values: {}
+  values: 
+    prometheus:
+      prometheusSpec:
+        additionalScrapeConfigs:
+          # Scrape config for service endpoints.
+          #
+          # The relabeling allows the actual service scrape endpoint to be configured
+          # via the following annotations:
+          #
+          # * `prometheus.io/scrape`: Only scrape services that have a value of `true`
+          # * `prometheus.io/scheme`: If the metrics endpoint is secured then you will need
+          # to set this to `https` & most likely set the `tls_config` of the scrape config.
+          # * `prometheus.io/path`: If the metrics path is not `/metrics` override this.
+          # * `prometheus.io/port`: If the metrics are exposed on a different port to the
+          # service then set this appropriately.
+          - job_name: 'kubernetes-service-endpoints'
+    
+            kubernetes_sd_configs:
+              - role: endpoints
+    
+            relabel_configs:
+              - source_labels: [__meta_kubernetes_service_label_prometheus_io_scrape]
+                action: keep
+                regex: true
+              - source_labels: [__meta_kubernetes_service_label_prometheus_io_scheme]
+                action: replace
+                target_label: __scheme__
+                regex: (https?)
+              - source_labels: [__meta_kubernetes_service_label_prometheus_io_path]
+                action: replace
+                target_label: __metrics_path__
+                regex: (.+)
+              - source_labels: [__address__, __meta_kubernetes_service_label_prometheus_io_port]
+                action: replace
+                target_label: __address__
+                regex: ([^:]+)(?::\d+)?;(\d+)
+                replacement: $1:$2
+              - action: labelmap
+                regex: __meta_kubernetes_service_label_(.+)
+              - source_labels: [__meta_kubernetes_namespace]
+                action: replace
+                target_label: kubernetes_namespace
+              - source_labels: [__meta_kubernetes_service_name]
+                action: replace
+                target_label: kubernetes_name
+              - source_labels: [__meta_kubernetes_service_name]
+                action: drop
+                regex: '(.+)node-exporter'
+              - source_labels: [__meta_kubernetes_service_name]
+                action: drop
+                regex: '(.+)dns'
+              - source_labels: [__meta_kubernetes_service_name]
+                action: drop
+                regex: '(.+)kube-state-metrics'
+          # Example scrape config for pods
+          #
+          # The relabeling allows the actual pod scrape endpoint to be configured via the
+          # following annotations:
+          #
+          # * `prometheus.io/scrape`: Only scrape pods that have a value of `true`
+          # * `prometheus.io/path`: If the metrics path is not `/metrics` override this.
+          # * `prometheus.io/port`: Scrape the pod on the indicated port instead of the default of `9102`.
+          - job_name: 'kubernetes-pods'
+    
+            kubernetes_sd_configs:
+              - role: pod
+    
+            relabel_configs:
+              - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+                action: keep
+                regex: true
+              - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+                action: replace
+                target_label: __metrics_path__
+                regex: (.+)
+              - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+                action: replace
+                regex: ([^:]+)(?::\d+)?;(\d+)
+                replacement: $1:$2
+                target_label: __address__
+              - action: labelmap
+                regex: __meta_kubernetes_pod_label_(.+)
+              - source_labels: [__meta_kubernetes_namespace]
+                action: replace
+                target_label: kubernetes_namespace
+              - source_labels: [__meta_kubernetes_pod_name]
+                action: replace
+                target_label: kubernetes_pod_name
+  
 
   # -- Post Renderers.  See docs/postrenders.md
   postRenderers: []
@@ -1907,10 +1995,10 @@ wrapper:
 packages:
   # -- Package name.  Each package will be independently wrapped for Big Bang integration.
   # @default -- Uses `defaults/<package name>.yaml` for defaults.  See `package` Helm chart for additional values that can be set.
-  sample:
+  fortify: 
     # -- Toggle deployment of this package
     # @default -- true
-    enabled: false
+    enabled: true
 
     # -- Toggle wrapper functionality. See https://docs-bigbang.dso.mil/latest/docs/guides/deployment-scenarios/extra-package-deployment/#Wrapper-Deployment for more details.
     # @default -- false
@@ -1934,19 +2022,19 @@ packages:
     # -- Git source is supported for both Helm and Kustomize deployments. If both `git` and `helmRepo` are provided `git` will take precedence.
     git:
       # -- Git repo URL holding the helm chart for this package, required if using git
-      repo:
+      repo: https://repo1.dso.mil/big-bang/apps/third-party/fortify.git
       # -- Git commit to check out.  Takes precedence over semver, tag, and branch. [More info](https://fluxcd.io/flux/components/source/gitrepositories/#reference)
       commit:
       # -- Git semVer tag expression to check out.  Takes precedence over tag. [More info](https://fluxcd.io/flux/components/source/gitrepositories/#reference)
       semver:
       # -- Git tag to check out.  Takes precedence over branch. [More info](https://fluxcd.io/flux/components/source/gitrepositories/#reference)
-      tag:
+      tag: 0.2.0-bb.11
       # -- Git branch to check out.  [More info](https://fluxcd.io/flux/components/source/gitrepositories/#reference).
       # @default -- When no other reference is specified, `master` branch is used
       branch:
       # -- Path inside of the git repo to find the helm chart or kustomize
       # @default -- For Helm charts `chart`.  For Kustomize `/`.
-      path:
+      path: chart/
 
     # -- Override flux settings for this package
     flux: {}
