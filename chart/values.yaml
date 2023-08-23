@@ -1887,25 +1887,8 @@ addons:
       # -- OIDC Client Secret to use for Thanos
       client_secret: ""
 
-    # -- Values to pass through to Habor chart: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/thanos.git
-    values: 
-      existingSecretAdminPasswordKey: THANOS_ADMIN_PASSWORD
-      thanosAdminPassword: "Thanos12345"
-      redis:
-        external: 
-          addr: "thanos-redis-bb-headless:6379"
-      notary:
-        enabled: false
-      expose:
-        type: "clusterIP"
-        tls:
-          enabled: false
-          certSource: secret
-        #secret:
-        #  secretName: "thanos-tls-is-annoying"
-      externalURL: http://thanos
-      internalTLS:
-        enabled: false
+    # -- Values to pass through to Thanos chart: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/thanos.git
+    values: {}
       
     # -- Post Renderers.  See docs/postrenders.md
     postRenderers: []
