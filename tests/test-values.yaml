@@ -820,7 +820,10 @@ grafana:
       cypress:
         image: registry1.dso.mil/bigbang-ci/cypress-kubectl:8.3.1
         envs:
+          cypress_keycloak_test_enable: 'true'
           cypress_grafana_url: 'https://grafana.bigbang.dev'
+          cypress_tnr_username: "cypress"
+          cypress_tnr_password: "tnr_w!G33ZyAt@C8"
 
 neuvector:
   values:
