@@ -694,10 +694,10 @@ loki:
           LOKI_URL: 'http://logging-loki-write.logging.svc:3100'
 
 tempo:
+  sso:
+    enabled: true
+    client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_tempo
   values:
-    #sso:
-      #enabled: true
-      # client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_tempo
     istio:
       tempoQuery:
         hosts:
