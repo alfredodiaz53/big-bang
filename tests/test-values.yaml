@@ -1876,21 +1876,12 @@ addons:
           envs:
             HARBOR_REGISTRY: "harbor.bigbang.dev"
 
-# ----------------------------------------------------------------------------------------------------------------------
+  # ----------------------------------------------------------------------------------------------------------------------
   # Thanos
   #
   thanos:
     # -- Toggle deployment of thanos
     enabled: false
-
-  
-  bbtests:
-    enabled: false
-    cypress:
-      artifacts: true
-      envs:
-        cypress_thanos_url: 'http://thanos-query:9090'
-
- 
-
-      
+    values:  
+      bbtests:
+        enabled: true
