@@ -154,7 +154,7 @@ imagePullPolicy: IfNotPresent
 #
 istio:
   # -- Toggle deployment of Istio.
-  enabled: true
+  enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -294,7 +294,7 @@ istio:
 
 istioOperator:
   # -- Toggle deployment of Istio Operator.
-  enabled: true
+  enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -1011,6 +1011,10 @@ addons:
       enabled: false
       client_id: ""
       client_secret: ""
+    postgresql:
+      enabled: true
+      cert: ""
+      key: ""
     values: {}
     postRenderers: []
 

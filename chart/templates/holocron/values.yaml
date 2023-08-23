@@ -15,11 +15,30 @@ externalURL: https://holocron.{{ .Values.domain }}
 
 domain: {{ .Values.domain }}
 
+api:
+  env:
+    MODE: development
+
 postgresql:
+  enabled: true
+  image:
+    repository: ironbank/opensource/postgres/postgresql
+    tag: "15.4"
+  primary:
+    podSecurityContext:
+      enabled: true
+      fsGroup: 1001
+      runAsUser: 1001
+    containerSecurityContext:
+      enabled: true
+      fsGroup: 1001
+      runAsUser: 1001
   tls:
-    certificatesSecret: "tls"
-    certFilename: "tls.crt"
-    certKeyFilename: "tls.key"
+    enabled: true
+    # preferServerCiphers: false
+    # certificatesSecret: "tls"
+    # certFilename: "tls.crt"
+    # certKeyFilename: "tls.key"
 
 istio:
   enabled: {{ .Values.istio.enabled }}
