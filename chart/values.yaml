@@ -1704,7 +1704,7 @@ addons:
     helmRepo:
       repoName: "registry1"
       chartName: "keycloak"
-      tag: "18.4.3-bb.2"
+      tag: "cypress_keycloak_test"
 
     database:
       # -- Hostname of a pre-existing database to use for Keycloak.
