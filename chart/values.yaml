@@ -683,7 +683,8 @@ loki:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/loki.git
     path: "./chart"
-    tag: "5.9.2-bb.0"
+    #tag: "5.9.2-bb.0"
+    branch: "cypress-grafana-10-updates"
   helmRepo:
     repoName: "registry1"
     chartName: "loki"
