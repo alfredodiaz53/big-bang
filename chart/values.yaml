@@ -1853,6 +1853,7 @@ addons:
     postRenderers: []
 
   jira:
+    # -- Toggle deployment of jira
     enabled: false
     # -- Choose source type of "git" or "helmRepo"
     sourceType: "git"
