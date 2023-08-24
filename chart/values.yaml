@@ -786,7 +786,7 @@ tempo:
   helmRepo:
     repoName: "registry1"
     chartName: "tempo"
-    tag: "1.2.0-bb.2"
+    tag: "sso-cypress-tempo"
 
   # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
   ingress:
@@ -1704,7 +1704,7 @@ addons:
     helmRepo:
       repoName: "registry1"
       chartName: "keycloak"
-      tag: "cypress_keycloak_test"
+      tag: "18.4.3-bb.2"
 
     database:
       # -- Hostname of a pre-existing database to use for Keycloak.
