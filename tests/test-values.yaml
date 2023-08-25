@@ -838,17 +838,6 @@ twistlock:
   sso:
     enabled: true
     client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_twistlock-saml
-  values:
-    init:
-      enabled: true
-    console:
-      credentials:
-        username: "test"
-        password: "thisisatest123!!"
-      additionalUsers:
-        - username: "cypress"
-          role: "devOps"
-          authType: "saml"
 
       persistence:
         size: 256Mi
