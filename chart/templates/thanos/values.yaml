@@ -18,7 +18,7 @@ istio:
 networkPolicies:
   enabled: {{ .Values.networkPolicies.enabled }}
   ingressLabels:
-    {{- $gateway := default "public" .Values.addons.harbor.ingress.gateway }}
+    {{- $gateway := default "public" .Values.addons.thanos.ingress.gateway }}
     {{- $default := dict "app" (dig "gateways" $gateway "ingressGateway" nil .Values.istio) "istio" nil }}
     {{- toYaml (dig "values" "gateways" $gateway "selector" $default .Values.istio) | nindent 4 }}
 
