@@ -40,6 +40,9 @@ tempo:
 monitoring:
   sourceType: "helmRepo"
 
+grafana:
+  sourceType: "helmRepo"
+
 addons:
   argocd:
     sourceType: "helmRepo"
