@@ -91,3 +91,6 @@ addons:
 
   metricsServer:
     sourceType: "helmRepo"
+  
+  harbor:
+    sourceType: "helmRepo"
