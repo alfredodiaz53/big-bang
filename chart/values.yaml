@@ -888,6 +888,7 @@ monitoring:
   values: 
     prometheus:
       prometheusSpec:
+     
         additionalScrapeConfigs:
           # Scrape config for service endpoints.
           #
@@ -1998,7 +1999,7 @@ packages:
   fortify: 
     # -- Toggle deployment of this package
     # @default -- true
-    enabled: true
+    enabled: false
 
     # -- Toggle wrapper functionality. See https://docs-bigbang.dso.mil/latest/docs/guides/deployment-scenarios/extra-package-deployment/#Wrapper-Deployment for more details.
     # @default -- false
