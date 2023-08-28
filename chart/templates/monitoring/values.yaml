@@ -140,10 +140,7 @@ prometheus:
       - targets: [vault.{{ .Values.domain }}]
       {{- end }}
     {{- end }}       
-    
-
-    {{- if $istioInjection }}
-       
+    {{- if $istioInjection }}    
     # Add volume/mount for Istio certs for mTLS scraping
     volumes:
       - emptyDir:
@@ -154,7 +151,7 @@ prometheus:
         name: istio-certs
     {{- end }}
 
- 
+
 anchore:
   enabled: {{ .Values.addons.anchore.enabled }}
 
