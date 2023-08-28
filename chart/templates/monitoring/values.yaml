@@ -150,8 +150,28 @@ prometheus:
       - mountPath: /etc/prom-certs/
         name: istio-certs
     {{- end }}
-
-
+    # add additional scrape conigs for prometheus to scrape kaili
+    {{- if .Values.kiali.enabled }}
+    additionalScrapeConfigs:
+    - job_name: kiali
+      metrics_path: /metrics
+      scheme: https
+      tls_config:
+        ca_file: /etc/prom-certs/root-cert.pem
+        cert_file: /etc/prom-certs/cert-chain.pem
+        key_file: /etc/prom-certs/key.pem
+        insecure_skip_verify: true
+      {{- $kialiHosts := (dig "istio" "kiali" "hosts" dict .Values.kiali.values) }}
+      {{- if $kialiHosts }}
+      static_configs:
+      - targets: [{{ tpl ($kialiHosts | first) $ }}]
+      {{- else }}
+      static_configs:
+      - targets: [kiali.{{ .Values.domain }}]
+      {{- end }}
+    {{- end }}
+    {{- if .Values.monitoring.sso.enabled }}
+ 
 anchore:
   enabled: {{ .Values.addons.anchore.enabled }}
 
