@@ -140,28 +140,10 @@ prometheus:
       - targets: [vault.{{ .Values.domain }}]
       {{- end }}
     {{- end }}       
+    
 
-    {{- if .Values.kiali.enabled }}
-    additionalScrapeConfigs:
-    - job_name: kiali
-      metrics_path: /
-      scheme: https
-      tls_config:
-        ca_file: /etc/prom-certs/root-cert.pem
-        cert_file: /etc/prom-certs/cert-chain.pem
-        key_file: /etc/prom-certs/key.pem
-        insecure_skip_verify: true
-      {{- $kialiHosts := (dig "istio" "kiali" "hosts" dict .Values.kiali.values) }}
-      {{- if $kialiHosts }}
-      static_configs:
-      - targets: [{{ tpl ($kialiHosts | first) $ }}]
-      {{- else }}
-      static_configs:
-      - targets: [kiali.{{ .Values.domain }}]
-      {{- end }}
-    {{- end }}
     {{- if $istioInjection }}
-   
+       
     # Add volume/mount for Istio certs for mTLS scraping
     volumes:
       - emptyDir:
