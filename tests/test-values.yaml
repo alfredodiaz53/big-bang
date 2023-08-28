@@ -850,6 +850,7 @@ twistlock:
     bbtests:
       enabled: true
       cypress:
+        image: registry1.dso.mil/bigbang-ci/cypress-kubectl:9.7.0
         envs:
           cypress_baseUrl: "https://twistlock.bigbang.dev"
       scripts:
