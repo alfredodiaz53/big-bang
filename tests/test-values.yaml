@@ -852,7 +852,7 @@ twistlock:
       cypress:
         image: registry1.dso.mil/bigbang-ci/cypress-kubectl:9.7.0
         envs:
-          cypress_url: "https://twistlock.bigbang.dev"
+          cypress_baseUrl: "https://twistlock.bigbang.dev"
       scripts:
         envs:
           twistlock_host: "https://twistlock.bigbang.dev"
