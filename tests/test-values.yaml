@@ -852,6 +852,7 @@ twistlock:
       cypress:
         image: registry1.dso.mil/bigbang-ci/cypress-kubectl:9.7.0
         envs:
+          cypress_keycloak_test_enable: 'true'
           cypress_baseUrl: "https://twistlock.bigbang.dev"
           cypress_url: "https://twistlock.bigbang.dev"
       scripts:
