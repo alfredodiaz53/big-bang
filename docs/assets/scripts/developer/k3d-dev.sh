@@ -23,7 +23,7 @@ function getPrivateIP2() {
   echo `aws ec2 describe-instances --output json --no-cli-pager --instance-ids ${InstId} | jq -r '.Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[] | select(.Primary==false) | .PrivateIpAddress'`
 }
 
-#### Global variables - These allow the script to be run by non-bigbang devs easily
+#### Global variables - These allow the script to be run by non-bigbang devs easily - Update VPC_ID here or export environment variable for it if not default VPC
 if [[ -z "${VPC_ID}" ]]; then
   # default
   VPC_ID=vpc-065ffa1c7b2a2b979
