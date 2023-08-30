@@ -1237,9 +1237,9 @@ addons:
             ANCHORE_CLI_URL: "https://anchore-api.bigbang.dev/v1"
 
   sonarqube:
-    enabled: false
+    enabled: true
     sso:
-      enabled: false
+      enabled: true
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_saml-sonarqube
       login: login
       name: name
@@ -1500,7 +1500,7 @@ addons:
             MINIO_HOST: https://minio-api.bigbang.dev
 
   keycloak:
-    enabled: false
+    enabled: true
     ingress:
       gateway: "passthrough"
       key: "" # Gets added via chart/ingress-certs.yaml
