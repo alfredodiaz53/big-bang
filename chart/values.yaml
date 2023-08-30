@@ -783,11 +783,11 @@ tempo:
     repo: https://repo1.dso.mil/big-bang/product/packages/tempo.git
     path: "./chart"
     #tag: "1.2.0-bb.5"
-    branch: cypress-modernization
+    branch: fixing-cypress
   helmRepo:
     repoName: "registry1"
     chartName: "tempo"
-    tag: "1.2.0-bb.6"
+    tag: "1.2.0-bb.7"
 
   # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
   ingress:
