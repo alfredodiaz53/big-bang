@@ -15,6 +15,84 @@ externalURL: https://holocron.{{ .Values.domain }}
 
 domain: {{ .Values.domain }}
 
+{{- if .Values.addons.gitlab.enabled }}
+{{- $gitlabURL := print "https://" .Values.addons.gitlab.hostnames.gitlab "." .Values.domain }}
+collectorGitlabSCM:
+- replicas: 1
+  image:
+    repository: registry1.dso.mil/ironbank/holocron/collector-gitlab-scm
+    tag: "3.0.0"
+    pullPolicy: IfNotPresent
+  existingSecret: holocron-tokens
+  accessTokenSecretKey: gitlab-scm-0
+  securityContext: {}
+  resources: {}
+  podAnnotations: {}
+  env:
+    GO_RUN_ENV: production
+    COLLECTOR_NAME: gitlab-scm-0
+    COLLECTOR_INTERVAL_SECONDS: 600
+    LOOK_BACK_DAYS: 365
+    TARGET_URL: {{ $gitlabURL }}
+    COLLECTOR_TARGETS_INTRVL_SECS: 86400
+    MAX_REQUESTS_PER_MINUTE: 500
+collectorGitlabBuild:
+- replicas: 1
+  image:
+    repository: registry1.dso.mil/ironbank/holocron/collector-gitlab-build
+    tag: "3.0.0"
+    pullPolicy: IfNotPresent
+  existingSecret: holocron-tokens
+  accessTokenSecretKey: gitlab-build-0
+  securityContext: {}
+  resources: {}
+  podAnnotations: {}
+  env:
+    GO_RUN_ENV: production
+    COLLECTOR_NAME: gitlab-build-0
+    COLLECTOR_INTERVAL_SECONDS: 600
+    LOOK_BACK_DAYS: 365
+    TARGET_URL: {{ $gitlabURL }}
+    COLLECTOR_TARGETS_INTRVL_SECS: 86400
+    MAX_REQUESTS_PER_MINUTE: 500
+collectorGitlabWorkflow:
+- replicas: 1
+  image:
+    repository: registry1.dso.mil/ironbank/holocron/collector-gitlab-workflow
+    tag: "3.0.0"
+    pullPolicy: IfNotPresent
+  existingSecret: holocron-tokens
+  accessTokenSecretKey: gitlab-workflow-0
+  securityContext: {}
+  resources: {}
+  podAnnotations: {}
+  env:
+    GO_RUN_ENV: production
+    COLLECTOR_NAME: gitlab-workflow-0
+    COLLECTOR_INTERVAL_SECONDS: 600
+    LOOK_BACK_DAYS: 365
+    TARGET_URL: {{ $gitlabURL }}
+    COLLECTOR_TARGETS_INTRVL_SECS: 86400
+    MAX_REQUESTS_PER_MINUTE: 500
+    HIGHEST_PRIORITY_LABELS: priority::1,highest
+    HIGH_PRIORITY_LABELS: priority::2,high
+    MEDIUM_PRIORITY_LABELS: priority::3,medium
+    LOW_PRIORITY_LABELS: priority::4,low
+    LOWEST_PRIORITY_LABELS: priority::5,lowest
+    DEFAULT_TICKET_PRIORITY: lowest
+    FEATURE_LABELS: kind::feature,feature
+    DEFECT_LABELS: kind::bug,kind::defect,bug,defect
+    MAINTENANCE_LABELS: kind::maintenance,kind::docs,maintenance,docs,documentation
+    UNPLANNED_LABELS: kind::unplanned
+    DEFAULT_TICKET_TYPE: feature
+{{- else }}
+collectorGitlabSCM: []
+collectorGitlabBuild: []
+collectorGitlabWorkflow: []
+{{- end }}
+collectorJiraWorkflow: []
+collectorSonarqubeProjectAnalysis: []
+
 postgresql:
   enabled: true
   image:
@@ -38,7 +116,7 @@ istio:
     - istio-system/public
 
 networkPolicies:
-  enabled: false
+  enabled: {{ .Values.networkPolicies.enabled }}
 
 monitoring:
   enabled: {{ .Values.monitoring.enabled }}
