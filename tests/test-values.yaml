@@ -1271,6 +1271,9 @@ addons:
           envs:
             cypress_url: "https://sonarqube.bigbang.dev"
             cypress_url_setup: "https://sonarqube.bigbang.dev/setup"
+            cypress_tnr_username: "cypress"
+            cypress_tnr_password: "tnr_w!G33ZyAt@C8"
+            cypress_keycloak_test_enable: "true"
       account:
         adminPassword: new_admin_password
         currentAdminPassword: admin
@@ -1560,7 +1563,7 @@ addons:
             customreg.yaml: '{{ .Files.Get "resources/dev/baby-yoda.yaml" }}'
         realm:
           stringData:
-            realm.json: '{{ .Files.Get "resources/dev/baby-yoda.json" }}'
+            realm.json: '{{ .Files.Get "resources/dev/baby-yoda-bb-ci.json" }}'
         truststore:
           data:
             truststore.jks: |-
