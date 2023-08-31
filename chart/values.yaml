@@ -395,7 +395,7 @@ kiali:
 
   # -- Values to pass through to Kiali chart: https://repo1.dso.mil/big-bang/product/packages/kiali
   values: {}
-
+   
   # -- Post Renderers.  See docs/postrenders.md
   postRenderers: []
 
@@ -905,7 +905,11 @@ monitoring:
     
             kubernetes_sd_configs:
               - role: endpoints
-    
+            scheme: https
+            tls_config:
+              insecure_skip_verify: true
+            follow_redirects: true
+            enable_http2: true 
             relabel_configs:
               - source_labels: [__meta_kubernetes_service_label_prometheus_io_scrape]
                 action: keep
@@ -952,7 +956,7 @@ monitoring:
     
             kubernetes_sd_configs:
               - role: pod
-    
+         
             relabel_configs:
               - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
                 action: keep
@@ -1923,7 +1927,15 @@ addons:
     flux: {}
 
     # -- Values to passthrough to the metrics server chart: https://repo1.dso.mil/big-bang/product/packages/metrics-server.git
-    values: {}
+    values: 
+      service:
+        annotations:
+          prometheus.io/scrape: "true"
+          prometheus.io/port: "443"
+          prometheus.io/path: "/metrics"
+      serviceMonitor:
+        enabled: false       
+         
 
     # -- Post Renderers.  See docs/postrenders.md
     postRenderers: []
