@@ -527,7 +527,8 @@ kyvernoReporter:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/kyverno-reporter.git
     path: ./chart
-    tag: "2.16.0-bb.1"
+    branch: "Patch-Fix-Helm-Cypress-Test"
+  #  tag: "2.16.0-bb.1"
   helmRepo:
     repoName: "registry1"
     chartName: "kyverno-reporter"
@@ -905,7 +906,8 @@ grafana:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/grafana.git
     path: "./chart"
-    tag: "6.58.9-bb.0"
+    branch: "Cypress-Data-Validation"
+    #tag: "6.58.9-bb.0"
   helmRepo:
     repoName: "registry1"
     chartName: "grafana"
