@@ -49,7 +49,7 @@ spec:
       kind: Secret
       valuesKey: "overlays"
 
-  {{- if or .Values.istio.enabled .Values.kyvernoPolicies.enabled .Values.monitoring.enabled }}
+  {{- if or .Values.istio.enabled .Values.kyvernoPolicies.enabled }}
   dependsOn:
   {{- if .Values.istio.enabled }}
     - name: istio
@@ -57,10 +57,6 @@ spec:
   {{- end }}
   {{- if .Values.kyvernoPolicies.enabled }}
     - name: kyverno-policies
-      namespace: {{ .Release.Namespace }}
-  {{- end }}
-  {{- if .Values.monitoring.enabled }}
-    - name: monitoring
       namespace: {{ .Release.Namespace }}
   {{- end }}
   {{- end }}

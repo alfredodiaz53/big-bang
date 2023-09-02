@@ -1433,11 +1433,6 @@ addons:
     # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
     ingress:
       gateway: ""
-    
-    sso:
-      # -- Toggle SAML SSO for Fortify.
-      # Enabling this option will auto-create any required secrets.
-      enabled: false
 
     # -- Values to passthrough to the fortify chart: https://repo1.dso.mil/big-bang/apps/third-party/fortify.git
     values: {}
