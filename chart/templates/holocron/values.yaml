@@ -16,14 +16,13 @@ externalURL: https://holocron.{{ .Values.domain }}
 domain: {{ .Values.domain }}
 
 {{- if .Values.addons.gitlab.enabled }}
-{{- $gitlabURL := print "https://" .Values.addons.gitlab.hostnames.gitlab "." .Values.domain }}
+{{- $gitlabURL := "http://gitlab-webservice-default.gitlab.svc.cluster.local:8080" }}
 collectorGitlabSCM:
 - replicas: 1
   image:
     repository: registry1.dso.mil/ironbank/holocron/collector-gitlab-scm
     tag: "3.0.0"
     pullPolicy: IfNotPresent
-  existingSecret: holocron-tokens
   accessTokenSecretKey: gitlab-scm-0
   securityContext: {}
   resources: {}
@@ -42,7 +41,6 @@ collectorGitlabBuild:
     repository: registry1.dso.mil/ironbank/holocron/collector-gitlab-build
     tag: "3.0.0"
     pullPolicy: IfNotPresent
-  existingSecret: holocron-tokens
   accessTokenSecretKey: gitlab-build-0
   securityContext: {}
   resources: {}
@@ -61,7 +59,6 @@ collectorGitlabWorkflow:
     repository: registry1.dso.mil/ironbank/holocron/collector-gitlab-workflow
     tag: "3.0.0"
     pullPolicy: IfNotPresent
-  existingSecret: holocron-tokens
   accessTokenSecretKey: gitlab-workflow-0
   securityContext: {}
   resources: {}

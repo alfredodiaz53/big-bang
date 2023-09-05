@@ -491,7 +491,6 @@ kyverno:
   # -- Post Renderers.  See docs/postrenders.md
   postRenderers: []
 
-
 kyvernoPolicies:
   # -- Toggle deployment of Kyverno policies
   enabled: false
@@ -727,7 +726,7 @@ loki:
 # ----------------------------------------------------------------------------------------------------------------------
 
 neuvector:
-   # -- Toggle deployment of Neuvector.
+  # -- Toggle deployment of Neuvector.
   enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
@@ -994,7 +993,7 @@ twistlock:
 #
 addons:
   holocron:
-    enabled: true
+    enabled: false
     sourceType: "git"
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/holocron.git
@@ -1003,6 +1002,12 @@ addons:
     helmRepo:
       repoName: "registry1"
       chartName: "holocron"
+
+    collectorAuth:
+      existingSecret: ""
+      gitlabToken: "my-temp-token#123"
+      jiraToken: "my-temp-token#123"
+      sonarToken: "my-temp-token#123"
 
     flux: {}
     ingress:
@@ -1205,7 +1210,7 @@ addons:
 
       # -- Gitlab SSO Scopes, default is ["Gitlab"]
       scopes:
-      - Gitlab
+        - Gitlab
 
     database:
       # -- Hostname of a pre-existing PostgreSQL database to use for Gitlab.
@@ -1263,11 +1268,10 @@ addons:
       # with a random password.
       # -- This needs to be set to a non-empty value in order for the Grafana Redis Datasource and Dashboards to be installed.
       password: ""
-  
+
     # -- Rails plain text secret to define. If empty (""), the gitlab charts will create the gitlab-rails-secret with randomized data.
     # Read the following for more information on setting Gitlab rails secrets: https://docs.gitlab.com/charts/installation/secrets#gitlab-rails-secret
     railsSecret: ""
-
 
     # -- Values to passthrough to the gitlab chart: https://repo1.dso.mil/big-bang/product/packages/gitlab.git
     values: {}
@@ -1874,7 +1878,6 @@ addons:
 
     # -- Post Renderers.  See docs/postrenders.md
     postRenderers: []
-
 
 # -- Wrapper chart for integrating Big Bang components alongside a package
 wrapper:
