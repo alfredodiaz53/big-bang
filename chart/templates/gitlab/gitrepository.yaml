@@ -1,33 +1,23 @@
-{{- if (not .Values.offline) }}
-{{- $name := "gitlab" }}
-{{- $namespace := .Release.Namespace }}
-{{- $fluxinterval := .Values.flux.interval }}
-{{- $outerscope := . }}
-{{- with .Values.addons.gitlab -}}
-{{- if and (eq .sourceType "git") .enabled }}
+{{- if and (eq .Values.addons.gitlab.sourceType "git") (not .Values.offline) .Values.addons.gitlab.enabled }}
+{{- $gitCredsDict := dict
+  "name" "gitlab"
+  "packageGitScope" .Values.addons.gitlab.git
+  "outerScope" .
+  "releaseName" $.Release.Name
+}}
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
-  name: {{ $name }}
-  namespace: {{ $namespace }}
+  name: gitlab
+  namespace: {{ .Release.Namespace }}
   labels:
-    app.kubernetes.io/name: {{ $name }}
+    app.kubernetes.io/name: gitlab
     app.kubernetes.io/component: "developer-tools"
-    {{- include "commonLabels" $outerscope | nindent 4}}
+    {{- include "commonLabels" . | nindent 4}}
 spec:
-  interval: {{ $fluxinterval }}
-  url: {{ .git.repo }}
+  interval: {{ .Values.flux.interval }}
+  url: {{ .Values.addons.gitlab.git.repo }}
   ref:
-    {{- include "validRef" .git | nindent 4 }}
-  {{- if .git.existingSecret }}
-  secretRef:
-    name: {{ .git.existingSecret }}
-  {{- else if .git.credentials }}
-  secretRef:
-    name: {{ $.Release.Name }}-{{ $name }}-git-credentials
-  {{- else }}
-  {{- include "gitCreds" $outerscope | nindent 2 }}
-  {{- end }}
-{{- end }}
-{{- end }}
+    {{- include "validRef" .Values.addons.gitlab.git | nindent 4 }}
+  {{- include "gitCreds" $gitCredsDict | nindent 2 }}
 {{- end }}
