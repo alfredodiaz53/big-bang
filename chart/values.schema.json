@@ -1590,6 +1590,49 @@
         },
         "semver": {
           "type": "string"
+        },
+        "existingSecret": {
+          "type": "string"
+        },
+        "credentials": {
+          "type": "object",
+          "properties": {
+            "username": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "caFile": {
+              "type": "string"
+            },
+            "privateKey": {
+              "type": "string"
+            },
+            "publicKey": {
+              "type": "string"
+            },
+            "knownHosts": {
+              "type": "string"
+            }
+          },
+          "required": [],
+          "anyOf": [
+            {
+              "required": [
+                "username",
+                "password"
+              ]
+            },
+            {
+              "required": [
+                "privateKey",
+                "publicKey",
+                "knownHosts"
+              ]
+            }
+          ],
+          "additionalProperties": false
         }
       },
       "additionalProperties": false,
