@@ -1159,14 +1159,6 @@ addons:
       repo: https://repo1.dso.mil/big-bang/product/packages/gitlab.git
       path: "./chart"
       tag: "7.3.0-bb.1"
-      existingSecret: ""
-      credentials:
-        username: ""
-        password: ""
-        caFile: ""
-        privateKey: ""
-        publicKey: ""
-        knownHosts: ""
     helmRepo:
       repoName: "registry1"
       chartName: "gitlab"
