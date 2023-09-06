@@ -12,6 +12,8 @@ profile_long=bigbang
 token=${token:-}
 serial="arn:aws-us-gov:iam::141078740716:mfa/${user}"
 
+echo "If having issues with this script please see example ~/.aws/credentials file for setup @ https://repo1.dso.mil/big-bang/bigbang/-/blob/add-aws-mfa-scripting-to-k3d-dev/docs/assets/scripts/developer/mfa-aws-creds-example"
+
 while [ $# -gt 0 ]; do
   if [[ $1 == *"--"* ]]; then
     param="${1/--/}"
@@ -22,7 +24,6 @@ while [ $# -gt 0 ]; do
 done
 
 if [ ${#token} -ne 6 ]; then
-  # echo "We've made changes to the script. Please setup MFA and pass in a token and username as input. See docs for "
   echo "Please provide a six digit token code with --token <token-code>"
   exit 1
 fi
