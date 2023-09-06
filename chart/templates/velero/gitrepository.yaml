@@ -20,5 +20,5 @@ spec:
   ref:
     {{- include "validRef" .Values.addons.velero.git | nindent 4 }}
   {{ include "gitIgnore" . }}
-  {{- include "gitCreds" $gitCredsDict | nindent 2 }}
+  {{- include "gitCredsExtended" $gitCredsDict | nindent 2 }}
 {{- end }}

@@ -20,5 +20,5 @@ spec:
   url: {{ .Values.wrapper.git.repo }}
   ref:
     {{- include "validRef" .Values.wrapper.git | nindent 4 -}}
-  {{- include "gitCreds" $gitCredsDict | nindent 2 }}
+  {{- include "gitCredsExtended" $gitCredsDict | nindent 2 }}
 {{- end -}}

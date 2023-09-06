@@ -20,5 +20,5 @@ spec:
   url: {{ .Values.addons.keycloak.git.repo }}
   ref:
     {{- include "validRef" .Values.addons.keycloak.git | nindent 4 }}
-  {{- include "gitCreds" $gitCredsDict | nindent 2 }}
+  {{- include "gitCredsExtended" $gitCredsDict | nindent 2 }}
 {{- end }}

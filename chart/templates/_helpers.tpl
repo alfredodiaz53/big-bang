@@ -56,7 +56,7 @@ branch: {{ .branch | quote }}
 {{/*
 Build the appropriate git credentials secret for BB wide git repositories
 */}}
-{{- define "globalGitCreds" -}}
+{{- define "gitCredsGlobal" -}}
 {{- if .Values.git.existingSecret -}}
 secretRef:
   name: {{ .Values.git.existingSecret }}
@@ -70,7 +70,7 @@ secretRef:
 {{/*
 Build the appropriate git credentials secret for individual package and BB wide private git repositories
 */}}
-{{- define "gitCreds" -}}
+{{- define "gitCredsExtended" -}}
 {{- if .outerScope -}}
 {{- if .packageGitScope.existingSecret -}}
 secretRef:
@@ -81,12 +81,19 @@ secretRef:
   name: {{ .releaseName }}-{{ .name }}-git-credentials
 {{- else -}}
 {{/* If no credentials are specified, use the global credentials in the outerScope */}}
-{{- include "globalGitCreds" .outerScope | nindent 2 }}
+{{- include "gitCredsGlobal" .outerScope | nindent 2 }}
 {{- end -}}
 {{- else -}}
 {{/* If no outerScope is specified, use the global credentials */}}}
-{{- include "globalGitCreds" . | nindent 2 }}
+{{- include "gitCredsGlobal" . }}
 {{- end -}}
+{{- end -}}
+
+{{/*
+Pointer to the appropriate git credentials template
+*/}}
+{{- define "gitCreds" -}}
+{{- include "gitCredsGlobal" . }}
 {{- end -}}
 
 {{/*

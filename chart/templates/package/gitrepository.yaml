@@ -26,7 +26,7 @@ spec:
   url: {{ dig "git" "repo" nil $vals }}
   ref:
     {{- include "validRef" $vals.git | nindent 4 -}}
-  {{- include "gitCreds" $ | nindent 2 }}
+  {{- include "gitCredsExtended" $ | nindent 2 }}
 ---
 {{- end -}}
 {{- end -}}

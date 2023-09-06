@@ -17,5 +17,5 @@ spec:
   ref:
     {{- include "validRef" (get .Values.addons $pkg).git | nindent 4 }}
   {{ include "gitIgnore" . }}
-  {{- include "gitCreds" $gitCredsDict | nindent 2 }}
+  {{- include "gitCredsExtended" $gitCredsDict | nindent 2 }}
 {{- end }}
