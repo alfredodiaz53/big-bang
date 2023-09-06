@@ -1,7 +1,7 @@
 {{- if and (eq .Values.addons.argocd.sourceType "git") .Values.addons.argocd.enabled  }}
 {{- $gitCredsDict := dict
   "name" "argocd"
-  "packageGitScope" .Values.argocd.gitlab.git
+  "packageGitScope" .Values.addons.argocd.git
   "outerScope" .
   "releaseName" $.Release.Name
 }}
