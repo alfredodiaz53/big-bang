@@ -7,6 +7,12 @@
 {{- $vals := merge $vals ($defaults | fromYaml).package -}}
 {{- end -}}
 {{- $fluxSettings := merge (dig "flux" dict $vals) $.Values.flux -}}
+{{- $gitCredsDict := dict
+  "name" $pkg
+  "packageGitScope" $vals.git
+  "outerScope" .
+  "releaseName" $.Release.Name
+}}
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
@@ -20,7 +26,6 @@ spec:
   url: {{ dig "git" "repo" nil $vals }}
   ref:
     {{- include "validRef" $vals.git | nindent 4 -}}
-  {{ include "gitIgnore" . }}
   {{- include "gitCreds" $ | nindent 2 }}
 ---
 {{- end -}}
