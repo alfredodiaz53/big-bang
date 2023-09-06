@@ -81,10 +81,10 @@ secretRef:
   name: {{ .releaseName }}-{{ .name }}-git-credentials
 {{- else -}}
 {{/* If no credentials are specified, use the global credentials in the outerScope */}}
-{{- include "gitCredsGlobal" .outerScope | nindent 2 }}
+{{- include "gitCredsGlobal" .outerScope }}
 {{- end -}}
 {{- else -}}
-{{/* If no outerScope is specified, use the global credentials */}}}
+{{/* If no outerScope is specified, use the global credentials */}}
 {{- include "gitCredsGlobal" . }}
 {{- end -}}
 {{- end -}}
