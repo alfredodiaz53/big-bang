@@ -184,7 +184,7 @@ policies:
 
   require-non-root-group:
     validationFailureAction: audit
-    {{- if or $deployNodeAgent .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled }}
+    {{- if or $deployNodeAgent .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled .Values.addons.jira.enabled }}
     exclude:
       any:
       {{- if $deployNodeAgent }}
@@ -228,6 +228,13 @@ policies:
           names:
           - promtail-promtail*
       {{- end }}
+      {{- if .Values.addons.jira.enabled }}
+      - resources:
+          namespaces:
+          - jira
+          names:
+          - jira-jira-*
+      {{- end }}      
     {{- end }}
 
   require-non-root-user:
@@ -237,7 +244,7 @@ policies:
       excludeContainers:
         - istio-init
     {{- end }}
-    {{- if or $deployNodeAgent .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled }}
+    {{- if or $deployNodeAgent .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled .Values.addons.jira.enabled }}
     exclude:
       any:
       {{- if $deployNodeAgent }}
@@ -281,6 +288,13 @@ policies:
           names:
           - promtail-promtail*
       {{- end }}
+      {{- if .Values.addons.jira.enabled }}
+      - resources:
+          namespaces:
+          - jira
+          names:
+          - jira-jira-*
+      {{- end }}     
     {{- end }}
 
   {{- if .Values.twistlock.enabled }}
