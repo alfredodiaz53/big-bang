@@ -3,8 +3,9 @@
 domain: {{ default .Values.domain .Values.hostname }}
 istio:
   enabled: {{ .Values.istio.enabled }}
-  gateways:
-    - istio-system/{{ default "public" .Values.addons.jira.ingress.gateway }}
+  jira:
+    gateways:
+      - istio-system/{{ default "public" .Values.addons.jira.ingress.gateway }}
 monitoring:
   enabled: {{ .Values.monitoring.enabled }}
 {{- end }}
