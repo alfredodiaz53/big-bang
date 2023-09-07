@@ -362,7 +362,7 @@ jaeger:
 
 kiali:
   # -- Toggle deployment of Kiali.
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -468,7 +468,7 @@ gatekeeper:
 #
 kyverno:
   # -- Toggle deployment of Kyverno.
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -493,7 +493,7 @@ kyverno:
 
 kyvernoPolicies:
   # -- Toggle deployment of Kyverno policies
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -518,7 +518,7 @@ kyvernoPolicies:
 
 kyvernoReporter:
   # -- Toggle deployment of Kyverno Reporter
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -649,7 +649,7 @@ fluentbit:
 #
 promtail:
   # -- Toggle deployment of Promtail.
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -674,7 +674,7 @@ promtail:
 
 loki:
   # -- Toggle deployment of Loki.
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -773,7 +773,7 @@ neuvector:
 
 tempo:
   # -- Toggle deployment of Tempo.
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -841,7 +841,7 @@ tempo:
 #
 monitoring:
   # -- Toggle deployment of Monitoring (Prometheus, Grafana, and Alertmanager).
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -993,8 +993,12 @@ twistlock:
 #
 addons:
   holocron:
-    enabled: false
+    # -- Toggle deployment of Holocron.
+    enabled: true
+
+    # -- Choose source type of "git" or "helmRepo"
     sourceType: "git"
+
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/holocron.git
       branch: initial-chart
@@ -1004,21 +1008,61 @@ addons:
       chartName: "holocron"
 
     collectorAuth:
+      # Name of existing secret with auth tokens for collector services
+      # If not provided, one will be created
       existingSecret: ""
-      gitlabToken: "my-temp-token#123"
-      jiraToken: "my-temp-token#123"
+      # Tokens for the secret to be created
+      # If gitlabToken is empty, a 1 day token will be created if gitlab is enabled
+      gitlabToken: ""
+      jiraToken: "my-token"
       sonarToken: "my-temp-token#123"
 
+    jira:
+      # -- If there is a Jira deployment, enable a collector for it
+      enabled: false
+      service:
+      # -- The service name to communicate with
+        name:
+        # -- If network policies are enabled, a label to match the service for egress policy
+        label: {}
+
+    # -- Flux reconciliation overrides specifically for the Holocron Package
     flux: {}
+
+    # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`). The default is "public".
     ingress:
       gateway: ""
+
     sso:
+      # -- Toggle SSO for Holocron on and off
       enabled: false
-      client_id: ""
-      client_secret: ""
-    postgresql:
-      enabled: true
+
+      # -- Holocron SSO group roles: https://repo1.dso.mil/groups/big-bang/apps/sandbox/holocron/-/wikis/Administrator-Guide
+      groups:
+        admin: ""
+        leadership: ""
+
+    database:
+      # -- Hostname of a pre-existing PostgreSQL database to use for Gitlab.
+      # Entering connection info will disable the deployment of an internal database and will auto-create any required secrets.
+      host: ""
+
+      # -- Port of a pre-existing PostgreSQL database to use for Gitlab.
+      port: 5432
+
+      # -- Database name to connect to on host.
+      database: "holocron"
+
+      # -- Username to connect as to external database, the user must have all privileges on the database.
+      username: "holocron"
+
+      # -- Database password for the username used to connect to the existing database.
+      password: "holocron"
+
+    # -- Values to passthrough to the Holocron chart: https://repo1.dso.mil/big-bang/product/packages/holocron.git
     values: {}
+
+    # -- Post Renderers. See docs/postrenders.md
     postRenderers: []
 
   argocd:
