@@ -13,14 +13,14 @@ gatekeeper:
   # -- Toggle deployment of OPA Gatekeeper.
   enabled: true
   git:
-    repo: https://repo1.dso.mil/platform-one/big-bang/apps/core/policy.git
+    repo: https://repo1.dso.mil/big-bang/apps/core/policy.git
     path: "./chart"
     tag: "3.5.1-bb.2"
 
   # -- Flux reconciliation overrides specifically for the OPA Gatekeeper Package
   flux: {}
 
-  # -- Values to passthrough to the gatekeeper chart: https://repo1.dso.mil/platform-one/big-bang/apps/core/policy.git
+  # -- Values to passthrough to the gatekeeper chart: https://repo1.dso.mil/big-bang/apps/core/policy.git
   values:
     violations:
       allowedDockerRegistries:
