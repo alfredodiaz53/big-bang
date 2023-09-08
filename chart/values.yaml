@@ -395,7 +395,7 @@ kiali:
 
   # -- Values to pass through to Kiali chart: https://repo1.dso.mil/big-bang/product/packages/kiali
   values: {}
-   
+
   # -- Post Renderers.  See docs/postrenders.md
   postRenderers: []
 
@@ -487,7 +487,7 @@ kyverno:
 
   # -- Values to passthrough to the kyverno chart: https://repo1.dso.mil/big-bang/product/packages/kyverno.git
   values: {}
-  
+
   # -- Post Renderers.  See docs/postrenders.md
   postRenderers: []
 
@@ -885,8 +885,7 @@ monitoring:
       client_secret: ""
 
   # -- Values to passthrough to the monitoring chart: https://repo1.dso.mil/big-bang/product/packages/monitoring.git
-  values: {}       
-  
+  values: {}
 
   # -- Post Renderers.  See docs/postrenders.md
   postRenderers: []
@@ -1835,17 +1834,7 @@ addons:
     flux: {}
 
     # -- Values to passthrough to the metrics server chart: https://repo1.dso.mil/big-bang/product/packages/metrics-server.git
-    # default values below to enable service monitor label scraping from prometheus
-    # values: 
-    #   service:
-    #     annotations:
-    #       prometheus.io/scrape: "true"
-    #       prometheus.io/port: "10250"
-    #       prometheus.io/path: "/metrics"
-    #   serviceMonitor:
-    #     enabled: false       
     values: {}
-         
 
     # -- Post Renderers.  See docs/postrenders.md
     postRenderers: []
@@ -1918,7 +1907,7 @@ wrapper:
 packages:
   # -- Package name.  Each package will be independently wrapped for Big Bang integration.
   # @default -- Uses `defaults/<package name>.yaml` for defaults.  See `package` Helm chart for additional values that can be set.
-  fortify: 
+  sample:
     # -- Toggle deployment of this package
     # @default -- true
     enabled: false
@@ -1945,19 +1934,19 @@ packages:
     # -- Git source is supported for both Helm and Kustomize deployments. If both `git` and `helmRepo` are provided `git` will take precedence.
     git:
       # -- Git repo URL holding the helm chart for this package, required if using git
-      repo: https://repo1.dso.mil/big-bang/apps/third-party/fortify.git
+      repo:
       # -- Git commit to check out.  Takes precedence over semver, tag, and branch. [More info](https://fluxcd.io/flux/components/source/gitrepositories/#reference)
       commit:
       # -- Git semVer tag expression to check out.  Takes precedence over tag. [More info](https://fluxcd.io/flux/components/source/gitrepositories/#reference)
       semver:
       # -- Git tag to check out.  Takes precedence over branch. [More info](https://fluxcd.io/flux/components/source/gitrepositories/#reference)
-      tag: 0.2.0-bb.11
+      tag:
       # -- Git branch to check out.  [More info](https://fluxcd.io/flux/components/source/gitrepositories/#reference).
       # @default -- When no other reference is specified, `master` branch is used
       branch:
       # -- Path inside of the git repo to find the helm chart or kustomize
       # @default -- For Helm charts `chart`.  For Kustomize `/`.
-      path: chart/
+      path:
 
     # -- Override flux settings for this package
     flux: {}
