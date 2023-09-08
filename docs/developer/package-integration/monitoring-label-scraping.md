@@ -2,62 +2,22 @@
 
 ## Introduction
 
-Integrating Prometheus metrics scraping with label scraping services is crucial for effective monitoring. This process involves collecting metrics, storing them, and analyzing the results. Big Bang utilizes Prometheus as a monitoring service. Most packages provide built-in Prometheus metrics scraping or offer add-ons for metrics scraping. This guide will explain how to integrate metrics scraping for your service endpoint with Big Bang.
+Integrating Prometheus metrics scraping with label scraping services is helpful for monitoring monitoring applications that either don't ship with a a ServiceMonitor, for testing in researching to build out a serviceMonitor resource or in-development applications where creating and managing annotations is simpler than building and managing ServiceMonitors. This guide will explain how to integrate metrics scraping for your annotated service endpoints or specific pods with Big Bang.
 
-By default, global monitoring is enabled in Big Bang. If you wish to disable it, set `monitoring.enabled: false` in `bigbang/values.yaml`. Note that some services might allow only one serviceMonitor for scraping. If a service is already being scraped, you'll need to disable it and create a dedicated serviceMonitor for your package.
+By default, global endpoint monitoring is behind a hidden value in Big Bang. If you wish to enable it the sections below are for each configuration.
 
-The built in Global serviceMonitor service is defined by the job name `kubernetes-service-endpoints` with following values in `bigbang/values.yaml`:
+The available Global serviceMonitor for annotated endpoints service is defined by the prometheus job name `kubernetes-service-endpoints` with following hidden value `monitoring.globalServiceEndpointMetrics` in `values.yaml`:
 ```
-values: 
-    prometheus:
-      prometheusSpec:
-     
-        additionalScrapeConfigs:
-          
-          - job_name: 'kubernetes-service-endpoints'
-    
-            kubernetes_sd_configs:
-              - role: endpoints
-            scheme: https
-            tls_config:
-              insecure_skip_verify: true
-            follow_redirects: true
-            enable_http2: true 
-            relabel_configs:
-              - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
-                action: keep
-                regex: true
-              - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scheme]
-                action: replace
-                target_label: __scheme__
-                regex: (https?)
-              - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
-                action: replace
-                target_label: __metrics_path__
-                regex: (.+)
-              - source_labels: [__address__, __meta_kubernetes_service_annotation_prometheus_io_port]
-                action: replace
-                target_label: __address__
-                regex: ([^:]+)(?::\d+)?;(\d+)
-                replacement: $1:$2
-              - action: labelmap
-                regex: __meta_kubernetes_service_label_(.+)
-              - source_labels: [__meta_kubernetes_namespace]
-                action: replace
-                target_label: kubernetes_namespace
-              - source_labels: [__meta_kubernetes_service_name]
-                action: replace
-                target_label: kubernetes_name
-              - source_labels: [__meta_kubernetes_service_name]
-                action: drop
-                regex: '(.+)node-exporter'
-              - source_labels: [__meta_kubernetes_service_name]
-                action: drop
-                regex: '(.+)dns'
-              - source_labels: [__meta_kubernetes_service_name]
-                action: drop
-                regex: '(.+)kube-state-metrics'
+monitoring:
+  globalServiceEndpointMetrics:
+    enabled: true
+```
 
+The available Global serviceMonitor for annotated pods is defined by the prometheus job name `kubernetes-pods` with following hidden value `monitoring.globalPodEndpointMetrics` in `values.yaml`:
+```
+monitoring:
+  globalPodEndpointMetrics:
+    enabled: true
 ```
 
 ## Prerequisites
@@ -65,17 +25,17 @@ values:
 Before integrating with Prometheus, ensure the following:
 
 - Determine if the application supports Prometheus metrics exporting. If not, find a Prometheus exporter to provide this service.
-- Check if the upstream Helm chart for the application (or exporter) natively supports Prometheus. Otherwise, you may need to create monitoring resources.
 - Identify the path and port used to scrape metrics on the application or exporter.
 - List the services and/or pods that should be monitored.
 
 ## Integration Steps
 
-### 1. Define Placeholder Values
+### 1. Define Placeholder Values for a Service (Recommended)
 
 Add placeholders in `chart/values.yaml` to configure whether the monitoring stack (Prometheus) is enabled:
 the following is an example of a placeholder for allowing  scraping of the `metrics-server` service endpoint:
 ```yaml
+addons:
   metrics-server:
     values: 
       service:
@@ -84,7 +44,7 @@ the following is an example of a placeholder for allowing  scraping of the `metr
           prometheus.io/port: "10250"
           prometheus.io/path: "/metrics"
       serviceMonitor:
-        enabled: false  # set to true to enable monitoring if the service is not already being scraped     
+        enabled: false  # set to true to enable monitoring if the service is not already being scraped. This is an easily re-producible example but ideally the app will not ship with a serviceMonitor.
 
 note: The example above is for the metrics-server application, you will need to update the service annotations to match your application. Also note that metrics-server is already being scraped by a local serviceMonitor, so you will need to disable it so label scraping can be enabled.
 ```
