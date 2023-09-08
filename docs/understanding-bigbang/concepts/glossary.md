@@ -54,7 +54,7 @@ In addition, the following packages can be added onto the default deployment:
 |Name|Description|Helm Chart Repo|
 |--|--|--|
 |[Argo CD](https://argoproj.github.io/argo-cd/)| Continuous Delivery |[Link](https://repo1.dso.mil/big-bang/apps/core/argocd.git)|
-|Auth Service|Single Sign On|[Link](https://repo1.dso.mil/big-bang/apps/sandbox/authservice.git)
+|Auth Service|Single Sign On|[Link](https://repo1.dso.mil/big-bang/product/packages/authservice.git)
 
 ---
 

@@ -1821,7 +1821,7 @@ addons:
     sourceType: "git"
 
     git:
-      repo: https://repo1.dso.mil/big-bang/apps/sandbox/harbor.git
+      repo: https://repo1.dso.mil/big-bang/product/packages/harbor.git
       tag: "1.12.4-bb.0"
       path: "./chart"
     helmRepo:
@@ -1846,7 +1846,7 @@ addons:
       # -- OIDC Client Secret to use for Harbor
       client_secret: ""
 
-    # -- Values to pass through to Habor chart: https://repo1.dso.mil/big-bang/apps/sandbox/harbor.git
+    # -- Values to pass through to Habor chart: https://repo1.dso.mil/big-bang/product/packages/harbor.git
     values: {}
 
     # -- Post Renderers.  See docs/postrenders.md

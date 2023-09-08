@@ -1722,7 +1722,7 @@ addons:
     # -- Toggle deployment of harbor
     enabled: false
 
-    # -- Values to pass through to Habor chart: https://repo1.dso.mil/big-bang/apps/sandbox/harbor.git
+    # -- Values to pass through to Habor chart: https://repo1.dso.mil/big-bang/product/packages/harbor.git
     values: 
       redis:
         external: 

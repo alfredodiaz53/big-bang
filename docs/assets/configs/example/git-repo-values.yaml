@@ -51,17 +51,17 @@ gatekeeper:
     branch: "my-dev-branch"
 kyverno:
   git:
-    repo: https://repo1.dso.mil/big-bang/apps/sandbox/kyverno.git
+    repo: https://repo1.dso.mil/big-bang/product/packages/kyverno.git
     path: "./chart"
     branch: "my-dev-branch"
 kyvernoPolicies:
   git:
-    repo: https://repo1.dso.mil/big-bang/apps/sandbox/kyverno-policies.git
+    repo: https://repo1.dso.mil/big-bang/product/packages/kyverno-policies.git
     path: ./chart
     branch: "my-dev-branch"
 kyvernoReporter:
   git:
-    repo: https://repo1.dso.mil/big-bang/apps/sandbox/kyverno-reporter
+    repo: https://repo1.dso.mil/big-bang/product/packages/kyverno-reporter
     path: ./chart
     branch: "my-dev-branch"
 elasticsearchKibana:
@@ -81,22 +81,22 @@ fluentbit:
     branch: "my-dev-branch"
 promtail:
   git:
-    repo: https://repo1.dso.mil/big-bang/apps/sandbox/promtail.git
+    repo: https://repo1.dso.mil/big-bang/product/packages/promtail.git
     path: "./chart"
     branch: "my-dev-branch"
 loki:
   git:
-    repo: https://repo1.dso.mil/big-bang/apps/sandbox/loki.git
+    repo: https://repo1.dso.mil/big-bang/product/packages/loki.git
     path: "./chart"
     branch: "my-dev-branch"
 neuvector:
   git:
-    repo: https://repo1.dso.mil/big-bang/apps/sandbox/neuvector.git
+    repo: https://repo1.dso.mil/big-bang/product/packages/neuvector.git
     path: "./chart"
     branch: "my-dev-branch"
 tempo:
   git:
-    repo: https://repo1.dso.mil/big-bang/apps/sandbox/tempo.git
+    repo: https://repo1.dso.mil/big-bang/product/packages/tempo.git
     path: "./chart"
     branch: "my-dev-branch"
 monitoring:
@@ -182,11 +182,11 @@ addons:
       branch: "my-dev-branch"
   vault:
     git:
-      repo: https://repo1.dso.mil/big-bang/apps/sandbox/vault.git
+      repo: https://repo1.dso.mil/big-bang/product/packages/vault.git
       path: "./chart"
       branch: "my-dev-branch"
   metricsServer:
     git:
-      repo: https://repo1.dso.mil/big-bang/apps/sandbox/metrics-server.git
+      repo: https://repo1.dso.mil/big-bang/product/packages/metrics-server.git
       path: "./chart"
       branch: "my-dev-branch"

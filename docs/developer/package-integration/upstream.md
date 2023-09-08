@@ -11,7 +11,7 @@ Before beginning the process of integrating a package into Big Bang, you will ne
 
 ## Project
 
-It is recommended that you create your project in [Big Bang's Sandbox](https://repo1.dso.mil/big-bang/apps/sandbox).  This allows you to leverage Big Bang's pipelines, collaborate with Big Bang developers, and easily migrate to a fully graduated project.
+It is recommended that you create your project in [Big Bang's Sandbox](https://repo1.dso.mil/big-bang/product/packages).  This allows you to leverage Big Bang's pipelines, collaborate with Big Bang developers, and easily migrate to a fully graduated project.
 
 You will need to request a sandbox project and Developer access from a Big Bang team member.
 

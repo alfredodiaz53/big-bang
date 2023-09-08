@@ -810,7 +810,7 @@ packages:
     # -- Git source is supported for both Helm and Kustomize deployments. If both `git` and `helmRepo` are provided `git` will take precedence.
     git:
       # -- Git repo URL holding the helm chart for this package, required if using git
-      repo: "https://repo1.dso.mil/big-bang/apps/sandbox/podinfo.git"
+      repo: "https://repo1.dso.mil/big-bang/product/packages/podinfo.git"
       # -- Git commit to check out.  Takes precedence over semver, tag, and branch. [More info](https://fluxcd.io/flux/components/source/gitrepositories/#reference)
       commit:
       # -- Git semVer tag expression to check out.  Takes precedence over tag. [More info](https://fluxcd.io/flux/components/source/gitrepositories/#reference)

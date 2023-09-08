@@ -614,7 +614,7 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | addons.metricsServer.postRenderers | list | `[]` | Post Renderers.  See docs/postrenders.md |
 | addons.harbor.enabled | bool | `false` | Toggle deployment of harbor |
 | addons.harbor.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
-| addons.harbor.git.repo | string | `"https://repo1.dso.mil/big-bang/apps/sandbox/harbor.git"` |  |
+| addons.harbor.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/harbor.git"` |  |
 | addons.harbor.git.tag | string | `"1.12.2-bb.7"` |  |
 | addons.harbor.git.path | string | `"./chart"` |  |
 | addons.harbor.helmRepo.repoName | string | `"registry1"` |  |
@@ -625,7 +625,7 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | addons.harbor.sso.enabled | bool | `false` | Toggle SSO for Harbor on and off |
 | addons.harbor.sso.client_id | string | `""` | OIDC Client ID to use for Harbor |
 | addons.harbor.sso.client_secret | string | `""` | OIDC Client Secret to use for Harbor |
-| addons.harbor.values | object | `{}` | Values to pass through to Habor chart: https://repo1.dso.mil/big-bang/apps/sandbox/harbor.git |
+| addons.harbor.values | object | `{}` | Values to pass through to Habor chart: https://repo1.dso.mil/big-bang/product/packages/harbor.git |
 | addons.harbor.postRenderers | list | `[]` | Post Renderers.  See docs/postrenders.md |
 | wrapper | object | `{"git":{"path":"chart","repo":"https://repo1.dso.mil/big-bang/product/packages/wrapper.git","tag":"0.4.1"},"helmRepo":{"chartName":"wrapper","repoName":"registry1","tag":"0.4.1"},"sourceType":"git"}` | Wrapper chart for integrating Big Bang components alongside a package |
 | wrapper.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |

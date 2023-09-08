@@ -13,7 +13,7 @@ To increase the overall security posture of Big Bang, network policies are put i
 
 ## Integration
 
-All examples in this documentation will center on [podinfo](https://repo1.dso.mil/big-bang/apps/sandbox/podinfo).
+All examples in this documentation will center on [podinfo](https://repo1.dso.mil/big-bang/product/packages/podinfo).
 
 ### Default Deny
 
