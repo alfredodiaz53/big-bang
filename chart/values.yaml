@@ -395,7 +395,7 @@ kiali:
 
   # -- Values to pass through to Kiali chart: https://repo1.dso.mil/big-bang/product/packages/kiali
   values: {}
-   
+
   # -- Post Renderers.  See docs/postrenders.md
   postRenderers: []
 
@@ -414,11 +414,11 @@ clusterAuditor:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/cluster-auditor.git
     path: "./chart"
-    tag: "1.5.0-bb.4"
+    tag: "1.5.0-bb.7"
   helmRepo:
     repoName: "registry1"
     chartName: "cluster-auditor"
-    tag: "1.5.0-bb.4"
+    tag: "1.5.0-bb.7"
 
   # -- Flux reconciliation overrides specifically for the Cluster Auditor Package
   flux: {}
@@ -487,7 +487,7 @@ kyverno:
 
   # -- Values to passthrough to the kyverno chart: https://repo1.dso.mil/big-bang/product/packages/kyverno.git
   values: {}
-  
+
   # -- Post Renderers.  See docs/postrenders.md
   postRenderers: []
 
@@ -658,11 +658,11 @@ promtail:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/promtail.git
     path: "./chart"
-    tag: "6.13.1-bb.0"
+    tag: "6.15.0-bb.0"
   helmRepo:
     repoName: "registry1"
     chartName: "promtail"
-    tag: "6.13.1-bb.0"
+    tag: "6.15.0-bb.0"
 
   # -- Flux reconciliation overrides specifically for the Promtail Package
   flux: {}
@@ -683,11 +683,11 @@ loki:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/loki.git
     path: "./chart"
-    tag: "5.9.2-bb.0"
+    tag: "5.15.0-bb.0"
   helmRepo:
     repoName: "registry1"
     chartName: "loki"
-    tag: "5.9.2-bb.0"
+    tag: "5.15.0-bb.0"
 
   # -- Flux reconciliation overrides specifically for the Loki Package
   flux: {}
@@ -736,11 +736,11 @@ neuvector:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/neuvector.git
     path: "./chart"
-    tag: "2.4.5-bb.3"
+    tag: "2.4.5-bb.4"
   helmRepo:
     repoName: "registry1"
     chartName: "neuvector"
-    tag: "2.4.5-bb.3"
+    tag: "2.4.5-bb.4"
 
   # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
   ingress:
@@ -782,11 +782,11 @@ tempo:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/tempo.git
     path: "./chart"
-    tag: "1.2.0-bb.2"
+    tag: "1.2.0-bb.5"
   helmRepo:
     repoName: "registry1"
     chartName: "tempo"
-    tag: "1.2.0-bb.2"
+    tag: "1.2.0-bb.5"
 
   # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
   ingress:
@@ -885,8 +885,7 @@ monitoring:
       client_secret: ""
 
   # -- Values to passthrough to the monitoring chart: https://repo1.dso.mil/big-bang/product/packages/monitoring.git
-  values: {}       
-  
+  values: {}
 
   # -- Post Renderers.  See docs/postrenders.md
   postRenderers: []
@@ -904,13 +903,13 @@ grafana:
   sourceType: "git"
 
   git:
-    repo: https://repo1.dso.mil/big-bang/apps/sandbox/grafana.git
+    repo: https://repo1.dso.mil/big-bang/product/packages/grafana.git
     path: "./chart"
-    tag: "6.57.4-bb.0"
+    tag: "6.58.9-bb.3"
   helmRepo:
     repoName: "registry1"
     chartName: "grafana"
-    tag: "6.57.4-bb.0"
+    tag: "6.58.9-bb.3"
 
   # -- Flux reconciliation overrides specifically for the Monitoring Package
   flux: {}
@@ -957,11 +956,11 @@ twistlock:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/twistlock.git
     path: "./chart"
-    tag: "0.12.0-bb.4"
+    tag: "0.12.0-bb.5"
   helmRepo:
     repoName: "registry1"
     chartName: "twistlock"
-    tag: "0.12.0-bb.4"
+    tag: "0.12.0-bb.5"
 
   # -- Flux reconciliation overrides specifically for the Twistlock Package
   flux: {}
@@ -1004,11 +1003,11 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/argocd.git
       path: "./chart"
-      tag: "5.39.0-bb.0"
+      tag: "5.42.2-bb.0"
     helmRepo:
       repoName: "registry1"
       chartName: "argocd"
-      tag: "5.39.0-bb.0"
+      tag: "5.42.2-bb.0"
 
     # -- Flux reconciliation overrides specifically for the ArgoCD Package
     flux: {}
@@ -1061,11 +1060,11 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/authservice.git
       path: "./chart"
-      tag: "0.5.3-bb.12"
+      tag: "0.5.3-bb.15"
     helmRepo:
       repoName: "registry1"
       chartName: "authservice"
-      tag: "0.5.3-bb.12"
+      tag: "0.5.3-bb.15"
 
     # -- Flux reconciliation overrides specifically for the Authservice Package
     flux: {}
@@ -1157,11 +1156,11 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/gitlab.git
       path: "./chart"
-      tag: "7.2.2-bb.1"
+      tag: "7.3.0-bb.1"
     helmRepo:
       repoName: "registry1"
       chartName: "gitlab"
-      tag: "7.2.2-bb.1"
+      tag: "7.3.0-bb.1"
 
     # -- Flux reconciliation overrides specifically for the Gitlab Package
     flux: {}
@@ -1263,11 +1262,11 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/gitlab-runner.git
       path: "./chart"
-      tag: "0.52.0-bb.1"
+      tag: "0.52.0-bb.3"
     helmRepo:
       repoName: "registry1"
       chartName: "gitlab-runner"
-      tag: "0.52.0-bb.1"
+      tag: "0.52.0-bb.3"
 
     # -- Flux reconciliation overrides specifically for the Gitlab Runner Package
     flux: {}
@@ -1407,6 +1406,35 @@ addons:
       password: ""
 
     # -- Values to passthrough to the sonarqube chart: https://repo1.dso.mil/big-bang/product/packages/sonarqube.git
+    values: {}
+
+    # -- Post Renderers.  See docs/postrenders.md
+    postRenderers: []
+
+  fortify:
+    # -- Toggle deployment of Fortify.
+    enabled: false
+
+    # -- Choose source type of "git" or "helmRepo"
+    sourceType: "git"
+
+    git:
+      repo: https://repo1.dso.mil/big-bang/apps/third-party/fortify.git
+      path: "./chart"
+      tag: "0.2.0-bb.11"
+    helmRepo:
+      repoName: "registry1"
+      chartName: "fortify"
+      tag: "0.2.0-bb.11"
+
+    # -- Flux reconciliation overrides specifically for the Fortify Package
+    flux: {}
+
+    # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
+    ingress:
+      gateway: ""
+
+    # -- Values to passthrough to the fortify chart: https://repo1.dso.mil/big-bang/apps/third-party/fortify.git
     values: {}
 
     # -- Post Renderers.  See docs/postrenders.md
@@ -1571,11 +1599,11 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/mattermost.git
       path: "./chart"
-      tag: "8.0.1-bb.1"
+      tag: "8.1.0-bb.0"
     helmRepo:
       repoName: "registry1"
       chartName: "mattermost"
-      tag: "8.0.1-bb.1"
+      tag: "8.1.0-bb.0"
 
     # -- Flux reconciliation overrides specifically for the Mattermost Package
     flux: {}
@@ -1701,11 +1729,11 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/keycloak.git
       path: "./chart"
-      tag: "18.4.3-bb.2"
+      tag: "18.4.3-bb.3"
     helmRepo:
       repoName: "registry1"
       chartName: "keycloak"
-      tag: "18.4.3-bb.2"
+      tag: "18.4.3-bb.3"
 
     database:
       # -- Hostname of a pre-existing database to use for Keycloak.
@@ -1806,17 +1834,7 @@ addons:
     flux: {}
 
     # -- Values to passthrough to the metrics server chart: https://repo1.dso.mil/big-bang/product/packages/metrics-server.git
-    # default values below to enable service monitor label scraping from prometheus
-    # values: 
-    #   service:
-    #     annotations:
-    #       prometheus.io/scrape: "true"
-    #       prometheus.io/port: "10250"
-    #       prometheus.io/path: "/metrics"
-    #   serviceMonitor:
-    #     enabled: false       
     values: {}
-         
 
     # -- Post Renderers.  See docs/postrenders.md
     postRenderers: []
@@ -1833,12 +1851,12 @@ addons:
 
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/harbor.git
-      tag: "1.12.2-bb.7"
+      tag: "1.12.4-bb.0"
       path: "./chart"
     helmRepo:
       repoName: "registry1"
       chartName: "harbor"
-      tag: "1.12.2-bb.7"
+      tag: "1.12.4-bb.0"
 
     # -- Flux reconciliation overrides specifically for the Jaeger Package
     flux: {}
@@ -1889,7 +1907,7 @@ wrapper:
 packages:
   # -- Package name.  Each package will be independently wrapped for Big Bang integration.
   # @default -- Uses `defaults/<package name>.yaml` for defaults.  See `package` Helm chart for additional values that can be set.
-  fortify: 
+  sample:
     # -- Toggle deployment of this package
     # @default -- true
     enabled: false
@@ -1916,19 +1934,19 @@ packages:
     # -- Git source is supported for both Helm and Kustomize deployments. If both `git` and `helmRepo` are provided `git` will take precedence.
     git:
       # -- Git repo URL holding the helm chart for this package, required if using git
-      repo: https://repo1.dso.mil/big-bang/apps/third-party/fortify.git
+      repo:
       # -- Git commit to check out.  Takes precedence over semver, tag, and branch. [More info](https://fluxcd.io/flux/components/source/gitrepositories/#reference)
       commit:
       # -- Git semVer tag expression to check out.  Takes precedence over tag. [More info](https://fluxcd.io/flux/components/source/gitrepositories/#reference)
       semver:
       # -- Git tag to check out.  Takes precedence over branch. [More info](https://fluxcd.io/flux/components/source/gitrepositories/#reference)
-      tag: 0.2.0-bb.11
+      tag:
       # -- Git branch to check out.  [More info](https://fluxcd.io/flux/components/source/gitrepositories/#reference).
       # @default -- When no other reference is specified, `master` branch is used
       branch:
       # -- Path inside of the git repo to find the helm chart or kustomize
       # @default -- For Helm charts `chart`.  For Kustomize `/`.
-      path: chart/
+      path:
 
     # -- Override flux settings for this package
     flux: {}
