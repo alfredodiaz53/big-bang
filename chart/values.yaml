@@ -484,17 +484,10 @@ kyverno:
 
   # -- Flux reconciliation overrides specifically for the Kyverno Package
   flux: {}
-  values: {}
-  # -- Values to passthrough to the kyverno chart: https://repo1.dso.mil/big-bang/product/packages/kyverno.git
-  # values: 
-  #   service:
-  #     annotations: 
-  #       prometheus.io/scrape: "true"
-  #       prometheus.io/port: "8000"
-  #       prometheus.io/path: "/metrics"
-  #     serviceMonitor:
-  #       enabled: false  
 
+  # -- Values to passthrough to the kyverno chart: https://repo1.dso.mil/big-bang/product/packages/kyverno.git
+  values: {}
+  
   # -- Post Renderers.  See docs/postrenders.md
   postRenderers: []
 
