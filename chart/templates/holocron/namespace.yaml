@@ -1,5 +1,5 @@
 {{- $pkg := "holocron" }}
-{{- if (get .Values.addons $pkg).enabled }}
+{{- if and (get .Values.addons $pkg).enabled (not (get .Values.addons $pkg).collectorAuth.existingSecret) }}
 apiVersion: v1
 kind: Namespace
 metadata:

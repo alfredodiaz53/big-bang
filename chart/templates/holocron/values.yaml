@@ -17,7 +17,7 @@ domain: {{ .Values.domain }}
 
 api:
   env:
-    REQUEST_IP_HEADER: X-Forwarded-For
+    REQUEST_IP_HEADER: Host
     SSO_ENABLED: {{ .Values.addons.holocron.sso.enabled }}
     SSO_ADMIN_GROUP: {{ .Values.addons.holocron.sso.groups.admin }}
     SSO_LEADERSHIP_GROUP: {{ .Values.addons.holocron.sso.groups.leadership }}
@@ -109,7 +109,7 @@ collectorJiraWorkflow:
   podAnnotations: {}
   env:
     GO_RUN_ENV: production
-    COLLECTOR_NAME: collector-workflow-0
+    COLLECTOR_NAME: jira-workflow-0
     COLLECTOR_INTERVAL_SECONDS: 600
     LOOK_BACK_DAYS: 365
     TARGET_URL: {{ .Values.addons.holocron.jira.service }}
@@ -153,18 +153,15 @@ istio:
     hosts:
     - holocron.{{ .Values.domain }}
 
-# networkPolicies:
-#   enabled: {{ .Values.networkPolicies.enabled }}
-#   egressHostLabels:
-#     {{- if .Values.addons.gitlab.enabled }}
-#     gitlab.com/webservice-name: default
-#     {{- end }}
-#     {{- if .Values.addons.holocron.jira.enabled }}
-#     {{ toYaml .Values.addons.holocron.jira.service.label | nindent 4 }}
-#     {{- end }}
-
 networkPolicies:
-  enabled: false
+  enabled: {{ .Values.networkPolicies.enabled }}
+  egressHostLabels:
+    {{- if .Values.addons.gitlab.enabled }}
+    app.kubernetes.io/name: gitlab
+    {{- end }}
+    {{- if .Values.addons.holocron.jira.enabled }}
+    {{ toYaml .Values.addons.holocron.jira.service.label | nindent 4 }}
+    {{- end }}
 
 monitoring:
   enabled: {{ .Values.monitoring.enabled }}

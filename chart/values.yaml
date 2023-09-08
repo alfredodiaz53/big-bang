@@ -130,7 +130,7 @@ flux:
 # -- Global NetworkPolicies settings
 networkPolicies:
   # -- Toggle all package NetworkPolicies, can disable specific packages with `package.values.networkPolicies.enabled`
-  enabled: false
+  enabled: true
   # -- Control Plane CIDR, defaults to 0.0.0.0/0, use `kubectl get endpoints -n default kubernetes` to get the CIDR range needed for your cluster
   # Must be an IP CIDR range (x.x.x.x/x - ideally with /32 for the specific IP of a single endpoint, broader range for multiple masters/endpoints)
   # Used by package NetworkPolicies to allow Kube API access
@@ -138,7 +138,7 @@ networkPolicies:
   # -- Node CIDR, defaults to allowing "10.0.0.0/8" "172.16.0.0/12" "192.168.0.0/16" "100.64.0.0/10" networks.
   # use `kubectl get nodes -owide` and review the `INTERNAL-IP` column to derive CIDR range.
   # Must be an IP CIDR range (x.x.x.x/x - ideally a /16 or /24 to include multiple IPs)
-  nodeCidr: ""
+  nodeCidr: "172.20.0.0/24"
   # -- VPC CIDR, defaults to 0.0.0.0/0
   # In a production environment, it is recommended to setup a Private Endpoint for your AWS services like KMS or S3.
   # Please review https://docs.aws.amazon.com/kms/latest/developerguide/kms-vpc-endpoint.html to setup routing to AWS services that never leave the AWS network.
@@ -1008,14 +1008,15 @@ addons:
       chartName: "holocron"
 
     collectorAuth:
-      # Name of existing secret with auth tokens for collector services
-      # If not provided, one will be created
+      # -- Name of existing secret with auth tokens for collector services: https://repo1.dso.mil/groups/big-bang/apps/sandbox/holocron/-/wikis/Administrator-Guide
+      # -- Default keys for secret are:
+      # -- gitlab-scm-0, gitlab-workflow-0, gitlab-build-0, sonar-analysis-0, jira-workflow-0
+      # -- If not provided, one will be created
       existingSecret: ""
-      # Tokens for the secret to be created
-      # If gitlabToken is empty, a 1 day token will be created if gitlab is enabled
-      gitlabToken: ""
-      jiraToken: "my-token"
-      sonarToken: "my-temp-token#123"
+      # -- Tokens for the secret to be created
+      gitlabToken: glpat-hysv1pTaaCyAvv9CJQry
+      jiraToken: ""
+      sonarToken: ""
 
     jira:
       # -- If there is a Jira deployment, enable a collector for it
@@ -1023,7 +1024,8 @@ addons:
       service:
       # -- The service name to communicate with
         name:
-        # -- If network policies are enabled, a label to match the service for egress policy
+        # -- If network policies are enabled, a label to match the namespace for egress policy
+        # -- Ensure you create a matching ingress policy for Jira
         label: {}
 
     # -- Flux reconciliation overrides specifically for the Holocron Package
@@ -1044,7 +1046,7 @@ addons:
 
     database:
       # -- Hostname of a pre-existing PostgreSQL database to use for Gitlab.
-      # Entering connection info will disable the deployment of an internal database and will auto-create any required secrets.
+      # -- Entering connection info will disable the deployment of an internal database and will auto-create any required secrets.
       host: ""
 
       # -- Port of a pre-existing PostgreSQL database to use for Gitlab.
