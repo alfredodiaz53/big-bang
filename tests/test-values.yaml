@@ -932,6 +932,7 @@ addons:
             cypress_tnr_username: "cypress"
             cypress_tnr_password: "tnr_w!G33ZyAt@C8"
             cypress_keycloak_test_enable: "true"
+            cypress_timeout: 30000
 
   authservice:
     enabled: false
