@@ -866,9 +866,9 @@ twistlock:
 # Addons are toggled based on labels in CI
 addons:
   argocd:
-    enabled: false
+    enabled: true
     sso:
-      enabled: false
+      enabled: true
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_argocd
       client_secret: anything-for-dev
       groups: |
@@ -929,6 +929,9 @@ addons:
         cypress:
           envs:
             cypress_url: "https://argocd.bigbang.dev"
+            cypress_tnr_username: "cypress"
+            cypress_tnr_password: "tnr_w!G33ZyAt@C8"
+            cypress_keycloak_test_enable: "true"
 
   authservice:
     enabled: false
@@ -1570,7 +1573,7 @@ addons:
             customreg.yaml: '{{ .Files.Get "resources/dev/baby-yoda.yaml" }}'
         realm:
           stringData:
-            realm.json: '{{ .Files.Get "resources/dev/baby-yoda.json" }}'
+            realm.json: '{{ .Files.Get "resources/dev/baby-yoda-bb-ci.json" }}'
         truststore:
           data:
             truststore.jks: |-
@@ -1580,7 +1583,7 @@ addons:
             quarkus.properties: '{{ .Files.Get "resources/dev/quarkus.properties" }}'
       extraInitContainers: |-
         - name: plugin
-          image: registry1.dso.mil/ironbank/big-bang/p1-keycloak-plugin:3.2.0
+          image: registry1.dso.mil/ironbank/big-bang/p1-keycloak-plugin:3.2.1
           imagePullPolicy: Always
           command:
           - sh
