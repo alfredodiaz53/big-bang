@@ -21,8 +21,8 @@ api:
     SSO_ENABLED: {{ .Values.addons.holocron.sso.enabled }}
     SSO_ADMIN_GROUP: {{ .Values.addons.holocron.sso.groups.admin }}
     SSO_LEADERSHIP_GROUP: {{ .Values.addons.holocron.sso.groups.leadership }}
-    SSO_GROUPS_KEY: group-full
-    SSO_USERNAME_KEY: preferred_username
+    SSO_GROUPS_KEY: {{ .Values.sso.oidc.claims.groups }}
+    SSO_USERNAME_KEY: {{ .Values.sso.oidc.claims.username }}
 
 {{- if .Values.addons.gitlab.enabled }}
 {{- $gitlabURL := "http://gitlab-webservice-default.gitlab.svc.cluster.local:8080" }}

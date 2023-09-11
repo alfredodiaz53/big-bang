@@ -841,7 +841,7 @@ tempo:
 #
 monitoring:
   # -- Toggle deployment of Monitoring (Prometheus, Grafana, and Alertmanager).
-  enabled: true
+  enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -1014,7 +1014,7 @@ addons:
       # -- If not provided, one will be created
       existingSecret: ""
       # -- Tokens for the secret to be created
-      gitlabToken: glpat-hysv1pTaaCyAvv9CJQry
+      gitlabToken: glpat-bh3ERExGxhS-zotGTW1A
       jiraToken: ""
       sonarToken: ""
 
