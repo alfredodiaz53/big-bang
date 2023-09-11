@@ -154,7 +154,6 @@ policies:
           - minio
           names:
           - minio-minio-minio*
-      {{- if .Values.neuvector.enabled }}
       - resources:
           namespaces:
           - fortify
