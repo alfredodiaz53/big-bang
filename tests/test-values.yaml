@@ -49,7 +49,6 @@ flux:
 
 networkPolicies:
   enabled: true
-  controlPlaneCidr: 172.16.0.0/12
 
 istio:
   enabled: true
@@ -1337,6 +1336,17 @@ addons:
     elasticsearch:
       enabled: true
     values:
+      networkPolicies:
+        additionalPolicies:
+        - name: egress-mm-job
+          spec:
+            podSelector: {}
+            policyTypes:
+            - Egress
+            egress:
+            - to:
+              - ipBlock:
+                  cidr: 172.20.0.0/32
       postgresql:
         persistence:
           size: 256Mi
