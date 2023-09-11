@@ -868,7 +868,7 @@ addons:
   argocd:
     enabled: true
     sso:
-      enabled: false
+      enabled: true
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_argocd
       client_secret: anything-for-dev
       groups: |
@@ -933,8 +933,7 @@ addons:
             cypress_pass: "Password123"
             cypress_tnr_username: "cypress"
             cypress_tnr_password: "tnr_w!G33ZyAt@C8"
-            cypress_timeout: "300000"
-            # cypress_keycloak_test_enable: "true"
+            cypress_keycloak_test_enable: "true"
 
   authservice:
     enabled: false
