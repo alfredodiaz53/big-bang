@@ -145,10 +145,21 @@ policies:
   {{- end }}
 
   require-drop-all-capabilities:
-    validationFailureAction: enforce
+    validationFailureAction: audit
     {{- if or .Values.neuvector.enabled .Values.loki.enabled .Values.minio.enabled}}
     exclude:
       any:
+      - resources:
+          namespaces:
+          - minio
+          names:
+          - minio-minio-minio*
+      {{- if .Values.neuvector.enabled }}
+      - resources:
+          namespaces:
+          - fortify
+          names:
+          - fortify*
       {{- if .Values.neuvector.enabled }}
       # Neuvector needs access to host to inspect network traffic
       - resources:
@@ -158,10 +169,14 @@ policies:
           - neuvector-enforcer-pod*
           - neuvector-prometheus-exporter-pod*
       {{- end }}
+      {{- if .Values.loki.enabled }}
       - resources:
           namespaces:
-          - loki
-          - minio
+          - logging
+          names:
+          - logging-loki-minio*
+          - logging-ek-metrics*
+      {{- end }}
     {{- end }}
 
   # Kyverno Beta feature - https://kyverno.io/docs/writing-policies/verify-images/
