@@ -1358,7 +1358,7 @@ addons:
             egress:
             - to:
               - ipBlock:
-                  cidr: 142.250.189.195/32
+                  cidr: 172.21.0.0./12
       postgresql:
         persistence:
           size: 256Mi
