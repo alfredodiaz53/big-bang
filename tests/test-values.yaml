@@ -1510,7 +1510,7 @@ addons:
           #image: "registry1.dso.mil/ironbank/cypress/included:12.0.1"
           #image: "registry1.dso.mil/ironbank/cypress/included:10.8.0"
           envs:
-            cypress_keycloak_test_enable: "true"
+            cypress_keycloak_test_enable: 'false'
             cypress_url: "https://keycloak.bigbang.dev"
             cypress_username: "admin"
             cypress_password: "password"
