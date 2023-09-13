@@ -179,6 +179,7 @@ gatekeeper:
           - logging/loki-cypress-test
           - twistlock/twistlock-cypress-test
           - sonarqube/sonarqube-cypress-test
+          - fortify/fortify-cypress-test
           - harbor/harbor-cypress-test
           - logging/elasticsearch-kibana-cypress-test
           - tempo/tempo-cypress-test
@@ -314,6 +315,7 @@ gatekeeper:
           - logging/loki-cypress-test
           - twistlock/twistlock-cypress-test
           - sonarqube/sonarqube-cypress-test
+          - fortify/fortify-cypress-test
           - harbor/harbor-cypress-test
           - thanos/thanos-cypress-test
           - logging/elasticsearch-kibana-cypress-test
@@ -474,6 +476,7 @@ kyvernoPolicies:
               - neuvector
               - harbor
               - thanos
+              - fortify
               names:
               - "*-cypress-test*"
         parameters:
@@ -509,6 +512,7 @@ kyvernoPolicies:
               - neuvector
               - harbor
               - thanos
+              - fortify
               names:
               - "*-cypress-test*"
         parameters:
@@ -554,6 +558,7 @@ kyvernoPolicies:
               - neuvector
               - harbor
               - thanos
+              - fortify
               names:
               - "*-cypress-test*"
       update-image-pull-policy:
