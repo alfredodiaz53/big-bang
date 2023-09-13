@@ -970,6 +970,7 @@ addons:
     values:
       bbtests:
         enabled: true
+        cypress:
           envs:
             cypress_url: "https://fortify.bigbang.dev"
 
