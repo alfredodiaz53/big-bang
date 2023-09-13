@@ -486,7 +486,16 @@ kyverno:
   flux: {}
 
   # -- Values to passthrough to the kyverno chart: https://repo1.dso.mil/big-bang/product/packages/kyverno.git
-  values: {}
+  values:
+    admissionController:
+      container:
+        resources:
+          limits:
+            cpu: 800m
+            memory: 718Mi
+          requests:
+            cpu: 800m
+            memory: 718Mi
 
   # -- Post Renderers.  See docs/postrenders.md
   postRenderers: []
