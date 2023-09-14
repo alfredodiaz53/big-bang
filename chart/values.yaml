@@ -1,4 +1,4 @@
-# -- Domain used for BigBang created exposed services, can be overridden by individual packages.
+ # -- Domain used for BigBang created exposed services, can be overridden by individual packages.
 domain: bigbang.dev
 
 # -- (experimental) Toggle sourcing from external repos.
@@ -1600,7 +1600,7 @@ addons:
       repo: https://repo1.dso.mil/big-bang/product/packages/mattermost.git
       path: "./chart"
       #tag: "8.1.0-bb.0"
-      branch: "cypress-12-modern"
+      branch: "cypress-12.9-test"
     helmRepo:
       repoName: "registry1"
       chartName: "mattermost"
