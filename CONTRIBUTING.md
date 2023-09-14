@@ -13,6 +13,7 @@ Table of Contents:
   - [DNS](#dns)
   - [Secrets & Certificates](#secrets--certificates)
   - [Merge requests process](#merge-requests-process)
+  - [Community Contributions](#community-contributions)
 
 ## Developers Guide
 
@@ -86,5 +87,11 @@ Follow instruction in [CI-Workflow](./docs/developer/ci-workflow.md) for specifi
 ## Security Considerations
 - To report a cybersecurity concern, follow this [link](https://jira.il2.dso.mil/servicedesk/customer/portal/81).
 - Never push secrets or certificates into our repository.
+
+## Community Contributions
+
+Big Bang allows for community contributions to unclassified repositories. Opensource community developers may pull and commit code while corresponding with the BigBang team via [Github](https://github.com/), please follow the specific guidelines and processes outlined in our documentation [CI-Workflow](./docs/developer/ci-workflow.md). We take security and compliance seriously, and certain contributions may require additional steps. 
+
+Thank you for contributing to BigBang, and we appreciate your support in making it even better!
 
 
