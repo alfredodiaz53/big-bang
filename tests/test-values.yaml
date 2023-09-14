@@ -1350,20 +1350,6 @@ addons:
     elasticsearch:
       enabled: true
     values:
-      networkPolicies:
-        additionalPolicies:
-        - name: egress-mm-job
-          spec:
-            podSelector: {}
-            policyTypes:
-            - Egress
-            egress:
-            - to:
-              - ipBlock:
-                  cidr: 172.21.0.0/16
-                  cidr: 172.20.0.0/12
-                  cidr: 34.95.113.255/32
-                  cidr: 169.254.169.254/32
       postgresql:
         persistence:
           size: 256Mi
