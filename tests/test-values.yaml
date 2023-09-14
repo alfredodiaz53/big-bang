@@ -1897,8 +1897,6 @@ addons:
           image: "registry1.dso.mil/bigbang-ci/gitlab-tester:0.0.4"
           envs:
             HARBOR_REGISTRY: "harbor.bigbang.dev"
-<<<<<<< HEAD
-=======
 
   # ----------------------------------------------------------------------------------------------------------------------
   # Thanos
@@ -2063,4 +2061,3 @@ addons:
           image: "registry1.dso.mil/bigbang-ci/gitlab-tester:0.0.4"
           envs:
             THANOS_REGISTRY: "thanos.bigbang.dev"
->>>>>>> 5c6b6f4a (1651_add_thanos charts_to_bb_mainrepo)
