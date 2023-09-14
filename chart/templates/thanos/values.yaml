@@ -1,8 +1,6 @@
-{{- $pkg := "thanos" }}
-
 {{- /* Create secret */ -}}
-{{- if (get .Values.addons $pkg).enabled }}
-{{- include "values-secret" (dict "root" $ "package" (get .Values.addons $pkg) "name" $pkg "defaults" (include (printf "bigbang.defaults.%s" $pkg) .)) }}
+{{- if .Values.addons.thanos.enabled }}
+{{- include "values-secret" (dict "root" $ "package" .Values.addons.thanos "name" "thanos" "defaults" (include "bigbang.defaults.thanos" .)) }}
 {{- end }}
 
 {{- define "bigbang.defaults.thanos" -}}
@@ -29,11 +27,9 @@ networkPolicies:
     {{- $default := dict "app" (dig "gateways" $gateway "ingressGateway" nil .Values.istio) "istio" nil }}
     {{- toYaml (dig "values" "gateways" $gateway "selector" $default .Values.istio) | nindent 4 }}
 
-{{- end }}
 monitoring:
   enabled: {{ .Values.monitoring.enabled }}
 
 sso:
   enabled: {{ .Values.addons.thanos.sso.enabled }}
-
-{{- end }}
+{{- end}}
