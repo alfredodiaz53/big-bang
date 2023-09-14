@@ -1421,7 +1421,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/apps/third-party/fortify.git
       path: "./chart"
-      tag: "0.2.0-bb.14"
+      # tag: "0.2.0-bb.14"
+      branch: "51-fix-fortify-pipeline"
     helmRepo:
       repoName: "registry1"
       chartName: "fortify"
