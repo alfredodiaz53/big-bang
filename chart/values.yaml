@@ -532,7 +532,8 @@ kyvernoReporter:
   helmRepo:
     repoName: "registry1"
     chartName: "kyverno-reporter"
-    tag: "2.16.0-bb.1"
+    #tag: "2.16.0-bb.1"
+    branch: "Maint-Cypress-Upgrade"
 
   # -- Flux reconciliation overrides specifically for the Kyverno Reporter Package
   flux: {}
