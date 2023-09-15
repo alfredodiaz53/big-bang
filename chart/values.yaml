@@ -468,7 +468,7 @@ gatekeeper:
 #
 kyverno:
   # -- Toggle deployment of Kyverno.
-  enabled: true
+  enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -494,7 +494,7 @@ kyverno:
 
 kyvernoPolicies:
   # -- Toggle deployment of Kyverno policies
-  enabled: true
+  enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -519,7 +519,7 @@ kyvernoPolicies:
 
 kyvernoReporter:
   # -- Toggle deployment of Kyverno Reporter
-  enabled: true
+  enabled: false
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -995,7 +995,7 @@ twistlock:
 addons:
   argocd:
     # -- Toggle deployment of ArgoCD.
-    enabled: false
+    enabled: true
 
     # -- Choose source type of "git" or "helmRepo"
     sourceType: "git"
@@ -1003,7 +1003,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/argocd.git
       path: "./chart"
-      tag: "5.45.2-bb.0"
+      #tag: "5.45.2-bb.0"
+      branch: "maintenance-upgrade-cypress"
     helmRepo:
       repoName: "registry1"
       chartName: "argocd"
