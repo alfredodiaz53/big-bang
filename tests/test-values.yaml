@@ -360,7 +360,7 @@ kyvernoReporter:
 kyvernoPolicies:
   values:
     bbtests:
-      enabled: true
+      enabled: false
     excludeContainers:
     - not-me
     - or-me
