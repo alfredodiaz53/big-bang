@@ -351,6 +351,7 @@ kyvernoReporter:
     branch: "Maint-Cypress-Upgrade"
   values:
     bbtests:
+      enabled: true
       cypress:
         envs:
           cypress_grafana_url: https://grafana.bigbang.dev
