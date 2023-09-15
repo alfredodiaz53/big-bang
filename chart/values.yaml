@@ -1703,7 +1703,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/velero.git
       path: "./chart"
-      tag: "4.0.3-bb.0"
+      #tag: "4.0.3-bb.0"
+      branch: "ci-fix-mebe"
     helmRepo:
       repoName: "registry1"
       chartName: "velero"
