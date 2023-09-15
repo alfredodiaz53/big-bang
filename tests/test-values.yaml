@@ -713,6 +713,8 @@ tempo:
                   cidr: 34.95.113.255/32
                   cidr: 169.254.169.254/32
     istio:
+      tempo:
+        enabled: true
       tempoQuery:
         hosts:
           - "tempo.{{ .Values.domain }}"
