@@ -782,11 +782,11 @@ tempo:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/tempo.git
     path: "./chart"
-    tag: "1.2.0-bb.5"
+    tag: "1.6.1-bb.0"
   helmRepo:
     repoName: "registry1"
     chartName: "tempo"
-    tag: "1.2.0-bb.5"
+    tag: "1.6.1-bb.0"
 
   # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
   ingress:
@@ -1003,11 +1003,11 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/argocd.git
       path: "./chart"
-      tag: "5.42.2-bb.0"
+      tag: "5.45.2-bb.0"
     helmRepo:
       repoName: "registry1"
       chartName: "argocd"
-      tag: "5.42.2-bb.0"
+      tag: "5.45.2-bb.0"
 
     # -- Flux reconciliation overrides specifically for the ArgoCD Package
     flux: {}

@@ -157,7 +157,7 @@ gatekeeper:
           # Allows k3d load balancer containers to pull from public repos
           - istio-system/lb-port-.*
           # Allow argocd to deploy a test app in its cypress test
-          - argocd/guestbook-ui.*
+          - argocd/bb-cypress-test.*
           # Allow kyverno test vectors for Helm test
           - default/c.?
           - default/i.?
@@ -529,7 +529,7 @@ kyvernoPolicies:
               namespaces:
               - argocd
               names:
-              - guestbook-ui*
+              - bb-cypress-test*
       restrict-volume-types:
         exclude:
           any:
@@ -716,6 +716,7 @@ tempo:
     bbtests:
       enabled: true
       cypress:
+        image: registry1.dso.mil/bigbang-ci/cypress-kubectl:9.7.0
         artifacts: true
         envs:
           cypress_url: 'https://tempo.bigbang.dev'
