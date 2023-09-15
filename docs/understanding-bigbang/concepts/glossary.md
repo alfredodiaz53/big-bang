@@ -42,18 +42,18 @@ The following packages are included in a default deployment of Big Bang:
 
 |Name|Description|Helm Chart Repo|
 |--|--|--|
-|[Istio](https://istio.io/)|[Service Mesh](https://www.redhat.com/en/topics/microservices/what-is-a-service-mesh)|[Link](https://repo1.dso.mil/big-bang/apps/core/servicemesh.git)|
-|Cluster Auditor| |[Link](https://repo1.dso.mil/big-bang/apps/core/cluster-auditor.git)|
-|[Open Policy Agent Gatekeeper](https://github.com/open-policy-agent/gatekeeper)| Policy Management | [Link](https://repo1.dso.mil/big-bang/apps/core/policy.git)|
-|[Elastic Cloud on Kubernetes (ECK)](https://www.elastic.co/guide/en/cloud-on-k8s/current/index.html)| Logging; Incl. Elasticsearch & Kibana |[Link](https://repo1.dso.mil/big-bang/apps/core/elasticsearch-kibana.git)|
-|[Prometheus](https://prometheus.io/) and [Grafana](https://grafana.com/)| Monitoring |[Link](https://repo1.dso.mil/big-bang/apps/core/monitoring.git)|
+|[Istio](https://istio.io/)|[Service Mesh](https://www.redhat.com/en/topics/microservices/what-is-a-service-mesh)|[Link](https://repo1.dso.mil/big-bang/product/packages/servicemesh.git)|
+|Cluster Auditor| |[Link](https://repo1.dso.mil/big-bang/product/packages/cluster-auditor.git)|
+|[Open Policy Agent Gatekeeper](https://github.com/open-policy-agent/gatekeeper)| Policy Management | [Link](https://repo1.dso.mil/big-bang/product/packages/policy.git)|
+|[Elastic Cloud on Kubernetes (ECK)](https://www.elastic.co/guide/en/cloud-on-k8s/current/index.html)| Logging; Incl. Elasticsearch & Kibana |[Link](https://repo1.dso.mil/big-bang/product/packages/elasticsearch-kibana.git)|
+|[Prometheus](https://prometheus.io/) and [Grafana](https://grafana.com/)| Monitoring |[Link](https://repo1.dso.mil/big-bang/product/packages/monitoring.git)|
 |[Twistlock](https://www.paloaltonetworks.com/prisma/cloud)| Security Scanning |[Link](https://repo1.dso.mil/big-bang/apps/security-tools/twistlock.git)|
 
 In addition, the following packages can be added onto the default deployment:
 
 |Name|Description|Helm Chart Repo|
 |--|--|--|
-|[Argo CD](https://argoproj.github.io/argo-cd/)| Continuous Delivery |[Link](https://repo1.dso.mil/big-bang/apps/core/argocd.git)|
+|[Argo CD](https://argoproj.github.io/argo-cd/)| Continuous Delivery |[Link](https://repo1.dso.mil/big-bang/product/packages/argocd.git)|
 |Auth Service|Single Sign On|[Link](https://repo1.dso.mil/big-bang/product/packages/authservice.git)
 
 ---

@@ -21,32 +21,32 @@ git:
 
 istio:
   git:
-    repo: https://repo1.dso.mil/big-bang/apps/core/istio-controlplane.git
+    repo: https://repo1.dso.mil/big-bang/product/packages/istio-controlplane.git
     path: "./chart"
     branch: "my-dev-branch"
 istioOperator:
   git:
-    repo: https://repo1.dso.mil/big-bang/apps/core/istio-operator.git
+    repo: https://repo1.dso.mil/big-bang/product/packages/istio-operator.git
     path: "./chart"
     branch: "my-dev-branch"
 jaeger:
   git:
-    repo: https://repo1.dso.mil/big-bang/apps/core/jaeger.git
+    repo: https://repo1.dso.mil/big-bang/product/packages/jaeger.git
     path: "./chart"
     branch: "my-dev-branch"
 kiali:
   git:
-    repo: https://repo1.dso.mil/big-bang/apps/core/kiali.git
+    repo: https://repo1.dso.mil/big-bang/product/packages/kiali.git
     path: "./chart"
     branch: "my-dev-branch"
 clusterAuditor:
   git:
-    repo: https://repo1.dso.mil/big-bang/apps/core/cluster-auditor.git
+    repo: https://repo1.dso.mil/big-bang/product/packages/cluster-auditor.git
     path: "./chart"
     branch: "my-dev-branch"
 gatekeeper:
   git:
-    repo: https://repo1.dso.mil/big-bang/apps/core/policy.git
+    repo: https://repo1.dso.mil/big-bang/product/packages/policy.git
     path: "./chart"
     branch: "my-dev-branch"
 kyverno:
@@ -66,17 +66,17 @@ kyvernoReporter:
     branch: "my-dev-branch"
 elasticsearchKibana:
   git:
-    repo: https://repo1.dso.mil/big-bang/apps/core/elasticsearch-kibana.git
+    repo: https://repo1.dso.mil/big-bang/product/packages/elasticsearch-kibana.git
     path: "./chart"
     branch: "my-dev-branch"
 eckOperator:
   git:
-    repo: https://repo1.dso.mil/big-bang/apps/core/eck-operator.git
+    repo: https://repo1.dso.mil/big-bang/product/packages/eck-operator.git
     path: "./chart"
     branch: "my-dev-branch"
 fluentbit:
   git:
-    repo: https://repo1.dso.mil/big-bang/apps/core/fluentbit.git
+    repo: https://repo1.dso.mil/big-bang/product/packages/fluentbit.git
     path: "./chart"
     branch: "my-dev-branch"
 promtail:
@@ -101,7 +101,7 @@ tempo:
     branch: "my-dev-branch"
 monitoring:
   git:
-    repo: https://repo1.dso.mil/big-bang/apps/core/monitoring.git
+    repo: https://repo1.dso.mil/big-bang/product/packages/monitoring.git
     path: "./chart"
     branch: "my-dev-branch"
 twistlock:
@@ -112,12 +112,12 @@ twistlock:
 addons:
   argocd:
     git:
-      repo: https://repo1.dso.mil/big-bang/apps/core/argocd.git
+      repo: https://repo1.dso.mil/big-bang/product/packages/argocd.git
       path: "./chart"
       branch: "my-dev-branch"
   authservice:
     git:
-      repo: https://repo1.dso.mil/big-bang/apps/core/authservice.git
+      repo: https://repo1.dso.mil/big-bang/product/packages/authservice.git
       path: "./chart"
       branch: "my-dev-branch"
   minioOperator:

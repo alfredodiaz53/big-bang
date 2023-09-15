@@ -43,7 +43,7 @@ Why 2 VMs? 2 reasons:
 
 ### Additional Auth Service and Keycloak documentation can be found in these locations
 
-* [Authservice](https://repo1.dso.mil/big-bang/apps/core/authservice)
+* [Authservice](https://repo1.dso.mil/big-bang/product/packages/authservice)
 * [Authservice Architecture](../../understanding-bigbang/package-architecture/authservice.md)
 * [Keycloak](https://repo1.dso.mil/big-bang/apps/security-tools/keycloak)
 * [Keycloak Architecture](../../understanding-bigbang/package-architecture/keycloak.md)

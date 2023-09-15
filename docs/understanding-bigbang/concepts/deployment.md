@@ -132,13 +132,13 @@ The following commands will help you monitor the progress of the Big Bang deploy
    # The STATUS column shows the branch and tag of the revision being used.
     NAMESPACE     NAME              URL                                                                             READY   STATUS                                                                      AGE
     bigbang       bigbang           https://repo1.dso.mil/big-bang/bigbang.git                        True    Fetched revision: master/3a44686520152e576a8c2c6f264876efff497c4b           8m25s
-    bigbang       logging           https://repo1.dso.mil/big-bang/apps/core/logging.git               True    Fetched revision: release-v0.2.x/9cfe1e14c12098464ee89eb877614f781cd78fb7   8m23s
+    bigbang       logging           https://repo1.dso.mil/big-bang/product/packages/logging.git               True    Fetched revision: release-v0.2.x/9cfe1e14c12098464ee89eb877614f781cd78fb7   8m23s
     bigbang       certmanager       https://repo1.dso.mil/big-bang/product/packages/cert-manager.git       True    Fetched revision: release-v1.0.x/1247135baf145dcfad4a4a02ef679c48fb76d9fb   8m23s
-    bigbang       istio             https://repo1.dso.mil/big-bang/apps/core/servicemesh.git           True    Fetched revision: chart-release/2b02a51b7950ce21bac26403fa25d09e7e3f86c3    8m23s
+    bigbang       istio             https://repo1.dso.mil/big-bang/product/packages/servicemesh.git           True    Fetched revision: chart-release/2b02a51b7950ce21bac26403fa25d09e7e3f86c3    8m23s
     bigbang       twistlock         https://repo1.dso.mil/big-bang/apps/security-tools/twistlock.git   True    Fetched revision: chart-release/faf038197291915713e0f213a4e35991e72f73f6    8m23s
-    bigbang       gatekeeper        https://repo1.dso.mil/big-bang/apps/core/policy.git                True    Fetched revision: chart-release/1a5f32c8e7f672c3b5937b604e5f38eaa08ce246    8m23s
-    bigbang       monitoring        https://repo1.dso.mil/big-bang/apps/core/monitoring.git            True    Fetched revision: release-v0.2.x/ca60bedcc106b95beb0bf9ccdc6e0e759e6fd6bf   8m23s
-    bigbang       cluster-auditor   https://repo1.dso.mil/big-bang/apps/core/cluster-auditor.git       True    Fetched revision: chart-release/598c35670db0cbdb3a48063b2d558965afe73185    8m23s
+    bigbang       gatekeeper        https://repo1.dso.mil/big-bang/product/packages/policy.git                True    Fetched revision: chart-release/1a5f32c8e7f672c3b5937b604e5f38eaa08ce246    8m23s
+    bigbang       monitoring        https://repo1.dso.mil/big-bang/product/packages/monitoring.git            True    Fetched revision: release-v0.2.x/ca60bedcc106b95beb0bf9ccdc6e0e759e6fd6bf   8m23s
+    bigbang       cluster-auditor   https://repo1.dso.mil/big-bang/product/packages/cluster-auditor.git       True    Fetched revision: chart-release/598c35670db0cbdb3a48063b2d558965afe73185    8m23s
    ```
 
 1. Verify the packages get deployed
@@ -167,7 +167,7 @@ The following commands will help you monitor the progress of the Big Bang deploy
 
     NAMESPACE           NAME                                            READY   UP-TO-DATE   AVAILABLE   AGE
     kube-system         deployment.apps/local-path-provisioner          1/1     1            1           4m48s
-    kube-system         deployment.apps/coredns                         1/1     1            1           4m48s
+    kube-system         deployment.product/packagesdns                         1/1     1            1           4m48s
     flux-system         deployment.apps/helm-controller                 1/1     1            1           4m6s
     flux-system         deployment.apps/notification-controller         1/1     1            1           4m6s
     flux-system         deployment.apps/source-controller               1/1     1            1           4m7s

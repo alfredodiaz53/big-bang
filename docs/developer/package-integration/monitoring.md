@@ -100,7 +100,7 @@ All of these rules must be based on [PromQL queries](https://prometheus.io/docs/
 
 Once you have identified what you want to monitor, create [Prometheus Alerting Rules](https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/) and add them to a [PrometheusRule](https://prometheus-operator.dev/docs/operator/api/#prometheusrule) resource.  The rule should reside in the `chart/templates/bigbang` folder and only be deployed if monitoring is enabled.
 
-Some examples of rules can be found in the [Big Bang monitoring chart](https://repo1.dso.mil/big-bang/apps/core/monitoring/-/tree/main/chart/templates/prometheus/rules).
+Some examples of rules can be found in the [Big Bang monitoring chart](https://repo1.dso.mil/big-bang/product/packages/monitoring/-/tree/main/chart/templates/prometheus/rules).
 
 ### Dashboards
 
