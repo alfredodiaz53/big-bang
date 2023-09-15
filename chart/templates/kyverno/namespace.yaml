@@ -7,5 +7,6 @@ metadata:
     app.kubernetes.io/component: "core"
     {{- include "commonLabels" . | nindent 4}}
     istio-injection: disabled
+    this-is-a-test: true
   name: kyverno
 {{- end }}
