@@ -157,7 +157,7 @@ gatekeeper:
           # Allows k3d load balancer containers to pull from public repos
           - istio-system/lb-port-.*
           # Allow argocd to deploy a test app in its cypress test
-          - argocd/guestbook-ui.*
+          - argocd/bb-cypress-test.*
           # Allow kyverno test vectors for Helm test
           - default/c.?
           - default/i.?
@@ -179,6 +179,7 @@ gatekeeper:
           - logging/loki-cypress-test
           - twistlock/twistlock-cypress-test
           - sonarqube/sonarqube-cypress-test
+          - fortify/fortify-cypress-test
           - harbor/harbor-cypress-test
           - logging/elasticsearch-kibana-cypress-test
           - tempo/tempo-cypress-test
@@ -314,6 +315,7 @@ gatekeeper:
           - logging/loki-cypress-test
           - twistlock/twistlock-cypress-test
           - sonarqube/sonarqube-cypress-test
+          - fortify/fortify-cypress-test
           - harbor/harbor-cypress-test
           - logging/elasticsearch-kibana-cypress-test
           - tempo/tempo-cypress-test
@@ -472,6 +474,7 @@ kyvernoPolicies:
               - minio
               - neuvector
               - harbor
+              - fortify
               names:
               - "*-cypress-test*"
         parameters:
@@ -506,6 +509,7 @@ kyvernoPolicies:
               - minio
               - neuvector
               - harbor
+              - fortify
               names:
               - "*-cypress-test*"
         parameters:
@@ -525,7 +529,7 @@ kyvernoPolicies:
               namespaces:
               - argocd
               names:
-              - guestbook-ui*
+              - bb-cypress-test*
       restrict-volume-types:
         exclude:
           any:
@@ -550,6 +554,7 @@ kyvernoPolicies:
               - minio
               - neuvector
               - harbor
+              - fortify
               names:
               - "*-cypress-test*"
       update-image-pull-policy:
@@ -711,6 +716,7 @@ tempo:
     bbtests:
       enabled: true
       cypress:
+        image: registry1.dso.mil/bigbang-ci/cypress-kubectl:9.7.0
         artifacts: true
         envs:
           cypress_url: 'https://tempo.bigbang.dev'

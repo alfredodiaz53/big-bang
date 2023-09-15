@@ -516,7 +516,7 @@ kyvernoPolicies:
   helmRepo:
     repoName: "registry1"
     chartName: "kyverno-policies"
-    tag: "1.1.0-bb.9"
+    tag: "1.1.0-bb.10"
 
   # -- Flux reconciliation overrides specifically for the Kyverno Package
   flux: {}
@@ -792,11 +792,11 @@ tempo:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/tempo.git
     path: "./chart"
-    tag: "1.2.0-bb.5"
+    tag: "1.6.1-bb.0"
   helmRepo:
     repoName: "registry1"
     chartName: "tempo"
-    tag: "1.2.0-bb.5"
+    tag: "1.6.1-bb.0"
 
   # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public".
   ingress:
@@ -966,11 +966,11 @@ twistlock:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/twistlock.git
     path: "./chart"
-    tag: "0.12.0-bb.5"
+    tag: "0.13.0-bb.0"
   helmRepo:
     repoName: "registry1"
     chartName: "twistlock"
-    tag: "0.12.0-bb.5"
+    tag: "0.13.0-bb.0"
 
   # -- Flux reconciliation overrides specifically for the Twistlock Package
   flux: {}
@@ -1013,11 +1013,11 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/argocd.git
       path: "./chart"
-      tag: "5.42.2-bb.0"
+      tag: "5.45.2-bb.0"
     helmRepo:
       repoName: "registry1"
       chartName: "argocd"
-      tag: "5.42.2-bb.0"
+      tag: "5.45.2-bb.0"
 
     # -- Flux reconciliation overrides specifically for the ArgoCD Package
     flux: {}
@@ -1070,11 +1070,11 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/authservice.git
       path: "./chart"
-      tag: "0.5.3-bb.15"
+      tag: "0.5.3-bb.16"
     helmRepo:
       repoName: "registry1"
       chartName: "authservice"
-      tag: "0.5.3-bb.15"
+      tag: "0.5.3-bb.16"
 
     # -- Flux reconciliation overrides specifically for the Authservice Package
     flux: {}
@@ -1429,13 +1429,13 @@ addons:
     sourceType: "git"
 
     git:
-      repo: https://repo1.dso.mil/big-bang/apps/third-party/fortify.git
+      repo: https://repo1.dso.mil/big-bang/product/packages/fortify.git
       path: "./chart"
-      tag: "0.2.0-bb.11"
+      tag: "0.2.0-bb.14"
     helmRepo:
       repoName: "registry1"
       chartName: "fortify"
-      tag: "0.2.0-bb.11"
+      tag: "0.2.0-bb.14"
 
     # -- Flux reconciliation overrides specifically for the Fortify Package
     flux: {}
@@ -1444,7 +1444,17 @@ addons:
     ingress:
       gateway: ""
 
-    # -- Values to passthrough to the fortify chart: https://repo1.dso.mil/big-bang/apps/third-party/fortify.git
+    sso:
+      # -- Toggle SSO for Harbor on and off
+      enabled: false
+
+      # -- OIDC Client ID to use for Harbor
+      client_id: ""
+
+      # -- OIDC Client Secret to use for Harbor
+      client_secret: ""
+
+    # -- Values to passthrough to the fortify chart: https://repo1.dso.mil/big-bang/product/packages/fortify.git
     values: {}
 
     # -- Post Renderers.  See docs/postrenders.md
@@ -1739,11 +1749,11 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/keycloak.git
       path: "./chart"
-      tag: "18.4.3-bb.3"
+      tag: "18.4.3-bb.4"
     helmRepo:
       repoName: "registry1"
       chartName: "keycloak"
-      tag: "18.4.3-bb.3"
+      tag: "18.4.3-bb.4"
 
     database:
       # -- Hostname of a pre-existing database to use for Keycloak.
@@ -1796,11 +1806,11 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/vault.git
       path: "./chart"
-      tag: "0.24.1-bb.3"
+      tag: "0.25.0-bb.0"
     helmRepo:
       repoName: "registry1"
       chartName: "vault"
-      tag: "0.24.1-bb.3"
+      tag: "0.25.0-bb.0"
       
     # -- Flux reconciliation overrides specifically for the Vault Package
     flux: {}
