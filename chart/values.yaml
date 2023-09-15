@@ -527,7 +527,8 @@ kyvernoReporter:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/kyverno-reporter.git
     path: ./chart
-    tag: "2.16.0-bb.1"
+    #tag: "2.16.0-bb.1"
+    branch: "Maint-Cypress-Upgrade"
   helmRepo:
     repoName: "registry1"
     chartName: "kyverno-reporter"
