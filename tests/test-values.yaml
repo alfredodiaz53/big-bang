@@ -1,5 +1,5 @@
 domain: bigbang.dev
-
+#
 sso:
   url: https://keycloak.bigbang.dev/auth/realms/baby-yoda
 #
