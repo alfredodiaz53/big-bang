@@ -154,7 +154,7 @@ gatekeeper:
           # Allows k3d load balancer containers to pull from public repos
           - istio-system/lb-port-.*
           # Allow argocd to deploy a test app in its cypress test
-          - argocd/guestbook-ui.*
+          - argocd/bb-cypress-test.*
           # Allow kyverno test vectors for Helm test
           - default/c.?
           - default/i.?
@@ -176,6 +176,7 @@ gatekeeper:
           - logging/loki-cypress-test
           - twistlock/twistlock-cypress-test
           - sonarqube/sonarqube-cypress-test
+          - fortify/fortify-cypress-test
           - harbor/harbor-cypress-test
           - logging/elasticsearch-kibana-cypress-test
           - tempo/tempo-cypress-test
@@ -311,6 +312,7 @@ gatekeeper:
           - logging/loki-cypress-test
           - twistlock/twistlock-cypress-test
           - sonarqube/sonarqube-cypress-test
+          - fortify/fortify-cypress-test
           - harbor/harbor-cypress-test
           - logging/elasticsearch-kibana-cypress-test
           - tempo/tempo-cypress-test
@@ -469,6 +471,7 @@ kyvernoPolicies:
               - minio
               - neuvector
               - harbor
+              - fortify
               names:
               - "*-cypress-test*"
         parameters:
@@ -503,6 +506,7 @@ kyvernoPolicies:
               - minio
               - neuvector
               - harbor
+              - fortify
               names:
               - "*-cypress-test*"
         parameters:
@@ -522,7 +526,7 @@ kyvernoPolicies:
               namespaces:
               - argocd
               names:
-              - guestbook-ui*
+              - bb-cypress-test*
       restrict-volume-types:
         exclude:
           any:
@@ -547,6 +551,7 @@ kyvernoPolicies:
               - minio
               - neuvector
               - harbor
+              - fortify
               names:
               - "*-cypress-test*"
       update-image-pull-policy:
@@ -691,6 +696,9 @@ loki:
           LOKI_URL: 'http://logging-loki-write.logging.svc:3100'
 
 tempo:
+  sso:
+    enabled: false
+    client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_tempo
   values:
     istio:
       tempoQuery:
@@ -705,12 +713,17 @@ tempo:
     bbtests:
       enabled: true
       cypress:
+        image: registry1.dso.mil/bigbang-ci/cypress-kubectl:9.7.0
         artifacts: true
         envs:
           cypress_url: 'https://tempo.bigbang.dev'
           cypress_tempo_datasource: 'http://tempo-tempo.tempo.svc:3100'
           cypress_check_datasource: 'true'
           cypress_grafana_url: 'https://grafana.bigbang.dev'
+          # uncomment following variables for sso keycloak testing in bb
+          #cypress_tnr_username: "cypress"
+          #cypress_tnr_password: "tnr_w!G33ZyAt@C8"
+          #cypress_keycloak_test_enable: "true"
       scripts:
         enabled: false
         envs:
@@ -946,6 +959,15 @@ addons:
             enabled: false  
           persistence:
             size: 256Mi
+
+  fortify:
+    enabled: false
+    flux:
+      timeout: 5m
+    ingress:
+      gateway: ""
+    sso:
+      enabled: false
 
   gitlab:
     enabled: false
@@ -1457,6 +1479,7 @@ addons:
         scripts:
           envs:
             docker_host: "containers.bigbang.dev"
+
   velero:
     enabled: false
     plugins:
