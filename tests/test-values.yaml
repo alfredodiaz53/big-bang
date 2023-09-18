@@ -75,7 +75,7 @@ istio:
 jaeger:
   enabled: false
   sso:
-    enabled: true
+    enabled: false
     client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_jaeger
   values:
     istio:
@@ -92,7 +92,7 @@ jaeger:
 kiali:
   enabled: true
   sso:
-    enabled: true
+    enabled: false
     client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_kiali
   values:
     cr:
@@ -757,7 +757,7 @@ monitoring:
       disableOpenAPIValidation: true
       crds: CreateReplace
   sso:
-    enabled: true
+    enabled: false
     prometheus:
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_prometheus
     alertmanager:
@@ -798,7 +798,7 @@ monitoring:
 grafana:
   enabled: true
   sso:
-    enabled: true
+    enabled: false
     grafana:
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_grafana
       scopes: "openid Grafana"
@@ -935,6 +935,8 @@ addons:
           envs:
             cypress_url: "https://argocd.bigbang.dev"
             cypress_keycloak_test_enable: 'true'
+            cypress_tnr_username: "cypress"
+            cypress_tnr_password: "tnr_w!G33ZyAt@C8"
 
   authservice:
     enabled: false
