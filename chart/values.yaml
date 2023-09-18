@@ -16,7 +16,7 @@ helmRepositories: []
 #   username: ""
 #   password: ""
 #   email: ""
-
+#
 # -- Single set of registry credentials used to pull all images deployed by BigBang.
 registryCredentials:
   registry: registry1.dso.mil
