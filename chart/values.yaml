@@ -1004,7 +1004,7 @@ addons:
       repo: https://repo1.dso.mil/big-bang/product/packages/argocd.git
       path: "./chart"
       #tag: "5.45.2-bb.0"
-      branch: "maintenance-upgrade-cypress"
+      branch: "cypress-upgrade"
     helmRepo:
       repoName: "registry1"
       chartName: "argocd"
