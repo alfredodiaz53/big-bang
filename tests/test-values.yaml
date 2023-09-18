@@ -75,7 +75,7 @@ istio:
 jaeger:
   enabled: false
   sso:
-    enabled: false
+    enabled: true
     client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_jaeger
   values:
     istio:
@@ -86,11 +86,13 @@ jaeger:
       cypress:
         envs:
           cypress_url: "https://tracing.bigbang.dev"
+          cypress_keycloak_test_enable: 'true'
+
 
 kiali:
   enabled: true
   sso:
-    enabled: false
+    enabled: true
     client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_kiali
   values:
     cr:
@@ -106,7 +108,7 @@ kiali:
           cypress_url: 'https://kiali.bigbang.dev'
           cypress_check_data: 'true'
           # uncomment these next 3 lines if enabling the keycloak SSO integration test
-          #cypress_keycloak_test_enable: "true"
+          cypress_keycloak_test_enable: 'true'
           #cypress_keycloak_username: "cypress"
           #cypress_keycloak_password: "tnr_w!G33ZyAt@C8"
 
@@ -742,7 +744,7 @@ monitoring:
       disableOpenAPIValidation: true
       crds: CreateReplace
   sso:
-    enabled: false
+    enabled: true
     prometheus:
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_prometheus
     alertmanager:
@@ -776,14 +778,14 @@ monitoring:
           cypress_grafana_url: 'https://grafana.bigbang.dev'
           cypress_alertmanager_url: 'https://alertmanager.bigbang.dev'
           cypress_check_istio_dashboards: 'true'
-          cypress_keycloak_test_enable: 'false'
+          cypress_keycloak_test_enable: 'true'
           cypress_tnr_username: "cypress"
           cypress_tnr_password: "tnr_w!G33ZyAt@C8"
 
 grafana:
   enabled: true
   sso:
-    enabled: false
+    enabled: true
     grafana:
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_grafana
       scopes: "openid Grafana"
@@ -820,6 +822,8 @@ grafana:
         image: registry1.dso.mil/bigbang-ci/cypress-kubectl:8.3.1
         envs:
           cypress_grafana_url: 'https://grafana.bigbang.dev'
+          cypress_keycloak_test_enable: 'true'
+
 
 neuvector:
   values:
@@ -856,7 +860,7 @@ addons:
   argocd:
     enabled: false
     sso:
-      enabled: false
+      enabled: true
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_argocd
       client_secret: anything-for-dev
       groups: |
@@ -917,6 +921,7 @@ addons:
         cypress:
           envs:
             cypress_url: "https://argocd.bigbang.dev"
+            cypress_keycloak_test_enable: 'true'
 
   authservice:
     enabled: false
@@ -1310,7 +1315,7 @@ addons:
   mattermost:
     enabled: false
     sso:
-      enabled: false
+      enabled: true
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_mattermost
       client_secret: "no-secret"
     elasticsearch:
@@ -1353,6 +1358,7 @@ addons:
           image: registry1.dso.mil/bigbang-ci/cypress-kubectl:8.3.1
           envs:
             cypress_url: https://chat.bigbang.dev
+            cypress_keycloak_test_enable: 'true'
 
   nexusRepositoryManager:
     enabled: false
