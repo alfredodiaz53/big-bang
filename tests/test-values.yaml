@@ -330,7 +330,7 @@ gatekeeper:
       enabled: true
 
 kyverno:
-  enabled: false
+  enabled: true
   values:
     replicaCount: 3
     resources:
@@ -344,7 +344,7 @@ kyverno:
       enabled: true
 
 kyvernoReporter:
-  enabled: false
+  enabled: true
   values:
     bbtests:
       cypress:
@@ -353,7 +353,7 @@ kyvernoReporter:
           cypress_prometheus_url: https://prometheus.bigbang.dev
 
 kyvernoPolicies:
-  enabled: false
+  enabled: true
   values:
     bbtests:
       enabled: true
