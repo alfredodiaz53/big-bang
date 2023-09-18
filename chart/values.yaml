@@ -1942,7 +1942,7 @@ addons:
           enabled: false
           certSource: secret
         #secret:
-        #  secretName: "thanos-tls-is-annoying"
+        #  secretName: "thanos-secret"
       externalURL: http://thanos
       internalTLS:
         enabled: false
