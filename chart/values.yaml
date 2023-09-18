@@ -1609,7 +1609,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/mattermost.git
       path: "./chart"
-      tag: "8.1.2-bb.0"
+      #tag: "8.1.2-bb.0"
+      branch: "cypress-13-modern"
     helmRepo:
       repoName: "registry1"
       chartName: "mattermost"
@@ -1739,7 +1740,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/keycloak.git
       path: "./chart"
-      tag: "18.4.3-bb.4"
+      #tag: "18.4.3-bb.4"
+      branch: "keycloak_sso_test_12x"
     helmRepo:
       repoName: "registry1"
       chartName: "keycloak"
