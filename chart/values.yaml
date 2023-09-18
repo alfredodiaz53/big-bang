@@ -1926,6 +1926,9 @@ addons:
       # -- OIDC Client Secret to use for Thanos
       client_secret: ""
 
+    values: {}
+
+    postRenderers: {}
 
 # -- Wrapper chart for integrating Big Bang components alongside a package
 wrapper:
