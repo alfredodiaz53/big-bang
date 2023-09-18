@@ -1891,7 +1891,6 @@ addons:
     # -- Post Renderers.  See docs/postrenders.md
     postRenderers: []
 
-
   # ----------------------------------------------------------------------------------------------------------------------
   # thanos
   #
@@ -1926,45 +1925,6 @@ addons:
 
       # -- OIDC Client Secret to use for Thanos
       client_secret: ""
-
-    # -- Values to pass through to Habor chart: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/thanos.git
-    values: 
-      existingSecretAdminPasswordKey: THANOS_ADMIN_PASSWORD
-      thanosAdminPassword: "Thanos12345"
-      redis:
-        external: 
-          addr: "thanos-redis-bb-headless:6379"
-      notary:
-        enabled: false
-      expose:
-        type: "clusterIP"
-        tls:
-          enabled: false
-          certSource: secret
-        #secret:
-        #  secretName: "thanos-secret"
-      externalURL: http://thanos
-      internalTLS:
-        enabled: false
-      postgresql:
-        resources:
-          requests:
-            cpu: "200m"
-            memory: "200Mi"
-          limits:
-            cpu: "200m"
-            memory: "200Mi"
-      redis-bb:
-        master:
-          persistence:
-            size: 256Mi
-        replicas:
-          replicaCount: 0
-          autoscaling:
-            enabled: false
-
-    # -- Post Renderers.  See docs/postrenders.md
-    postRenderers: []
 
 
 # -- Wrapper chart for integrating Big Bang components alongside a package
