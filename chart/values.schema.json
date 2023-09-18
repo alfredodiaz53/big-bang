@@ -1062,6 +1062,13 @@
               "$ref": "#/$defs/basePackage"
             }
           ]
+        },
+        "thanos": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/basePackage"
+            }
+          ]
         }
       }
     },
