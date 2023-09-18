@@ -1928,7 +1928,7 @@ addons:
 
     values: {}
 
-    postRenderers: {}
+    postRenderers: []
 
 # -- Wrapper chart for integrating Big Bang components alongside a package
 wrapper:
