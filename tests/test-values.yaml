@@ -1503,22 +1503,9 @@ addons:
       bbtests:
         enabled: true
         cypress:
-          #image: "registry1.dso.mil/bigbang-ci/cypress-kubectl:9.7.0"
-          #image: "registry1.dso.mil/ironbank/cypress/included:9.5.4"
-          #image: "registry1.dso.mil/ironbank/cypress/included:12.10.0"
-          #image: "registry1.dso.mil/ironbank/cypress/included:12.0.1"
-          #image: "registry1.dso.mil/ironbank/cypress/included:10.8.0"
           envs:
             cypress_url: "https://keycloak.bigbang.dev"
-            cypress_username: "admin"
-            cypress_password: "password"
-            cypress_tnr_username: "cypress"
-            cypress_tnr_password: "tnr_w!G33ZyAt@C8"
-            tnr_username: "cypress"
-            tnr_password: "tnr_w!G33ZyAt@C8"
-            tnr_firstName: "Cypress"
-            tnr_lastName: "TNR"
-            tnr_email: "cypress@tnr.mil"
+            keycloak_test_enable: 'true'
       command:
         - "/opt/keycloak/bin/kc.sh"
       args:
