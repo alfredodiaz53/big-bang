@@ -468,7 +468,7 @@ gatekeeper:
 #
 kyverno:
   # -- Toggle deployment of Kyverno.
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -494,7 +494,7 @@ kyverno:
 
 kyvernoPolicies:
   # -- Toggle deployment of Kyverno policies
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -519,7 +519,7 @@ kyvernoPolicies:
 
 kyvernoReporter:
   # -- Toggle deployment of Kyverno Reporter
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
