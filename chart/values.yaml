@@ -1892,12 +1892,12 @@ addons:
     postRenderers: []
 
 
-# ----------------------------------------------------------------------------------------------------------------------
+  # ----------------------------------------------------------------------------------------------------------------------
   # thanos
   #
   thanos:
     # -- Toggle deployment of thanos
-    enabled: false
+    enabled: true 
 
     # -- Choose source type of "git" or "helmRepo"
     sourceType: "git"
@@ -1919,7 +1919,7 @@ addons:
 
     sso:
       # -- Toggle SSO for Thanos on and off
-      enabled: false
+      enabled: true 
 
       # -- OIDC Client ID to use for Thanos
       client_id: ""
