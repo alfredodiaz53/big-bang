@@ -1004,8 +1004,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/argocd.git
       path: "./chart"
-      #tag: "5.45.2-bb.0"
-      branch: "cypress-upgrade"
+      tag: "5.45.2-bb.0"
     helmRepo:
       repoName: "registry1"
       chartName: "argocd"
@@ -1118,8 +1117,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/minio.git
       path: "./chart"
-      #tag: "5.0.5-bb.0"
-      branch: "renovate/ironbank"
+      tag: "5.0.5-bb.0"
+
     helmRepo:
       repoName: "registry1"
       chartName: "minio-instance"
@@ -1744,8 +1743,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/keycloak.git
       path: "./chart"
-      #tag: "18.4.3-bb.4"
-      branch: "keycloak_sso_test_12x"
+      tag: "18.4.3-bb.4"
     helmRepo:
       repoName: "registry1"
       chartName: "keycloak"
