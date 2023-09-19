@@ -464,6 +464,7 @@ kyvernoPolicies:
               - mattermost
               - nexus-repository-manager
               - keycloak
+              - kyverno-reporter
               - jaeger
               - monitoring
               - vault
@@ -499,6 +500,7 @@ kyvernoPolicies:
               - mattermost
               - nexus-repository-manager
               - keycloak
+              - kyverno-reporter
               - jaeger
               - monitoring
               - vault
@@ -544,6 +546,7 @@ kyvernoPolicies:
               - mattermost
               - nexus-repository-manager
               - keycloak
+              - kyverno-reporter
               - jaeger
               - monitoring
               - vault
