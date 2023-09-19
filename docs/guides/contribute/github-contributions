@@ -1,0 +1,85 @@
+# How to Contribute to the Big Bang GitHub Repository
+
+
+## Prerequisites
+
+Before you begin contributing, please ensure that you have the following:
+
+1. **GitHub Account**: If you don't have one, you can [create a GitHub account](https://github.com/join).
+
+2. **Git Installed**: Make sure you have Git installed on your local machine. If you don't, you can download it from [here](https://git-scm.com/downloads).
+
+3. **Familiarity with Git**: Basic knowledge of Git and version control will be helpful.
+
+## Contribution Steps
+
+1. **Fork the Repository**
+
+   - Navigate to the Big Bang GitHub repository that you want to contribute to [here](https://github.com/DoD-Platform-One).
+   - Click the "Fork" button in the upper-right corner to create your own copy of the repository.
+
+2. **Clone the Repository**
+
+   - On your forked repository, click the "Code" button and copy the repository URL.
+   - Open your terminal or command prompt.
+   - Run the following command to clone the repository to your local machine:
+
+     ```
+     git clone <repository_url>
+     ```
+
+3. **Create a Branch**
+
+   - Change to the repository's directory on your local machine.
+   - Create a new branch for your contribution:
+
+     ```
+     git checkout -b your-branch-name
+     ```
+
+4. **Make Changes**
+
+   - Implement the necessary code changes or additions to the project.
+
+5. **Commit Your Changes**
+
+   - Stage your changes for commit:
+
+     ```
+     git add .
+     ```
+
+   - Commit your changes with a descriptive message:
+
+     ```
+     git commit -m "Your commit message here"
+     ```
+
+6. **Push Changes**
+
+   - Push your changes to your GitHub repository:
+
+     ```
+     git push origin your-branch-name
+     ```
+
+7. **Create a Pull Request (PR)**
+
+   - Visit your forked repository on GitHub.
+   - Click the "New Pull Request" button.
+   - Select the base repository and branch (usually the original repository's main branch) and your fork's branch for comparison.
+   - Write a descriptive title and comment for your pull request.
+   - Click "Create Pull Request."
+
+8. **Review and Collaborate**
+
+   - The Big Bang project maintainers will review your pull request. Be responsive to their feedback and make necessary changes if requested.
+
+9. **Merge Pull Request**
+
+   - Once your pull request is approved by a maintainer, it will be merged into the main Big Bang project.
+
+10. **Sync with the Original Repository (Optional)**
+
+    - To keep your forked repository up to date with the original repository, you can follow [GitHub's guide on syncing a fork](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork).
+

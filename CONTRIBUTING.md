@@ -92,6 +92,8 @@ Follow instruction in [CI-Workflow](./docs/developer/ci-workflow.md) for specifi
 
 Big Bang allows for community contributions to unclassified repositories. Opensource community developers may pull and commit code while corresponding with the BigBang team via [Github](https://github.com/), please follow the specific guidelines and processes outlined in our documentation [CI-Workflow](./docs/developer/ci-workflow.md). We take security and compliance seriously, and certain contributions may require additional steps. 
 
+Click [here](./docs/guides/contribute/github-contributions) for detailed instructions on how to contribute to Big Bang.
+
 Thank you for contributing to BigBang, and we appreciate your support in making it even better!
 
 
