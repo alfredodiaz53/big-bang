@@ -971,7 +971,7 @@ addons:
   gitlab:
     enabled: false
     sso:
-      enabled: false
+      enabled: true
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_gitlab
     flux:
       timeout: 30m
@@ -1060,6 +1060,7 @@ addons:
           artifacts: true
           envs:
             cypress_baseUrl: https://gitlab.bigbang.dev
+            cypress_keycloak_test_enable: 'true'
         scripts:
           envs:
             GITLAB_REPOSITORY: https://gitlab.bigbang.dev
