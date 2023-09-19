@@ -350,7 +350,7 @@ kyvernoReporter:
         envs:
           cypress_grafana_url: https://grafana.bigbang.dev
           cypress_prometheus_url: https://prometheus.bigbang.dev
-          cypress_check_datasource: true
+          cypress_check_datasource: 'true'
 
 kyvernoPolicies:
   values:
