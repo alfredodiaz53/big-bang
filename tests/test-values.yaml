@@ -116,7 +116,7 @@ kiali:
           #cypress_keycloak_password: "tnr_w!G33ZyAt@C8"
 
 clusterAuditor:
-  enabled: false
+  enabled: true
   values:
     resources:
       requests:
