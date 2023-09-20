@@ -370,7 +370,7 @@ kiali:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/kiali.git
     path: "./chart"
-    tag: "1.71.0-bb.1"
+    branch: "cypress-upgrade"
   helmRepo:
     repoName: "registry1"
     chartName: "kiali"
