@@ -1854,14 +1854,14 @@ addons:
   #
   harbor:
     # -- Toggle deployment of harbor
-    enabled: false
+    enabled: true
 
     # -- Choose source type of "git" or "helmRepo"
     sourceType: "git"
 
     git:
       repo: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/harbor.git
-      tag: "1.12.4-bb.0"
+      branch: "cypress-upgrade"
       path: "./chart"
     helmRepo:
       repoName: "registry1"
