@@ -972,7 +972,7 @@ addons:
   gitlab:
     enabled: false
     sso:
-      enabled: false
+      enabled: true
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_gitlab
     flux:
       timeout: 30m
