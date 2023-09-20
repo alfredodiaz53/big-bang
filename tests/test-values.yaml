@@ -965,9 +965,7 @@ addons:
     flux:
       timeout: 5m
     ingress:
-      gateway: "passthrough"
-      key: "" # Gets added via chart/ingress-certs.yaml
-      cert: "" # Gets added via chart/ingress-certs.yaml
+      gateway: ""
     sso:
       enabled: false
     values:
