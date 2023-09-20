@@ -70,7 +70,7 @@ istio:
     kiali:
       dashboard:
         auth:
-          strategy: "anonymous"
+          strategy: "openid"
 
 jaeger:
   enabled: false
@@ -102,7 +102,7 @@ kiali:
         auth:
           # if enabling the keycloak SSO integration test, set strategy to "openid"
           #strategy: "openid"
-          strategy: "anonymous"
+          strategy: "openid"
     bbtests:
       enabled: true
       cypress:
@@ -1575,7 +1575,7 @@ addons:
             customreg.yaml: '{{ .Files.Get "resources/dev/baby-yoda.yaml" }}'
         realm:
           stringData:
-            realm.json: '{{ .Files.Get "resources/dev/baby-yoda.json" }}'
+            realm.json: '{{ .Files.Get "resources/dev/baby-yoda-bb-ci.json" }}'
         truststore:
           data:
             truststore.jks: |-
