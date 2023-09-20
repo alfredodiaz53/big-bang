@@ -1610,7 +1610,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/mattermost.git
       path: "./chart"
-      tag: "8.1.2-bb.0"
+      #tag: "8.1.2-bb.0"
+      branch: "renovate/ironbank"
     helmRepo:
       repoName: "registry1"
       chartName: "mattermost"
