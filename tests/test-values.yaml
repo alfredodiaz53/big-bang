@@ -1100,9 +1100,6 @@ addons:
             cypress_gitlab_username: "gitlabrunner_user"
             cypress_gitlab_password: "Runner_PaSsw0rd123"
             cypress_gitlab_project: "runner-hello-world"
-            cypress_tnr_username: "cypress"
-            cypress_tnr_password: "tnr_w!G33ZyAt@C8"
-            cypress_keycloak_test_enable: 'true'
           secretEnvs:
             - name: cypress_adminpassword
               valueFrom:
