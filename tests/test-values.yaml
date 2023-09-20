@@ -1100,6 +1100,9 @@ addons:
             cypress_gitlab_username: "gitlabrunner_user"
             cypress_gitlab_password: "Runner_PaSsw0rd123"
             cypress_gitlab_project: "runner-hello-world"
+            cypress_tnr_username: "cypress"
+            cypress_tnr_password: "tnr_w!G33ZyAt@C8"
+            cypress_keycloak_test_enable: 'true'
           secretEnvs:
             - name: cypress_adminpassword
               valueFrom:
@@ -1576,7 +1579,7 @@ addons:
             customreg.yaml: '{{ .Files.Get "resources/dev/baby-yoda.yaml" }}'
         realm:
           stringData:
-            realm.json: '{{ .Files.Get "resources/dev/baby-yoda.json" }}'
+            realm.json: '{{ .Files.Get "resources/dev/baby-yoda-bb-ci.json" }}'
         truststore:
           data:
             truststore.jks: |-
@@ -1586,7 +1589,7 @@ addons:
             quarkus.properties: '{{ .Files.Get "resources/dev/quarkus.properties" }}'
       extraInitContainers: |-
         - name: plugin
-          image: registry1.dso.mil/ironbank/big-bang/p1-keycloak-plugin:3.2.0
+          image: registry1.dso.mil/ironbank/big-bang/p1-keycloak-plugin:3.2.1
           imagePullPolicy: Always
           command:
           - sh
