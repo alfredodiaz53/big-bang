@@ -1060,7 +1060,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/authservice.git
       path: "./chart"
-      branch: "renovate/ironbank"
+      tag: "0.5.3-bb.17"
     helmRepo:
       repoName: "registry1"
       chartName: "authservice"
