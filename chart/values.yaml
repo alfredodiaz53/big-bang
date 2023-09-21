@@ -1960,21 +1960,18 @@ packages:
       # -- Path inside of the git repo to find the helm chart or kustomize
       # @default -- For Helm charts `chart`.  For Kustomize `/`.
       path:
-      # - Optional, alternative existing secret to use for git repo
+      # -- Optional, alternative existing secret to use for git credentials, must be in the appropriate format: https://toolkit.fluxcd.io/components/source/gitrepositories/#https-authentication
       existingSecret:
-      # - Optional, alternative credentials to use for git repo
+      # -- Optional, alternative Chart created secrets with user defined values
       credentials:
-        # - Username, required if using https auth
+        # -- HTTP git credentials, both username and password must be provided
         username: ""
-        # - Password, required if using https auth
         password: ""
-        # - CA certificate, optional if using https auth
+        # -- HTTPS certificate authority file.  Required for any repo with a self signed certificate
         caFile: ""
-        # - SSH private key, required if using ssh auth
+        # -- SSH git credentials, privateKey, publicKey, and knownHosts must be provided
         privateKey: ""
-        # - SSH public key, required if using ssh auth
         publicKey: ""
-        # - Known hosts file, required if using ssh auth
         knownHosts: ""
 
     # -- Override flux settings for this package
