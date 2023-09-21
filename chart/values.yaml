@@ -319,7 +319,7 @@ istioOperator:
 
 jaeger:
   # -- Toggle deployment of Jaeger.
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -327,7 +327,7 @@ jaeger:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/jaeger.git
     path: "./chart"
-    tag: "2.46.0-bb.2"
+    branch: "cypress-upgrade"
   helmRepo:
     repoName: "registry1"
     chartName: "jaeger"
@@ -1052,7 +1052,7 @@ addons:
     #   chain:
     #     minimal:
     #       callback_uri: "https://somecallback"
-    enabled: false
+    enabled: true
 
     # -- Choose source type of "git" or "helmRepo"
     sourceType: "git"
@@ -1060,7 +1060,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/authservice.git
       path: "./chart"
-      tag: "0.5.3-bb.17"
+      branch: "ironbank/renovate"
     helmRepo:
       repoName: "registry1"
       chartName: "authservice"
