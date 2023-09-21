@@ -736,7 +736,7 @@ neuvector:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/neuvector.git
     path: "./chart"
-    tag: "2.4.5-bb.5"
+    branch: "cypress-upgrade"
   helmRepo:
     repoName: "registry1"
     chartName: "neuvector"
