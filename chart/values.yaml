@@ -1116,7 +1116,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/minio.git
       path: "./chart"
-      tag: nil
+      tag: null
       branch: 51-create-minio-authorization-policy-for-tempo
     helmRepo:
       repoName: "registry1"
