@@ -346,7 +346,7 @@ jaeger:
 
   sso:
     # -- Toggle SSO for Jaeger on and off
-    enabled: false
+    enabled: true
 
     # -- OIDC Client ID to use for Jaeger
     client_id: ""
@@ -1731,7 +1731,7 @@ addons:
     # -- Toggle deployment of Keycloak.
     # if you enable Keycloak you should uncomment the istio passthrough configurations above
     # istio.ingressGateways.passthrough-ingressgateway and istio.gateways.passthrough
-    enabled: false
+    enabled: true
 
     # -- Choose source type of "git" or "helmRepo"
     sourceType: "git"
