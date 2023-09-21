@@ -1961,7 +1961,7 @@ packages:
       # @default -- For Helm charts `chart`.  For Kustomize `/`.
       path:
       # -- Optional, alternative existing secret to use for git credentials, must be in the appropriate format: https://toolkit.fluxcd.io/components/source/gitrepositories/#https-authentication
-      existingSecret:
+      existingSecret: ""
       # -- Optional, alternative Chart created secrets with user defined values
       credentials:
         # -- HTTP git credentials, both username and password must be provided
