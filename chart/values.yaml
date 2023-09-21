@@ -1960,6 +1960,22 @@ packages:
       # -- Path inside of the git repo to find the helm chart or kustomize
       # @default -- For Helm charts `chart`.  For Kustomize `/`.
       path:
+      # - Optional, alternative existing secret to use for git repo
+      existingSecret:
+      # - Optional, alternative credentials to use for git repo
+      credentials:
+        # - Username, required if using https auth
+        username: ""
+        # - Password, required if using https auth
+        password: ""
+        # - CA certificate, optional if using https auth
+        caFile: ""
+        # - SSH private key, required if using ssh auth
+        privateKey: ""
+        # - SSH public key, required if using ssh auth
+        publicKey: ""
+        # - Known hosts file, required if using ssh auth
+        knownHosts: ""
 
     # -- Override flux settings for this package
     flux: {}
