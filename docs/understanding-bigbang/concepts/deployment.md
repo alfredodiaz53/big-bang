@@ -135,7 +135,7 @@ The following commands will help you monitor the progress of the Big Bang deploy
     bigbang       logging           https://repo1.dso.mil/big-bang/product/packages/logging.git               True    Fetched revision: release-v0.2.x/9cfe1e14c12098464ee89eb877614f781cd78fb7   8m23s
     bigbang       certmanager       https://repo1.dso.mil/big-bang/product/packages/cert-manager.git       True    Fetched revision: release-v1.0.x/1247135baf145dcfad4a4a02ef679c48fb76d9fb   8m23s
     bigbang       istio             https://repo1.dso.mil/big-bang/product/packages/servicemesh.git           True    Fetched revision: chart-release/2b02a51b7950ce21bac26403fa25d09e7e3f86c3    8m23s
-    bigbang       twistlock         https://repo1.dso.mil/big-bang/apps/security-tools/twistlock.git   True    Fetched revision: chart-release/faf038197291915713e0f213a4e35991e72f73f6    8m23s
+    bigbang       twistlock         https://repo1.dso.mil/big-bang/product/packages/twistlock.git   True    Fetched revision: chart-release/faf038197291915713e0f213a4e35991e72f73f6    8m23s
     bigbang       gatekeeper        https://repo1.dso.mil/big-bang/product/packages/policy.git                True    Fetched revision: chart-release/1a5f32c8e7f672c3b5937b604e5f38eaa08ce246    8m23s
     bigbang       monitoring        https://repo1.dso.mil/big-bang/product/packages/monitoring.git            True    Fetched revision: release-v0.2.x/ca60bedcc106b95beb0bf9ccdc6e0e759e6fd6bf   8m23s
     bigbang       cluster-auditor   https://repo1.dso.mil/big-bang/product/packages/cluster-auditor.git       True    Fetched revision: chart-release/598c35670db0cbdb3a48063b2d558965afe73185    8m23s

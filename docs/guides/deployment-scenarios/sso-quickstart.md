@@ -45,7 +45,7 @@ Why 2 VMs? 2 reasons:
 
 * [Authservice](https://repo1.dso.mil/big-bang/product/packages/authservice)
 * [Authservice Architecture](../../understanding-bigbang/package-architecture/authservice.md)
-* [Keycloak](https://repo1.dso.mil/big-bang/apps/security-tools/keycloak)
+* [Keycloak](https://repo1.dso.mil/big-bang/product/packages/keycloak)
 * [Keycloak Architecture](../../understanding-bigbang/package-architecture/keycloak.md)
 
 ## Step 1: Provision 2 Virtual Machines

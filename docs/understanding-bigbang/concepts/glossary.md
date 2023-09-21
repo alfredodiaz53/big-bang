@@ -47,7 +47,7 @@ The following packages are included in a default deployment of Big Bang:
 |[Open Policy Agent Gatekeeper](https://github.com/open-policy-agent/gatekeeper)| Policy Management | [Link](https://repo1.dso.mil/big-bang/product/packages/policy.git)|
 |[Elastic Cloud on Kubernetes (ECK)](https://www.elastic.co/guide/en/cloud-on-k8s/current/index.html)| Logging; Incl. Elasticsearch & Kibana |[Link](https://repo1.dso.mil/big-bang/product/packages/elasticsearch-kibana.git)|
 |[Prometheus](https://prometheus.io/) and [Grafana](https://grafana.com/)| Monitoring |[Link](https://repo1.dso.mil/big-bang/product/packages/monitoring.git)|
-|[Twistlock](https://www.paloaltonetworks.com/prisma/cloud)| Security Scanning |[Link](https://repo1.dso.mil/big-bang/apps/security-tools/twistlock.git)|
+|[Twistlock](https://www.paloaltonetworks.com/prisma/cloud)| Security Scanning |[Link](https://repo1.dso.mil/big-bang/product/packages/twistlock.git)|
 
 In addition, the following packages can be added onto the default deployment:
 

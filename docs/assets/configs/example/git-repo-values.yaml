@@ -106,7 +106,7 @@ monitoring:
     branch: "my-dev-branch"
 twistlock:
   git:
-    repo: https://repo1.dso.mil/big-bang/apps/security-tools/twistlock.git
+    repo: https://repo1.dso.mil/big-bang/product/packages/twistlock.git
     path: "./chart"
     branch: "my-dev-branch"
 addons:
@@ -132,52 +132,52 @@ addons:
       branch: "my-dev-branch"
   gitlab:
     git:
-      repo: https://repo1.dso.mil/big-bang/apps/developer-tools/gitlab.git
+      repo: https://repo1.dso.mil/big-bang/product/packages/gitlab.git
       path: "./chart"
       branch: "my-dev-branch"
   gitlabRunner:
     git:
-      repo: https://repo1.dso.mil/big-bang/apps/developer-tools/gitlab-runner.git
+      repo: https://repo1.dso.mil/big-bang/product/packages/gitlab-runner.git
       path: "./chart"
       branch: "my-dev-branch"
   nexusRepositoryManager:
     git:
-      repo: https://repo1.dso.mil/big-bang/apps/developer-tools/nexus.git
+      repo: https://repo1.dso.mil/big-bang/product/packages/nexus.git
       path: "./chart"
       branch: "my-dev-branch"
   sonarqube:
     git:
-      repo: https://repo1.dso.mil/big-bang/apps/developer-tools/sonarqube.git
+      repo: https://repo1.dso.mil/big-bang/product/packages/sonarqube.git
       path: "./chart"
       branch: "my-dev-branch"
   haproxy:
     git:
-      repo: https://repo1.dso.mil/big-bang/apps/developer-tools/haproxy.git
+      repo: https://repo1.dso.mil/big-bang/product/packages/haproxy.git
       path: "./chart"
       branch: "my-dev-branch"
   anchore:
     git:
-      repo: https://repo1.dso.mil/big-bang/apps/security-tools/anchore-enterprise.git
+      repo: https://repo1.dso.mil/big-bang/product/packages/anchore-enterprise.git
       path: "./chart"
       branch: "my-dev-branch"
   mattermostOperator:
     git:
-      repo: https://repo1.dso.mil/big-bang/apps/collaboration-tools/mattermost-operator.git
+      repo: https://repo1.dso.mil/big-bang/product/packages/mattermost-operator.git
       path: "./chart"
       branch: "my-dev-branch"
   mattermost:
     git:
-      repo: https://repo1.dso.mil/big-bang/apps/collaboration-tools/mattermost.git
+      repo: https://repo1.dso.mil/big-bang/product/packages/mattermost.git
       path: "./chart"
       branch: "my-dev-branch"
   velero:
     git:
-      repo: https://repo1.dso.mil/big-bang/apps/cluster-utilities/velero.git
+      repo: https://repo1.dso.mil/big-bang/product/packages/velero.git
       path: "./chart"
       branch: "my-dev-branch"
   keycloak:
     git:
-      repo: https://repo1.dso.mil/big-bang/apps/security-tools/keycloak.git
+      repo: https://repo1.dso.mil/big-bang/product/packages/keycloak.git
       path: "./chart"
       branch: "my-dev-branch"
   vault:

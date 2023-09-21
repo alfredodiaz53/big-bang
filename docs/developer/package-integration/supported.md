@@ -41,7 +41,7 @@ After [graduating your package](https://repo1.dso.mil/platform-one/bbtoc/-/tree/
      mypackage:
        enabled: false     # default to false
        git:
-         repo: https://repo1.dso.mil/big-bang/apps/developer-tools/mypackage.git
+         repo: https://repo1.dso.mil/big-bang/product/packages/mypackage.git
          path: "./chart"
          tag: "1.2.3-bb.0"
        sso:

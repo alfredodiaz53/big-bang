@@ -149,6 +149,6 @@ minio:
   namespace: minio
 ```
 
-Example: [Velero dependencies.yaml](https://repo1.dso.mil/big-bang/apps/cluster-utilities/velero/-/blob/main/tests/dependencies.yaml)
+Example: [Velero dependencies.yaml](https://repo1.dso.mil/big-bang/product/packages/velero/-/blob/main/tests/dependencies.yaml)
 
 In order to test that the object storage is working, perform an action that stores a file. For example, if using Mattermost, upload an image for a user avatar.
