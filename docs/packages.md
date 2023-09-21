@@ -75,8 +75,8 @@
 
 | Package | Status | Monitoring | Tracing | Network Policies | mTLS |
 |----|----|----|----|----|----|
-| [MinIO](https://repo1.dso.mil/big-bang/apps/application-utilities/minio) |  ![MinIO Build](https://repo1.dso.mil/big-bang/apps/application-utilities/minio/badges/main/pipeline.svg) | Yes | Yes | [Yes](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/550) | [Yes (STRICT)](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/1566) |
-| [MinIO Operator](https://repo1.dso.mil/big-bang/apps/application-utilities/minio-operator) |  ![MinIO Operator Build](https://repo1.dso.mil/big-bang/apps/application-utilities/minio-operator/badges/main/pipeline.svg) | [N/A](https://repo1.dso.mil/big-bang/apps/application-utilities/minio-operator/-/blob/main/docs/prometheus.md) | Yes | [Yes](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/685) | [Yes (STRICT)](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/1554) |
+| [MinIO](https://repo1.dso.mil/big-bang/product/packages/minio) |  ![MinIO Build](https://repo1.dso.mil/big-bang/product/packages/minio/badges/main/pipeline.svg) | Yes | Yes | [Yes](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/550) | [Yes (STRICT)](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/1566) |
+| [MinIO Operator](https://repo1.dso.mil/big-bang/product/packages/minio-operator) |  ![MinIO Operator Build](https://repo1.dso.mil/big-bang/product/packages/minio-operator/badges/main/pipeline.svg) | [N/A](https://repo1.dso.mil/big-bang/product/packages/minio-operator/-/blob/main/docs/prometheus.md) | Yes | [Yes](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/685) | [Yes (STRICT)](https://repo1.dso.mil/big-bang/bigbang/-/merge_requests/1554) |
 
 
 ## Cluster Utilities

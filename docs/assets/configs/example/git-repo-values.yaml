@@ -122,12 +122,12 @@ addons:
       branch: "my-dev-branch"
   minioOperator:
     git:
-      repo: https://repo1.dso.mil/big-bang/apps/application-utilities/minio-operator.git
+      repo: https://repo1.dso.mil/big-bang/product/packages/minio-operator.git
       path: "./chart"
       branch: "my-dev-branch"
   minio:
     git:
-      repo: https://repo1.dso.mil/big-bang/apps/application-utilities/minio.git
+      repo: https://repo1.dso.mil/big-bang/product/packages/minio.git
       path: "./chart"
       branch: "my-dev-branch"
   gitlab:

@@ -138,13 +138,13 @@ For testing with the CI pipeline, create a `tests/dependencies.yaml` and include
 ```yaml
 minioOperator:
   git:
-    repo: "https://repo1.dso.mil/big-bang/apps/application-utilities/minio-operator.git"
+    repo: "https://repo1.dso.mil/big-bang/product/packages/minio-operator.git"
     tag: "4.2.3-bb.2"
   namespace: "minio-operator"
 
 minio:
   git:
-    repo: "https://repo1.dso.mil/big-bang/apps/application-utilities/minio.git"
+    repo: "https://repo1.dso.mil/big-bang/product/packages/minio.git"
     tag: "4.2.3-bb.6"
   namespace: minio
 ```
