@@ -1092,7 +1092,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/minio-operator.git
       path: "./chart"
-      tag: "5.0.5-bb.0"
+      #tag: "5.0.5-bb.0"
+      branch: "40-upgrade-minio-chart"
     helmRepo:
       repoName: "registry1"
       chartName: "minio-operator"
@@ -1117,7 +1118,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/minio.git
       path: "./chart"
-      tag: "5.0.6-bb.0"
+      #tag: "5.0.6-bb.0"
+      branch: "50-upgrade-minio-chart"
     helmRepo:
       repoName: "registry1"
       chartName: "minio-instance"
