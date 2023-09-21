@@ -856,7 +856,7 @@ monitoring:
     repoName: "registry1"
     chartName: "monitoring"
     tag: "48.3.1-bb.0"
-
+#
   # -- Flux reconciliation overrides specifically for the Monitoring Package
   flux:
     install:
