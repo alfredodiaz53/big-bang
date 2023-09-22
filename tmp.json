@@ -1,0 +1,70 @@
+{
+    "apiVersion": "v1",
+    "kind": "Namespace",
+    "metadata": {
+        "annotations": {
+            "meta.helm.sh/release-name": "bigbang",
+            "meta.helm.sh/release-namespace": "bigbang"
+        },
+        "creationTimestamp": "2023-09-21T14:23:35Z",
+        "deletionTimestamp": "2023-09-21T14:54:32Z",
+        "labels": {
+            "app.kubernetes.io/component": "core",
+            "app.kubernetes.io/instance": "bigbang",
+            "app.kubernetes.io/managed-by": "Helm",
+            "app.kubernetes.io/name": "kiali",
+            "app.kubernetes.io/part-of": "bigbang",
+            "app.kubernetes.io/version": "2.10.0",
+            "helm.sh/chart": "bigbang-2.10.0",
+            "istio-injection": "enabled",
+            "kubernetes.io/metadata.name": "kiali"
+        },
+        "name": "kiali",
+        "resourceVersion": "19252",
+        "uid": "9d9781d3-21e2-425d-9362-399c103bd2df"
+    },
+    "spec": {
+        "finalizers": [
+        ]
+    },
+    "status": {
+        "conditions": [
+            {
+                "lastTransitionTime": "2023-09-21T14:55:15Z",
+                "message": "All resources successfully discovered",
+                "reason": "ResourcesDiscovered",
+                "status": "False",
+                "type": "NamespaceDeletionDiscoveryFailure"
+            },
+            {
+                "lastTransitionTime": "2023-09-21T14:55:15Z",
+                "message": "All legacy kube types successfully parsed",
+                "reason": "ParsedGroupVersions",
+                "status": "False",
+                "type": "NamespaceDeletionGroupVersionParsingFailure"
+            },
+            {
+                "lastTransitionTime": "2023-09-21T14:55:20Z",
+                "message": "All content successfully deleted, may be waiting on finalization",
+                "reason": "ContentDeleted",
+                "status": "False",
+                "type": "NamespaceDeletionContentFailure"
+            },
+            {
+                "lastTransitionTime": "2023-09-21T14:55:15Z",
+                "message": "Some resources are remaining: kialis.kiali.io has 1 resource instances",
+                "reason": "SomeResourcesRemain",
+                "status": "True",
+                "type": "NamespaceContentRemaining"
+            },
+            {
+                "lastTransitionTime": "2023-09-21T14:55:15Z",
+                "message": "Some content in the namespace has finalizers remaining: kiali.io/finalizer in 1 resource instances",
+                "reason": "SomeFinalizersRemain",
+                "status": "True",
+                "type": "NamespaceFinalizersRemaining"
+            }
+        ],
+        "phase": "Terminating"
+    }
+}

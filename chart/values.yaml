@@ -1922,6 +1922,10 @@ packages:
     # @default -- true
     enabled: false
 
+
+    # -- toggle this on to deploy this package before Big Bang core/addon packages including istio, kyverno, gatekeeper etc.
+    deployBeforeBB: false
+
     # -- Toggle wrapper functionality. See https://docs-bigbang.dso.mil/latest/docs/guides/deployment-scenarios/extra-package-deployment/#Wrapper-Deployment for more details.
     # @default -- false
     wrapper:
