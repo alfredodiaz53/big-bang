@@ -107,7 +107,6 @@ kiali:
     bbtests:
       enabled: true
       cypress:
-        image: "registry1.dso.mil/ironbank/cypress/included:12.10.0"
         envs:
           cypress_url: 'https://kiali.bigbang.dev'
           cypress_check_data: 'true'
