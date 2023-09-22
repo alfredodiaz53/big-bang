@@ -994,7 +994,7 @@ twistlock:
 addons:
   holocron:
     # -- Toggle deployment of Holocron.
-    enabled: true
+    enabled: false
 
     # -- Choose source type of "git" or "helmRepo"
     sourceType: "git"
@@ -1010,13 +1010,12 @@ addons:
     collectorAuth:
       # -- Name of existing secret with auth tokens for collector services: https://repo1.dso.mil/groups/big-bang/apps/sandbox/holocron/-/wikis/Administrator-Guide
       # -- Default keys for secret are:
-      # -- gitlab-scm-0, gitlab-workflow-0, gitlab-build-0, sonar-analysis-0, jira-workflow-0
+      # -- gitlab-scm-0, gitlab-workflow-0, gitlab-build-0, jira-workflow-0
       # -- If not provided, one will be created
       existingSecret: ""
       # -- Tokens for the secret to be created
-      gitlabToken: glpat-bh3ERExGxhS-zotGTW1A
+      gitlabToken: ""
       jiraToken: ""
-      sonarToken: ""
 
     jira:
       # -- If there is a Jira deployment, enable a collector for it
@@ -1765,7 +1764,7 @@ addons:
     # -- Toggle deployment of Keycloak.
     # if you enable Keycloak you should uncomment the istio passthrough configurations above
     # istio.ingressGateways.passthrough-ingressgateway and istio.gateways.passthrough
-    enabled: false
+    enabled: true
 
     # -- Choose source type of "git" or "helmRepo"
     sourceType: "git"

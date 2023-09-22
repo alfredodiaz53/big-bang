@@ -27,70 +27,64 @@ api:
 {{- if .Values.addons.gitlab.enabled }}
 {{- $gitlabURL := "http://gitlab-webservice-default.gitlab.svc.cluster.local:8080" }}
 collectorGitlabSCM:
-- replicas: 1
+  replicas: 1
   image:
     repository: registry1.dso.mil/ironbank/holocron/collector-gitlab-scm
     tag: "3.0.0"
     pullPolicy: IfNotPresent
-  accessTokenSecretKey: gitlab-scm-0
-  securityContext: {}
-  resources: {}
-  podAnnotations: {}
-  env:
-    GO_RUN_ENV: production
-    COLLECTOR_NAME: gitlab-scm-0
-    COLLECTOR_INTERVAL_SECONDS: 600
-    LOOK_BACK_DAYS: 365
-    TARGET_URL: {{ $gitlabURL }}
-    COLLECTOR_TARGETS_INTRVL_SECS: 86400
-    MAX_REQUESTS_PER_MINUTE: 500
+  instances:
+  - accessTokenSecretKey: gitlab-scm-0
+    env:
+      GO_RUN_ENV: production
+      COLLECTOR_NAME: gitlab-scm-0
+      COLLECTOR_INTERVAL_SECONDS: 600
+      LOOK_BACK_DAYS: 365
+      TARGET_URL: {{ $gitlabURL }}
+      COLLECTOR_TARGETS_INTRVL_SECS: 86400
+      MAX_REQUESTS_PER_MINUTE: 500
 collectorGitlabBuild:
-- replicas: 1
+  replicas: 1
   image:
     repository: registry1.dso.mil/ironbank/holocron/collector-gitlab-build
     tag: "3.0.0"
     pullPolicy: IfNotPresent
-  accessTokenSecretKey: gitlab-build-0
-  securityContext: {}
-  resources: {}
-  podAnnotations: {}
-  env:
-    GO_RUN_ENV: production
-    COLLECTOR_NAME: gitlab-build-0
-    COLLECTOR_INTERVAL_SECONDS: 600
-    LOOK_BACK_DAYS: 365
-    TARGET_URL: {{ $gitlabURL }}
-    COLLECTOR_TARGETS_INTRVL_SECS: 86400
-    MAX_REQUESTS_PER_MINUTE: 500
+  instances:
+  - accessTokenSecretKey: gitlab-build-0
+    env:
+      GO_RUN_ENV: production
+      COLLECTOR_NAME: gitlab-build-0
+      COLLECTOR_INTERVAL_SECONDS: 600
+      LOOK_BACK_DAYS: 365
+      TARGET_URL: {{ $gitlabURL }}
+      COLLECTOR_TARGETS_INTRVL_SECS: 86400
+      MAX_REQUESTS_PER_MINUTE: 500
 collectorGitlabWorkflow:
-- replicas: 1
+  replicas: 1
   image:
     repository: registry1.dso.mil/ironbank/holocron/collector-gitlab-workflow
     tag: "3.0.0"
     pullPolicy: IfNotPresent
-  accessTokenSecretKey: gitlab-workflow-0
-  securityContext: {}
-  resources: {}
-  podAnnotations: {}
-  env:
-    GO_RUN_ENV: production
-    COLLECTOR_NAME: gitlab-workflow-0
-    COLLECTOR_INTERVAL_SECONDS: 600
-    LOOK_BACK_DAYS: 365
-    TARGET_URL: {{ $gitlabURL }}
-    COLLECTOR_TARGETS_INTRVL_SECS: 86400
-    MAX_REQUESTS_PER_MINUTE: 500
-    HIGHEST_PRIORITY_LABELS: priority::1,highest
-    HIGH_PRIORITY_LABELS: priority::2,high
-    MEDIUM_PRIORITY_LABELS: priority::3,medium
-    LOW_PRIORITY_LABELS: priority::4,low
-    LOWEST_PRIORITY_LABELS: priority::5,lowest
-    DEFAULT_TICKET_PRIORITY: lowest
-    FEATURE_LABELS: kind::feature,feature
-    DEFECT_LABELS: kind::bug,kind::defect,bug,defect
-    MAINTENANCE_LABELS: kind::maintenance,kind::docs,maintenance,docs,documentation
-    UNPLANNED_LABELS: kind::unplanned
-    DEFAULT_TICKET_TYPE: feature
+  instances:
+  - accessTokenSecretKey: gitlab-workflow-0
+    env:
+      GO_RUN_ENV: production
+      COLLECTOR_NAME: gitlab-workflow-0
+      COLLECTOR_INTERVAL_SECONDS: 600
+      LOOK_BACK_DAYS: 365
+      TARGET_URL: {{ $gitlabURL }}
+      COLLECTOR_TARGETS_INTRVL_SECS: 86400
+      MAX_REQUESTS_PER_MINUTE: 500
+      HIGHEST_PRIORITY_LABELS: priority::1,highest
+      HIGH_PRIORITY_LABELS: priority::2,high
+      MEDIUM_PRIORITY_LABELS: priority::3,medium
+      LOW_PRIORITY_LABELS: priority::4,low
+      LOWEST_PRIORITY_LABELS: priority::5,lowest
+      DEFAULT_TICKET_PRIORITY: lowest
+      FEATURE_LABELS: kind::feature,feature
+      DEFECT_LABELS: kind::bug,kind::defect,bug,defect
+      MAINTENANCE_LABELS: kind::maintenance,kind::docs,maintenance,docs,documentation
+      UNPLANNED_LABELS: kind::unplanned
+      DEFAULT_TICKET_TYPE: feature
 {{- else }}
 collectorGitlabSCM: []
 collectorGitlabBuild: []
@@ -98,27 +92,24 @@ collectorGitlabWorkflow: []
 {{- end }}
 {{- if .Values.addons.holocron.jira.enabled }}
 collectorJiraWorkflow:
-- replicas: 1
+  replicas: 1
   image:
     repository: registry1.dso.mil/ironbank/holocron/collector-jira-workflow
     tag: "3.0.0"
     pullPolicy: IfNotPresent
-  accessTokenSecretKey: jira-workflow-0
-  securityContext: {}
-  resources: {}
-  podAnnotations: {}
-  env:
-    GO_RUN_ENV: production
-    COLLECTOR_NAME: jira-workflow-0
-    COLLECTOR_INTERVAL_SECONDS: 600
-    LOOK_BACK_DAYS: 365
-    TARGET_URL: {{ .Values.addons.holocron.jira.service }}
-    COLLECTOR_TARGETS_INTRVL_SECS: 86400
-    MAX_REQUESTS_PER_MINUTE: 500
+  instances:
+  - accessTokenSecretKey: jira-workflow-0
+    env:
+      GO_RUN_ENV: production
+      COLLECTOR_NAME: jira-workflow-0
+      COLLECTOR_INTERVAL_SECONDS: 600
+      LOOK_BACK_DAYS: 365
+      TARGET_URL: {{ .Values.addons.holocron.jira.service }}
+      COLLECTOR_TARGETS_INTRVL_SECS: 86400
+      MAX_REQUESTS_PER_MINUTE: 500
 {{- else }}
 collectorJiraWorkflow: []
 {{- end }}
-collectorSonarqubeProjectAnalysis: []
 
 postgresql:
   {{- if .Values.addons.holocron.database.host }}
