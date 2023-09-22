@@ -5,7 +5,7 @@
   "name" "nexusRepositoryManager"
   "packageGitScope" $nexusValues.git
   "outerScope" .
-  "releaseName" $.Release.Name
+  "releaseName" .Release.Name
 }}
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
