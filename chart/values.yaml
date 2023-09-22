@@ -370,8 +370,8 @@ kiali:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/kiali.git
     path: "./chart"
-    #tag: "1.71.0-bb.1"
-    branch: "cypress-upgrade"
+    tag: "1.71.0-bb.1"
+
   helmRepo:
     repoName: "registry1"
     chartName: "kiali"
@@ -1093,8 +1093,8 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/minio-operator.git
       path: "./chart"
-      #tag: "5.0.5-bb.0"
-      branch: "40-upgrade-minio-chart"
+      tag: "5.0.5-bb.0"
+
     helmRepo:
       repoName: "registry1"
       chartName: "minio-operator"
@@ -1119,8 +1119,7 @@ addons:
     git:
       repo: https://repo1.dso.mil/big-bang/product/packages/minio.git
       path: "./chart"
-      #tag: "5.0.6-bb.0"
-      branch: "50-upgrade-minio-chart"
+      tag: "5.0.6-bb.0"
     helmRepo:
       repoName: "registry1"
       chartName: "minio-instance"
