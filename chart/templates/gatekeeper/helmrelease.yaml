@@ -49,4 +49,20 @@ spec:
     - name: {{ .Release.Name }}-gatekeeper-values
       kind: Secret
       valuesKey: "overlays"
+
+  {{- range $pkg, $vals := .Values.packages -}}
+  {{- if and (dig "enabled" true $vals) (not $vals.kustomize) -}}
+    {{- $pkg := include "resourceName" $pkg -}}
+    {{- $defaults := $.Files.Get (printf "defaults/%s.yaml" $pkg) -}}
+    {{- if $defaults -}}
+      {{- $vals := merge $vals ($defaults | fromYaml).package -}}
+    {{- end -}}
+    {{- $deployBeforeBB :=  (dig "deployBeforeBB" true $vals) -}}
+    {{- if $deployBeforeBB }}
+  dependsOn:
+    - name: {{ $pkg }}
+      namespace: {{ $.Release.Namespace }}
+    {{- end }}
+  {{- end }}
+  {{- end }}
 {{- end }}
