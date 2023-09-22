@@ -11,7 +11,7 @@
   "name" $pkg
   "packageGitScope" $vals.git
   "outerScope" $
-  "releaseName" $.Release.Name
+  "releaseName" $pkg
 }}
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
