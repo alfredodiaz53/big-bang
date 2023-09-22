@@ -184,14 +184,19 @@ policies:
 
   require-non-root-group:
     validationFailureAction: audit
-    {{- if .Values.istio.enabled }}
-    parameters:
-      excludeContainers:
-        - istio-init
-    {{- end }}
+    #{{- if .Values.istio.enabled }}
+    #parameters:
+    #  excludeContainers:
+    #    - istio-init
+    #{{- end }}
     {{- if or $deployNodeAgent .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled }}
     exclude:
       any:
+      {{- if .Values.istio.enabled }}
+      - resources:
+          names:
+          - istio-init
+      {{- end }}
       {{- if $deployNodeAgent }}
       # Velero.  The node agent backup tool requires root group access to see the host's runtime pod directory which is
       # mounted inside velero/node agent pods.
@@ -237,14 +242,19 @@ policies:
 
   require-non-root-user:
     validationFailureAction: audit
-    {{ if .Values.istio.enabled }}
-    parameters:
-      excludeContainers:
-        - istio-init
-    {{- end }}
+    #{{ if .Values.istio.enabled }}
+    #parameters:
+    #  excludeContainers:
+    #    - istio-init
+    #{{- end }}
     {{- if or $deployNodeAgent .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled }}
     exclude:
       any:
+      {{- if .Values.istio.enabled }}
+      - resources:
+          names:
+          - istio-init
+      {{- end }}
       {{- if $deployNodeAgent }}
       # Velero.  The node agent backup tool requires root user access to the host's runtime pod directory which is
       # mounted inside velero/node agent pods.
