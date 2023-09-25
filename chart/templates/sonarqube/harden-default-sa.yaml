@@ -1,0 +1,4 @@
+{{- if .Values.addons.sonarqube.enabled }}
+{{- $namespace := dict "Namespace" "sonarqube" -}}
+{{ include "hardenDefaultServiceAccount" $namespace }}
+{{- end }}

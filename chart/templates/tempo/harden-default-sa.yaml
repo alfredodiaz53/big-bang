@@ -1,0 +1,4 @@
+{{- if .Values.tempo.enabled }}
+{{- $namespace := dict "Namespace" "tempo" -}}
+{{ include "hardenDefaultServiceAccount" $namespace }}
+{{- end }}
