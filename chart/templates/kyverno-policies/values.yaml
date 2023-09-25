@@ -12,14 +12,14 @@ waitforready:
   imagePullSecrets:
   - name: private-registry
 
-{{- if .Values.istio.enabled }}
-policyPreconditions:
-  require-non-root-group:
-    all:
-    - key: '{{ "{{" }} element.name {{ "}}" }}'
-      operator: NotEquals
-      value: istio-init
-{{- end }}
+    #{{- if .Values.istio.enabled }}
+    #policyPreconditions:
+    #  require-non-root-group:
+    #    all:
+    #    - key: '{{ "{{" }} element.name {{ "}}" }}'
+    #      operator: NotEquals
+    #      value: istio-init
+    #{{- end }}
 
 policies:
 
@@ -193,11 +193,11 @@ policies:
 
   require-non-root-group:
     validationFailureAction: audit
-    #{{- if .Values.istio.enabled }}
-    #parameters:
-    #  excludeContainers:
-    #    - istio-init
-    #{{- end }}
+    {{- if .Values.istio.enabled }}
+    parameters:
+      excludeContainers:
+        - istio-init
+    {{- end }}
     {{- if or $deployNodeAgent .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled }}
     exclude:
       any:
