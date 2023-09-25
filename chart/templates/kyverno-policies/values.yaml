@@ -12,6 +12,15 @@ waitforready:
   imagePullSecrets:
   - name: private-registry
 
+{{- if .Values.istio.enabled }}
+policyPreconditions:
+  require-non-root-group:
+    all:
+    - key: '{{ element.name }}'
+      operator: NotEquals
+      value: istio-init
+{{- end }}
+
 policies:
 
   {{- if or .Values.twistlock.enabled .Values.neuvector.enabled }}
@@ -192,11 +201,11 @@ policies:
     {{- if or $deployNodeAgent .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled }}
     exclude:
       any:
-      {{- if .Values.istio.enabled }}
-      - resources:
-          names:
-          - istio-init
-      {{- end }}
+      #{{- if .Values.istio.enabled }}
+      #- resources:
+      #    names:
+      #    - istio-init
+      #{{- end }}
       {{- if $deployNodeAgent }}
       # Velero.  The node agent backup tool requires root group access to see the host's runtime pod directory which is
       # mounted inside velero/node agent pods.
@@ -250,11 +259,11 @@ policies:
     {{- if or $deployNodeAgent .Values.twistlock.enabled .Values.fluentbit.enabled .Values.promtail.enabled }}
     exclude:
       any:
-      {{- if .Values.istio.enabled }}
-      - resources:
-          names:
-          - istio-init
-      {{- end }}
+      #{{- if .Values.istio.enabled }}
+      #- resources:
+      #    names:
+      #    - istio-init
+      #{{- end }}
       {{- if $deployNodeAgent }}
       # Velero.  The node agent backup tool requires root user access to the host's runtime pod directory which is
       # mounted inside velero/node agent pods.
