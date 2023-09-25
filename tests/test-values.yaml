@@ -1040,6 +1040,7 @@ addons:
         cypress:
           envs:
             cypress_url: "https://fortify.bigbang.dev"
+
   gitlab:
     enabled: false
     sso:
