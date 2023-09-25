@@ -156,8 +156,6 @@ gatekeeper:
           excludedResources:
           # Allows k3d load balancer containers to pull from public repos
           - istio-system/lb-port-.*
-          # Allow argocd to deploy a test app in its cypress test
-          - argocd/bb-cypress-test.*
           # Allow kyverno test vectors for Helm test
           - default/c.?
           - default/i.?
@@ -525,15 +523,6 @@ kyvernoPolicies:
           - '63999'
           - '>= 64000 & < 65000'
           - '> 65000'
-      restrict-image-registries:
-        exclude:
-          any:
-          # ArgoCD deploys a test app as part of its Cypress test
-          - resources:
-              namespaces:
-              - argocd
-              names:
-              - bb-cypress-test*
       restrict-volume-types:
         exclude:
           any:
