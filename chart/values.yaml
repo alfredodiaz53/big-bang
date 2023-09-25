@@ -513,13 +513,13 @@ kyvernoPolicies:
   flux: {}
 
   # -- Values to passthrough to the kyverno policies chart: https://repo1.dso.mil/big-bang/product/packages/kyverno-policies.git
-  values:
-    policyPreconditions:
-      require-non-root-group:
-        all:
-        - key: '{{ "{{" }} element.name {{ "}}" }}'
-          operator: NotEquals
-          value: istio-init
+  values: {}
+    #policyPreconditions:
+    #  require-non-root-group:
+    #    all:
+    #    - key: '{{ "{{" }} element.name {{ "}}" }}'
+    #      operator: NotEquals
+    #      value: istio-init
 
 
 
