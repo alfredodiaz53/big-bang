@@ -974,12 +974,72 @@ addons:
     sso:
       enabled: false
     values:
+      storage:
+        volume: 5Gi
+      jvmMaxRAMPercentage: 85
+      resources:
+        limits:
+          cpu: 1
+          memory: 1Gi
+        requests:
+          cpu: 1
+          memory: 1Gi
+      databaseSecret:
+        useRoot: true
+      initContainer:
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+          requests:
+            cpu: 250m
+            memory: 64Mi
+      trust_store_password: dsoppassword
+      key_store_password: dsoppassword
+      key_store_cert_password : dsoppassword
+      fortify_autoconfig: |
+          appProperties:
+            host.validation: false
+          datasourceProperties:
+            db.username: root
+            db.password: password
+            jdbc.url: 'jdbc:mysql://fortify-mysql:3306/ssc_db?sessionVariables=collation_connection=latin1_general_cs&rewriteBatchedStatements=true'
+          dbMigrationProperties:
+            migration.enabled: true
+            migration.username: root
+            migration.password: password
+      fortify_license: |
+        <License>
+      mysql:
+        primary:
+          resources:
+            limits:
+              cpu: 1
+              memory: 500Mi
+            requests:
+              cpu: 1
+              memory: 500Mi
+        secondary:
+          resources:
+            limits:
+              cpu: 1
+              memory: 500Mi
+            requests:
+              cpu: 1
+              memory: 500Mi
+        metrics:
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 256Mi
       bbtests:
         enabled: true
-        cypress:
-          envs:
-            cypress_url: "https://fortify.bigbang.dev"
-
+      cypress:
+        envs:
+          cypress_url: "https://fortify.bigbang.dev"
   gitlab:
     enabled: false
     sso:
