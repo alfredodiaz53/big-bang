@@ -1037,9 +1037,9 @@ addons:
               memory: 256Mi
       bbtests:
         enabled: true
-      cypress:
-        envs:
-          cypress_url: "https://fortify.bigbang.dev"
+        cypress:
+          envs:
+            cypress_url: "https://fortify.bigbang.dev"
   gitlab:
     enabled: false
     sso:
