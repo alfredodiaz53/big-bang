@@ -16,7 +16,7 @@ waitforready:
 policyPreconditions:
   require-non-root-group:
     all:
-    - key: '{{ element.name }}'
+    - key: '{{ "{{" }} element.name {{ "}}" }}'
       operator: NotEquals
       value: istio-init
 {{- end }}
