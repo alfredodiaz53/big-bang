@@ -138,7 +138,7 @@ networkPolicies:
   # -- Node CIDR, defaults to allowing "10.0.0.0/8" "172.16.0.0/12" "192.168.0.0/16" "100.64.0.0/10" networks.
   # use `kubectl get nodes -owide` and review the `INTERNAL-IP` column to derive CIDR range.
   # Must be an IP CIDR range (x.x.x.x/x - ideally a /16 or /24 to include multiple IPs)
-  nodeCidr: "172.20.0.0/24"
+  nodeCidr: ""
   # -- VPC CIDR, defaults to 0.0.0.0/0
   # In a production environment, it is recommended to setup a Private Endpoint for your AWS services like KMS or S3.
   # Please review https://docs.aws.amazon.com/kms/latest/developerguide/kms-vpc-endpoint.html to setup routing to AWS services that never leave the AWS network.
@@ -727,7 +727,7 @@ loki:
 
 neuvector:
   # -- Toggle deployment of Neuvector.
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -841,7 +841,7 @@ tempo:
 #
 monitoring:
   # -- Toggle deployment of Monitoring (Prometheus, Grafana, and Alertmanager).
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -896,7 +896,7 @@ monitoring:
 #
 grafana:
   # -- Toggle deployment of Grafana
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -992,80 +992,6 @@ twistlock:
 # ----------------------------------------------------------------------------------------------------------------------
 #
 addons:
-  holocron:
-    # -- Toggle deployment of Holocron.
-    enabled: true
-
-    # -- Choose source type of "git" or "helmRepo"
-    sourceType: "git"
-
-    git:
-      repo: https://repo1.dso.mil/big-bang/product/packages/holocron.git
-      branch: initial-chart
-      path: "./chart"
-    helmRepo:
-      repoName: "registry1"
-      chartName: "holocron"
-
-    collectorAuth:
-      # -- Name of existing secret with auth tokens for collector services: https://repo1.dso.mil/groups/big-bang/apps/sandbox/holocron/-/wikis/Administrator-Guide
-      # -- Default keys for secret are:
-      # -- gitlab-scm-0, gitlab-workflow-0, gitlab-build-0, jira-workflow-0
-      # -- If not provided, one will be created
-      existingSecret: ""
-      # -- Tokens for the secret to be created
-      gitlabToken: ""
-      jiraToken: ""
-
-    jira:
-      # -- If there is a Jira deployment, enable a collector for it
-      enabled: false
-      service:
-      # -- The service name to communicate with
-        name:
-        # -- If network policies are enabled, a label to match the namespace for egress policy
-        # -- Ensure you create a matching ingress policy for Jira
-        label: {}
-
-    # -- Flux reconciliation overrides specifically for the Holocron Package
-    flux: {}
-
-    # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`). The default is "public".
-    ingress:
-      gateway: ""
-
-    sso:
-      # -- Toggle SSO for Holocron on and off
-      enabled: false
-
-      # -- Holocron SSO group roles: https://repo1.dso.mil/groups/big-bang/apps/sandbox/holocron/-/wikis/Administrator-Guide
-      groups:
-        admin: ""
-        leadership: ""
-
-    database:
-      # -- Hostname of a pre-existing PostgreSQL database to use for Gitlab.
-      # -- Entering connection info will disable the deployment of an internal database and will auto-create any required secrets.
-      host: ""
-
-      # -- Port of a pre-existing PostgreSQL database to use for Gitlab.
-      port: 5432
-
-      # -- Database name to connect to on host.
-      database: "holocron"
-
-      # -- Username to connect as to external database, the user must have all privileges on the database.
-      username: "holocron"
-
-      # -- Database password for the username used to connect to the existing database.
-      password: "holocron"
-
-    # -- Values to passthrough to the Holocron chart: https://repo1.dso.mil/big-bang/product/packages/holocron.git
-    values: {}
-
-    # -- Post Renderers. See docs/postrenders.md
-    postRenderers: []
-
   argocd:
     # -- Toggle deployment of ArgoCD.
     enabled: false
@@ -1216,7 +1142,7 @@ addons:
 
   gitlab:
     # -- Toggle deployment of Gitlab
-    enabled: true
+    enabled: false
 
     hostnames:
       # host name only without the domain
@@ -1922,6 +1848,80 @@ addons:
     values: {}
 
     # -- Post Renderers.  See docs/postrenders.md
+    postRenderers: []
+  
+  holocron:
+    # -- Toggle deployment of Holocron.
+    enabled: false
+
+    # -- Choose source type of "git" or "helmRepo"
+    sourceType: "git"
+
+    git:
+      repo: https://repo1.dso.mil/big-bang/product/packages/holocron.git
+      branch: initial-chart
+      path: "./chart"
+    helmRepo:
+      repoName: "registry1"
+      chartName: "holocron"
+
+    collectorAuth:
+      # -- Name of existing secret with auth tokens for collector services: https://repo1.dso.mil/groups/big-bang/apps/sandbox/holocron/-/wikis/Administrator-Guide
+      # -- Default keys for secret are:
+      # -- gitlab-scm-0, gitlab-workflow-0, gitlab-build-0, jira-workflow-0
+      # -- If not provided, one will be created
+      existingSecret: ""
+      # -- Tokens for the secret to be created
+      gitlabToken: ""
+      jiraToken: ""
+
+    jira:
+      # -- If there is a Jira deployment, enable a collector for it
+      enabled: false
+      service:
+      # -- The service name to communicate with
+        name:
+        # -- If network policies are enabled, a label to match the namespace for egress policy
+        # -- Ensure you create a matching ingress policy for Jira
+        label: {}
+
+    # -- Flux reconciliation overrides specifically for the Holocron Package
+    flux: {}
+
+    # -- Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`). The default is "public".
+    ingress:
+      gateway: ""
+
+    sso:
+      # -- Toggle SSO for Holocron on and off
+      enabled: false
+
+      # -- Holocron SSO group roles: https://repo1.dso.mil/groups/big-bang/apps/sandbox/holocron/-/wikis/Administrator-Guide
+      groups:
+        admin: ""
+        leadership: ""
+
+    database:
+      # -- Hostname of a pre-existing PostgreSQL database to use for Gitlab.
+      # -- Entering connection info will disable the deployment of an internal database and will auto-create any required secrets.
+      host: ""
+
+      # -- Port of a pre-existing PostgreSQL database to use for Gitlab.
+      port: 5432
+
+      # -- Database name to connect to on host.
+      database: "holocron"
+
+      # -- Username to connect as to external database, the user must have all privileges on the database.
+      username: "holocron"
+
+      # -- Database password for the username used to connect to the existing database.
+      password: "holocron"
+
+    # -- Values to passthrough to the Holocron chart: https://repo1.dso.mil/big-bang/product/packages/holocron.git
+    values: {}
+
+    # -- Post Renderers. See docs/postrenders.md
     postRenderers: []
 
 # -- Wrapper chart for integrating Big Bang components alongside a package
