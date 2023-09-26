@@ -968,7 +968,7 @@ addons:
   fortify:
     enabled: false
     flux:
-      timeout: 5m
+      timeout: 15m
     ingress:
       gateway: ""
     sso:
@@ -1014,18 +1014,18 @@ addons:
         primary:
           resources:
             limits:
-              cpu: 1
-              memory: 500Mi
+              cpu: 500m
+              memory: 1Gi
             requests:
-              cpu: 1
+              cpu: 100m
               memory: 500Mi
         secondary:
           resources:
             limits:
-              cpu: 1
+              cpu: 100m
               memory: 500Mi
             requests:
-              cpu: 1
+              cpu: 100m
               memory: 500Mi
         metrics:
           resources:
