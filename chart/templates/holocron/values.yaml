@@ -35,7 +35,6 @@ collectorGitlabSCM:
   instances:
   - accessTokenSecretKey: gitlab-scm-0
     env:
-      GO_RUN_ENV: production
       COLLECTOR_NAME: gitlab-scm-0
       COLLECTOR_INTERVAL_SECONDS: 600
       LOOK_BACK_DAYS: 365
@@ -51,7 +50,6 @@ collectorGitlabBuild:
   instances:
   - accessTokenSecretKey: gitlab-build-0
     env:
-      GO_RUN_ENV: production
       COLLECTOR_NAME: gitlab-build-0
       COLLECTOR_INTERVAL_SECONDS: 600
       LOOK_BACK_DAYS: 365
@@ -67,7 +65,6 @@ collectorGitlabWorkflow:
   instances:
   - accessTokenSecretKey: gitlab-workflow-0
     env:
-      GO_RUN_ENV: production
       COLLECTOR_NAME: gitlab-workflow-0
       COLLECTOR_INTERVAL_SECONDS: 600
       LOOK_BACK_DAYS: 365
@@ -86,9 +83,12 @@ collectorGitlabWorkflow:
       UNPLANNED_LABELS: kind::unplanned
       DEFAULT_TICKET_TYPE: feature
 {{- else }}
-collectorGitlabSCM: []
-collectorGitlabBuild: []
-collectorGitlabWorkflow: []
+collectorGitlabSCM:
+  instances: []
+collectorGitlabBuild:
+  instances: []
+collectorGitlabWorkflow:
+  instances: []
 {{- end }}
 {{- if .Values.addons.holocron.jira.enabled }}
 collectorJiraWorkflow:
@@ -100,7 +100,6 @@ collectorJiraWorkflow:
   instances:
   - accessTokenSecretKey: jira-workflow-0
     env:
-      GO_RUN_ENV: production
       COLLECTOR_NAME: jira-workflow-0
       COLLECTOR_INTERVAL_SECONDS: 600
       LOOK_BACK_DAYS: 365
@@ -108,7 +107,8 @@ collectorJiraWorkflow:
       COLLECTOR_TARGETS_INTRVL_SECS: 86400
       MAX_REQUESTS_PER_MINUTE: 500
 {{- else }}
-collectorJiraWorkflow: []
+collectorJiraWorkflow:
+  instances: []
 {{- end }}
 
 postgresql:
