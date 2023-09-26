@@ -661,7 +661,7 @@ loki:
     minio:
       enabled: true
     write:
-      replicas: 2
+      replicas: 1
       persistence:
         size: 2Gi
       resources:
@@ -672,7 +672,7 @@ loki:
           cpu: 200m
           memory: 400Mi
     backend:
-      replicas: 2
+      replicas: 3
       persistence:
         size: 2Gi
       resources:
@@ -683,7 +683,7 @@ loki:
           cpu: 200m
           memory: 400Mi
     read:
-      replicas: 2
+      replicas: 1
       persistence:
         size: 2Gi
       resources:
