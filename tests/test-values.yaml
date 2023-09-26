@@ -533,7 +533,7 @@ kyvernoPolicies:
               namespaces:
               - argocd
               names:
-              - bb-cypress-test*
+              - guestbook-ui-*
       restrict-volume-types:
         exclude:
           any:
