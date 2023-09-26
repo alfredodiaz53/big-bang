@@ -658,6 +658,19 @@ fluentbit:
 loki:
   strategy: scalable
   values:
+    storage:
+    type: "filesystem"
+    rulerConfig:
+    storage:
+      type: local
+    storage_config:
+    boltdb_shipper:
+      active_index_directory: /var/loki/boltdb-shipper-active
+      cache_location: /var/loki/boltdb-shipper-cache
+      cache_ttl: 24h
+      shared_store: filesystem
+    filesystem:
+      directory: /var/loki/chunks
     minio:
       enabled: true
     write:
