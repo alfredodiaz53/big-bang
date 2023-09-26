@@ -302,7 +302,8 @@ istioOperator:
   git:
     repo: https://repo1.dso.mil/big-bang/product/packages/istio-operator.git
     path: "./chart"
-    tag: "1.19.0-bb.0"
+    #tag: "1.19.0-bb.0"
+    branch: "kpt-update"
   helmRepo:
     repoName: "registry1"
     chartName: "istio-operator"
