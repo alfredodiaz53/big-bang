@@ -38,6 +38,14 @@ The instance will automatically terminate 8 hours after creation.
 1. Mac users will need to install the GNU version of the sed command.  
    <https://medium.com/@bramblexu/install-gnu-sed-on-mac-os-and-set-it-as-default-7c17ef1b8f64>
 
+1. Make sure to make a new diretory below or the script will fail (case sensitive)
+   ```~/.kube/Firstname.Lastname-dev-config```
+
+1. Find your Iron Bank pull credentials. This can be found here:
+   <https://registry1.dso.mil/harbor>
+   Go to `User Profile` -> `CLI secret`
+   Under `Username`, select yours. The username will look like this: `Firstname_Lastname`
+
 ## Usage
 
 The default with no options specified is to use the EC2 public IP for the k3d cluster and the security group.
@@ -94,6 +102,8 @@ The Big Bang product is tightly coupled with the GitOps tool FluxCD. Before you 
 ```shell
 ./scripts/install_flux.sh -u your-user-name -p your-password
 ```
+
+
 
 ## Deploy Bigbang
 
