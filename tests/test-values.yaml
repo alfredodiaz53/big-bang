@@ -589,8 +589,10 @@ kyvernoPolicies:
           - resources:
               namespaces:
               - gitlab
+              - fortify
               names:
               - gitlab-minio-*
+              - fortify-mysql-* # mysql breaks if you give it a different group
       require-non-root-user:
         exclude:
           any:
@@ -1037,7 +1039,7 @@ addons:
               memory: 256Mi
       bbtests:
         enabled: true
-        cypress:
+        cypress: # note `cypress:*`` is different than in the fortify chart test-values.yaml
           envs:
             cypress_url: "https://fortify.bigbang.dev"
 
