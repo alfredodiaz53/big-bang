@@ -32,9 +32,9 @@ After [graduating your package](https://repo1.dso.mil/platform-one/bbtoc/-/tree/
 
 1. Merge your default package values from `<your-package-git-folder>/bigbang/values.yaml` into `chart/values.yaml`.  Only the "standard" keys used across packages should be used.  Keep in mind that values can be passed directly to the package using `.Values.<package>.values`
 
-   > If your package is an `addon`, it falls into a different location than core packages.  In this case, you will need to update all your references from `.Values.<package>` to `.Values.addons.<package>`.
+    > If your package is an `addon`, it falls into a different location than core packages.  In this case, you will need to update all your references from `.Values.<package>` to `.Values.addons.<package>`.
 
-   Example:
+    Example:
 
    ```yaml
    addons:

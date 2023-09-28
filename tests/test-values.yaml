@@ -49,7 +49,7 @@ flux:
 
 networkPolicies:
   enabled: true
-  controlPlaneCidr: 172.16.0.0/12
+  #controlPlaneCidr: 172.16.0.0/12
 
 istio:
   enabled: true
@@ -157,7 +157,7 @@ gatekeeper:
           # Allows k3d load balancer containers to pull from public repos
           - istio-system/lb-port-.*
           # Allow argocd to deploy a test app in its cypress test
-          - argocd/guestbook-ui.*
+          - argocd/bb-cypress-test.*
           # Allow kyverno test vectors for Helm test
           - default/c.?
           - default/i.?
@@ -179,6 +179,7 @@ gatekeeper:
           - logging/loki-cypress-test
           - twistlock/twistlock-cypress-test
           - sonarqube/sonarqube-cypress-test
+          - fortify/fortify-cypress-test
           - harbor/harbor-cypress-test
           - logging/elasticsearch-kibana-cypress-test
           - tempo/tempo-cypress-test
@@ -314,6 +315,7 @@ gatekeeper:
           - logging/loki-cypress-test
           - twistlock/twistlock-cypress-test
           - sonarqube/sonarqube-cypress-test
+          - fortify/fortify-cypress-test
           - harbor/harbor-cypress-test
           - logging/elasticsearch-kibana-cypress-test
           - tempo/tempo-cypress-test
@@ -343,10 +345,12 @@ kyverno:
 kyvernoReporter:
   values:
     bbtests:
+      enabled: true
       cypress:
         envs:
           cypress_grafana_url: https://grafana.bigbang.dev
           cypress_prometheus_url: https://prometheus.bigbang.dev
+          cypress_check_datasource: 'true'
 
 kyvernoPolicies:
   values:
@@ -461,6 +465,7 @@ kyvernoPolicies:
               - nexus-repository-manager
               - keycloak
               - jaeger
+              - kyverno-reporter
               - monitoring
               - vault
               - logging
@@ -472,6 +477,7 @@ kyvernoPolicies:
               - minio
               - neuvector
               - harbor
+              - fortify
               names:
               - "*-cypress-test*"
         parameters:
@@ -494,6 +500,7 @@ kyvernoPolicies:
               - mattermost
               - nexus-repository-manager
               - keycloak
+              - kyverno-reporter
               - jaeger
               - monitoring
               - vault
@@ -506,6 +513,7 @@ kyvernoPolicies:
               - minio
               - neuvector
               - harbor
+              - fortify
               names:
               - "*-cypress-test*"
         parameters:
@@ -525,7 +533,7 @@ kyvernoPolicies:
               namespaces:
               - argocd
               names:
-              - guestbook-ui*
+              - bb-cypress-test*
       restrict-volume-types:
         exclude:
           any:
@@ -538,6 +546,7 @@ kyvernoPolicies:
               - mattermost
               - nexus-repository-manager
               - keycloak
+              - kyverno-reporter
               - jaeger
               - monitoring
               - vault
@@ -550,6 +559,7 @@ kyvernoPolicies:
               - minio
               - neuvector
               - harbor
+              - fortify
               names:
               - "*-cypress-test*"
       update-image-pull-policy:
@@ -579,8 +589,10 @@ kyvernoPolicies:
           - resources:
               namespaces:
               - gitlab
+              - fortify
               names:
               - gitlab-minio-*
+              - fortify-mysql-* # mysql breaks if you give it a different group
       require-non-root-user:
         exclude:
           any:
@@ -662,7 +674,7 @@ loki:
           cpu: 200m
           memory: 400Mi
     backend:
-      replicas: 1
+      replicas: 3
       persistence:
         size: 2Gi
       resources:
@@ -711,6 +723,7 @@ tempo:
     bbtests:
       enabled: true
       cypress:
+        image: registry1.dso.mil/bigbang-ci/cypress-kubectl:9.7.0
         artifacts: true
         envs:
           cypress_url: 'https://tempo.bigbang.dev'
@@ -953,6 +966,82 @@ addons:
             enabled: false  
           persistence:
             size: 256Mi
+
+  fortify:
+    enabled: false
+    flux:
+      timeout: 15m
+    ingress:
+      gateway: ""
+    sso:
+      enabled: false
+    values:
+      storage:
+        volume: 5Gi
+      jvmMaxRAMPercentage: 85
+      resources:
+        limits:
+          cpu: 1
+          memory: 1Gi
+        requests:
+          cpu: 1
+          memory: 1Gi
+      databaseSecret:
+        useRoot: true
+      initContainer:
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+          requests:
+            cpu: 250m
+            memory: 64Mi
+      trust_store_password: dsoppassword
+      key_store_password: dsoppassword
+      key_store_cert_password : dsoppassword
+      fortify_autoconfig: |
+          appProperties:
+            host.validation: false
+          datasourceProperties:
+            db.username: root
+            db.password: password
+            jdbc.url: 'jdbc:mysql://fortify-mysql:3306/ssc_db?sessionVariables=collation_connection=latin1_general_cs&rewriteBatchedStatements=true'
+          dbMigrationProperties:
+            migration.enabled: true
+            migration.username: root
+            migration.password: password
+      fortify_license: |
+        <License>
+      mysql:
+        primary:
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 500Mi
+        secondary:
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 500Mi
+        metrics:
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+      bbtests:
+        enabled: true
+        cypress: # note `cypress:*`` is different than in the fortify chart test-values.yaml
+          envs:
+            cypress_url: "https://fortify.bigbang.dev"
 
   gitlab:
     enabled: false
@@ -1362,7 +1451,6 @@ addons:
       bbtests:
         enabled: true
         cypress:
-          image: registry1.dso.mil/bigbang-ci/cypress-kubectl:8.3.1
           envs:
             cypress_url: https://chat.bigbang.dev
 
@@ -1463,6 +1551,7 @@ addons:
         scripts:
           envs:
             docker_host: "containers.bigbang.dev"
+
   velero:
     enabled: false
     plugins:
@@ -1560,7 +1649,7 @@ addons:
             customreg.yaml: '{{ .Files.Get "resources/dev/baby-yoda.yaml" }}'
         realm:
           stringData:
-            realm.json: '{{ .Files.Get "resources/dev/baby-yoda.json" }}'
+            realm.json: '{{ .Files.Get "resources/dev/baby-yoda-bb-ci.json" }}'
         truststore:
           data:
             truststore.jks: |-

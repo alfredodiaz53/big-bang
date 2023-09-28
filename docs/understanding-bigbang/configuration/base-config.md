@@ -1,6 +1,6 @@
 # bigbang
 
-![Version: 2.9.0](https://img.shields.io/badge/Version-2.9.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 2.11.1](https://img.shields.io/badge/Version-2.11.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 Big Bang is a declarative, continuous delivery tool for core DoD hardened and approved packages into a Kubernetes cluster.
 
@@ -127,10 +127,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | clusterAuditor.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | clusterAuditor.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/cluster-auditor.git"` |  |
 | clusterAuditor.git.path | string | `"./chart"` |  |
-| clusterAuditor.git.tag | string | `"1.5.0-bb.4"` |  |
+| clusterAuditor.git.tag | string | `"1.5.0-bb.7"` |  |
 | clusterAuditor.helmRepo.repoName | string | `"registry1"` |  |
 | clusterAuditor.helmRepo.chartName | string | `"cluster-auditor"` |  |
-| clusterAuditor.helmRepo.tag | string | `"1.5.0-bb.4"` |  |
+| clusterAuditor.helmRepo.tag | string | `"1.5.0-bb.7"` |  |
 | clusterAuditor.flux | object | `{}` | Flux reconciliation overrides specifically for the Cluster Auditor Package |
 | clusterAuditor.values | object | `{}` | Values to passthrough to the cluster auditor chart: https://repo1.dso.mil/big-bang/product/packages/cluster-auditor.git |
 | clusterAuditor.postRenderers | list | `[]` | Post Renderers.  See docs/postrenders.md |
@@ -149,10 +149,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | kyverno.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | kyverno.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/kyverno.git"` |  |
 | kyverno.git.path | string | `"./chart"` |  |
-| kyverno.git.tag | string | `"2.7.2-bb.0"` |  |
+| kyverno.git.tag | string | `"3.0.0-bb.3"` |  |
 | kyverno.helmRepo.repoName | string | `"registry1"` |  |
 | kyverno.helmRepo.chartName | string | `"kyverno"` |  |
-| kyverno.helmRepo.tag | string | `"2.7.2-bb.0"` |  |
+| kyverno.helmRepo.tag | string | `"3.0.0-bb.3"` |  |
 | kyverno.flux | object | `{}` | Flux reconciliation overrides specifically for the Kyverno Package |
 | kyverno.values | object | `{}` | Values to passthrough to the kyverno chart: https://repo1.dso.mil/big-bang/product/packages/kyverno.git |
 | kyverno.postRenderers | list | `[]` | Post Renderers.  See docs/postrenders.md |
@@ -160,10 +160,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | kyvernoPolicies.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | kyvernoPolicies.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/kyverno-policies.git"` |  |
 | kyvernoPolicies.git.path | string | `"./chart"` |  |
-| kyvernoPolicies.git.tag | string | `"1.1.0-bb.9"` |  |
+| kyvernoPolicies.git.tag | string | `"3.0.4-bb.0"` |  |
 | kyvernoPolicies.helmRepo.repoName | string | `"registry1"` |  |
 | kyvernoPolicies.helmRepo.chartName | string | `"kyverno-policies"` |  |
-| kyvernoPolicies.helmRepo.tag | string | `"1.1.0-bb.9"` |  |
+| kyvernoPolicies.helmRepo.tag | string | `"3.0.4-bb.0"` |  |
 | kyvernoPolicies.flux | object | `{}` | Flux reconciliation overrides specifically for the Kyverno Package |
 | kyvernoPolicies.values | object | `{}` | Values to passthrough to the kyverno policies chart: https://repo1.dso.mil/big-bang/product/packages/kyverno-policies.git |
 | kyvernoPolicies.postRenderers | list | `[]` | Post Renderers.  See docs/postrenders.md |
@@ -171,10 +171,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | kyvernoReporter.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | kyvernoReporter.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/kyverno-reporter.git"` |  |
 | kyvernoReporter.git.path | string | `"./chart"` |  |
-| kyvernoReporter.git.tag | string | `"2.16.0-bb.1"` |  |
+| kyvernoReporter.git.tag | string | `"2.16.0-bb.3"` |  |
 | kyvernoReporter.helmRepo.repoName | string | `"registry1"` |  |
 | kyvernoReporter.helmRepo.chartName | string | `"kyverno-reporter"` |  |
-| kyvernoReporter.helmRepo.tag | string | `"2.16.0-bb.1"` |  |
+| kyvernoReporter.helmRepo.tag | string | `"2.16.0-bb.3"` |  |
 | kyvernoReporter.flux | object | `{}` | Flux reconciliation overrides specifically for the Kyverno Reporter Package |
 | kyvernoReporter.values | object | `{}` | Values to passthrough to the kyverno reporter chart: https://repo1.dso.mil/big-bang/product/packages/kyverno-reporter.git |
 | kyvernoReporter.postRenderers | list | `[]` | Post Renderers.  See docs/postrenders.md |
@@ -210,10 +210,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | fluentbit.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | fluentbit.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/fluentbit.git"` |  |
 | fluentbit.git.path | string | `"./chart"` |  |
-| fluentbit.git.tag | string | `"0.37.0-bb.0"` |  |
+| fluentbit.git.tag | string | `"0.37.0-bb.1"` |  |
 | fluentbit.helmRepo.repoName | string | `"registry1"` |  |
 | fluentbit.helmRepo.chartName | string | `"fluentbit"` |  |
-| fluentbit.helmRepo.tag | string | `"0.37.0-bb.0"` |  |
+| fluentbit.helmRepo.tag | string | `"0.37.0-bb.1"` |  |
 | fluentbit.flux | object | `{}` | Flux reconciliation overrides specifically for the Fluent-Bit Package |
 | fluentbit.values | object | `{}` | Values to passthrough to the fluentbit chart: https://repo1.dso.mil/big-bang/product/packages/fluentbit.git |
 | fluentbit.postRenderers | list | `[]` | Post Renderers.  See docs/postrenders.md |
@@ -221,10 +221,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | promtail.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | promtail.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/promtail.git"` |  |
 | promtail.git.path | string | `"./chart"` |  |
-| promtail.git.tag | string | `"6.13.1-bb.0"` |  |
+| promtail.git.tag | string | `"6.15.0-bb.0"` |  |
 | promtail.helmRepo.repoName | string | `"registry1"` |  |
 | promtail.helmRepo.chartName | string | `"promtail"` |  |
-| promtail.helmRepo.tag | string | `"6.13.1-bb.0"` |  |
+| promtail.helmRepo.tag | string | `"6.15.0-bb.0"` |  |
 | promtail.flux | object | `{}` | Flux reconciliation overrides specifically for the Promtail Package |
 | promtail.values | object | `{}` | Values to passthrough to the promtail chart: https://repo1.dso.mil/big-bang/product/packages/fluentbit.git |
 | promtail.postRenderers | list | `[]` | Post Renderers.  See docs/postrenders.md |
@@ -232,10 +232,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | loki.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | loki.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/loki.git"` |  |
 | loki.git.path | string | `"./chart"` |  |
-| loki.git.tag | string | `"5.9.2-bb.0"` |  |
+| loki.git.tag | string | `"5.15.0-bb.0"` |  |
 | loki.helmRepo.repoName | string | `"registry1"` |  |
 | loki.helmRepo.chartName | string | `"loki"` |  |
-| loki.helmRepo.tag | string | `"5.9.2-bb.0"` |  |
+| loki.helmRepo.tag | string | `"5.15.0-bb.0"` |  |
 | loki.flux | object | `{}` | Flux reconciliation overrides specifically for the Loki Package |
 | loki.strategy | string | `"monolith"` | Loki architecture.  Options are monolith and scalable |
 | loki.objectStorage.endpoint | string | `""` | S3 compatible endpoint to use for connection information. examples: "https://s3.amazonaws.com" "https://s3.us-gov-west-1.amazonaws.com" "http://minio.minio.svc.cluster.local:9000" |
@@ -249,12 +249,12 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | neuvector.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | neuvector.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/neuvector.git"` |  |
 | neuvector.git.path | string | `"./chart"` |  |
-| neuvector.git.tag | string | `"2.4.5-bb.3"` |  |
+| neuvector.git.tag | string | `"2.4.5-bb.5"` |  |
 | neuvector.helmRepo.repoName | string | `"registry1"` |  |
 | neuvector.helmRepo.chartName | string | `"neuvector"` |  |
-| neuvector.helmRepo.tag | string | `"2.4.5-bb.3"` |  |
+| neuvector.helmRepo.tag | string | `"2.4.5-bb.5"` |  |
 | neuvector.ingress | object | `{"gateway":""}` | Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public". |
-| neuvector.sso.enabled | bool | `true` | Toggle SSO for Neuvector on and off |
+| neuvector.sso.enabled | bool | `false` | Toggle SSO for Neuvector on and off |
 | neuvector.sso.client_id | string | `""` | OIDC Client ID to use for Neuvector |
 | neuvector.sso.client_secret | string | `""` | OIDC Client Secret to use for Neuvector |
 | neuvector.sso.default_role | string | `""` | Default role to use for Neuvector OIDC users. Supports admin, reader, or no default |
@@ -265,10 +265,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | tempo.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | tempo.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/tempo.git"` |  |
 | tempo.git.path | string | `"./chart"` |  |
-| tempo.git.tag | string | `"1.2.0-bb.2"` |  |
+| tempo.git.tag | string | `"1.6.1-bb.0"` |  |
 | tempo.helmRepo.repoName | string | `"registry1"` |  |
 | tempo.helmRepo.chartName | string | `"tempo"` |  |
-| tempo.helmRepo.tag | string | `"1.2.0-bb.2"` |  |
+| tempo.helmRepo.tag | string | `"1.6.1-bb.0"` |  |
 | tempo.ingress | object | `{"gateway":""}` | Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public". |
 | tempo.flux | object | `{}` | Flux reconciliation overrides specifically for the Tempo Package |
 | tempo.sso.enabled | bool | `false` | Toggle SSO for Tempo on and off |
@@ -303,10 +303,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | grafana.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | grafana.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/grafana.git"` |  |
 | grafana.git.path | string | `"./chart"` |  |
-| grafana.git.tag | string | `"6.57.4-bb.0"` |  |
+| grafana.git.tag | string | `"6.58.9-bb.3"` |  |
 | grafana.helmRepo.repoName | string | `"registry1"` |  |
 | grafana.helmRepo.chartName | string | `"grafana"` |  |
-| grafana.helmRepo.tag | string | `"6.57.4-bb.0"` |  |
+| grafana.helmRepo.tag | string | `"6.58.9-bb.3"` |  |
 | grafana.flux | object | `{}` | Flux reconciliation overrides specifically for the Monitoring Package |
 | grafana.ingress | object | `{"gateway":""}` | Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public". |
 | grafana.sso.enabled | bool | `false` | Toggle SSO for grafana components on and off |
@@ -321,10 +321,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | twistlock.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | twistlock.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/twistlock.git"` |  |
 | twistlock.git.path | string | `"./chart"` |  |
-| twistlock.git.tag | string | `"0.12.0-bb.4"` |  |
+| twistlock.git.tag | string | `"0.13.0-bb.0"` |  |
 | twistlock.helmRepo.repoName | string | `"registry1"` |  |
 | twistlock.helmRepo.chartName | string | `"twistlock"` |  |
-| twistlock.helmRepo.tag | string | `"0.12.0-bb.4"` |  |
+| twistlock.helmRepo.tag | string | `"0.13.0-bb.0"` |  |
 | twistlock.flux | object | `{}` | Flux reconciliation overrides specifically for the Twistlock Package |
 | twistlock.ingress | object | `{"gateway":""}` | Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public". |
 | twistlock.sso.enabled | bool | `false` | Toggle SAML SSO, requires a license and enabling the init job - see https://repo1.dso.mil/big-bang/product/packages/initialization.md |
@@ -337,10 +337,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | addons.argocd.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | addons.argocd.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/argocd.git"` |  |
 | addons.argocd.git.path | string | `"./chart"` |  |
-| addons.argocd.git.tag | string | `"5.39.0-bb.0"` |  |
+| addons.argocd.git.tag | string | `"5.45.2-bb.0"` |  |
 | addons.argocd.helmRepo.repoName | string | `"registry1"` |  |
 | addons.argocd.helmRepo.chartName | string | `"argocd"` |  |
-| addons.argocd.helmRepo.tag | string | `"5.39.0-bb.0"` |  |
+| addons.argocd.helmRepo.tag | string | `"5.45.2-bb.0"` |  |
 | addons.argocd.flux | object | `{}` | Flux reconciliation overrides specifically for the ArgoCD Package |
 | addons.argocd.ingress | object | `{"gateway":""}` | Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public". |
 | addons.argocd.redis.host | string | `""` | Hostname of a pre-existing Redis to use for ArgoCD. Entering connection info will enable external Redis and will auto-create any required secrets. |
@@ -355,10 +355,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | addons.authservice.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | addons.authservice.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/authservice.git"` |  |
 | addons.authservice.git.path | string | `"./chart"` |  |
-| addons.authservice.git.tag | string | `"0.5.3-bb.12"` |  |
+| addons.authservice.git.tag | string | `"0.5.3-bb.17"` |  |
 | addons.authservice.helmRepo.repoName | string | `"registry1"` |  |
 | addons.authservice.helmRepo.chartName | string | `"authservice"` |  |
-| addons.authservice.helmRepo.tag | string | `"0.5.3-bb.12"` |  |
+| addons.authservice.helmRepo.tag | string | `"0.5.3-bb.17"` |  |
 | addons.authservice.flux | object | `{}` | Flux reconciliation overrides specifically for the Authservice Package |
 | addons.authservice.values | object | `{}` | Values to passthrough to the authservice chart: https://repo1.dso.mil/big-bang/product/packages/authservice.git |
 | addons.authservice.postRenderers | list | `[]` | Post Renderers.  See docs/postrenders.md |
@@ -394,10 +394,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | addons.gitlab.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | addons.gitlab.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/gitlab.git"` |  |
 | addons.gitlab.git.path | string | `"./chart"` |  |
-| addons.gitlab.git.tag | string | `"7.2.2-bb.1"` |  |
+| addons.gitlab.git.tag | string | `"7.3.4-bb.0"` |  |
 | addons.gitlab.helmRepo.repoName | string | `"registry1"` |  |
 | addons.gitlab.helmRepo.chartName | string | `"gitlab"` |  |
-| addons.gitlab.helmRepo.tag | string | `"7.2.2-bb.1"` |  |
+| addons.gitlab.helmRepo.tag | string | `"7.3.4-bb.0"` |  |
 | addons.gitlab.flux | object | `{}` | Flux reconciliation overrides specifically for the Gitlab Package |
 | addons.gitlab.ingress | object | `{"gateway":""}` | Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public". |
 | addons.gitlab.sso.enabled | bool | `false` | Toggle OIDC SSO for Gitlab on and off. Enabling this option will auto-create any required secrets. |
@@ -425,10 +425,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | addons.gitlabRunner.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | addons.gitlabRunner.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/gitlab-runner.git"` |  |
 | addons.gitlabRunner.git.path | string | `"./chart"` |  |
-| addons.gitlabRunner.git.tag | string | `"0.52.0-bb.1"` |  |
+| addons.gitlabRunner.git.tag | string | `"0.52.0-bb.6"` |  |
 | addons.gitlabRunner.helmRepo.repoName | string | `"registry1"` |  |
 | addons.gitlabRunner.helmRepo.chartName | string | `"gitlab-runner"` |  |
-| addons.gitlabRunner.helmRepo.tag | string | `"0.52.0-bb.1"` |  |
+| addons.gitlabRunner.helmRepo.tag | string | `"0.52.0-bb.6"` |  |
 | addons.gitlabRunner.flux | object | `{}` | Flux reconciliation overrides specifically for the Gitlab Runner Package |
 | addons.gitlabRunner.values | object | `{}` | Values to passthrough to the gitlab runner chart: https://repo1.dso.mil/big-bang/product/packages/gitlab-runner.git |
 | addons.gitlabRunner.postRenderers | list | `[]` | Post Renderers.  See docs/postrenders.md |
@@ -476,6 +476,21 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | addons.sonarqube.database.password | string | `""` | Database password for the username used to connect to the existing database. |
 | addons.sonarqube.values | object | `{}` | Values to passthrough to the sonarqube chart: https://repo1.dso.mil/big-bang/product/packages/sonarqube.git |
 | addons.sonarqube.postRenderers | list | `[]` | Post Renderers.  See docs/postrenders.md |
+| addons.fortify.enabled | bool | `false` | Toggle deployment of Fortify. |
+| addons.fortify.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
+| addons.fortify.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/fortify.git"` |  |
+| addons.fortify.git.path | string | `"./chart"` |  |
+| addons.fortify.git.tag | string | `"0.2.0-bb.19"` |  |
+| addons.fortify.helmRepo.repoName | string | `"registry1"` |  |
+| addons.fortify.helmRepo.chartName | string | `"fortify"` |  |
+| addons.fortify.helmRepo.tag | string | `"0.2.0-bb.19"` |  |
+| addons.fortify.flux | object | `{}` | Flux reconciliation overrides specifically for the Fortify Package |
+| addons.fortify.ingress | object | `{"gateway":""}` | Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public". |
+| addons.fortify.sso.enabled | bool | `false` | Toggle SSO for Harbor on and off |
+| addons.fortify.sso.client_id | string | `""` | OIDC Client ID to use for Harbor |
+| addons.fortify.sso.client_secret | string | `""` | OIDC Client Secret to use for Harbor |
+| addons.fortify.values | object | `{}` | Values to passthrough to the fortify chart: https://repo1.dso.mil/big-bang/product/packages/fortify.git |
+| addons.fortify.postRenderers | list | `[]` | Post Renderers.  See docs/postrenders.md |
 | addons.haproxy.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | addons.haproxy.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/haproxy.git"` |  |
 | addons.haproxy.git.path | string | `"./chart"` |  |
@@ -531,10 +546,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | addons.mattermost.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | addons.mattermost.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/mattermost.git"` |  |
 | addons.mattermost.git.path | string | `"./chart"` |  |
-| addons.mattermost.git.tag | string | `"8.0.1-bb.1"` |  |
+| addons.mattermost.git.tag | string | `"8.1.2-bb.0"` |  |
 | addons.mattermost.helmRepo.repoName | string | `"registry1"` |  |
 | addons.mattermost.helmRepo.chartName | string | `"mattermost"` |  |
-| addons.mattermost.helmRepo.tag | string | `"8.0.1-bb.1"` |  |
+| addons.mattermost.helmRepo.tag | string | `"8.1.2-bb.0"` |  |
 | addons.mattermost.flux | object | `{}` | Flux reconciliation overrides specifically for the Mattermost Package |
 | addons.mattermost.enterprise | object | `{"enabled":false,"license":""}` | Mattermost Enterprise functionality. |
 | addons.mattermost.enterprise.enabled | bool | `false` | Toggle the Mattermost Enterprise.  This must be accompanied by a valid license unless you plan to start a trial post-install. |
@@ -561,10 +576,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | addons.velero.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | addons.velero.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/velero.git"` |  |
 | addons.velero.git.path | string | `"./chart"` |  |
-| addons.velero.git.tag | string | `"4.0.3-bb.0"` |  |
+| addons.velero.git.tag | string | `"5.0.2-bb.1"` |  |
 | addons.velero.helmRepo.repoName | string | `"registry1"` |  |
 | addons.velero.helmRepo.chartName | string | `"velero"` |  |
-| addons.velero.helmRepo.tag | string | `"4.0.3-bb.0"` |  |
+| addons.velero.helmRepo.tag | string | `"5.0.2-bb.1"` |  |
 | addons.velero.flux | object | `{}` | Flux reconciliation overrides specifically for the Velero Package |
 | addons.velero.plugins | list | `[]` | Plugin provider for Velero - requires at least one plugin installed. Current supported values: aws, azure, csi |
 | addons.velero.values | object | `{}` | Values to passthrough to the Velero chart: https://repo1.dso.mil/big-bang/product/packages/values.yaml |
@@ -573,10 +588,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | addons.keycloak.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | addons.keycloak.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/keycloak.git"` |  |
 | addons.keycloak.git.path | string | `"./chart"` |  |
-| addons.keycloak.git.tag | string | `"18.4.3-bb.2"` |  |
+| addons.keycloak.git.tag | string | `"18.4.3-bb.4"` |  |
 | addons.keycloak.helmRepo.repoName | string | `"registry1"` |  |
 | addons.keycloak.helmRepo.chartName | string | `"keycloak"` |  |
-| addons.keycloak.helmRepo.tag | string | `"18.4.3-bb.2"` |  |
+| addons.keycloak.helmRepo.tag | string | `"18.4.3-bb.4"` |  |
 | addons.keycloak.database.host | string | `""` | Hostname of a pre-existing database to use for Keycloak. Entering connection info will disable the deployment of an internal database and will auto-create any required secrets. |
 | addons.keycloak.database.type | string | `"postgres"` | Pre-existing database type (e.g. postgres) to use for Keycloak. |
 | addons.keycloak.database.port | int | `5432` | Port of a pre-existing database to use for Keycloak. |
@@ -592,10 +607,10 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | addons.vault.sourceType | string | `"git"` | Choose source type of "git" or "helmRepo" |
 | addons.vault.git.repo | string | `"https://repo1.dso.mil/big-bang/product/packages/vault.git"` |  |
 | addons.vault.git.path | string | `"./chart"` |  |
-| addons.vault.git.tag | string | `"0.24.1-bb.3"` |  |
+| addons.vault.git.tag | string | `"0.25.0-bb.0"` |  |
 | addons.vault.helmRepo.repoName | string | `"registry1"` |  |
 | addons.vault.helmRepo.chartName | string | `"vault"` |  |
-| addons.vault.helmRepo.tag | string | `"0.24.1-bb.3"` |  |
+| addons.vault.helmRepo.tag | string | `"0.25.0-bb.0"` |  |
 | addons.vault.flux | object | `{}` | Flux reconciliation overrides specifically for the Vault Package |
 | addons.vault.ingress | object | `{"cert":"","gateway":"","key":""}` | Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public". |
 | addons.vault.ingress.key | string | `""` | Certificate/Key pair to use as the certificate for exposing Vault Setting the ingress cert here will automatically create the volume and volumemounts in the Vault package chart |
@@ -619,7 +634,7 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | addons.harbor.git.path | string | `"./chart"` |  |
 | addons.harbor.helmRepo.repoName | string | `"registry1"` |  |
 | addons.harbor.helmRepo.chartName | string | `"harbor"` |  |
-| addons.harbor.helmRepo.tag | string | `"1.12.2-bb.7"` |  |
+| addons.harbor.helmRepo.tag | string | `"1.12.4-bb.0"` |  |
 | addons.harbor.flux | object | `{}` | Flux reconciliation overrides specifically for the Jaeger Package |
 | addons.harbor.ingress | object | `{"gateway":""}` | Redirect the package ingress to a specific Istio Gateway (listed in `istio.gateways`).  The default is "public". |
 | addons.harbor.sso.enabled | bool | `false` | Toggle SSO for Harbor on and off |
