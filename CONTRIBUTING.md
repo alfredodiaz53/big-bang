@@ -87,4 +87,34 @@ Follow instruction in [CI-Workflow](./docs/developer/ci-workflow.md) for specifi
 - To report a cybersecurity concern, follow this [link](https://jira.il2.dso.mil/servicedesk/customer/portal/81).
 - Never push secrets or certificates into our repository.
 
+# Community Contributions to DoD-Platform-One
 
+## How to Contribute
+
+1. Fork this repository, develop, and test your changes
+1. Submit a pull request
+1. Keep an eye out for comments. From bots and maintainers to ensure CI is passing and issues or suggestions are addressed.
+
+### Technical Requirements
+
+* Pipelines which must pass will run on runners from `repo1.dso.mil` and a bot will comment the status and information from the pipeline.
+* Any change to a Big Bang package chart requires a version bump following [semver](https://semver.org/) principles. See [Documentation Changes](#documentation-changes) and [Versioning](#versioning) below
+* Big Bang Package Pull Requests are not considered complete once the initial PR is merged into the package if the end goal is to be part of the Big Bang umbrella. A Merge Request into the Big Bang Umbrella will automatically be opened on the creation on a new package tag/release.
+
+Once changes have been merged all subsequent automation will run on `repo1.dso.mil` with changes getting published back to Github.
+
+### Documentation Changes
+
+If your changes are to documentation or guides/images and not code, templates or variables then a `kind::docs` label will need to be added and will not kick off and wait for CI testing to complete.
+
+### Versioning
+
+The chart `version` should follow [semver](https://semver.org/).
+
+Charts should start at `1.0.0` unless they are based off an upstream chart (shown in chart/Kptfile) in which case a bug fix would bump the `bb.X` suffix version.
+
+### Generate README
+
+The readme of each Big Bang package chart can be re-generated with the following command https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md
+
+Big Bang umbrella MRs will not need the main README.md or chart/Chart.yaml edited via Pull Requests.
