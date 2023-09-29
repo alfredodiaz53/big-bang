@@ -155,7 +155,12 @@ imagePullPolicy: IfNotPresent
 istio:
   # -- Toggle deployment of Istio.
   enabled: true
-
+  
+  mtls:
+    # -- STRICT = Allow only mutual TLS traffic,
+    # PERMISSIVE = Allow both plain text and mutual TLS traffic
+    mode: STRICT
+      
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
 
@@ -316,6 +321,7 @@ istioOperator:
 
   # -- Post Renderers.  See docs/postrenders.md
   postRenderers: []
+
 
 jaeger:
   # -- Toggle deployment of Jaeger.
