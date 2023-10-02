@@ -106,6 +106,7 @@ SGname="${AWSUSERNAME}-dev"
 VPC="${VPC_ID}"  # default VPC
 RESET_K3D=false
 ATTACH_SECONDARY_IP=${ATTACH_SECONDARY_IP:=false}
+FIX_MOUNT_PATHS=false
 
 while [ -n "$1" ]; do # while loop starts
 
@@ -113,6 +114,10 @@ while [ -n "$1" ]; do # while loop starts
 
   -b) echo "-b option passed for big k3d cluster using M5 instance" 
       BIG_INSTANCE=true
+  ;;
+
+  -f) echo "-f option passed to fix mount paths" 
+      FIX_MOUNT_PATHS=true
   ;;
 
   -p) echo "-p option passed to create k3d cluster with private ip"
@@ -178,6 +183,7 @@ while [ -n "$1" ]; do # while loop starts
       echo "k3d-dev.sh -b -p -m -a -d -h"
       echo ""
       echo " -b   use BIG M5 instance. Default is m5a.4xlarge"
+      echo " -f   fix mount paths - https://github.com/k3d-io/k3d/pull/1268"
       echo " -p   use private IP for security group and k3d cluster"
       echo " -m   create k3d cluster with metalLB"
       echo " -a   attach secondary Public IP (overrides -p and -m flags)"
@@ -548,6 +554,12 @@ EOF
   # Add your base user to the Docker group so that you do not need sudo to run docker commands
   run "sudo usermod -aG docker ubuntu"
   echo
+fi
+
+# fix mount paths if requested
+if [[ "$FIX_MOUNT_PATHS" == true ]]; then
+  echo "fixing mount paths"
+  run "export K3D_FIX_MOUNTS=1"
 fi
 
 # install k3d on instance
