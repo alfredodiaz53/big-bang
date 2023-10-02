@@ -556,10 +556,13 @@ EOF
   echo
 fi
 
+EXTRA_K3D_CLUSTER_ARGS=""
 # fix mount paths if requested
 if [[ "$FIX_MOUNT_PATHS" == true ]]; then
   echo "fixing mount paths"
-  run "export K3D_FIX_MOUNTS=1"
+  # run "sudo mount --make-rshared /"
+  run "sudo touch /etc/profile.d/k3d_fix_mounts.sh && echo 'export K3D_FIX_MOUNTS=1' | sudo tee /etc/profile.d/k3d_fix_mounts.sh"
+  EXTRA_K3D_CLUSTER_ARGS="${EXTRA_K3D_CLUSTER_ARGS} -v '/var/run:/var/run@server:*;agent:*'"
 fi
 
 # install k3d on instance
@@ -574,7 +577,7 @@ echo "creating k3d cluster"
 
 # Shared k3d settings across all options
 # 1 server, 3 agents
-k3d_command="k3d cluster create --servers 1 --agents 3"
+k3d_command="k3d cluster create --servers 1 --agents 3 ${EXTRA_K3D_CLUSTER_ARGS}"
 # Volumes to support Twistlock defenders
 k3d_command+=" -v /etc:/etc@server:*\;agent:* -v /dev/log:/dev/log@server:*\;agent:* -v /run/systemd/private:/run/systemd/private@server:*\;agent:*"
 # Disable traefik and metrics-server
