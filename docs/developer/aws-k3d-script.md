@@ -39,7 +39,7 @@ The instance will automatically terminate 8 hours after creation.
    <https://medium.com/@bramblexu/install-gnu-sed-on-mac-os-and-set-it-as-default-7c17ef1b8f64>
 
 1. Make sure to make a new diretory below or the script will fail (case sensitive)
-   ```~/.kube/Firstname.Lastname-dev-config```
+   ```~/.kube/```
 
 1. Find your Iron Bank pull credentials. This can be found here:
    <https://registry1.dso.mil/harbor>
