@@ -180,7 +180,7 @@ while [ -n "$1" ]; do # while loop starts
   ;;
 
   -h) echo "Usage:"
-      echo "k3d-dev.sh -b -p -m -a -d -h"
+      echo "k3d-dev.sh -b -f -p -m -a -d -h"
       echo ""
       echo " -b   use BIG M5 instance. Default is m5a.4xlarge"
       echo " -f   fix mount paths - https://github.com/k3d-io/k3d/pull/1268"
