@@ -106,6 +106,7 @@ SGname="${AWSUSERNAME}-dev"
 VPC="${VPC_ID}"  # default VPC
 RESET_K3D=false
 ATTACH_SECONDARY_IP=${ATTACH_SECONDARY_IP:=false}
+FIX_MOUNT_PATHS=false
 
 while [ -n "$1" ]; do # while loop starts
 
@@ -113,6 +114,10 @@ while [ -n "$1" ]; do # while loop starts
 
   -b) echo "-b option passed for big k3d cluster using M5 instance" 
       BIG_INSTANCE=true
+  ;;
+
+  -f) echo "-f option passed to fix mount paths" 
+      FIX_MOUNT_PATHS=true
   ;;
 
   -p) echo "-p option passed to create k3d cluster with private ip"
@@ -175,9 +180,10 @@ while [ -n "$1" ]; do # while loop starts
   ;;
 
   -h) echo "Usage:"
-      echo "k3d-dev.sh -b -p -m -a -d -h"
+      echo "k3d-dev.sh -b -f -p -m -a -d -h"
       echo ""
       echo " -b   use BIG M5 instance. Default is m5a.4xlarge"
+      echo " -f   fix mount paths - https://github.com/k3d-io/k3d/pull/1268"
       echo " -p   use private IP for security group and k3d cluster"
       echo " -m   create k3d cluster with metalLB"
       echo " -a   attach secondary Public IP (overrides -p and -m flags)"
@@ -550,6 +556,15 @@ EOF
   echo
 fi
 
+EXTRA_K3D_CLUSTER_ARGS=""
+# fix mount paths if requested
+if [[ "$FIX_MOUNT_PATHS" == true ]]; then
+  echo "fixing mount paths"
+  # run "sudo mount --make-rshared /"
+  run "sudo touch /etc/profile.d/k3d_fix_mounts.sh && echo 'export K3D_FIX_MOUNTS=1' | sudo tee /etc/profile.d/k3d_fix_mounts.sh"
+  EXTRA_K3D_CLUSTER_ARGS="${EXTRA_K3D_CLUSTER_ARGS} -v '/var/run:/var/run@server:*;agent:*'"
+fi
+
 # install k3d on instance
 echo "Installing k3d on instance"
 run "curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | TAG=v${K3D_VERSION} bash"
@@ -562,7 +577,7 @@ echo "creating k3d cluster"
 
 # Shared k3d settings across all options
 # 1 server, 3 agents
-k3d_command="k3d cluster create --servers 1 --agents 3"
+k3d_command="k3d cluster create --servers 1 --agents 3 ${EXTRA_K3D_CLUSTER_ARGS}"
 # Volumes to support Twistlock defenders
 k3d_command+=" -v /etc:/etc@server:*\;agent:* -v /dev/log:/dev/log@server:*\;agent:* -v /run/systemd/private:/run/systemd/private@server:*\;agent:*"
 # Disable traefik and metrics-server
