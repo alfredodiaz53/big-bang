@@ -103,8 +103,6 @@ The Big Bang product is tightly coupled with the GitOps tool FluxCD. Before you 
 ./scripts/install_flux.sh -u your-user-name -p your-password
 ```
 
-
-
 ## Deploy Bigbang
 
 From the bigbang directory deploy BigBang via helm
