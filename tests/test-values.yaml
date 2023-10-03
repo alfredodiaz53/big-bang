@@ -157,7 +157,7 @@ gatekeeper:
           # Allows k3d load balancer containers to pull from public repos
           - istio-system/lb-port-.*
           # Allow argocd to deploy a test app in its cypress test
-          - argocd/bb-cypress-test.*
+          - argocd/guestbook-ui
           # Allow kyverno test vectors for Helm test
           - default/c.?
           - default/i.?
@@ -533,7 +533,7 @@ kyvernoPolicies:
               namespaces:
               - argocd
               names:
-              - bb-cypress-test*
+              - guestbook-ui-*
       restrict-volume-types:
         exclude:
           any:
@@ -589,8 +589,10 @@ kyvernoPolicies:
           - resources:
               namespaces:
               - gitlab
+              - fortify
               names:
               - gitlab-minio-*
+              - fortify-mysql-* # mysql breaks if you give it a different group
       require-non-root-user:
         exclude:
           any:
@@ -721,7 +723,6 @@ tempo:
     bbtests:
       enabled: true
       cypress:
-        image: registry1.dso.mil/bigbang-ci/cypress-kubectl:9.7.0
         artifacts: true
         envs:
           cypress_url: 'https://tempo.bigbang.dev'
@@ -793,7 +794,6 @@ monitoring:
     bbtests:
       enabled: true
       cypress:
-        image: registry1.dso.mil/bigbang-ci/cypress-kubectl:8.3.1
         envs:
           cypress_prometheus_url: 'https://prometheus.bigbang.dev'
           cypress_grafana_url: 'https://grafana.bigbang.dev'
@@ -840,7 +840,7 @@ grafana:
     bbtests:
       enabled: true
       cypress:
-        image: registry1.dso.mil/bigbang-ci/cypress-kubectl:8.3.1
+        artifacts: true
         envs:
           cypress_grafana_url: 'https://grafana.bigbang.dev'
 
@@ -968,15 +968,76 @@ addons:
   fortify:
     enabled: false
     flux:
-      timeout: 5m
+      timeout: 15m
     ingress:
       gateway: ""
     sso:
       enabled: false
     values:
+      storage:
+        volume: 5Gi
+      jvmMaxRAMPercentage: 85
+      resources:
+        limits:
+          cpu: 1
+          memory: 1Gi
+        requests:
+          cpu: 1
+          memory: 1Gi
+      databaseSecret:
+        useRoot: true
+      initContainer:
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+          requests:
+            cpu: 250m
+            memory: 64Mi
+      trust_store_password: dsoppassword
+      key_store_password: dsoppassword
+      key_store_cert_password : dsoppassword
+      fortify_autoconfig: |
+          appProperties:
+            host.validation: false
+          datasourceProperties:
+            db.username: root
+            db.password: password
+            jdbc.url: 'jdbc:mysql://fortify-mysql:3306/ssc_db?sessionVariables=collation_connection=latin1_general_cs&rewriteBatchedStatements=true'
+          dbMigrationProperties:
+            migration.enabled: true
+            migration.username: root
+            migration.password: password
+      fortify_license: |
+        <License>
+      mysql:
+        primary:
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 500Mi
+        secondary:
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 500Mi
+        metrics:
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 256Mi
       bbtests:
         enabled: true
-        cypress:
+        cypress: # note `cypress:*`` is different than in the fortify chart test-values.yaml
           envs:
             cypress_url: "https://fortify.bigbang.dev"
 
@@ -1331,7 +1392,7 @@ addons:
             runAsNonRoot: true
       bbtests:
         # There have been intermittent failures of the tests in the past.   The issue is tracked in the below issue.
-        # https://repo1.dso.mil/platform-one/big-bang/apps/application-utilities/minio/-/issues/7
+        # https://repo1.dso.mil/big-bang/product/packages/minio/-/issues/7
         # This issue can be reopened if problems reappear.
         enabled: true
         cypress:
@@ -1748,7 +1809,7 @@ addons:
     # -- Toggle deployment of harbor
     enabled: false
 
-    # -- Values to pass through to Habor chart: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/harbor.git
+    # -- Values to pass through to Habor chart: https://repo1.dso.mil/big-bang/product/packages/harbor.git
     values: 
       redis:
         external: 
