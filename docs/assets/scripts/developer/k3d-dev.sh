@@ -562,19 +562,13 @@ EXTRA_MOUNT_PATHS=("/var/run/kubevirt" "/var/lib/kubelet")
 # fix mount paths if requested
 if [[ "$FIX_MOUNT_PATHS" == true ]]; then
   echo "fixing mount paths"
-  # run "sudo mount --make-rshared /"
-  # sudo mkdir -p /var/run/kubevirt
   run "sudo touch /etc/profile.d/k3d_fix_mounts.sh && echo 'export K3D_FIX_MOUNTS=1' | sudo tee /etc/profile.d/k3d_fix_mounts.sh"
   for mount_path in "${EXTRA_MOUNT_PATHS[@]}"; do
-    # run "sudo mkdir -p ${mount_path}"
-    # run "sudo mount --bind ${mount_path} ${mount_path}"
     if [[ "$mount_path" =~ ^/var/lib/kubelet ]]; then
       continue
     fi
     EXTRA_K3D_CLUSTER_ARGS="${EXTRA_K3D_CLUSTER_ARGS} -v '${mount_path}:${mount_path}@server:*;agent:*'"
   done
-  # EXTRA_K3D_CLUSTER_ARGS="${EXTRA_K3D_CLUSTER_ARGS} -v '/var/run/kubevirt:/var/run/kubevirt@server:*;agent:*'"
-  # EXTRA_K3D_CLUSTER_ARGS="${EXTRA_K3D_CLUSTER_ARGS} -v '/var/run/kubelet:/var/run/kubelet@server:*;agent:*'"
 fi
 
 # install k3d on instance
@@ -658,11 +652,6 @@ run "${k3d_command}"
 # More fixes after cluster creation
 if [[ "$FIX_MOUNT_PATHS" == true ]]; then
   echo "post-fixing mount paths"
-  # run "sudo mount --make-rshared /var/run/kubevirt"
-  # run the docker exec stuff on the server and agent node
-  # list
-  # - /var/run/kubevirt
-  # - /var/lib/kubelet
   for mount_path in "${EXTRA_MOUNT_PATHS[@]}"; do
     run "docker exec k3d-k3s-default-server-0 sh -c 'mount --make-rshared $mount_path'"
     for i in $(seq 0 2); do
