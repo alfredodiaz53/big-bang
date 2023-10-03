@@ -71,4 +71,4 @@ Licensing of products deployable by Big Bang are not covered by Big Bang or Plat
 | Metrics Server                                           | Scalable, efficient source of container resource metrics. (AddOn App)                                            | Apache License 2.0                                        |              |
 | NeuVector                                           | Zero-trust container security. (AddOn App)                                            | Apache License 2.0  (Free/OSS)                                         
                      |              |
-| Fortify                                           | Software security center. (AddOn App)                                            | Proprietary license provided by Micro Focus                                         |              |
+| Fortify                                           | Software security center. (AddOn App)                                            | Helm Chart: MIT Expat license   SSC: Proprietary license provided by Micro Focus                                         |              |
