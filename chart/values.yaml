@@ -549,7 +549,7 @@ kyvernoReporter:
 #
 elasticsearchKibana:
   # -- Toggle deployment of Logging (EFK).
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -597,7 +597,7 @@ elasticsearchKibana:
 
 eckOperator:
   # -- Toggle deployment of ECK Operator.
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -622,7 +622,7 @@ eckOperator:
 
 fluentbit:
   # -- Toggle deployment of Fluent-Bit.
-  enabled: false
+  enabled: true
 
   # -- Choose source type of "git" or "helmRepo"
   sourceType: "git"
@@ -1576,7 +1576,7 @@ addons:
   #
   mattermostOperator:
     # -- Toggle deployment of Mattermost Operator.
-    enabled: false
+    enabled: true
 
     # -- Choose source type of "git" or "helmRepo"
     sourceType: "git"
@@ -1601,7 +1601,7 @@ addons:
 
   mattermost:
     # -- Toggle deployment of Mattermost.
-    enabled: false
+    enabled: true
 
     # -- Choose source type of "git" or "helmRepo"
     sourceType: "git"
